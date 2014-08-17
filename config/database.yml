@@ -1,0 +1,23 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: omckonrails-dev
+  username: dev
+  password: dev
+  host: localhost
+
+test:
+  <<: *default
+  host: localhost
+  database: omckonrails-test
+  username: test
+  password: test1
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>

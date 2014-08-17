@@ -1,0 +1,6 @@
+= simple_form_for @channel, html: {class: 'form-horizontal', id: "create-channel", style: "display: none;"}, :url => url_for(:action => 'new', :controller => 'channels'), :method => 'post' do |f|
+  = f.error_notification
+  = f.input :channel, require: true, label: "Канал Твитча"
+  = f.input :streamer, require: true, label: "Имя стримера"
+  %br/
+  = f.button :submit, "Добавить канал", class: "btn btn-success"

@@ -1,0 +1,86 @@
+= render 'layouts/nav'
+#streamBig.container
+  #streambg.row
+    #stream.col-md-8
+      %object{data: "http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&color=0xe7e7e7&autoPlay=true&mute=false", height: "100%", type: "application/x-shockwave-flash", width: "100%"}
+        %param{name: "movie", value: "http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&color=0xe7e7e7&autoPlay=true&mute=false"}/
+        %param{name: "wmode", value: "transparent"}/
+        %param{name: "allowFullscreen", value: "true"}/
+    #chat.col-md-4
+      %iframe{bgcolor: "#ffffff", frameborder: "0", height: "100%", scrolling: "no", src: "/irc", width: "100%"}
+      %a.twitter-share-button{"data-hashtags" => "omcktv", "data-related" => "omckws", "data-text" => "Я смотрю стрим на", "data-via" => "omcktv", href: "https://twitter.com/share"} Tweet
+    #panel.col-md-8
+      .btn-group
+        %button#hidecalendar.btn.btn-danger{onclick: "toggleSchedule();", style: "display: inline;"} Hide Schedule
+        %button.btn.btn-danger{onclick: "popupChat();"} Popout Chat
+        %button#toggle-chat.btn.btn-danger{onclick: "toggleChat(0);"} Hide Chat
+        %button#toggle-dong.btn.btn-danger{onclick: "toggleDong(1);"} Enlarge Screen
+.container#special
+  .clearfix.visible-md-block
+  .row#schedule
+    .col-lg-12
+      %iframe#schedule-iframe{frameborder: "0", height: "300", scrolling: "no", src: "http://www.google.com/calendar/embed?showTitle=0&showNav=0&showPrint=0&showCalendars=0&mode=AGENDA&height=300&wkst=2&bgcolor=%23FFFFFF&src=sr623auvi91joo5asn2es33k3s%40group.calendar.google.com&color=%23182C57&ctz=Europe%2FMoscow", style: "border: 0; outline: 0;", width: "100%"}
+:coffee
+  not ((d, s, id) ->
+    js = undefined
+    fjs = d.getElementsByTagName(s)[0]
+    unless d.getElementById(id)
+      js = d.createElement(s)
+      js.id = id
+      js.src = "//platform.twitter.com/widgets.js"
+      fjs.parentNode.insertBefore js, fjs
+  ) document, "script", "twitter-wjs"
+/
+  .row#streams
+    .col-lg-3
+      %a{href: "#", onclick: "changeStream('mc_mc_mc_omck');" }
+        %img.img-rounded{src: 'assets/streams/classic.jpg'}
+      .post-content
+        %h4
+          .label.label-danger#mc_mc_mc_omck-live Live
+        %h4
+          .label.label-primary
+            .fa.fa-eye#mc_mc_mc_omck-count 19
+      .description-content
+        %h4
+          .label.label-default Classic
+    .col-lg-3
+      %a{href: "#", onclick: "changeStream('hdgames');" }
+        %img.img-rounded{src: 'assets/streams/hd.jpg'}
+      .post-content
+        %h4
+          .label.label-danger#hdgames-live Live
+        %h4
+          .label.label-primary
+            .fa.fa-eye#hdgames-count 19
+      .description-content
+        %h4
+          .label.label-default HD
+    .col-lg-3
+      %a{href: "#", onclick: "changeStream('hdkinco');" }
+        %img.img-rounded{src: 'assets/streams/kinco.jpg'}
+      .post-content
+        %h4
+          .label.label-danger#hdkinco-live Live
+        %h4
+          .label.label-primary
+            .fa.fa-eye#hdkinco-count 19
+      .description-content
+        %h4
+          .label.label-default Kinco
+    .col-lg-3
+      %a{href: "#", onclick: "changeStream('omcktv');" }
+        %img.img-rounded{src: 'assets/streams/twitch.jpg'}
+      .post-content
+        %h4
+          .label.label-danger#omcktv-live Live
+        %h4
+          .label.label-primary
+            .fa.fa-eye#omcktv-count 19
+      .description-content
+        %h4
+          .label.label-default Twitch
+  .clearfix.visible-md-block
+  -#%button#viewers.btn.btn-default
+    -#%i.icon-spinner.icon-spin.icon-large>
+    -#Loadingu~...

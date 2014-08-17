@@ -1,0 +1,33 @@
+%h2 Каналы Твитча
+- if @session["gmod"] == "1"
+  .btn.btn-success#create-btn{onclick: "showForm();"} Создать Канал
+  =render 'channels/new'
+  %br
+  :javascript
+    function showForm() {
+      $("#create-channel").show();
+      $("#create-btn").hide();
+    };
+%br
+%table.table
+  %tbody
+    %tr
+    %td
+    %td
+      %b Канал
+    %td
+      %b Стример
+    %td
+      %b Игра
+    - if @session["gmod"] == "1"
+      %td
+        %b Действо
+    - @channels.each_with_index do |channel, i|
+      %tr
+        %td= i+1
+        %td= channel.channel
+        %td= channel.streamer
+        %td= channel.game
+        - if @session["gmod"] == "1"
+          %td
+            = link_to "Удалить", home_channel_delete_path(id: channel.id), method: "post"

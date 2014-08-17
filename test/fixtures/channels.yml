@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  channel: MyString
+  live: false
+  viewers: 1
+  game: MyString
+  streamer: MyString
+  title: MyString
+  type: 
+
+two:
+  channel: MyString
+  live: false
+  viewers: 1
+  game: MyString
+  streamer: MyString
+  title: MyString
+  type: 

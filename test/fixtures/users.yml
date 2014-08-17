@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: MyString
+  name: MyString
+  screen_name: MyString
+  profile_image_url: MyString
+  last_ip: 
+  login_last: 2014-07-15
+  access_token: MyString
+  secret_token: MyString
+  gmod: false
+  hd_channel: MyString
+  streamer: false
+  twitch: MyString
+
+two:
+  uid: MyString
+  name: MyString
+  screen_name: MyString
+  profile_image_url: MyString
+  last_ip: 
+  login_last: 2014-07-15
+  access_token: MyString
+  secret_token: MyString
+  gmod: false
+  hd_channel: MyString
+  streamer: false
+  twitch: MyString

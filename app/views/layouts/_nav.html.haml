@@ -1,0 +1,116 @@
+.navbar.navbar-default.navbar-static-top
+  .navbar-header
+    %a.navbar-brand{href: "#"}
+      %img.img-circle{height: "20px", src: "http://i.imgur.com/JKPn8DR.png", width: "20px"}/
+      OmckTV
+  .navbar-collapse.collapse
+    %ul.nav.navbar-nav
+      %li.btn-group
+        %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+          %span#stream-count.label.label-danger
+          Streams
+          %span.caret
+        %ul#stream-menu.dropdown-menu{role: "menu", style: "width: 300px;"}
+          %li.dropdown-header{"role" => "presentation"} Official Streams
+          %li#mc_mc_mc_omck.list-group-item
+            %a{href: "#", onclick: "SelectStream('mc_mc_mc_omck');"}
+              %span.badge.pull-right
+                %i.fa.fa-eye#viewers-mc_mc_mc_omck
+                  0
+              %span.label.label-danger.pull-right#live-mc_mc_mc_omck
+              OmckTV Classic
+              %br
+              #title-mc_mc_mc_omck
+          %li#hdgames.list-group-item
+            %a{href: "#", onclick: "SelectStream('hdgames');"}
+              %span.badge.pull-right
+                %i.fa.fa-eye#viewers-hdgames
+                  0
+              %span.label.label-danger.pull-right#live-hdgames
+              OmckTV HD Games
+              %br
+              #title-hdgames
+          %li#hdkinco.list-group-item
+            %a{href: "#", onclick: "SelectStream('hdkinco');"}
+              %span.badge.pull-right
+                %i.fa.fa-eye#viewers-hdkinco
+                  0
+              %span.label.label-danger.pull-right#live-hdkinco
+              OmckTV HD Cinema
+              %br
+              #title-hdkinco
+          %li#omcktv.list-group-item
+            %a{href: "#", onclick: "SelectStream('omcktv');"}
+              %span.badge.pull-right
+                %i.fa.fa-eye#viewers-omcktv
+                  0
+              %span.label.label-danger.pull-right#live-omcktv
+              OmckTV Twitch
+              %br
+              #title-omcktv
+          %li.dropdown-header{"role" => "presentation"} Random Streams
+      %li.dropdown
+        %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+          %img{height: "auto", src: "assets/zelda.png", width: "20px"}/
+          Links
+        %ul#links.dropdown-menu.list-group
+          %li
+            %a{href: "http://dobrochan.ru/vg/res/56961.xhtml", target: "_blank"}
+              %i.fa.fa-shield
+              Dobrochan
+          %li
+            %a{href: "http://iichan.hk/vg/res/180216.html", target: "_blank"}
+              %i.fa.fa-shield
+              iichan
+          %li
+            %a{href: "https://docs.google.com/spreadsheet/ccc?key=0AsUGuGkFPTMvdE1fNjhPb21saE15Q0xEQW5fV2FhcFE#gid=0", target: "_blank"}
+              %i.fa.fa-calendar
+              Omck History
+          %li
+            %a{href: "http://docs.google.com/document/d/1ZTwJdwmWdY7Sq_Tua8N7m4US4zvAkmbRGadSxxvuacw/edit?pli=1", target: "_blank"}
+              %i.fa.fa-tags
+              StreamList
+          %li
+            %a{href: "/marathon", target: "_blank"}
+              %i.fa.fa-tags
+              Марафоны
+          %li
+            %a{href: "http://pastebin.com/abP1NMWD", target: "_blank"} ◕ ‿‿ ◕
+          %li
+            %a{href: "https://www.youtube.com/watch?v=aTBlKRzNf74", target: "_blank"} ( ͡° ͜ʖ ͡°)
+      %li.dropdown
+        %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+          %img{height: "auto", src: "assets/yoba.png", width: "20px"}/
+          Follow Us
+        %ul#community_links.dropdown-menu
+          %li
+            %a{href: "http://twitter.com/omcktv", target: "_blank"}
+              %i.fa.fa-twitter
+              Twitter
+          %li
+            %a{href: "http://steamcommunity.com/groups/vgstream", target: "_blank"}
+              %i.fa.fa-cogs
+              Steam
+          %li
+            %a{href: "http://youtube.com/theomcktv", target: "_blank"}
+              %i.fa.fa-youtube
+              Youtube
+          %li
+            %a{href: "http://blog.omck.ws", target: "_blank"}
+              %i.fa.fa-tumblr
+              Tumblr
+          %li
+            %a{href: "http://twitter.com/omckws", target: "_blank"}
+              %i.fa.fa-twitter
+              Peer_'s Twitter
+      %li
+        %a{href: "/faq", target: "_blank"}
+          %img{height: "auto", src: "assets/mark.png", width: "20px"}/
+          FAQ
+      %li
+        %a{href: "/konami.html", target: "_blank"} What?
+    %ul.nav.navbar-nav.navbar-right
+      %li
+        %a{href: "/home", target: "_blank"}
+          %span.fa.fa-archive
+          Home

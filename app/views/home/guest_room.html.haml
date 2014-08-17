@@ -1,0 +1,23 @@
+.container
+  .row.jumbotron
+    .col-md-6
+      = render 'instruction'
+    .col-md-6
+      %h2 Ваши данные
+      %table.table
+        %tbody
+          %tr
+          %td
+            %b Имя
+          %td
+            %b Ключ
+          %td
+            %b Игра
+          %td
+            %b Действителен до
+          %tr
+          %td= @user_key.streamer
+          %td= @user_key.key
+          %td= @user_key.game
+          %td= @user_key.expires
+        = link_to "Пересоздать ключ", home_remake_key_path(key: @user_key.key)

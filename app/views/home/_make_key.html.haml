@@ -1,0 +1,23 @@
+%h3 Новый ключ
+Новому стримеру полагается ключ, чтобы он мог стримить и правильно сохранялись повторы игр.
+%br
+Как только он получит права стримера, достаточно тут указать его ник и ему достаточно сюда перезайти
+%br
+Если у стримера нет твиттера, чтобы сюда зайти, то ему нужно помочь создать ключ
+%br
+Отсюда можно создать ему ключ, кликнув на галочку.
+%br
+Затем можно скинуть ему банально ссылоку вида
+= link_to "http://www.omck.tv/guestroom?key=ключик", "http://www.omck.tv/guestroom?key=ключик"
+%br
+Не забудьте только ключ туда вставить!
+= simple_form_for @key, html: {class: 'form-horizontal'}, :url => url_for(:action => 'make_key', :controller => 'home'), :method => 'post' do |f|
+  = f.error_notification
+  = f.input :uid, collection: @users, label: "Выбери твиттер стримера или оставь пустое место для гостя"
+  = f.input :guest, as: :boolean, checked_value: true, unchecked_value: false, label: "Стример не имеет твиттер?"
+  = f.input :game, required: true,  label: "Игра"
+  = f.input :movie, required: false,  label: "Кинцо"
+  = f.input :streamer, required: true,  label: "Имя стримера"
+  = f.input :expires, label: "Срок токена", as: :date, start_year: Date.today.year, end_year: Date.today.year + 12, order: [:day, :month, :year]
+  %br/
+  = f.button :submit, "Создать ключ", class: "btn btn-success"
