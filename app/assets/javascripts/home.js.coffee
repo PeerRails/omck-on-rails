@@ -87,15 +87,15 @@
           omck = "cinema"
         $("#stream").html hd_omck
         jwplayer("mediaspace").setup
-          flashplayer: "player.swf"
+          flashplayer: "player/player.swf"
           autostart: "true"
           autoplay: "true"
-          skin: "stormtrooper.zip"
+          skin: "player/stormtrooper.zip"
           loop: "true"
           dock: "false"
           icons: "false"
           file: "omcktv"
-          streamer: "rtmp://localhost/"+omck
+          streamer: "rtmp://hd.omck.tv/"+omck
           controlbar: "bottom"
           width: "100%"
           height: "100%"
@@ -176,7 +176,7 @@
 
 $(document).ready ->
   setBG()
-  if $(location).attr 'pathname' == "/"
+  if $(location).attr('pathname') is "/"
     setSite()
     MakeStreamMenu()
     refreshId = setInterval(->

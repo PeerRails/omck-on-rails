@@ -9,7 +9,7 @@ class HomeController < ApplicationController
   def cabinet
     if @session["streamer"] == "1" || @session["gmod"] == "1"
       @key = Key.new
-      @keys = Key.present
+      @keys = Key.present.where(guest: true)
       @users = User.where(streamer: true)
       @user_key = Key.where(uid: @session["id"]).last
       @tweet = Tweet.new

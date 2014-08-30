@@ -28066,3 +28066,68 @@ I, [2014-08-26T18:11:25.824002 #10707]  INFO -- omniauth: (twitter) Request phas
 127.0.0.1 - - [26/Aug/2014 18:11:26] "GET /auth/twitter HTTP/1.0" 302 105 1.0582
 - Gracefully stopping, waiting for requests to finish
 - Goodbye!
+=== puma startup: 2014-08-30 06:58:34 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 07:23:41 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 07:28:10 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 07:54:22 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 07:56:40 -0400 ===
+I, [2014-08-30T08:13:59.449388 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:15:38.193166 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:15:41.466766 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:16:56.414966 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:17:01.736435 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:17:09.041552 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:17:40.070431 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:18:11.624182 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:18:15.619600 #19639]  INFO -- omniauth: (twitter) Request phase initiated.
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 08:19:35 -0400 ===
+I, [2014-08-30T08:20:27.038823 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:21:11.821954 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:21:14.933756 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:22:47.633636 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:22:50.354022 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:23:39.266698 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:23:41.121250 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:23:42.961281 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:23:44.870769 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:23:46.807671 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:24:23.379819 #20976]  INFO -- omniauth: (twitter) Callback phase initiated.
+E, [2014-08-30T08:24:23.380973 #20976] ERROR -- omniauth: (twitter) Authentication failure! session_expired: OmniAuth::NoSessionError, Session Expired
+I, [2014-08-30T08:24:32.164287 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:24:34.839473 #20976]  INFO -- omniauth: (twitter) Callback phase initiated.
+I, [2014-08-30T08:28:56.879657 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:29:00.630029 #20976]  INFO -- omniauth: (twitter) Callback phase initiated.
+I, [2014-08-30T08:30:18.088893 #20976]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T08:30:19.256023 #20976]  INFO -- omniauth: (twitter) Callback phase initiated.
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 08:49:11 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 09:01:07 -0400 ===
+I, [2014-08-30T09:05:01.972253 #24865]  INFO -- omniauth: (twitter) Request phase initiated.
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 09:10:45 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 09:14:23 -0400 ===
+I, [2014-08-30T09:32:14.254598 #25907]  INFO -- omniauth: (twitter) Request phase initiated.
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 09:32:45 -0400 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-08-30 09:35:31 -0400 ===
+I, [2014-08-30T09:36:18.194408 #27543]  INFO -- omniauth: (twitter) Request phase initiated.
+I, [2014-08-30T09:36:20.073809 #27543]  INFO -- omniauth: (twitter) Callback phase initiated.

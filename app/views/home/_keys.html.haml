@@ -11,6 +11,8 @@
       %b Фильм
     %td
       %b Действителен до
+    %td
+      %b ëÞ
     - @keys.each_with_index do |key, i|
       %tr
         %td= i+1
@@ -18,3 +20,4 @@
         %td= key.game
         %td= key.movie
         %td= key.expires
+        %td= key.key

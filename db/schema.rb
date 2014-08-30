@@ -28,15 +28,17 @@ ActiveRecord::Schema.define(version: 20140728134907) do
     t.datetime "updated_at"
   end
 
+  add_index "channels", ["channel"], name: "index_channels_on_channel", using: :btree
+
   create_table "keys", force: true do |t|
     t.integer  "uid"
-    t.string   "key"
-    t.string   "game"
-    t.date     "expires"
-    t.string   "streamer"
+    t.string   "key",                                               null: false
+    t.string   "game",       default: "Boku no Pico",               null: false
+    t.date     "expires",    default: '2099-01-01',                 null: false
+    t.string   "streamer",   default: "McDwarf"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "guest"
+    t.boolean  "guest",      default: false
     t.string   "movie",      default: "Boku Wa Tomodachi Ga Sekai"
   end
 
@@ -62,12 +64,14 @@ ActiveRecord::Schema.define(version: 20140728134907) do
     t.inet     "last_ip"
     t.string   "access_token"
     t.string   "secret_token"
+    t.integer  "gmod",              default: 0
     t.string   "hd_channel",        default: "0",    null: false
+    t.integer  "streamer",          default: 0
     t.string   "twitch",            default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gmod",              default: 0,      null: false
-    t.integer  "streamer",          default: 0,      null: false
   end
+
+  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
 end

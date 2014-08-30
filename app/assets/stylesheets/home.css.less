@@ -1,18 +1,38 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Less here: http://lesscss.org/
-@height: 520px;
+@media (min-height: 480px){
+	#stream {height: 420px;}
+	#chat {height: 420px;}
+}
+@media (min-height: 600px){
+	#stream {height: 520px;}
+	#chat {height: 520px;}
+}
+@media (min-height: 768px){
+	#stream {height: 560px;}
+	#chat {height: 560px;}
+}
+@media (min-height: 900px){
+	#stream {height: 768px;}
+	#chat {height: 768px;}
+}
+@media (min-height: 1080px){
+	#stream {height: 800px;}
+	#chat {height: 800px;}
+}
+#stream_type 
+{
+    text-transform:capitalize;
+}
 
-#stream {
-  height: @height;
+#background-hide
+{
+	display: none;
 }
 
 #streambg {
 
-}
-
-#chat {
-  height: @height;
 }
 
 #streams, #special {
