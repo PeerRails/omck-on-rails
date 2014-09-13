@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20140728134907) do
     t.integer  "uid",        default: 1,             null: false
     t.string   "author",     default: "Wombo Combo"
     t.text     "comment",                            null: false
-    t.integer  "type",       default: 2,             null: false
+    t.integer  "tipe",       default: 2,             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

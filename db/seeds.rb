@@ -42,3 +42,14 @@ Channel.create([{
     streamer: 'OmckTV Twitch',
     title: 'OmckTV Twitch'
   }])
+User.create([{ 
+        uid: "361122700", 
+        screen_name: "omckws", 
+        profile_image_url: "http://pbs.twimg.com/profile_images/50108201762304...", 
+        name: "Peer on Puma Hyper ", 
+        gmod: 1, 
+        hd_channel: "", 
+        streamer: 1, 
+        twitch: ""
+    }])
+Tweet.create([{comment: "Kokok", tipe:1}])
