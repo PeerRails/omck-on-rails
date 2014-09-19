@@ -9,5 +9,6 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp
-/pids/*
+/tmp/*
+/pids/*.state
+/pids/*.pid
