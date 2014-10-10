@@ -1,20 +1,25 @@
 Rails.application.routes.draw do
 
-  root 'home#index'
+  
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
-  get '/logout' => 'users#logout'
-  get 'home' => 'home#cabinet'
-  get 'channel/live' => 'channels#get_live'
-  get 'channel/all' => 'channels#get_all'
-  get 'channel/move_record' => 'channels#move_record'
-  get 'channel/:channel' => 'channels#get_channel'
-  get '/auth_stream' => 'channels#get_key'
   get 'auth_session' => 'application#session_auth'
-  get 'incr_stream' => 'channels#increase_viewer_count'
-  get 'decr_stream' => 'channels#decrease_viewer_count'
-  get 'end_cinema' => 'channels#end_cinema'
+  get '/logout' => 'users#logout'
+
+  get 'home' => 'home#cabinet'
+
+  get 'channel/live' => 'streams#get_live'
+  get 'channel/all' => 'streams#get_all'
+  get 'channel/:channel' => 'streams#get_channel'
+
+  get '/auth_stream' => 'nginx#get_key'
+  get 'incr_stream' => 'nginx#increase_viewer_count'
+  get 'decr_stream' => 'nginx#decrease_viewer_count'
+  get 'channel/move_record' => 'nginx#move_record'
+  get 'end_cinema' => 'nginx#end_cinema'
+
   get '/home/remake_key' => 'home#remake_key'
   get 'guestroom' => 'home#guest_room'
+
   get 'faq' => 'home#faq'
   get 'faq-irc' => 'home#faq_irc'
 
@@ -26,6 +31,8 @@ Rails.application.routes.draw do
   post 'home/channel/delete' => 'channels#delete'
 
   post 'home/tweet' => 'home#tweet'
+
+  root 'home#index'
 
   #resources :keys
   #resources :tweets
