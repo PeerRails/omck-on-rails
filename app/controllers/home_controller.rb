@@ -7,7 +7,13 @@ class HomeController < ApplicationController
 	end
 
   def cabinet
-    if @session["streamer"] == "1" || @session["gmod"] == "1"
+    @perm_stream = Key.find_by_uid(@session["id"]).present.last
+    if !@perm_stream.nil? && @session["streamer"] == 1
+      @create_key = Key.new(uid: @session["id"], streamer: @session["name"], game: "Boku No Pico", :guest => false, :expires => (Date.now + 2000) )
+      @create_key.save
+      @perm_stream = Key.find_by_uid(@session["id"]).present.last
+    end
+    if !@perm_stream.nil? || @session["gmod"] == "1"
       @key = Key.new
       @keys = Key.present.where(guest: true)
       @users = User.where(streamer: true)
@@ -103,10 +109,10 @@ class HomeController < ApplicationController
   def tweet
     @input = params.require(:tweet).permit(:comment, :tipe)
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV["TWITTER_1"]
-      config.consumer_secret     = ENV["TWITTER_2"]
-      config.access_token        = ENV["TWITTER_3"]
-      config.access_token_secret = ENV["TWITTER_4"]
+      config.consumer_key        = ENV["TICKET_1"]
+      config.consumer_secret     = ENV["TICKET_2"]
+      config.access_token        = ENV["TICKET_3"]
+      config.access_token_secret = ENV["TICKET_4"]
     end
     @input["tipe"] = 1 if @input["tipe"].nil?
     if @input["tipe"] == 1

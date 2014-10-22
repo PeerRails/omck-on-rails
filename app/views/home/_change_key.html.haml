@@ -5,7 +5,7 @@
 %b ИГРЫ
 будет сохранен в виде
 .text-success Имя_стримера_-_Текущая_Игра_Дата.mp4
-= simple_form_for @user_key, html: {class: 'form-horizontal', :id => @user_key.id}, :url => url_for(:action => 'change_key', :controller => 'home'), :method => 'post' do |f|
+= bootstrap_form_for @user_key, html: {:id => @user_key.id}, :url => url_for(:action => 'change_key', :controller => 'home'), :method => 'post' do |f|
   = f.error_notification
   = f.input :streamer, required: false, label: "Твое имя на записи"
   = f.input :game, required: false, label: "Текущая Игра"

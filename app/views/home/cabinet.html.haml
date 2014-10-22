@@ -1,10 +1,10 @@
-- if @session["streamer"] == "1" && !@user_key.nil?
+- if !@perm_stream.nil? && !@user_key.nil?
   - key = @user_key.key
   - date_exp = @user_key.expires
 - else
   - key = "недоступно :с"
   - date_exp = "недоступно"
-- if @session["streamer"] = "1" || @session["gmod"] == "1"
+- if !@perm_stream.nil? || @session["gmod"] == "1"
   - priv = true
 - else
   - priv = false
@@ -46,13 +46,13 @@
                 %td
                   %b Действителен до
                 %tr
-                %td #{@session["name"]}
-                %td= key
-                %td #{@session["screen_name"]}
-                %td= date_exp
+                  %td #{@session["name"]}
+                  %td= key
+                  %td #{@session["screen_name"]}
+                  %td= date_exp
             - if priv
               = link_to "Пересоздать ключ", home_remake_key_path(key: key)
-            - if @session["streamer"] == "1"
+            - if !@perm_stream.nil?
               .row
                 .col-md-6
                   = render 'change_key'

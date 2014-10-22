@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
 		"screen_name" => user.screen_name,
 		"uid" => user.uid,
 		"image" => user.profile_image_url,
-    "streamer" => user.streamer,
     "gmod" => user.gmod,
     "ip" => remote_ip,
     "session_id" => session[:session_id]

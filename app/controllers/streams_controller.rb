@@ -9,7 +9,7 @@ class StreamsController < ApplicationController
     if !channel_info.nil?
   	  lives << {"channel" => s,
           "viewers" => viewers,
-          "status" => "live",
+          "live" => channel_info.live,
           "game" => channel_info.game,
           "title" => channel_info.title,
           "streamer" => channel_info.streamer,
@@ -24,19 +24,21 @@ class StreamsController < ApplicationController
   end
 
   def get_all
-    channels = Channel.all
+    channels = Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service).all
     render json: channels.to_json
   end
 
   def get_channel
-    channel = Channel.where(:channel => params_channel[:channel]).last
+    channel = Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service)
+                     .where(:channel => params_channel[:channel])
+                     .last
     if channel.nil?
-      render json: error("403")
+      render json: error("404")
     else
       render json: channel.to_json
     end
   end
-  
+
   private
   def params_channel
   	params.permit(:channel)
