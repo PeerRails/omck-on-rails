@@ -2,12 +2,12 @@ class HomeController < ApplicationController
   before_filter :check_session, :except => [:index, :guest_room, :faq, :faq_irc]
   #before_filter :check_auth, :except => [:index, :guest_room, :remake_key, :change_key]
 	def index
-		@session = auth
-    @tweet = Tweet.last
+		#@session = auth
+    #@tweet = Tweet.last
 	end
 
   def cabinet
-    @perm_stream = Key.find_by_uid(@session["id"]).present.last
+    @perm_stream = Key.present.find_by_uid(@session["id"])
     if !@perm_stream.nil? && @session["streamer"] == 1
       @create_key = Key.new(uid: @session["id"], streamer: @session["name"], game: "Boku No Pico", :guest => false, :expires => (Date.now + 2000) )
       @create_key.save
@@ -87,10 +87,10 @@ class HomeController < ApplicationController
   def remake_key
     key = params.permit(:key)
     @old_key = Key.where(key: key["key"]).last
-    @old_key.expires = DateTime.now
+    #@old_key.expires = DateTime.now
 
     @new_key = Key.new(uid: @old_key.uid,streamer: @old_key.streamer,game: @old_key.game,movie: @old_key.movie,guest: @old_key.guest)
-    @new_key.expires = DateTime.now + 2.years
+    @new_key.expires = @old_key.expires
     @new_key.key = generate_key
 
     if @new_key.save && @old_key.save
@@ -108,30 +108,13 @@ class HomeController < ApplicationController
 
   def tweet
     @input = params.require(:tweet).permit(:comment, :tipe)
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV["TICKET_1"]
-      config.consumer_secret     = ENV["TICKET_2"]
-      config.access_token        = ENV["TICKET_3"]
-      config.access_token_secret = ENV["TICKET_4"]
-    end
-    @input["tipe"] = 1 if @input["tipe"].nil?
-    if @input["tipe"] == 1
-      text = "Идет проверка || " + @input["comment"]
-    else
-      text = @input["comment"]
-    end
-    @new_tweet = Tweet.new(author: @session["name"], comment: text, tipe: @input["tipe"], uid: @session["id"])
+    @new_tweet = Tweet.new(author: @session["name"], comment: @input["comment"], tipe: @input["tipe"], uid: @session["id"])
     if @new_tweet.save
-      if text.empty?
-        flash[:danger] = "Поле пустое, батенька"
-      else
-        client.update(text)
         flash[:success] = "Успешно послан твит!"
-      end
     else
       flash[:danger] = "Ошибка :с"
     end
-    redirect_to home_url
+    redirect_to staff_url
 
   end
 

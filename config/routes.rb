@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  
+
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
   get 'auth_session' => 'application#session_auth'
   get '/logout' => 'users#logout'
@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   post 'home/channel/delete' => 'channels#delete'
 
   post 'home/tweet' => 'home#tweet'
+
+  get 'staff' => 'staff#index'
 
   root 'home#index'
 

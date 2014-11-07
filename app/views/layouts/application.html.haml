@@ -7,8 +7,6 @@
     = csrf_meta_tags
     = favicon_link_tag 'favicon.ico'
   %body
-    .row.notifications.center-block#flash
-      = bootstrap_flash
     = yield
     .container
       = render 'layouts/footer'

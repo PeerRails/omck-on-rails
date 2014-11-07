@@ -51,5 +51,27 @@ User.create([{
         hd_channel: "",
         streamer: 1,
         twitch: ""
-    }])
+    },
+    {
+            uid: "1423600716",
+            screen_name: "ShineWitter",
+            profile_image_url: "http://pbs.twimg.com/profile_images/378800000297104089/818e06f5634e647cea42f9d98ce92c08_normal.jpeg",
+            name: "Witter Shine",
+            gmod: 0,
+            hd_channel: "",
+            streamer: 0,
+            twitch: ""
+        }])
 Tweet.create([{comment: "Kokok", tipe:1}])
+Key.create([{
+  uid: "1",
+  key: "420MLG",
+  guest: false
+  },
+  {
+    uid: "1",
+    key: "420SkuR2",
+    guest: true,
+    streamer: "Guest",
+    game: "Spurdo Sparde"
+    }])

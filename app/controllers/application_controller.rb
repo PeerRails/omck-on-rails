@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
 		"uid" => user.uid,
 		"image" => user.profile_image_url,
     "gmod" => user.gmod,
+    "streamer" => user.streamer,
     "ip" => remote_ip,
     "session_id" => session[:session_id]
   	}
@@ -26,10 +27,19 @@ class ApplicationController < ActionController::Base
     ReadCache.redis.mapped_hmset("session_id_#{session[:session_id]}", r_session)
   end
 
+  def session_update
+    if auth.empty? || auth.nil?
+      flash[:warning] = "Ошибка нахождения сессии!"
+    else
+      user = User.find(auth["id"])
+      session_destroy
+      session_create user
+    end
+  end
+
   def session_destroy
   	ReadCache.redis.del("session_id_#{session[:session_id]}")
   	session[:oauth] = nil
-  	flash[:info] = "Вы вышли из системы!"
   end
 
 	def error code

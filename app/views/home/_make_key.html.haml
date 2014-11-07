@@ -12,7 +12,6 @@
 %br
 Не забудьте только ключ туда вставить!
 = simple_form_for @key, html: {class: 'form-horizontal'}, :url => url_for(:action => 'make_key', :controller => 'home'), :method => 'post' do |f|
-  = f.error_notification
   = f.input :uid, collection: @users, label: "Выбери твиттер стримера или оставь пустое место для гостя"
   = f.input :guest, as: :boolean, checked_value: true, unchecked_value: false, label: "Стример не имеет твиттер?"
   = f.input :game, required: true,  label: "Игра"
