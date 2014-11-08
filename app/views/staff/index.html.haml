@@ -35,42 +35,72 @@
     .col-md-9
       .panel.panel-default
         .panel-header
-          %ul.nav.nav-pills{role: "tablist"}
+          %ul.nav.nav-pills{role: "tablist", id: "tabs"}
             %li{:role => "presentation", :class => "active"}
+              %a{"data-toggle" => "tab", href: "#key", role: "tab"} Ваш Ключ
+            %li{:role => "presentation"}
+              %a{"data-toggle" => "tab", href: "#streams", role: "tab"} Каналы твитча
+            %li{:role => "presentation"}
+              %a{"data-toggle" => "tab", href: "#keys", role: "tab"} Ключи
+            %li{class: "pull-right"}
               =link_to "Выход", logout_path
-          %h1 Информация по ключам к стримам
-        .panel-body
-          - if !@user_key.key.nil?
-            %p Отмечу, что различаются два канала только по ссылке live (игра) и cinema (кино). То есть поле ключа можно не менять. Лучше иметь 2 разных профиля для obs и xsplit
-            %h3
-              .text-info Игровой канал
-            %br
-            %b Ссылочка-писечка
-            .text-success
-              rtmp://hd.omck.tv/live
-            %br
-            %b Далее в поле ключ (key) вставляем ваш ключ:
-            %br
-            .text-success
-              omcktv?key=#{@user_key.key}
-            %hr
-            %h3
-              .text-info Кинцо-анимцо
-            %br
-            %b Ссылочка-писечка
-            .text-success
-              rtmp://hd.omck.tv/cinema
-            %br
-            %b Далее в поле ключ (key) вставляем ваш ключ:
-            .text-success
-              omcktv?key=#{@user_key.key}
-          - elsif @session["streamer"] == "1" || @session["gmod"] == "1"
-            %h3 Создать себе ключ
-            %p У Вас есть права, значит вы можете стримить! Но ключа-то нет, так что создаем себе
-            = bootstrap_form_for @user_key, :url => url_for(:action => 'make_key', :controller => 'keys'), :method => 'post' do |f|
-              = f.hidden_field :uid, required: true
-              = f.text_field :game, required: true,  label: "Игра"
-              = f.text_field :movie, required: false,  label: "Кинцо"
-              = f.text_field :streamer, required: true,  label: "Имя стримера"
-              %br/
-              = f.submit "Создать ключ", class: "btn btn-success"
+        .panel-body.tab-content
+          #key.tab-pane.active
+            %h1 Информация по ключам к стримам
+            - if !@user_key.key.nil?
+              %p Отмечу, что различаются два канала только по ссылке live (игра) и cinema (кино). То есть поле ключа можно не менять. Лучше иметь 2 разных профиля для obs и xsplit
+              %h3
+                .text-info Игровой канал
+              %br
+              %b Ссылочка-писечка
+              .text-success
+                rtmp://hd.omck.tv/live
+              %br
+              %b Далее в поле ключ (key) вставляем ваш ключ:
+              %br
+              .text-success
+                omcktv?key=#{@user_key.key}
+              %hr
+              %h3
+                .text-info Кинцо-анимцо
+              %br
+              %b Ссылочка-писечка
+              .text-success
+                rtmp://hd.omck.tv/cinema
+              %br
+              %b Далее в поле ключ (key) вставляем ваш ключ:
+              .text-success
+                omcktv?key=#{@user_key.key}
+            - elsif @session["streamer"] == "1" || @session["gmod"] == "1"
+              %h3 Создать себе ключ
+              %p У Вас есть права, значит вы можете стримить! Но ключа-то нет, так что создаем себе
+              = bootstrap_form_for @user_key, :url => url_for(:action => 'make_key', :controller => 'keys'), :method => 'post' do |f|
+                = f.hidden_field :uid, required: true
+                = f.text_field :game, required: true,  label: "Игра"
+                = f.text_field :movie, required: false,  label: "Кинцо"
+                = f.text_field :streamer, required: true,  label: "Имя стримера"
+                %br/
+                = f.submit "Создать ключ", class: "btn btn-success"
+          #streams.tab-pane
+            = render 'channels/index'
+          #keys.tab-pane
+            %h2 Ключики действующие
+            %table.table
+              %tbody
+                %tr
+                %td
+                %td
+                  %b Имя
+                %td
+                  %b Игра
+                %td
+                  %b Фильм
+                %td
+                  %b Действителен до
+                - @keys.each_with_index do |key, i|
+                  %tr
+                    %td= i+1
+                    %td= key.streamer
+                    %td= key.game
+                    %td= key.movie
+                    %td= key.expires

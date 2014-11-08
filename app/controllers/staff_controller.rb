@@ -4,11 +4,15 @@ class StaffController < ApplicationController
   def index
     session_update
     @tweets = Tweet.select(:comment, :author).order(id: :desc).last(10)
-    @tweet = Tweet.new
     @user_key = Key.find_by_uid(@session["id"])
+    @channels = Channel.where(service: "twitch")
+    @keys = Key.select(:streamer, :game, :movie, :expires).present
+
     if @user_key.nil?
       @user_key = Key.new(uid: @session["id"], guest: false, streamer: @session["name"])
     end
+    @channel = Channel.new
+    @tweet = Tweet.new
 
 
   end
