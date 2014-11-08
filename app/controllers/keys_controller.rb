@@ -6,7 +6,7 @@ class KeysController < ApplicationController
 
 
   def make_key
-    @key = Key.new( params.require(:key).permit(:uid, :streamer, :game, :guest, :expires) )
+    @key = Key.new( params.require(:key).permit(:uid, :streamer, :movie, :game, :guest, :expires) )
     @key.key = generate_key
 
     if @key.guest?
@@ -20,6 +20,8 @@ class KeysController < ApplicationController
       key = Key.where(uid: @key.uid).last
       if user.nil?
         flash[:danger] = "Такого пользователя нет!"
+      elsif user.id != @session["id"]
+        flash[:danger] = "Систему не наебешь!"
       elsif !key.nil? && key.expires < DateTime.now
         flash[:danger] = "У пользователя уже есть ключ!"
       else
@@ -31,6 +33,7 @@ class KeysController < ApplicationController
       end
     end
     redirect_to home_url
+
   end
 
   def change_key
@@ -67,5 +70,5 @@ class KeysController < ApplicationController
     end
 
   end
-  
+
 end

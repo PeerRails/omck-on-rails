@@ -68,6 +68,7 @@
             %h3 Создать себе ключ
             %p У Вас есть права, значит вы можете стримить! Но ключа-то нет, так что создаем себе
             = bootstrap_form_for @user_key, :url => url_for(:action => 'make_key', :controller => 'keys'), :method => 'post' do |f|
+              = f.hidden_field :uid, required: true
               = f.text_field :game, required: true,  label: "Игра"
               = f.text_field :movie, required: false,  label: "Кинцо"
               = f.text_field :streamer, required: true,  label: "Имя стримера"
