@@ -1,17 +1,21 @@
 .container
-  .row.notifications.center-block#flash
-    = bootstrap_flash
   .row
     .panel.panel-default
       .panel-body
         .page-header
-          %h1 А мы тут стримами балуемся
+          %h1
+            А мы тут стримами балуемся,
+            =@session["name"]
+        .page-body
+          Здесь находится пока нихуя, работаю над этим.
+    .row.notifications.center-block#flash
+      = bootstrap_flash
     .col-md-3
       .panel.panel-default
         .panel-body
           %h4.text-danger Последние 10 Твитов
           - if @session["streamer"] == "1" || @session["gmod"] == "1"
-            =bootstrap_form_for @tweet, :url => url_for(:action => 'tweet', :controller => 'home'), :method => 'post' do |f|
+            =bootstrap_form_for @tweet, :url => url_for(:action => 'tweet', :controller => 'tweets'), :method => 'post' do |f|
               = f.check_box :tipe, input_html: {id: "ttype", :checked => false}, label: "Свое сообщение?"
               = f.text_area :comment, input_html: { maxlength: 140, :rows => 5, cols: 45, id: "tweettext" },  :include_blank => false, label: "Твит"
               %br/
@@ -30,4 +34,42 @@
             %b.text-warning А твитов-то и нет!
     .col-md-9
       .panel.panel-default
+        .panel-header
+          %ul.nav.nav-pills{role: "tablist"}
+            %li{:role => "presentation", :class => "active"}
+              =link_to "Выход", logout_path
+          %h1 Информация по ключам к стримам
         .panel-body
+          - if !@user_key.key.nil?
+            %p Отмечу, что различаются два канала только по ссылке live (игра) и cinema (кино). То есть поле ключа можно не менять. Лучше иметь 2 разных профиля для obs и xsplit
+            %h3
+              .text-info Игровой канал
+            %br
+            %b Ссылочка-писечка
+            .text-success
+              rtmp://hd.omck.tv/live
+            %br
+            %b Далее в поле ключ (key) вставляем ваш ключ:
+            %br
+            .text-success
+              omcktv?key=#{@user_key.key}
+            %hr
+            %h3
+              .text-info Кинцо-анимцо
+            %br
+            %b Ссылочка-писечка
+            .text-success
+              rtmp://hd.omck.tv/cinema
+            %br
+            %b Далее в поле ключ (key) вставляем ваш ключ:
+            .text-success
+              omcktv?key=#{@user_key.key}
+          - elsif @session["streamer"] == "1" || @session["gmod"] == "1"
+            %h3 Создать себе ключ
+            %p У Вас есть права, значит вы можете стримить! Но ключа-то нет, так что создаем себе
+            = bootstrap_form_for @user_key, :url => url_for(:action => 'make_key', :controller => 'keys'), :method => 'post' do |f|
+              = f.text_field :game, required: true,  label: "Игра"
+              = f.text_field :movie, required: false,  label: "Кинцо"
+              = f.text_field :streamer, required: true,  label: "Имя стримера"
+              %br/
+              = f.submit "Создать ключ", class: "btn btn-success"

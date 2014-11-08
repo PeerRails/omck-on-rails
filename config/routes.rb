@@ -1,39 +1,47 @@
 Rails.application.routes.draw do
 
-
+  #Auth
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
   get 'auth_session' => 'application#session_auth'
   get '/logout' => 'users#logout'
 
-  get 'home' => 'home#cabinet'
+  #Old Home
+  get 'home' => 'staff#index'
 
+  #API
   get 'channel/live' => 'streams#get_live'
   get 'channel/all' => 'streams#get_all'
   get 'channel/:channel' => 'streams#get_channel'
 
+  #NGINX Controller
   get '/auth_stream' => 'nginx#get_key'
   get 'incr_stream' => 'nginx#increase_viewer_count'
   get 'decr_stream' => 'nginx#decrease_viewer_count'
   get 'channel/move_record' => 'nginx#move_record'
   get 'end_cinema' => 'nginx#end_cinema'
 
-  get '/home/remake_key' => 'home#remake_key'
-  get 'guestroom' => 'home#guest_room'
+  #Keys
+  get '/home/remake_key' => 'keys#remake_key'
+  get 'guestroom' => 'keys#guest_room'
+  post 'home/make_key' => 'keys#make_key'
+  post 'home/change_key' => 'keys#change_key'
 
+  #Pages
   get 'faq' => 'home#faq'
   get 'faq-irc' => 'home#faq_irc'
 
-  post 'home/make_key' => 'home#make_key'
-  post 'home/change_key' => 'home#change_key'
-
+  #Channel CRUD
   post 'home/channel/new' => 'channels#new'
   post 'home/channel/edit' => 'channels#edit'
   post 'home/channel/delete' => 'channels#delete'
 
-  post 'home/tweet' => 'home#tweet'
+  #Tweet Controller
+  post 'home/tweet' => 'tweets#tweet'
 
+  #New HOME
   get 'staff' => 'staff#index'
 
+  #Root
   root 'home#index'
 
   #resources :keys
