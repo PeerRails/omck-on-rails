@@ -20,7 +20,7 @@ class KeysController < ApplicationController
       key = Key.where(uid: @key.uid).last
       if user.nil?
         flash[:danger] = "Такого пользователя нет!"
-      elsif user.id != @session["id"]
+      elsif user.id != @session["id"].to_i
         flash[:danger] = "Систему не наебешь!"
       elsif !key.nil? && key.expires < DateTime.now
         flash[:danger] = "У пользователя уже есть ключ!"
