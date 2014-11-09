@@ -5,7 +5,7 @@ class StaffController < ApplicationController
     session_update
     @tweets = Tweet.select(:comment, :author).order(id: :desc).last(10)
     @user_key = Key.find_by_uid(@session["id"])
-    @channels = Channel.where(service: "twitch")
+    @channels = Channel.select(:streamer, :service, :channel, :game, :live).where(service: "twitch")
     @keys = Key.select(:streamer, :game, :movie, :expires).present
 
     if @user_key.nil?

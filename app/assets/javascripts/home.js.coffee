@@ -8,9 +8,9 @@
     $("#stream-count").html list.length
     menu_list = []
     live_list = []
-    official = ["mc_mc_mc_omck","hdvidya","hdkinco","omcktv" ]
+    official = ["mc_mc_mc_omck","hdgames","hdkinco","omcktv"]
     $("ul#stream-menu a").each (i) ->
-      menu_list.push $(this).attr("id")  unless typeof ($(this).attr("id")) is "undefined"
+      menu_list.push $(this).attr("id") unless typeof ($(this).attr("id")) is "undefined"
       return
     channels = list.map (i) -> i.channel
     #console.log "List: " + menu_list
