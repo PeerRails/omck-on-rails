@@ -1,20 +1,3 @@
-:javascript
-  $("textarea").keyup(function(){
-    if ( $("#tweet_tipe").is(':checked') ) {
-      count = 140
-    } else {
-      count = 99
-    };
-    length = count - $(this).val().length
-    if (length <= 0 && $("#count").attr('class') == 'text-success') {
-      $("#count").toggleClass('text-success text-danger');
-      $(".subm").prop('disabled', true);
-    } else if ( length >= 0 && $("#count").attr('class') == 'text-danger') {
-      $("#count").toggleClass('text-danger text-success');
-      $(".subm").prop('disabled', false);
-    };
-    $("#count").text(length);
-  });
 .container
   .row
     .panel.panel-default

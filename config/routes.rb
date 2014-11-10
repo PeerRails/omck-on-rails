@@ -38,9 +38,6 @@ Rails.application.routes.draw do
   #Tweet Controller
   post 'home/tweet' => 'tweets#tweet'
 
-  #New HOME
-  get 'staff' => 'staff#index'
-
   #Root
   root 'home#index'
 
