@@ -6,7 +6,7 @@ class StaffController < ApplicationController
     @tweets = Tweet.select(:comment, :author).order(id: :desc).last(10)
     @user_key = Key.present.find_by_uid(@session["id"])
     @channels = Channel.find_twitch
-    @keys = Key.select(:streamer, :game, :movie, :expires).present
+    @keys = Key.present
 
     if @user_key.nil?
       @user_key = Key.new(uid: @session["id"], guest: false, streamer: @session["name"])
