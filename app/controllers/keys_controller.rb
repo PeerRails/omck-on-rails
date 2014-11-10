@@ -22,7 +22,7 @@ class KeysController < ApplicationController
         flash[:danger] = "Такого пользователя нет!"
       elsif user.id != @session["id"].to_i
         flash[:danger] = "Систему не наебешь!"
-      elsif !key.nil? && key.expires < DateTime.now
+      elsif !key.nil? && key.expires > DateTime.now
         flash[:danger] = "У пользователя уже есть ключ!"
       else
         if @key.save
