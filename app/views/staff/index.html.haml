@@ -140,6 +140,19 @@
                         = link_to "Удалить", home_expire_key_path(id: key.id), method: "post"
           #keys-streamers.tab-pane
             %h2 Ключики действующие (стримеров)
+            - if @session["gmod"] == "1"
+              .btn.btn-success#create-streamer-btn{onclick: "showStreamerForm();"} Создать Ключ Для Стримера
+              = bootstrap_form_for @new_streamer, html: {id: "create-streamer", style: "display: none;"}, :url => url_for(:action => 'grant_streamer', :controller => 'users'), :method => 'post' do |f|
+                = f.text_field :screen_name, required: true,  label: "Никнейм стримера (вписывать без @)"
+                %br/
+                = f.submit "Дать права", class: "btn btn-success"
+              %br
+              :javascript
+                function showStreamerForm() {
+                  $("#create-streamer").show();
+                  $("#create-streamer-btn").hide();
+                };
+              %br
             %table.table
               %tbody
                 %tr

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
   get 'auth_session' => 'application#session_auth'
   get '/logout' => 'users#logout'
+  post 'home/grant_streamer' => 'users#grant_streamer'
 
   #Old Home
   get 'home' => 'staff#index'
