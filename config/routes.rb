@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'guestroom' => 'keys#guest_room'
   post 'home/make_key' => 'keys#make_key'
   post 'home/change_key' => 'keys#change_key'
+  post 'home/expire_key' => 'keys#expire_key'
 
   #Pages
   get 'faq' => 'home#faq'

@@ -1,12 +1,12 @@
-%h1 Каналы
+%h2 Каналы
 - if @session["gmod"] == "1"
-  .btn.btn-success#create-btn{onclick: "showForm();"} Создать Канал
+  .btn.btn-success#create-channel-btn{onclick: "showChannelForm();"} Создать Канал
   =render 'channels/new'
   %br
   :javascript
-    function showForm() {
+    function showChannelForm() {
       $("#create-channel").show();
-      $("#create-btn").hide();
+      $("#create-channel-btn").hide();
     };
 %br
 %table.table

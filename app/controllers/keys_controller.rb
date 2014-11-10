@@ -37,10 +37,11 @@ class KeysController < ApplicationController
   end
 
   def change_key
-      @new_key = params.require(:key).permit(:streamer, :game)
+      @new_key = params.require(:key).permit(:streamer, :game, :movie)
       @user_key = Key.where(uid: @session["id"]).last
       @user_key.streamer = @new_key["streamer"]
       @user_key.game = @new_key["game"]
+      @user_key.movie = @new_key["movie"]
       if @user_key.save
         flash[:success] = "Обновлено!"
       else
@@ -68,6 +69,17 @@ class KeysController < ApplicationController
     else
       redirect_to home_url
     end
+
+  end
+
+  def expire_key
+    key = params.permit(:id)
+    if Key.update(key["id"], expires: DateTime.now)
+      flash[:success] = "Ключ отвязан!"
+    else
+      flash[:danger] = "Ошибка отвязки ключа :с"
+    end
+    redirect_to home_url
 
   end
 
