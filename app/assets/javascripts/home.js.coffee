@@ -46,7 +46,7 @@
 
 @AddMenuChannel = (channel, streamer, live, viewers, title) ->
 
-  new_channel = '<a href="#" class="list-group-item" id="'+channel+'" onclick="SelectStream(\''+channel+'\');">'+
+  new_channel = '<a href="#channel/'+channel+'" class="list-group-item" id="'+channel+'" onclick="SelectStream(\''+channel+'\');">'+
                 '<span class="badge pull-right">'+
                 '<i class="fa fa-eye" id="viewers-'+channel+'">'+viewers+'</i>'+
                 '</span>'+
