@@ -39,9 +39,9 @@ class KeysController < ApplicationController
   def change_key
       @new_key = params.require(:key).permit(:streamer, :game, :movie)
       @user_key = Key.where(uid: @session["id"]).last
-      @user_key.streamer = @new_key["streamer"]
-      @user_key.game = @new_key["game"]
-      @user_key.movie = @new_key["movie"]
+      @user_key.streamer = @new_key["streamer"] || "McDwarf"
+      @user_key.game = @new_key["game"] || "Boku no Pico"
+      @user_key.movie = @new_key["movie"] || "Boku no Pico"
       if @user_key.save
         flash[:success] = "Обновлено!"
       else

@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   #Auth
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
   get 'auth_session' => 'application#session_auth'
-  get '/logout' => 'users#logout'
-  post 'home/grant_streamer' => 'users#grant_streamer'
+  get 'logout' => 'users#logout'
+  post 'home/manage_perm' => 'users#manage_perm'
+  post 'home/remove_streamer' => 'users#remove_streamer'
 
   #Old Home
   get 'home' => 'staff#index'
@@ -15,14 +16,14 @@ Rails.application.routes.draw do
   get 'channel/:channel' => 'streams#get_channel'
 
   #NGINX Controller
-  get '/auth_stream' => 'nginx#get_key'
+  get 'auth_stream' => 'nginx#get_key'
   get 'incr_stream' => 'nginx#increase_viewer_count'
   get 'decr_stream' => 'nginx#decrease_viewer_count'
   get 'channel/move_record' => 'nginx#move_record'
   get 'end_cinema' => 'nginx#end_cinema'
 
   #Keys
-  get '/home/remake_key' => 'keys#remake_key'
+  get 'home/remake_key' => 'keys#remake_key'
   get 'guestroom' => 'keys#guest_room'
   post 'home/make_key' => 'keys#make_key'
   post 'home/change_key' => 'keys#change_key'

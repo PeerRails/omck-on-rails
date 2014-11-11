@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :check_session, except: [:login]
   def login
   	@omniauth = request.env['omniauth.auth']
   	if User.find_by(uid: @omniauth[:uid]).nil?
@@ -49,33 +50,39 @@ class UsersController < ApplicationController
 	end
   end
 
-  def grant_streamer
-    user_params = params.require(:user).permit(:screen_name, :game, :movie)
-    t_user = TClient.tclient.user(user_params[:screen_name])
-    find_user = User.find_by_uid(t_user.id.to_s)
-    if t_user.nil?
+  def manage_perm
+    user_params = params.require(:user).permit(:screen_name, :gmod, :streamer)
+    twitter_user = TClient.tclient.user(user_params[:screen_name])
+
+    if twitter_user.nil?
       flash[:danger] = "Данного твиттерского #{user_params[:screen_name]} не существует!"
-    elsif find_user.nil?
-      new_user = User.create { |user|
-        user.uid = t_user.id
-        user.name = t_user.name
-        user.screen_name = t_user.screen_name
-        user.profile_image_url = t_user.profile_image_url.to_s
-        user.streamer = 1
-      }
-      key = Key.create(uid: new_user.id, streamer: new_user.name, game: user_params[:game] || "Boku no Pico", movie: user_params[:movie] || "Boku no Pico", key: SecureRandom.uuid)
-      flash[:info] = "Новый стример создан! Пусть сюда зайдет через твиттер."
-    elsif find_user.streamer == 1
-      if Key.present.find_by_uid(find_user.id).nil?
-        key = Key.create(uid: find_user.id, streamer: find_user.name, game: user_params[:game] || "Boku no Pico", movie: user_params[:movie] || "Boku no Pico", key: SecureRandom.uuid)
+    else
+      user = User.find_by_uid(twitter_user.id.to_s)
+      if user.nil?
+        user = User.create( uid: twitter_user.id, name: twitter_user.name, screen_name: twitter_user.screen_name, profile_image_url: twitter_user.profile_image_url.to_s, streamer: user_params[:streamer] || 1, gmod: user_params[:gmod] || 0)
+        key = Key.create(uid: user.id, streamer: user.name, key: SecureRandom.uuid)
+      else
+        key = Key.create(uid: user.id, streamer: user.name, key: SecureRandom.uuid) if user.streamer == "0" && user_params[:streamer] == 1 && Key.present.find_by_uid(user.id).nil?
+        user.streamer = user_params[:streamer] || 1
+        user.gmod = user_params[:gmod] || 0
+        user.save
         flash[:info] = "Права обновлены."
       end
-    elsif find_user.streamer == 0
-      find_user.streamer = 1
-      find_user.save
-      key = Key.create(uid: find_user.id, streamer: find_user.name, game: user_params[:game] || "Boku no Pico", movie: user_params[:movie] || "Boku no Pico", key: SecureRandom.uuid) if Key.present.find_by_uid(find_user.id).nil?
-      key.save if Key.present.find_by_uid(find_user.id).nil?
-      flash[:info] = "Права обновлены."
+    end
+
+    redirect_to home_url
+
+  end
+
+
+  def remove_streamer
+    user_params = params.require(:user).permit(:id)
+    user = User.find(user_params[:id])
+    if user.nil?
+      flash[:danger] = "Пользователя не существует"
+    else
+      user.update(streamer: 0)
+      Key.update(uid: user.uid, expires: DateTime.now)
     end
     redirect_to home_url
   end

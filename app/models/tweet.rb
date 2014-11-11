@@ -6,7 +6,7 @@ class Tweet < ActiveRecord::Base
 
   def let_me_tweet
     if self.tipe == 0
-      self.comment = "Скоро домой" + self.comment
+      self.comment = "Стрим на #omcktv || " + self.comment
     end
     TClient.tclient.update( self.comment )
   end

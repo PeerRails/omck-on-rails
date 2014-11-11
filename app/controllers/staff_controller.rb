@@ -8,10 +8,12 @@ class StaffController < ApplicationController
     @channels = Channel.find_twitch
     @keys_guests = Key.present.guests
     @keys_streamers = Key.present.streamers
+    @users = User.staff
 
     if @user_key.nil?
       @user_key = Key.new(uid: @session["id"], guest: false, streamer: @session["name"])
     end
+
     @channel = Channel.new
     @tweet = Tweet.new
     @key = Key.new(guest: true)

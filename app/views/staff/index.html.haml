@@ -41,6 +41,9 @@
               %a{"data-toggle" => "tab", href: "#keys-guest", role: "tab"} Гости
             %li{:role => "presentation"}
               %a{"data-toggle" => "tab", href: "#keys-streamers", role: "tab"} Стримеры
+            - if @session["gmod"] == "1"
+              %li{:role => "presentation"}
+                %a{"data-toggle" => "tab", href: "#gmod", role: "tab"} Админка
             %li{class: "pull-right"}
               =link_to "Выход", logout_path
         .panel-body.tab-content
@@ -125,6 +128,8 @@
                   %b Фильм
                 %td
                   %b Действителен до
+                %td
+                  %b Создан
                 - if @session["gmod"] == "1"
                   %td
                     %b Действо
@@ -135,6 +140,7 @@
                     %td= key.game
                     %td= key.movie
                     %td= key.expires
+                    %td= key.created_at.strftime("%Y-%m-%d")
                     - if @session["gmod"] == "1"
                       %td
                         = link_to "Удалить", home_expire_key_path(id: key.id), method: "post"
@@ -142,7 +148,7 @@
             %h2 Ключики действующие (стримеров)
             - if @session["gmod"] == "1"
               .btn.btn-success#create-streamer-btn{onclick: "showStreamerForm();"} Создать Ключ Для Стримера
-              = bootstrap_form_for @new_streamer, html: {id: "create-streamer", style: "display: none;"}, :url => url_for(:action => 'grant_streamer', :controller => 'users'), :method => 'post' do |f|
+              = bootstrap_form_for @new_streamer, html: {id: "create-streamer", style: "display: none;"}, :url => url_for(:action => 'manage_perm', :controller => 'users'), :method => 'post' do |f|
                 = f.text_field :screen_name, required: true,  label: "Никнейм стримера (вписывать без @)"
                 %br/
                 = f.submit "Дать права", class: "btn btn-success"
@@ -165,6 +171,8 @@
                   %b Фильм
                 %td
                   %b Действителен до
+                %td
+                  %b Создан
                 - @keys_streamers.each_with_index do |key, i|
                   %tr
                     %td= i+1
@@ -172,3 +180,35 @@
                     %td= key.game
                     %td= key.movie
                     %td= key.expires
+                    %td= key.created_at.strftime("%Y-%m-%d")
+                    - if @session["gmod"] == "1"
+                      %td
+                        = link_to "Испарить ключ", home_expire_key_path(id: key.id), method: "post"
+          - if @session["id"] == "1" || @session["id"] == "2"
+            #gmod.tab-pane
+              %h2 Админка
+              %table.table
+                %tbody
+                  %tr
+                  %td
+                    %b Имя
+                  %td
+                    %b Стример
+                  %td
+                    %b Админ
+                  %td
+                    %b Twitter
+                  - @users.each do |user|
+                    %tr
+                      %td= user.name
+                      %td
+                        - if user.streamer == 1
+                          =link_to tag_label("Снять права", :danger), home_remove_streamer_path(user: {id: user.id}), method: "post"
+                        - else
+                          =link_to tag_label("Выдать права", :success), home_manage_perm_path(user: {screen_name: user.screen_name, streamer: 1, gmod: user.gmod}), method: "post"
+                      %td
+                        - if user.gmod == 1
+                          =link_to tag_label("Снять права", :danger), home_manage_perm_path(user: {screen_name: user.screen_name, streamer: user.streamer, gmod: 0}), method: "post"
+                        - else
+                          =link_to tag_label("Выдать права", :success), home_manage_perm_path(user: {screen_name: user.screen_name, streamer: user.streamer, gmod: 1}), method: "post"
+                      %td= link_to "@#{user.screen_name}", "http://twitter.com/#{user.screen_name}"
