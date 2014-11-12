@@ -4,7 +4,7 @@ class StreamsController < ApplicationController
 	live = ReadCache.redis.lrange("live_channel_list", 0, -1)
 	lives = []
 	live.each do |s|
-	viewers = ReadCache.redis.get("viewers_#{s}")
+	  viewers = ReadCache.redis.get("viewers_#{s}")
     channel_info = Channel.where(:channel => s).last
     if !channel_info.nil?
   	  lives << {"channel" => s,

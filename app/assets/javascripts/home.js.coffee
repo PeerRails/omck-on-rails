@@ -20,15 +20,19 @@
         ChangeMenuItem(li, "", 0)
     else
       list.map (chan) ->
+        if chan.live
+          chan.live = "LIVE"
+        else
+          chan.live = ""
         #console.log chan.channel in menu_list
         if chan.channel not in menu_list and chan.channel not in official
           #console.log "NO"
-          AddMenuChannel chan.channel, chan.streamer, chan.status, chan.viewers, chan.title
+          AddMenuChannel chan.channel, chan.streamer, chan.live, chan.viewers, chan.title
         else if chan.channel in menu_list
-          ChangeMenuChannel chan.channel, chan.status, chan.viewers, chan.title
+          ChangeMenuChannel chan.channel, chan.live, chan.viewers, chan.title
           #console.log "YES"
         else if chan.channel in official
-          ChangeMenuChannel chan.channel, chan.status, chan.viewers, chan.title
+          ChangeMenuChannel chan.channel, chan.live, chan.viewers, chan.title
       official.map (chan) ->
         if chan not in channels
           ChangeMenuChannel chan, "", 0, ""
@@ -40,7 +44,7 @@
 #@NullOfficial = (channel) ->
 
 @ChangeMenuChannel = (channel, live, viewers, title) ->
-  $("#live-"+channel).html(live.toUpperCase())
+  $("#live-"+channel).html(live)
   $("#viewers-"+channel).html(viewers)
   $("p#title-"+channel).html title
 
@@ -51,7 +55,7 @@
                 '<i class="fa fa-eye" id="viewers-'+channel+'">'+viewers+'</i>'+
                 '</span>'+
                 streamer+
-                '<span class="label label-danger pull-right" id="live-'+channel+'"> '+live.toUpperCase()+'</span>'+
+                '<span class="label label-danger pull-right" id="live-'+channel+'"> '+live+'</span>'+
                 '<p id="title-'+channel+'">'+
                 title+
                 '</p>'+
