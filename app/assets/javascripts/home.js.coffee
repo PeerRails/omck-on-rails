@@ -5,34 +5,37 @@
 
 @MakeStreamMenu = ->
   $.getJSON "/channel/live", (list) ->
-    $("#stream-count").html list.length
     menu_list = []
     live_list = []
     official = ["mc_mc_mc_omck","hdgames","hdkinco","omcktv"]
     $("ul#stream-menu a").each (i) ->
       menu_list.push $(this).attr("id") unless typeof ($(this).attr("id")) is "undefined"
       return
-    channels = list.map (i) -> i.channel
     #console.log "List: " + menu_list
     #console.log "List 2: " + channels
-    if list.length is 0
+    if list.error is "nostream"
+      $("#stream-count").html ""
       menu_list.map (li) ->
-        ChangeMenuItem(li, "", 0)
+        ChangeMenuChannel(li, "", 0, "") unless li in official
+        DeleteChannelFromMenu li unless li in official
     else
+      $("#stream-count").html list.length
+      channels = []
       list.map (chan) ->
         if chan.live
-          chan.live = "LIVE"
+          live = "LIVE"
         else
-          chan.live = ""
+          live = ""
+          channels.push chan.channel
         #console.log chan.channel in menu_list
         if chan.channel not in menu_list and chan.channel not in official
           #console.log "NO"
-          AddMenuChannel chan.channel, chan.streamer, chan.live, chan.viewers, chan.title
+          AddMenuChannel chan.channel, chan.streamer, live, chan.viewers, chan.title
         else if chan.channel in menu_list
-          ChangeMenuChannel chan.channel, chan.live, chan.viewers, chan.title
+          ChangeMenuChannel chan.channel, live, chan.viewers, chan.title
           #console.log "YES"
         else if chan.channel in official
-          ChangeMenuChannel chan.channel, chan.live, chan.viewers, chan.title
+          ChangeMenuChannel chan.channel, live, chan.viewers, chan.title
       official.map (chan) ->
         if chan not in channels
           ChangeMenuChannel chan, "", 0, ""
