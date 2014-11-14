@@ -1,15 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.7'
 gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
 gem "puma", '2.9.0'
+gem 'brakeman'
 
 gem 'less-rails'
 gem 'coffee-rails'
-gem 'haml-rails'
 gem 'therubyracer'
 gem 'uglifier'
+
+gem 'haml-rails'
 
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
