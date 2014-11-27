@@ -7,7 +7,7 @@ one:
   game: MyString
   streamer: MyString
   title: MyString
-  type: 
+  service: MyString
 
 two:
   channel: MyString
@@ -16,4 +16,4 @@ two:
   game: MyString
   streamer: MyString
   title: MyString
-  type: 
+  service: MyString

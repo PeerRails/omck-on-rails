@@ -11,37 +11,29 @@
     $("ul#stream-menu a").each (i) ->
       menu_list.push $(this).attr("id") unless typeof ($(this).attr("id")) is "undefined"
       return
-    #console.log "List: " + menu_list
-    #console.log "List 2: " + channels
+    list.map (chan) ->
+      live_list.push chan.channel
+    console.log "Menu List: " + menu_list
+    console.log "Live List: " + live_list
     if list.error is "nostream"
       $("#stream-count").html ""
       menu_list.map (li) ->
-        ChangeMenuChannel(li, "", 0, "") unless li in official
         DeleteChannelFromMenu li unless li in official
+        ChangeMenuChannel menu_list[i], "", 0, "" unless li not in official
     else
       $("#stream-count").html list.length
-      channels = []
       list.map (chan) ->
-        if chan.live
-          live = "LIVE"
-        else
-          live = ""
-          channels.push chan.channel
-        #console.log chan.channel in menu_list
-        if chan.channel not in menu_list and chan.channel not in official
-          #console.log "NO"
-          AddMenuChannel chan.channel, chan.streamer, live, chan.viewers, chan.title
-        else if chan.channel in menu_list
-          ChangeMenuChannel chan.channel, live, chan.viewers, chan.title
-          #console.log "YES"
-        else if chan.channel in official
-          ChangeMenuChannel chan.channel, live, chan.viewers, chan.title
-      official.map (chan) ->
-        if chan not in channels
-          ChangeMenuChannel chan, "", 0, ""
-      menu_list.map (chan) ->
-        if chan not in channels
-          DeleteChannelFromMenu chan
+        if chan.channel in official
+          ChangeMenuChannel chan.channel, "LIVE", chan.viewers, chan.streamer
+        else if chan.channel not in menu_list
+          AddMenuChannel chan.channel, chan.streamer, "LIVE", chan.viewers, chan.title
+      if menu_list != []
+        menu_list.each (i) ->
+          if menu_list[i] not in live_list
+            DeleteChannelFromMenu menu_list[i]
+
+
+
 
 
 #@NullOfficial = (channel) ->
@@ -49,7 +41,7 @@
 @ChangeMenuChannel = (channel, live, viewers, title) ->
   $("#live-"+channel).html(live)
   $("#viewers-"+channel).html(viewers)
-  $("p#title-"+channel).html title
+  $("#title-"+channel).html title
 
 @AddMenuChannel = (channel, streamer, live, viewers, title) ->
 
@@ -187,7 +179,7 @@ $(document).ready ->
     setSite()
     MakeStreamMenu()
     refreshId = setInterval(->
-      UpdateChannel @current_channel
+      #UpdateChannel @current_channel
       MakeStreamMenu()
       return
     , 5000)

@@ -4,10 +4,10 @@ one:
   uid: 1
   author: MyString
   comment: MyText
-  type: 1
+  tipe: 1
 
 two:
   uid: 1
   author: MyString
   comment: MyText
-  type: 1
+  tipe: 1
