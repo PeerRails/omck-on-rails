@@ -42,15 +42,16 @@ Channel.create([{
     streamer: 'OmckTV Twitch',
     title: 'OmckTV Twitch'
   }])
-User.create([{
-        uid: "361122700",
-        screen_name: "omckws",
-        profile_image_url: "http://pbs.twimg.com/profile_images/50108201762304...",
-        name: "Peer on Puma Hyper ",
-        gmod: 1,
-        hd_channel: "",
-        streamer: 1,
-        twitch: ""
+User.create([
+  {
+            uid: "361122700",
+            screen_name: "omckws",
+            profile_image_url: "http://pbs.twimg.com/profile_images/50108201762304...",
+            name: "Peer on Puma Hyper ",
+            gmod: 1,
+            hd_channel: "",
+            streamer: 1,
+            twitch: ""
     },
     {
             uid: "1423600716",
@@ -61,8 +62,17 @@ User.create([{
             hd_channel: "",
             streamer: 0,
             twitch: ""
-        }])
-Tweet.create([{comment: "Kokok", tipe:1}])
+        },
+        {
+            uid: "953869526",
+            screen_name: "OmckTV",
+            profile_image_url: "http://pbs.twimg.com/profile_images/378800000297104089/818e06f5634e647cea42f9d98ce92c08_normal.jpeg",
+            name: "OmckTV Live Updater",
+            gmod: 0,
+            hd_channel: "",
+            streamer: 0,
+            twitch: ""
+            }])
 Key.create([{
   uid: "1",
   key: "420MLG",
