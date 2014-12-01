@@ -13,13 +13,13 @@
       return
     list.map (chan) ->
       live_list.push chan.channel
-    console.log "Menu List: " + menu_list
-    console.log "Live List: " + live_list
-    if list.error is "nostream"
+    #console.log "Menu List: " + menu_list
+    #console.log "Live List: " + live_list
+    if list.length is 0
       $("#stream-count").html ""
       menu_list.map (li) ->
         DeleteChannelFromMenu li unless li in official
-        ChangeMenuChannel menu_list[i], "", 0, "" unless li not in official
+        ChangeMenuChannel li, "", 0, "" unless li not in official
     else
       $("#stream-count").html list.length
       list.map (chan) ->
@@ -27,10 +27,12 @@
           ChangeMenuChannel chan.channel, "LIVE", chan.viewers, chan.streamer
         else if chan.channel not in menu_list
           AddMenuChannel chan.channel, chan.streamer, "LIVE", chan.viewers, chan.title
-      if menu_list != []
-        menu_list.each (i) ->
-          if menu_list[i] not in live_list
-            DeleteChannelFromMenu menu_list[i]
+      if menu_list.length != 0
+        menu_list.map (chan) ->
+          if (chan not in live_list) and (chan not in official)
+            DeleteChannelFromMenu chan
+          if (chan not in live_list) and (chan in official)
+            ChangeMenuChannel chan, "", 0, ""
 
 
 
@@ -152,10 +154,10 @@
 @toggleBackground = ->
   bgStatus = $("#bg-hide").css("display")
   if bgStatus is "none"
-    console.log "show"
+    #console.log "show"
     $("#bg-hide").show()
   else
-    console.log "hide"
+    #console.log "hide"
     $("#bg-hide").hide()
   return
 

@@ -15,7 +15,7 @@ class NginxController < ApplicationController
         update_chan.live = true
         update_chan.game = streamer.game if channel == "hdgames"
         update_chan.game = streamer.movie if channel == "hdkinco"
-        update_chan.title = streamer.streamer
+        update_chan.title = streamer.game
         update_chan.save
         render json: error("200"), status: 200
       end

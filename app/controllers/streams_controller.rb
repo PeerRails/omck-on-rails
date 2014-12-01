@@ -19,7 +19,7 @@ class StreamsController < ApplicationController
     if !lives.empty?
 	  render json: lives.to_json
     else
-      render json: error("nostream")
+      render json: []
     end
   end
 
