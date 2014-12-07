@@ -8,9 +8,12 @@ class NginxController < ApplicationController
       if streamer.nil?
         render json: error("403"), status: 403
       else
-        channel = "hdgames"
+
+        #channel = "hdgames"
+        raise params_key
         channel = "hdgames" if (params_key[:app] == "live" and !list.include? "hdgames")
         channel = "hdkinco" if (params_key[:app] == "cinema" and !list.include? "hdkinco")
+
         ReadCache.redis.rpush "live_channel_list", channel
         update_chan = Channel.where(channel: channel).last
         update_chan.live = true
@@ -75,6 +78,6 @@ class NginxController < ApplicationController
 
   private
   def params_key
-  	params.permit(:key, :name, :path)
+  	params.permit(:key, :name, :path, :app, :addr, :call, :type)
   end
 end
