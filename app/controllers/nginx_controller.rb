@@ -12,7 +12,7 @@ class NginxController < ApplicationController
         channel = "hdkinco" if (params_key[:app] == "cinema" and !list.include? "hdkinco")
         ReadCache.redis.rpush "live_channel_list", channel
         update_chan = Channel.where(channel: channel).last
-        update_chan.live = true
+        #update_chan.live = true
         update_chan.game = streamer.game if channel == "hdgames"
         update_chan.game = streamer.movie if channel == "hdkinco"
         update_chan.title = streamer.game
