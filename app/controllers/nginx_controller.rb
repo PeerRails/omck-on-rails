@@ -10,7 +10,7 @@ class NginxController < ApplicationController
       else
 
         #channel = "hdgames"
-        raise params_key
+        #raise params_key
         channel = "hdgames" if (params_key[:app] == "live" and !list.include? "hdgames")
         channel = "hdkinco" if (params_key[:app] == "cinema" and !list.include? "hdkinco")
 
