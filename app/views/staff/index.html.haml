@@ -140,7 +140,7 @@
                     %td= key.game
                     %td= key.movie
                     %td= key.expires
-                    %td= key.created_at.strftime("%Y-%m-%d")
+                    %td= key.created_at
                     - if @session["gmod"] == "1"
                       %td
                         = link_to "Удалить", home_expire_key_path(id: key.id), method: "post"
