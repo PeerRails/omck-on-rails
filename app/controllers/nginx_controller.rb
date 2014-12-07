@@ -8,14 +8,15 @@ class NginxController < ApplicationController
       if streamer.nil?
         render json: error("403"), status: 403
       else
+        channel = "hdgames"
         channel = "hdgames" if (params_key[:app] == "live" and !list.include? "hdgames")
         channel = "hdkinco" if (params_key[:app] == "cinema" and !list.include? "hdkinco")
         ReadCache.redis.rpush "live_channel_list", channel
         update_chan = Channel.where(channel: channel).last
-        #update_chan.live = true
+        update_chan.live = true
         update_chan.game = streamer.game if channel == "hdgames"
         update_chan.game = streamer.movie if channel == "hdkinco"
-        #update_chan.title = streamer.game
+        update_chan.title = streamer.game
         update_chan.save
         render json: error("200"), status: 200
       end
