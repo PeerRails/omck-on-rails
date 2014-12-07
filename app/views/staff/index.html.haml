@@ -7,7 +7,7 @@
             А мы тут стримами балуемся,
             =@session["name"]
         .page-body
-          Здесь находится пока нихуя, работаю над этим.
+          %iframe{:allowfullscreen => "", :frameborder => "0", :height => "281", :mozallowfullscreen => "", :src => "//player.vimeo.com/video/112802555", :webkitallowfullscreen => "", :width => "500"}
     .row.notifications.center-block#flash
       = bootstrap_flash
     .col-md-3#tweet-panel
@@ -180,7 +180,7 @@
                     %td= key.game
                     %td= key.movie
                     %td= key.expires
-                    %td= key.created_at.strftime("%Y-%m-%d")
+                    %td= key.created_at
                     - if @session["gmod"] == "1"
                       %td
                         = link_to "Испарить ключ", home_expire_key_path(id: key.id), method: "post"
