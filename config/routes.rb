@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'home' => 'staff#index'
 
   #API
+  get 'channel/move_record' => 'nginx#move_record'
   get 'channel/live' => 'streams#get_live'
   get 'channel/all' => 'streams#get_all'
   get 'channel/:channel' => 'streams#get_channel'
@@ -19,7 +20,6 @@ Rails.application.routes.draw do
   get 'auth_stream' => 'nginx#get_key'
   get 'incr_stream' => 'nginx#increase_viewer_count'
   get 'decr_stream' => 'nginx#decrease_viewer_count'
-  get 'channel/move_record' => 'nginx#move_record'
   get 'end_cinema' => 'nginx#end_cinema'
 
   #Keys

@@ -33,7 +33,9 @@ class NginxController < ApplicationController
       streamer = Key.where(key: params_key[:key]).last
       if params_key[:path]
         list = ReadCache.redis.lrange("live_channel_list", 0, -1)
-        ReadCache.redis.lrem "live_channel_list", 0, "hdgames" if (list.include? "hdgames")
+        if list.include? "hdgames"
+          ReadCache.redis.lrem "live_channel_list", 0, "hdgames"
+        end
         if streamer.nil?
           File.delete(params_key[:path])
         else
