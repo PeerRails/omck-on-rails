@@ -7,41 +7,6 @@ class ApplicationController < ActionController::Base
   	request.remote_ip
   end
 
-  def auth
-    ReadCache.redis.hgetall("session_id_#{session[:session_id]}")
-  end
-
-  def session_create user
-    r_session = {
-    "id" => user.id,
-		"name" => user.name,
-		"screen_name" => user.screen_name,
-		"uid" => user.uid,
-		"image" => user.profile_image_url,
-    "gmod" => user.gmod,
-    "streamer" => user.streamer,
-    "ip" => remote_ip,
-    "session_id" => session[:session_id]
-  	}
-
-    ReadCache.redis.mapped_hmset("session_id_#{session[:session_id]}", r_session)
-  end
-
-  def session_update
-    if auth.empty? || auth.nil?
-      flash[:warning] = "Ошибка нахождения сессии!"
-    else
-      user = User.find(auth["id"])
-      session_destroy
-      session_create user
-    end
-  end
-
-  def session_destroy
-  	ReadCache.redis.del("session_id_#{session[:session_id]}")
-  	session[:oauth] = nil
-  end
-
 	def error code
 		case code
 		when "404"
@@ -61,7 +26,7 @@ class ApplicationController < ActionController::Base
 	end
 
   def check_session
-    @session = auth
+    @session = nil
     if @session.empty? || @session.nil?
       redirect_to '/auth/twitter'
     end
