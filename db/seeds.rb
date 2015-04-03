@@ -71,7 +71,6 @@ User.create([
             profile_image_url: "http://pbs.twimg.com/profile_images/378800000297104089/818e06f5634e647cea42f9d98ce92c08_normal.jpeg",
             name: "Witter Shine",
             gmod: 0,
-            hd_channel: "",
             streamer: 0
         },
         {
@@ -80,7 +79,6 @@ User.create([
             profile_image_url: "http://pbs.twimg.com/profile_images/378800000297104089/818e06f5634e647cea42f9d98ce92c08_normal.jpeg",
             name: "OmckTV Live Updater",
             gmod: 0,
-            hd_channel: "",
             streamer: 0
             }])
 Key.create([{

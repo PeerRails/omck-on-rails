@@ -1,47 +1,52 @@
 class StreamsController < ApplicationController
 
   def get_live
-	live = ReadCache.redis.lrange("live_channel_list", 0, -1)
-	lives = []
-	live.each do |s|
-	  viewers = ReadCache.redis.get("viewers_#{s}")
-    channel_info = Channel.where(:channel => s).last
-    if !channel_info.nil?
-  	  lives << {"channel" => s,
-          "viewers" => viewers,
-          "live" => channel_info.live,
-          "game" => channel_info.game,
-          "title" => channel_info.title,
-          "streamer" => channel_info.streamer,
-          "service" => channel_info.service}
-      end
-		end
+    lives = []
+    Channel.live.each do |channel|
+      lives << channel_info(channel)
+    end
+
     if !lives.empty?
-	  render json: lives.to_json
+	  render json: lives
     else
       render json: []
     end
   end
 
   def get_all
-    channels = Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service).all
-    render json: channels.to_json
+    channels = []
+    Channel.all.each do |channel|
+      channels << channel_info(channel)
+    end
+    render json: channels
   end
 
   def get_channel
-    channel = Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service)
+    channel = channel_info Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service)
                      .where(:channel => params_channel[:channel])
                      .last
     if channel.nil?
       render json: error("404")
     else
-      render json: channel.to_json
+      render json: channel
     end
   end
 
   private
   def params_channel
-  	params.permit(:channel)
+  	params.permit(:channel, :service)
+  end
+
+  private
+  def channel_info chan
+    return {"channel" => chan.channel,
+        "viewers" => chan.viewers,
+        "live" => chan.live,
+        "game" => chan.game,
+        "title" => chan.title,
+        "streamer" => chan.streamer,
+        "service" => chan.service}
+
   end
 
 end

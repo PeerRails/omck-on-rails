@@ -4,7 +4,7 @@ class ChannelsController < ApplicationController
 
   def new
     chan = params.require(:channel).permit(:channel, :streamer)
-    if @session["gmod"] == "1"
+    if current_user.streamer == 1 || current_user.gmod == 1
       @channel = Channel.new(channel: chan["channel"], streamer: chan["streamer"])
       if @channel.save
         flash[:success] = "Канал #{@channel.channel} добавлен!"
@@ -16,8 +16,9 @@ class ChannelsController < ApplicationController
     end
     redirect_to home_url
   end
+
 def edit
-  if @session["gmod"] == "1"
+  if current_user.gmod == 1 || current_user.streamer == 1
     channel = params.require(:channel).permit(:channel, :streamer)
     @channel = Channel.where(channel: channel["channel"] ).last
     @channel.streamer = @channel["streamer"]
@@ -34,7 +35,7 @@ def edit
 end
 
 def delete
-  if @session["gmod"] == "1"
+  if current_user.gmod == 1 || current_user.streamer == 1
     channel = params.permit(:id)
     @channel = Channel.find(channel["id"])
     if @channel.delete

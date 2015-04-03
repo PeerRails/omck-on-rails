@@ -1,5 +1,5 @@
 %h2 Каналы
-- if @session["gmod"] == "1"
+- if current_user.gmod == 1
   .btn.btn-success#create-channel-btn{onclick: "showChannelForm();"} Создать Канал
   =render 'channels/new'
   %br
@@ -23,7 +23,7 @@
       %b Игра
     %td
       %b Статус
-    - if @session["gmod"] == "1"
+    - if current_user.gmod == 1
       %td
         %b Действо
     - @channels.each_with_index do |channel, i|
@@ -38,6 +38,6 @@
             = tag_label('Стрим', :success)
           - else
             = tag_label('Офлайн', :danger)
-        - if @session["gmod"] == "1"
+        - if current_user.gmod == 1
           %td
             = link_to "Удалить", home_channel_delete_path(id: channel.id), method: "post"

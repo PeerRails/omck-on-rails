@@ -10,9 +10,7 @@ class UsersController < ApplicationController
 	  				:screen_name => @omniauth[:info][:nickname],
 	  				:profile_image_url => @omniauth[:info][:image],
 	  				:gmod => false,
-	  				:hd_channel => '',
 	  				:streamer => false,
-	  				:twitch => '',
 	  				:access_token => @omniauth[:credentials][:token],
 	  				:secret_token => @omniauth[:credentials][:secret],
 	  				:login_last => DateTime.now,
@@ -20,7 +18,7 @@ class UsersController < ApplicationController
 	  			)
 	  		if @user.save
 	  			flash[:info] = "Добро пожаловать, #{@user.name}!"
-				session_create @user
+          create_session(@user, session[:session_id])
 	  			redirect_to home_url
 	  		else
 	  			flash[:warning] = "Ошибка авторизации, попробуйте снова"
@@ -41,7 +39,7 @@ class UsersController < ApplicationController
 		@user.secret_token = @omniauth[:credentials][:secret]
 		if @user.save
 			flash[:info] = "Добро пожаловать снова, #{@user.name}!"
-			session_create @user
+      create_session(@user, session[:session_id])
 			redirect_to home_url
 		else
 			flash[:warning] = "Ошибка авторизации, попробуйте снова"
@@ -88,7 +86,7 @@ class UsersController < ApplicationController
   end
 
   def logout
-  	session_destroy
+  	reset_session
   	redirect_to root_url
   end
 end

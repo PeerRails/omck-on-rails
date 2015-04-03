@@ -8,7 +8,6 @@ class CreateChannelsAndUsers < ActiveRecord::Migration
       t.string :streamer, :default => "McDwarf"
       t.string :title, :default => "Boku wa Tomodachi ga Sekai"
       t.string :service, :default => "twitch"
-      t.string :twitch
 
       t.timestamps
       t.index :channel
@@ -19,12 +18,13 @@ class CreateChannelsAndUsers < ActiveRecord::Migration
       t.string :screen_name, :default => "Null", :null => false
       t.string :profile_image_url
       t.string :name, :default => "Anon"
-      t.boolean :gmod, :default => false
-      t.boolean :streamer, :default => false
+      t.integer :gmod, :default => 0
+      t.integer :streamer, :default => 0
       t.date     :login_last
       t.inet     :last_ip
       t.string   :access_token
       t.string   :secret_token
+      t.string :twitch
 
 
       t.timestamps

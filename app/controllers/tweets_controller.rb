@@ -1,10 +1,11 @@
 class TweetsController < ApplicationController
   before_filter :check_session
+  attr_accessor :tipe
 
   def tweet
 
-    @input = params.require(:tweet).permit(:comment, :tipe)
-    @new_tweet = Tweet.new(author: @session["name"], comment: @input["comment"], own: @input["tipe"], user_id: @session["id"])
+    @input = params.require(:tweet).permit(:comment, :own)
+    @new_tweet = Tweet.new(comment: @input["comment"], own: @input["own"], user_id: current_user.id)
 
     if @new_tweet.save
       flash[:success] = "Успешно послан твит!"

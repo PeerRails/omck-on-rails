@@ -26,8 +26,7 @@ class ApplicationController < ActionController::Base
 	end
 
   def check_session
-    @session = nil
-    if @session.empty? || @session.nil?
+    if !current_user
       redirect_to '/auth/twitter'
     end
   end
@@ -36,6 +35,19 @@ class ApplicationController < ActionController::Base
       if remote_ip != "127.0.0.1"
         render json: error("403"), status: 403
       end
+    end
+
+    def create_session(user, session_id)
+      Session.create(:user_id => user.id, :session_id => session_id, :expires => DateTime.now + 60, :ip => user.last_ip, :guest => false )
+    end
+
+    def current_user=(user)
+            @current_user = user
+    end
+
+    def current_user
+            current_session ||= Session.find_by_session_id(session[:session_id])
+            current_user ||= User.find(current_session.user_id) if !current_session.nil?
     end
 
 end

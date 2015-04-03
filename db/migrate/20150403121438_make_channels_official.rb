@@ -8,7 +8,9 @@ class MakeChannelsOfficial < ActiveRecord::Migration
     ]
     pairs.each do |pair|
       chan = Channel.where(pair).last
-      chan.update_attributes(official: true)
+      if !chan.nil?
+        chan.update_attributes(official: true)
+      end
     end
   end
 end

@@ -5,7 +5,7 @@
         .page-header
           %h1
             А мы тут стримами балуемся,
-            =@session["name"]
+            =current_user.name
         .page-body
           %iframe{:frameborder => "no", :height => "166", :scrolling => "no", :src => "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/173094997&color=ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false", :width => "100%"}
     .row.notifications.center-block#flash
@@ -14,9 +14,9 @@
       .panel.panel-default
         .panel-body
           %h4.text-danger Последние 10 Твитов
-          - if @session["streamer"] == "1" || @session["gmod"] == "1"
+          - if current_user.gmod == 1 || current_user.streamer == 1
             =bootstrap_form_for @tweet, :url => url_for(:action => 'tweet', :controller => 'tweets'), :method => 'post' do |f|
-              = f.check_box :tipe, input_html: {id: "ttype", :checked => false}, label: "Свое сообщение?"
+              = f.check_box :own, input_html: {id: "ttype", :checked => false}, label: "Свое сообщение?"
               = f.text_area :comment, input_html: { maxlength: 140, :rows => 5, cols: 45, id: "tweettext" },  :include_blank => false, label: "Твит"
               %h3#count.text-success 99
               = f.submit "Твитнуть!", class: "btn btn-success"
@@ -24,7 +24,7 @@
           - if !@tweets.empty?
             - @tweets.each do |tweet|
               .list-group-item
-                %b.text-success= tweet.author
+                %b.text-success= tweet.user.name
                 %b :
                 = tweet.comment
           - else
@@ -41,7 +41,7 @@
               %a{"data-toggle" => "tab", href: "#keys-guest", role: "tab"} Гости
             %li{:role => "presentation"}
               %a{"data-toggle" => "tab", href: "#keys-streamers", role: "tab"} Стримеры
-            - if @session["gmod"] == "1"
+            - if current_user.gmod == 1
               %li{:role => "presentation"}
                 %a{"data-toggle" => "tab", href: "#gmod", role: "tab"} Админка
             %li{class: "pull-right"}
@@ -86,11 +86,11 @@
                 %b Далее в поле ключ (key) вставляем ваш ключ:
                 .text-success
                   omcktv?key=#{@user_key.key}
-              - elsif @session["streamer"] == "1" || @session["gmod"] == "1"
+              - elsif current_user.gmod == 1 || current_user.streamer == 1
                 %h3 Создать себе ключ
                 %p У Вас есть права, значит вы можете стримить! Но ключа-то нет, так что создаем себе
                 = bootstrap_form_for @user_key, :url => url_for(:action => 'make_key', :controller => 'keys'), :method => 'post' do |f|
-                  = f.hidden_field :uid, required: true
+                  = f.hidden_field :user_id, required: true
                   = f.text_field :game, required: true,  label: "Игра"
                   = f.text_field :movie, required: false,  label: "Кинцо"
                   = f.text_field :streamer, required: true,  label: "Имя стримера"
@@ -100,7 +100,7 @@
             = render 'channels/index'
           #keys-guest.tab-pane
             %h2 Ключики действующие (гостевые)
-            - if @session["gmod"] == "1"
+            - if current_user.gmod == 1
               .btn.btn-success#create-key-btn{onclick: "showKeyForm();"} Создать Ключ Для Гостя
               = bootstrap_form_for @key, html: {id: "create-key", style: "display: none;"}, :url => url_for(:action => 'make_key', :controller => 'keys'), :method => 'post' do |f|
                 = f.hidden_field :guest, required: true
@@ -130,7 +130,7 @@
                   %b Действителен до
                 %td
                   %b Создан
-                - if @session["gmod"] == "1"
+                - if current_user.gmod == 1
                   %td
                     %b Действо
                 - @keys_guests.each_with_index do |key, i|
@@ -141,12 +141,12 @@
                     %td= key.movie
                     %td= key.expires
                     %td= key.created_at
-                    - if @session["gmod"] == "1"
+                    - if current_user.gmod == 1
                       %td
                         = link_to "Удалить", home_expire_key_path(id: key.id), method: "post"
           #keys-streamers.tab-pane
             %h2 Ключики действующие (стримеров)
-            - if @session["gmod"] == "1"
+            - if current_user.gmod == 1
               .btn.btn-success#create-streamer-btn{onclick: "showStreamerForm();"} Создать Ключ Для Стримера
               = bootstrap_form_for @new_streamer, html: {id: "create-streamer", style: "display: none;"}, :url => url_for(:action => 'manage_perm', :controller => 'users'), :method => 'post' do |f|
                 = f.text_field :screen_name, required: true,  label: "Никнейм стримера (вписывать без @)"
@@ -181,10 +181,10 @@
                     %td= key.movie
                     %td= key.expires
                     %td= key.created_at
-                    - if @session["gmod"] == "1"
+                    - if current_user.gmod == 1
                       %td
                         = link_to "Испарить ключ", home_expire_key_path(id: key.id), method: "post"
-          - if @session["id"] == "1" || @session["id"] == "2"
+          - if current_user.id == 1 || current_user.id == 2
             #gmod.tab-pane
               %h2 Админка
               %table.table
