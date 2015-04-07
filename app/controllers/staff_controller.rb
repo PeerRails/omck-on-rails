@@ -1,5 +1,5 @@
 class StaffController < ApplicationController
-  before_filter :check_session
+  before_filter :auth
 
   def index
     @tweets = Tweet.select(:comment, :user_id).order(id: :desc).limit(10)

@@ -1,5 +1,5 @@
 class KeysController < ApplicationController
-  before_filter :check_session
+  before_filter :auth
   def generate_key
     return SecureRandom.uuid
   end

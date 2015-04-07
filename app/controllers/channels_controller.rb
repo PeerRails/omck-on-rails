@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_filter :check_session, :only => [:new, :edit, :delete]
+  before_filter :auth, :only => [:new, :edit, :delete]
 
 
   def new

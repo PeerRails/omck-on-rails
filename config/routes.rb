@@ -24,7 +24,6 @@ Rails.application.routes.draw do
 
   #Keys
   get 'home/remake_key' => 'keys#remake_key'
-  get 'guestroom' => 'keys#guest_room'
   post 'home/make_key' => 'keys#make_key'
   post 'home/change_key' => 'keys#change_key'
   post 'home/expire_key' => 'keys#expire_key'
@@ -32,6 +31,8 @@ Rails.application.routes.draw do
   #Pages
   get 'faq' => 'home#faq'
   get 'faq-irc' => 'home#faq_irc'
+  get 'guest' => 'home#guest'
+  post 'guest' => 'home#guest'
 
   #Channel CRUD
   post 'home/channel/new' => 'channels#new'

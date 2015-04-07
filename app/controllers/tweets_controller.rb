@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_filter :check_session
+  before_filter :auth
   attr_accessor :tipe
 
   def tweet

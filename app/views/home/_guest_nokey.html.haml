@@ -1,0 +1,9 @@
+.container
+  .row
+    = bootstrap_flash
+  .row.jumbotron
+    .col-md-4.col-md-offset-4
+      #h1 Введите ключ свой
+      = bootstrap_form_tag url: '/guestroom' do |f|
+        = f.email_field :key, value: 'XXXXXX'
+        = f.submit

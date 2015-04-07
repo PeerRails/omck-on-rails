@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :check_session, except: [:login]
+  before_filter :auth, except: [:login]
   def login
   	@omniauth = request.env['omniauth.auth']
   	if User.find_by(twitter_id: @omniauth[:uid]).nil?
