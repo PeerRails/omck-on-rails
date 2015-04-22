@@ -21,6 +21,9 @@ Rails.application.configure do
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
+  config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+  config.assets.paths << Rails.root.join('lib', 'assets', 'javascripts')
+  config.assets.precompile += %w( .svg .eot .woff .ttf)
 
 
   # Raises error for missing translations

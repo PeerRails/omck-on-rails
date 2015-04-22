@@ -4,7 +4,7 @@ class StaffController < ApplicationController
   def index
     @tweets = Tweet.select(:comment, :user_id).order(id: :desc).limit(10)
     @user_key = Key.present.find_by_user_id(current_user.id)
-    @channels = Channel.find_twitch
+    @channels = Channel.twitch
     @keys_guests = Key.present.guests
     @keys_streamers = Key.present.streamers
     @users = User.staff

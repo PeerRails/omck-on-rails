@@ -6,4 +6,8 @@ class User < ActiveRecord::Base
 
   scope :staff, -> { where('streamer = 1 or gmod = 1') }
 
+  def self.login(omniauth)
+    
+  end
+
 end

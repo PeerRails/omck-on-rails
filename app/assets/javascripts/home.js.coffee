@@ -81,26 +81,26 @@
         $("#stream").html(twitch)
         $("button#viewers").html("Viewers: "+data.viewers)
       when "hd"
-        hd_omck = '<div id="mediaspace"></div>'
         if data.channel is "hdgames"
           omck = "live"
         else
           omck = "cinema"
-        $("#stream").html hd_omck
-        jwplayer("mediaspace").setup
-          flashplayer: "player/player.swf"
-          autostart: "true"
-          autoplay: "true"
-          skin: "player/stormtrooper.zip"
-          loop: "true"
-          dock: "false"
-          icons: "false"
-          file: "omcktv"
-          streamer: "rtmp://hd.omck.tv/"+omck
-          controlbar: "bottom"
-          width: "100%"
-          height: "100%"
-          image: "assets/bg/omck.jpg"
+        $f('stream', 'flowplayer.swf',
+          plugins: 
+            flashls:
+              url: 'flashlsFlowPlayer.swf'
+              hls_maxbufferlength: 20
+            controls:
+              scrubber: false
+              time: false
+          clip:
+            url: 'http://192.168.56.9/hls/live/omcktv.m3u8'
+            autoPlay: true
+            autoBuffering: true
+            live: true
+            provider: 'flashls'
+            urlResolvers: 'flashls'
+            scaling: 'fit').ipad()
       else
         $("#stream").html @hd_omck
     #$("button#viewers").html "Viewers: " + data.viewers

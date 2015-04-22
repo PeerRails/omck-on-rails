@@ -24,17 +24,15 @@ class NginxController < ApplicationController
 
   def move_record
     if params_key[:key]
-      channel = Channel.where(:service => "hd", :channel => "hdgames")
-      channel.update_attributes!(:live => false)
+      channel = Channel.where(:service => "hd", :channel => "hdgames").last
+      channel.toggle!(:live)
       streamer = Key.where(key: params_key[:key]).last
       if params_key[:path]
-        channel = Channel.where(:service => "hd", :channel => "hdgames")
-        channel.update_attributes!(:live => false)
         if streamer.nil?
           File.delete(params_key[:path])
         else
-          #new_file = "/home/prails/Videos/#{streamer.streamer}_-_#{streamer.game.gsub(/\s+/, '_')}_#{DateTime.now.strftime('%Y-%m-%d-%H-%M-%S')}.flv"
-          #File.rename(params_key[:path], new_file)
+          new_file = "/tmp/uploaded/#{streamer.streamer.gsub(/\s+/, '_')}_-_#{streamer.game.gsub(/\s+/, '_')}_#{DateTime.now.strftime('%Y-%m-%d-%H-%M-%S')}.flv"
+          File.rename(params_key[:path], new_file)
         end
       end
       render json: error("200"), status: 200
@@ -45,8 +43,8 @@ class NginxController < ApplicationController
 
   def end_cinema
     if params_key[:key]
-      channel = Channel.where(:service => "hd", :channel => "hdkinco")
-      channel.update_attributes!(:live => false)
+      channel = Channel.where(:service => "hd", :channel => "hdkinco").last
+      channel.toggle!(:live)
       render json: error("200"), status: 200
     else
       render json: error("403"), status: 200
@@ -55,8 +53,8 @@ class NginxController < ApplicationController
 
   def increase_viewer_count
     if params_key[:app]
-      channel = Channel.where(:service => "hd", :channel => "hdgames") if params_key[:app] == "live"
-      channel = Channel.where(:service => "hd", :channel => "hdkinco") if params_key[:app] == "cinema"
+      channel = Channel.where(:service => "hd", :channel => "hdgames").last if params_key[:app] == "live"
+      channel = Channel.where(:service => "hd", :channel => "hdkinco").last if params_key[:app] == "cinema"
       channel.increment!(:viewers)
     end
     render json: params, status: 200
@@ -64,8 +62,8 @@ class NginxController < ApplicationController
 
   def decrease_viewer_count
     if params_key[:app]
-      channel = Channel.where(:service => "hd", :channel => "hdgames") if params_key[:app] == "live"
-      channel = Channel.where(:service => "hd", :channel => "hdkinco") if params_key[:app] == "cinema"
+      channel = Channel.where(:service => "hd", :channel => "hdgames").last if params_key[:app] == "live"
+      channel = Channel.where(:service => "hd", :channel => "hdkinco").last if params_key[:app] == "cinema"
       channel.decrement!(:viewers)
     end
     render json: params, status: 200
