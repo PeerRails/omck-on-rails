@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     else
       user = User.login @omniauth
       if user.save
-        create_session(user, session[:session_id])
+        Session.create_session(user, session[:session_id])
         flash[:success] = "Добро пожаловать, #{user.name}"
         redirect_to home_url
       else
@@ -57,6 +57,7 @@ class UsersController < ApplicationController
   end
 
   def logout
+    Session.destroy_session(session[:session_id])
   	reset_session
   	redirect_to root_url
   end
