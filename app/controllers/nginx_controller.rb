@@ -31,8 +31,16 @@ class NginxController < ApplicationController
         if streamer.nil?
           File.delete(params_key[:path])
         else
-          new_file = "/tmp/uploaded/#{streamer.streamer.gsub(/\s+/, '_')}_-_#{streamer.game.gsub(/\s+/, '_')}_#{DateTime.now.strftime('%Y-%m-%d-%H-%M-%S')}.flv"
+          new_file = "/var/www/uploaded/#{streamer.streamer.gsub(/\s+/, '_')}_-_#{streamer.game.gsub(/\s+/, '_')}_#{DateTime.now.strftime('%Y-%m-%d-%H-%M-%S')}.flv"
           File.rename(params_key[:path], new_file)
+          video = Video.create!(
+            key_id: streamer.id,
+            user_id: streamer.user_id,
+            game: streamer.game,
+            path: new_file,
+            description: "#{streamer.game} by #{streamer.streamer}",
+            uid: SecureRandom.hex(6)
+            )
         end
       end
       render json: error("200"), status: 200

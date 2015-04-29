@@ -1,9 +1,10 @@
 class HomeController < ApplicationController
-  before_filter :auth, :except => [:index, :guest_room, :faq, :faq_irc]
+  before_filter :auth, :except => [:index, :guest, :faq, :faq_irc]
   #before_filter :check_auth, :except => [:index, :guest_room, :remake_key, :change_key]
 	def index
 		#@session = auth
     #@tweet = Tweet.last
+    @current_user ||= User.select("users.*, sessions.ip, sessions.expires").joins(:sessions).where(sessions: {session_id: session[:session_id]}).last if session[:session_id].present?
 	end
 
   def cabinet

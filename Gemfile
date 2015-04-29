@@ -25,5 +25,6 @@ gem 'omniauth-twitter'
 
 gem 'twitter'
 gem 'rails-footnotes', '>= 4.0.0', '<5', :group => 'development'
+gem 'quiet_assets', group: :development
 gem 'simple_form'
 gem 'russian', '~> 0.6.0'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407105413) do
+ActiveRecord::Schema.define(version: 20150422140959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,12 +48,12 @@ ActiveRecord::Schema.define(version: 20150407105413) do
 
   create_table "sessions", force: :cascade do |t|
     t.inet     "ip"
-    t.string   "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "guest",      default: false
     t.date     "expires"
     t.string   "session_id"
+    t.integer  "user_id"
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
@@ -84,5 +84,18 @@ ActiveRecord::Schema.define(version: 20150407105413) do
   end
 
   add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
+
+  create_table "videos", force: :cascade do |t|
+    t.string   "game",        default: "Boku no Pico", null: false
+    t.integer  "user_id"
+    t.integer  "key_id"
+    t.string   "youtube_id",                           null: false
+    t.text     "description", default: "Boku no Pico"
+    t.string   "uid",                                  null: false
+    t.string   "path"
+    t.boolean  "deleted",     default: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
 
 end

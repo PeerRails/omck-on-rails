@@ -94,7 +94,7 @@
               scrubber: false
               time: false
           clip:
-            url: 'http://192.168.56.9/hls/live/omcktv.m3u8'
+            url: 'http://192.168.56.9/hls/'+omck+'/omcktv.m3u8'
             autoPlay: true
             autoBuffering: true
             live: true

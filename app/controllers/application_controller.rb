@@ -3,10 +3,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def remote_ip
-  	request.remote_ip
-  end
-
 	def error code
 		case code
 		when "404"
@@ -34,19 +30,37 @@ class ApplicationController < ActionController::Base
   end
 
     def check_ip
-      if remote_ip != "127.0.0.1"
+      if request.remote_ip != "127.0.0.1"
         render json: error("403"), status: 403
       end
     end
 
     def create_session(user, session_id)
-      Session.create(:user_id => user.id, :session_id => session_id, :expires => DateTime.now + 60, :ip => user.last_ip, :guest => false )
+      if Session.find_by(:session_id => session_id).nil?
+        Session.create(:user_id => user.id, :session_id => session_id, :expires => DateTime.now + 60, :ip => user.last_ip, :guest => false )
+      else
+        reset_session
+        flash[:danger] = "Сессия существует, перезаписываем."
+      end
+    end
+
+    def destroy_session
+      unless Session.find_by(:session_id => session_id).nil?
+        Session.create(:expires => DateTime.now, :ip => user.last_ip)
+      else
+        flash[:danger] = "Сессии не существует."
+      end
     end
 
     def current_user
-      @current_user ||= User.joins(:sessions).where(sessions: {session_id: session[:session_id]}).last if session[:session_id].present?
-      #raise @current_user.inspect
+      @current_user ||= User.select("users.*, sessions.ip, sessions.expires").joins(:sessions).where(sessions: {session_id: session[:session_id]}).last if session[:session_id].present?
+      if @current_user && ((request.remote_ip != @current_user.ip && request.remote_ip != "127.0.0.1") || @current_user.expires < DateTime.now)
+        reset_session
+        @current_user = nil
+      end
+      return @current_user
     end
+
     helper_method :current_user
     
 end
