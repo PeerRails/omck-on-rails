@@ -31,7 +31,7 @@ class NginxController < ApplicationController
         if streamer.nil?
           File.delete(params_key[:path])
         else
-          new_file = "/var/www/uploaded/#{streamer.streamer.gsub(/\s+/, '_')}_-_#{streamer.game.gsub(/\s+/, '_')}_#{DateTime.now.strftime('%Y-%m-%d-%H-%M-%S')}.flv"
+          new_file = "/data/videos/#{streamer.streamer.gsub(/\s+/, '_')}_-_#{streamer.game.gsub(/\s+/, '_')}_#{DateTime.now.strftime('%Y-%m-%d-%H-%M-%S')}.flv"
           File.rename(params_key[:path], new_file)
           video = Video.create!(
             key_id: streamer.id,
