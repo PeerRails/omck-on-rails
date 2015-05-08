@@ -3,6 +3,6 @@ class Key < ActiveRecord::Base
   validates :key, :expires, :streamer, :presence => true
   scope :present, -> { where("expires > ?", DateTime.now) }
   scope :expired, -> { where("expires <= ?", DateTime.now) }
-  scope :guests, -> { where(guest: true) }
+  scope :is_guest, -> { where(guest: true) }
   scope :streamers, -> { where(guest: false) }
 end

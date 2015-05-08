@@ -1,9 +1,6 @@
 class HomeController < ApplicationController
-  before_filter :auth, :except => [:index, :guest, :faq, :faq_irc]
-  #before_filter :check_auth, :except => [:index, :guest_room, :remake_key, :change_key]
+
 	def index
-		#@session = auth
-    #@tweet = Tweet.last
     @current_user ||= User.select("users.*, sessions.ip, sessions.expires").joins(:sessions).where(sessions: {session_id: session[:session_id]}).last if session[:session_id].present?
 	end
 
@@ -15,7 +12,7 @@ class HomeController < ApplicationController
     @key = Key.new
     if params_key.present?
       key = params_key[:key]
-      @user_key = Key.where(key: key).last
+      @user_key = Key.is_guest.where(key: key).last
       if @user_key.nil?
         flash[:danger] = "Такого ключа нет! Номер напишите Пиру в личку"
       end

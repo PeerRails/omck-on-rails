@@ -1,0 +1,27 @@
+#gmod.tab-pane
+  %h2 Админка
+  %table.table
+    %tbody
+      %tr
+      %td
+        %b Имя
+      %td
+        %b Стример
+      %td
+        %b Админ
+      %td
+        %b Twitter
+      - @users.each do |user|
+        %tr
+          %td= user.name
+          %td
+            - if user.streamer == 1
+              =link_to tag_label("Снять права", :danger), home_remove_streamer_path(user: {id: user.id}), method: "post"
+            - else
+              =link_to tag_label("Выдать права", :success), home_manage_perm_path(user: {screen_name: user.screen_name, streamer: 1, gmod: user.gmod}), method: "post"
+          %td
+            - if user.gmod == 1
+              =link_to tag_label("Снять права", :danger), home_manage_perm_path(user: {screen_name: user.screen_name, streamer: user.streamer, gmod: 0}), method: "post"
+            - else
+              =link_to tag_label("Выдать права", :success), home_manage_perm_path(user: {screen_name: user.screen_name, streamer: user.streamer, gmod: 1}), method: "post"
+          %td= link_to "@#{user.screen_name}", "http://twitter.com/#{user.screen_name}"

@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   scope :staff, -> { where('streamer = 1 or gmod = 1') }
 
   def self.login(omniauth)
-  	User.where(twitter_id: omniauth[:uid]).first_or_create do |user|
+  	return User.where(twitter_id: omniauth[:uid]).first_or_create do |user|
       user.twitter_id = omniauth[:uid],
       user.name = omniauth[:info][:name],
       user.screen_name = omniauth[:info][:nickname],

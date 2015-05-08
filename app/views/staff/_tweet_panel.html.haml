@@ -1,0 +1,19 @@
+.col-md-3#tweet-panel
+  .panel.panel-default
+    .panel-body
+      %h4.text-danger Последние 10 Твитов
+      - if current_user.gmod == 1 || current_user.streamer == 1
+        =bootstrap_form_for @tweet, :url => url_for(:action => 'tweet', :controller => 'tweets'), :method => 'post' do |f|
+          = f.check_box :own, input_html: {id: "ttype", :checked => false}, label: "Свое сообщение?"
+          = f.text_area :comment, input_html: { maxlength: 140, :rows => 5, cols: 45, id: "tweettext" },  :include_blank => false, label: "Твит"
+          %h3#count.text-success 99
+          = f.submit "Твитнуть!", class: "btn btn-success"
+    %ul.list-group
+      - if !@tweets.empty?
+        - @tweets.each do |tweet|
+          .list-group-item
+            %b.text-success= tweet.user.name
+            %b :
+            = tweet.comment
+      - else
+        %b.text-warning А твитов-то и нет!

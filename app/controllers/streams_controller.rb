@@ -3,7 +3,7 @@ class StreamsController < ApplicationController
   def get_live
     lives = []
     Channel.live.each do |channel|
-      lives << channel_info(channel)
+      lives << serialize(channel)
     end
 
     if !lives.empty?
@@ -13,16 +13,8 @@ class StreamsController < ApplicationController
     end
   end
 
-  def get_all
-    channels = []
-    Channel.all.each do |channel|
-      channels << channel_info(channel)
-    end
-    render json: channels
-  end
-
   def get_channel
-    channel = channel_info Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service)
+    channel = serialize Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service)
                      .where(:channel => params_channel[:channel])
                      .last
     if channel.nil?
@@ -38,7 +30,7 @@ class StreamsController < ApplicationController
   end
 
   private
-  def channel_info chan
+  def serialize chan
     return {"channel" => chan.channel,
         "viewers" => chan.viewers,
         "live" => chan.live,

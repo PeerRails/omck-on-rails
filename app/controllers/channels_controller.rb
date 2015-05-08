@@ -1,9 +1,9 @@
 class ChannelsController < ApplicationController
-  before_filter :auth, :only => [:new, :edit, :delete]
+  before_filter :auth
 
 
   def new
-    chan = params.require(:channel).permit(:channel, :streamer)
+    chan = chan_params
     if current_user.streamer == 1 || current_user.gmod == 1
       @channel = Channel.new(channel: chan["channel"], streamer: chan["streamer"])
       if @channel.save
@@ -19,7 +19,7 @@ class ChannelsController < ApplicationController
 
 def edit
   if current_user.gmod == 1 || current_user.streamer == 1
-    channel = params.require(:channel).permit(:channel, :streamer)
+    channel = chan_params
     @channel = Channel.where(channel: channel["channel"] ).last
     @channel.streamer = @channel["streamer"]
     if @channel.save
@@ -48,6 +48,10 @@ def delete
     flash[:danger] = "Для удаления канала нужны права модера!"
     redirect_to root_url
   end
+end
+
+def chan_params
+  params.require(:channel).permit(:channel, :streamer)
 end
 
 end

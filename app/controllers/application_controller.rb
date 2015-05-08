@@ -36,8 +36,8 @@ class ApplicationController < ActionController::Base
     end
 
     def current_user
-      @current_user ||= User.select("users.*, sessions.ip, sessions.expires").joins(:sessions).where(sessions: {session_id: session[:session_id]}).last if session[:session_id].present?
-      if @current_user && ((request.remote_ip != @current_user.ip && request.remote_ip != "127.0.0.1") || @current_user.expires < DateTime.now)
+      @current_user ||= User.select("users.*, sessions.ip, sessions.expires").joins(:sessions).where(sessions: {session_id: session[:session_id], guest: false}).last if session[:session_id].present?
+      if @current_user && @current_user.expires < DateTime.now
         reset_session
         @current_user = nil
       end

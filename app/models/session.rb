@@ -1,6 +1,8 @@
 class Session < ActiveRecord::Base
   belongs_to :user
   validates :session_id, presence: true, uniqueness: true
+  scope :is_guest, -> { where(guest: true) }
+  scope :is_user, -> { where(guest: true) }
 
   def self.create_session(user, session_id)
     if Session.find_by(:session_id => session_id).nil?
