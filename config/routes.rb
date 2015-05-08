@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'channel/move_record' => 'nginx#move_record'
   get 'channel/live' => 'streams#get_live'
   get 'channel/all' => 'streams#get_all'
-  get 'channel/:channel' => 'streams#get_channel'
+  get 'channel/:service/:channel' => 'streams#get_channel'
 
   #NGINX Controller
   get 'auth_stream' => 'nginx#get_key'
