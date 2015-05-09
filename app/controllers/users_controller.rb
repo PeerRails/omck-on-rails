@@ -28,7 +28,15 @@ class UsersController < ApplicationController
     else
       user = User.find_by_twitter_id(twitter_user.id.to_s)
       if user.nil?
-        user = User.create( twitter_id: twitter_user.id, name: twitter_user.name, screen_name: twitter_user.screen_name, profile_image_url: twitter_user.profile_image_url.to_s, streamer: user_params[:streamer] || 1, gmod: user_params[:gmod] || 0)
+        user = User.create( 
+          twitter_id: twitter_user.id, 
+          name: twitter_user.name, 
+          screen_name: twitter_user.screen_name, 
+          profile_image_url: twitter_user.profile_image_url.to_s, 
+          streamer: user_params[:streamer] || 1, 
+          gmod: user_params[:gmod] || 0
+        )
+
         key = Key.create(user_id: user.id, streamer: user.name, key: SecureRandom.uuid)
       else
         key = Key.create(user_id: user.id, streamer: user.name, key: SecureRandom.uuid) if user.streamer == 0 && user_params[:streamer] == 1 && Key.present.find_by_twitter_id(user.id).nil?

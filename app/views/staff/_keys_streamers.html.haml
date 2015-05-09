@@ -3,7 +3,7 @@
   - if current_user.gmod == 1
     .btn.btn-success#create-streamer-btn{onclick: "showStreamerForm();"} Создать Ключ Для Стримера
     = bootstrap_form_for @new_streamer, html: {id: "create-streamer", style: "display: none;"}, :url => url_for(:action => 'manage_perm', :controller => 'users'), :method => 'post' do |f|
-      = f.text_field :screen_name, required: true,  label: "Никнейм стримера (вписывать без @)"
+      = f.text_field :screen_name, required: true,  label: "Твиттер стримера (вписывать без @)"
       %br/
       = f.submit "Дать права", class: "btn btn-success"
     %br
