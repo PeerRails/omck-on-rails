@@ -1,7 +1,7 @@
 //= require video
 //= require videojs-media-sources
 //= require videojs.hls.min
-@ls_omck = '<object type="application/x-shockwave-flash" data="http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
+@ls_omck = '<object type="application/x-shockwave-flash" data="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
 @hd_omck = "<div id=\"mediaspace\"></div>"
 @tw_omck = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel=omcktv\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel=omcktv&auto_play=true&start_volume=100\" /></object>"
 @current_channel = "livestream/mc_mc_mc_omck"
@@ -82,7 +82,7 @@
   $.getJSON "/channel/"+service+"/"+channel, (data) ->
     switch data.service
       when "livestream"
-        ls_omck = '<object type="application/x-shockwave-flash" data="http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
+        ls_omck = '<object type="application/x-shockwave-flash" data="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
         $("#stream").html(ls_omck)
         $("button#viewers").html("Viewers: "+data.viewers)
       when "twitch"
