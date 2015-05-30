@@ -17,8 +17,8 @@ class KeysController < ApplicationController
         flash[:danger] = "Ошибка при регистрации ключа!"
       end
     else
-      user = User.where(id: @key.uid).last
-      key = Key.where(uid: @key.uid).last
+      user = User.where(id: @key.user_id).last
+      key = Key.where(user_id: @key.user_id).last
       if user.nil?
         flash[:danger] = "Такого пользователя нет!"
       elsif user.id != current_user.id
@@ -57,7 +57,7 @@ class KeysController < ApplicationController
       @old_key = Key.where(key: key["key"]).last
       #@old_key.expires = DateTime.now
 
-      @new_key = Key.new(uid: @old_key.uid,streamer: @old_key.streamer,game: @old_key.game,movie: @old_key.movie,guest: @old_key.guest)
+      @new_key = Key.new(user_id: @old_key.user_id,streamer: @old_key.streamer,game: @old_key.game,movie: @old_key.movie,guest: @old_key.guest)
       @new_key.expires = @old_key.expires
       @new_key.key = generate_key
 
