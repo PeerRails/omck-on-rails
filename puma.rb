@@ -1,6 +1,8 @@
 environment ENV["RAILS_ENV"] || 'development'
-pidfile 'pids/puma.pid'
-state_path 'pids/puma.state'
+pidfile '/var/run/puma/puma.pid'
+state_path '/var/run/puma/puma.state'
 stdout_redirect nil, 'log/stderr.log', true
-bind "tcp://0.0.0.0:#{ENV["PUMAPORT"] || 3000}"
+bind "tcp://0.0.0.0:3000"
 daemonize
+preload_app!
+tag 'omcktv'

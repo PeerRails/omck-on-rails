@@ -73,6 +73,13 @@
 
 #@GetChannel = (channel) ->
 
+@InsertHD = (omck) ->
+  $("#stream").html('<video id="streamjs" class="video-js vjs-default-skin" controls autoplay preload="auto" width="100%" height="100%" poster="assets/bg/omck.jpg" data-setup="{}">  <source src="hls/'+omck+'/omcktv.m3u8" type="application/x-mpegURL"></video>').promise().done( ->
+          videojs('streamjs').ready ->
+            myPlayer = this
+            myPlayer.play()
+        )
+
 @SelectStream = (channel_service) ->
   split_input = channel_service.split('/')
   channel = split_input[1]
@@ -91,13 +98,9 @@
         $("button#viewers").html("Viewers: "+data.viewers)
       when "hd"
         if data.channel is "hdgames"
-          omck = "live"
+          InsertHD("live")
         else
-          omck = "cinema"
-        $("#stream").html('<video id="streamjs" class="video-js vjs-default-skin" controls autoplay preload="auto" width="100%" height="100%" poster="assets/bg/omck.jpg" data-setup="{}">  <source src="hls/'+omck+'/omcktv.m3u8" type="application/x-mpegURL"></video>')
-        videojs('streamjs').ready ->
-          myPlayer = this
-          myPlayer.play()
+          InsertHD("cinema")
       else
         $("#stream").html @hd_omck
     #$("button#viewers").html "Viewers: " + data.viewers
