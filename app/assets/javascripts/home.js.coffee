@@ -1,6 +1,6 @@
-//= require video
-//= require videojs-media-sources
-//= require videojs.hls.min
+//=require jwplayer
+//=require jwplayer.html5
+
 @ls_omck = '<object type="application/x-shockwave-flash" data="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
 @hd_omck = "<div id=\"mediaspace\"></div>"
 @tw_omck = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel=omcktv\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel=omcktv&auto_play=true&start_volume=100\" /></object>"
@@ -74,17 +74,25 @@
 #@GetChannel = (channel) ->
 
 @InsertHD = (omck) ->
-  $("#stream").html('<video id="streamjs" class="video-js vjs-default-skin" controls autoplay preload="auto" width="100%" height="100%" poster="assets/bg/omck.jpg" data-setup="{}">  <source src="hls/'+omck+'/omcktv.m3u8" type="application/x-mpegURL"></video>').promise().done( ->
-          videojs.options.flash.swf = 'video-js.swf';
-          videojs('streamjs').play()
-          )
+  $("#stream").html('<div id="streamjs"></div>').promise().done( ->
+              jwplayer('stream').setup
+                playlist: [ {
+                  image: '/assets/bg/omck.jpg'
+                  sources: [
+                    { file: 'rtmp://local.dev/'+omck+'/omcktv' }
+                    { file: 'http://local.dev/hls/'+omck+'/omcktv.m3u8' }
+                  ]
+                } ]
+                primary: 'flash'
+                width: '100%'
+                height: '100%'
+                autostart: true
+              )
 
 @SelectStream = (channel_service) ->
   split_input = channel_service.split('/')
   channel = split_input[1]
   service = split_input[0]
-  if $('#streamjs').val() != undefined
-    videojs('#streamjs').dispose()
   $.getJSON "/channel/"+service+"/"+channel, (data) ->
     switch data.service
       when "livestream"
