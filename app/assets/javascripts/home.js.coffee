@@ -79,8 +79,8 @@
                 playlist: [ {
                   image: '/assets/bg/omck.jpg'
                   sources: [
-                    { file: 'rtmp://local.dev/'+omck+'/omcktv' }
-                    { file: 'http://local.dev/hls/'+omck+'/omcktv.m3u8' }
+                    { file: 'rtmp://hd.omck.moe/'+omck+'/omcktv' }
+                    { file: 'http://hd.omck.moe/hls/'+omck+'/omcktv.m3u8' }
                   ]
                 } ]
                 primary: 'flash'
