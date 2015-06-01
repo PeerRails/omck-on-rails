@@ -229,7 +229,7 @@ DEPENDENCIES
   omniauth
   omniauth-twitter
   pg (= 0.17.1)
-  puma (= 2.9.0)
+  puma
   quiet_assets
   rails (= 4.2.1)
   rails-footnotes (>= 4.0.0, < 5)

@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 #gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
-gem "puma", '2.9.0'
+gem "puma"
 gem 'brakeman'
 
 gem 'less-rails'

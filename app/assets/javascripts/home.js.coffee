@@ -5,6 +5,12 @@
 @hd_omck = "<div id=\"mediaspace\"></div>"
 @tw_omck = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel=omcktv\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel=omcktv&auto_play=true&start_volume=100\" /></object>"
 @current_channel = "livestream/mc_mc_mc_omck"
+if location.hostname == 'omck.moe'
+  @hd = 'omck.moe'
+else if location.hostname == 'omck.tv' || location.hostname == 'omck.ws'
+  @hd = 'hd.omck.tv'
+else
+  @hd = '192.168.56.9'
 
 
 @MakeStreamMenu = ->
@@ -79,14 +85,15 @@
                 playlist: [ {
                   image: '/assets/bg/omck.jpg'
                   sources: [
-                    { file: 'rtmp://hd.omck.moe/'+omck+'/omcktv' }
-                    { file: 'http://hd.omck.moe/hls/'+omck+'/omcktv.m3u8' }
+                    { file: 'rtmp://'+hd+'/'+omck+'/omcktv' }
+                    { file: 'http://'+hd+'/hls/'+omck+'/omcktv.m3u8' }
                   ]
                 } ]
                 primary: 'flash'
                 width: '100%'
                 height: '100%'
                 autostart: true
+                flashplayer: 'assets/jwplayer.flash.swf'
               )
 
 @SelectStream = (channel_service) ->
