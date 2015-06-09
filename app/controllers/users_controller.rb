@@ -58,9 +58,13 @@ class UsersController < ApplicationController
     if user.nil?
       flash[:danger] = "Пользователя не существует"
     else
-      user.update!(streamer: 0)
-      Key.update!(user_id: user.id, expires: DateTime.now)
+      User.update(user.id, streamer: 0)
+      Key.where(user_id: user.id).each do |key|
+        key.expires = DateTime.now
+        key.save
+      end
     end
+    flash[:info] = "Права отобраны."
     redirect_to home_url
   end
 
@@ -69,4 +73,5 @@ class UsersController < ApplicationController
   	reset_session
   	redirect_to root_url
   end
+
 end

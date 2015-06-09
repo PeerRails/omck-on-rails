@@ -38,11 +38,10 @@ class KeysController < ApplicationController
   end
 
   def change_key
-    @new_key = key_params
     @user_key = Key.where(user_id: current_user.id).last
-    @user_key.streamer = @new_key["streamer"] || "McDwarf"
-    @user_key.game = @new_key["game"] || "Boku no Pico"
-    @user_key.movie = @new_key["movie"] || "Boku no Pico"
+    @user_key.streamer = key_params["streamer"] || "McDwarf"
+    @user_key.game = key_params["game"] || "Boku no Pico"
+    @user_key.movie = key_params["movie"] || "Boku no Pico"
     if @user_key.save
       flash[:success] = "Ключ обновлен!"
     else
