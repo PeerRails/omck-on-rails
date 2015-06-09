@@ -42,6 +42,11 @@ Rails.application.routes.draw do
   #Tweet Controller
   post 'home/tweet' => 'tweets#tweet'
 
+  #Video
+  get 'user/vids' => 'videos#list'
+  post 'user/vids/delete' => 'videos#delete'
+  post 'user/vids/download' => 'videos#download'
+
   #Root
   root 'home#index'
 
