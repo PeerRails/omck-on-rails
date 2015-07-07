@@ -12,23 +12,17 @@ class VideosController < ApplicationController
   # yeah
   def delete
     vid = Video.find(vid_params[:id])
+    replay = Playlist.find_by_video_id(vid_params[:id])
     if vid.nil?
       flash[:danger] = "Такого видео нет!"
     else
+      vid.destroy
+      replay.destroy unless replay.nil?
+      File.delete(vid.path)
       flash[:success] = "Удалено!"
-      File.re
+      
     end
     redirect_to home_path
-  end
-
-  def download
-    vid = Video.find(vid_params[:id])
-    if vid.nil?
-      flash[:danger] = "Такого файла нет!"
-      redirect_to home_path
-    else
-      send_file(vid.path, :filename => "#{vid.created_at.strftime("%D")} #{vid.description}.flv")
-    end
   end
 
   def list

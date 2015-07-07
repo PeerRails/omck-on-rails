@@ -4,20 +4,20 @@
 @ls_omck = '<object type="application/x-shockwave-flash" data="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
 @hd_omck = "<div id=\"mediaspace\"></div>"
 @tw_omck = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel=omcktv\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel=omcktv&auto_play=true&start_volume=100\" /></object>"
-@current_channel = "livestream/mc_mc_mc_omck"
+@current_channel = "hd/records"
 if location.hostname == 'omck.moe'
   @hd = 'omck.moe'
 else if location.hostname == 'omck.tv' || location.hostname == 'omck.ws'
   @hd = 'hd.omck.tv'
 else
-  @hd = '192.168.56.9'
+  @hd = 'local.dev'
 
 
 @MakeStreamMenu = ->
   $.getJSON "/channel/live", (list) ->
     menu_list = []
     live_list = []
-    official = ["mc_mc_mc_omck","hdgames","hdkinco","omcktv"]
+    official = ["records","hdgames","hdkinco","omcktv"]
     $("ul#stream-menu a").each (i) ->
       menu_list.push $(this).attr("id") unless typeof ($(this).attr("id")) is "undefined"
       return
@@ -29,12 +29,12 @@ else
       $("#stream-count").html ""
       menu_list.map (li) ->
         DeleteChannelFromMenu li unless li in official
-        ChangeMenuChannel li, "", 0, "" unless li not in official
+        ChangeMenuChannel li, "", 0, "" if li in official
     else
       $("#stream-count").html list.length
       list.map (chan) ->
         if chan.channel in official
-          ChangeMenuChannel chan.channel, "LIVE", chan.viewers, chan.streamer
+          ChangeMenuChannel chan.channel, "LIVE", chan.viewers, chan.game
         else if chan.channel not in menu_list
           AddMenuChannel chan.channel, chan.service, chan.streamer, "LIVE", chan.viewers, chan.title
       if menu_list.length != 0
@@ -80,8 +80,9 @@ else
 #@GetChannel = (channel) ->
 
 @InsertHD = (omck) ->
+  $("#stream").data( "service", "hd" )
   $("#stream").html('<div id="streamjs"></div>').promise().done( ->
-              jwplayer('stream').setup
+              jwplayer('streamjs').setup
                 playlist: [ {
                   image: '/assets/bg/omck.jpg'
                   sources: [
@@ -105,14 +106,18 @@ else
       when "livestream"
         ls_omck = '<object type="application/x-shockwave-flash" data="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
         $("#stream").html(ls_omck)
-        $("button#viewers").html("Viewers: "+data.viewers)
+        $("#stream").data( "service", "livestream" )
+        #$("button#viewers").html("Viewers: "+data.viewers)
       when "twitch"
         twitch = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel="+data.channel+"\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel="+data.channel+"&auto_play=true&start_volume=100\" /></object>"
         $("#stream").html(twitch)
-        $("button#viewers").html("Viewers: "+data.viewers)
+        $("#stream").data( "service", "twitch" )
+        #$("button#viewers").html("Viewers: "+data.viewers)
       when "hd"
         if data.channel is "hdgames"
           InsertHD("live")
+        else if data.channel is "records"        
+          InsertHD("records")
         else
           InsertHD("cinema")
       else
@@ -197,6 +202,8 @@ $(document).ready ->
     if $(location).attr('hash').split('/')[1] is "channel"
       hash_stream = $(location).attr('hash').split("/")
       SelectStream(hash_stream[2]+'/'+hash_stream[3])
+    else
+      SelectStream('hd/records')
     refreshId = setInterval(->
       #UpdateChannel @current_channel
       MakeStreamMenu()

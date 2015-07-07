@@ -11,35 +11,26 @@
           %span.caret
         %ul#stream-menu.dropdown-menu{role: "menu", style: "width: 300px;"}
           %li.dropdown-header{"role" => "presentation"} Official Streams
-          %li#mc_mc_mc_omck.list-group-item
-            %a#mc_mc_mc_omck{href: "#", onclick: "SelectStream('livestream/mc_mc_mc_omck');"}
-              %span.badge.pull-right
-                %i.fa.fa-eye#viewers-mc_mc_mc_omck
-                  0
-              %span.label.label-danger.pull-right#live-mc_mc_mc_omck
-              OmckTV Classic
-              %br
-              #title-mc_mc_mc_omck
           %li#hdgames.list-group-item
-            %a#hdgames{href: "#", onclick: "SelectStream('hd/hdgames');"}
+            %a#hdgames{href: "#/channel/hd/hdgames", onclick: "SelectStream('hd/hdgames');"}
               %span.badge.pull-right
                 %i.fa.fa-eye#viewers-hdgames
                   0
               %span.label.label-danger.pull-right#live-hdgames
-              OmckTV HD Games
+              Games HD 
               %br
               #title-hdgames
           %li#hdkinco.list-group-item
-            %a#hdkinco{href: "#", onclick: "SelectStream('hd/hdkinco');"}
+            %a#hdkinco{href: "#/channel/hd/hdkinco", onclick: "SelectStream('hd/hdkinco');"}
               %span.badge.pull-right
                 %i.fa.fa-eye#viewers-hdkinco
                   0
               %span.label.label-danger.pull-right#live-hdkinco
-              OmckTV HD Cinema
+              Cinema HD
               %br
               #title-hdkinco
           %li#omcktv.list-group-item
-            %a#omcktv{href: "#", onclick: "SelectStream('twitch/omcktv');"}
+            %a#omcktv{href: "#/channel/twitch/omcktv", onclick: "SelectStream('twitch/omcktv');"}
               %span.badge.pull-right
                 %i.fa.fa-eye#viewers-omcktv
                   0

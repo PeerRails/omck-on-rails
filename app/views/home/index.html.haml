@@ -3,16 +3,14 @@
   #streambg.row
     .col-md-8
       #stream
-        %object{data: "http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&color=0xe7e7e7&autoPlay=true&mute=false", height: "100%", type: "application/x-shockwave-flash", width: "100%"}
-          %param{name: "movie", value: "http://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&color=0xe7e7e7&autoPlay=false&mute=false"}/
-          %param{name: "wmode", value: "transparent"}/
-          %param{name: "allowFullscreen", value: "true"}/
+        
     #chat.col-md-4
       %iframe{bgcolor: "#ffffff", frameborder: "0", height: "100%", scrolling: "no", src: "/irc", width: "100%"}
       %a.twitter-share-button{"data-hashtags" => "omcktv", "data-related" => "omckws", "data-text" => "Я смотрю стрим на", "data-via" => "omcktv", href: "https://twitter.com/share"} Tweet
     #panel.col-md-8
       .btn-group
         %button#hidecalendar.btn.btn-danger{onclick: "toggleSchedule();", style: "display: inline;"} Hide Schedule
+        %button#hidecalendar.btn.btn-info{onclick: "SelectStream('hd/records');"} Records
         %button.btn.btn-danger{onclick: "popupChat();"} Popout Chat
         %button#toggle-chat.btn.btn-danger{onclick: "toggleChat(0);"} Hide Chat
         %button#toggle-dong.btn.btn-danger{onclick: "toggleDong(1);"} Enlarge Screen

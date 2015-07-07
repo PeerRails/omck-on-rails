@@ -20,7 +20,7 @@
           %td= current_user.name
           %td= vid.game
           %td= vid.description
-          %td= link_to "Скачать", user_vids_download_path(id: vid.id), method: "post", target: "_blank"
-          - if current_user.id == vid.user_id
+          %td= link_to "Скачать", "/videos/#{Pathname.new(vid.path).basename.to_s}", method: "post", target: "_blank"
+          - if current_user.gmod == 1 || current_user.id == vid.user_id 
             %td
               = link_to "Удалить", user_vids_delete_path(id: vid.id), method: "post"
