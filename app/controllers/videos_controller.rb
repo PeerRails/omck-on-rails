@@ -16,9 +16,15 @@ class VideosController < ApplicationController
     if vid.nil?
       flash[:danger] = "Такого видео нет!"
     else
-      vid.destroy
-      replay.destroy unless replay.nil?
-      File.delete(vid.path)
+      if !replay.nil? && replay.status == 2
+        replay.status = 5
+        replay.save
+      else
+        File.delete(vid.path)
+        replay.destroy
+      end
+      vid.deleted = true
+      vid.save
       flash[:success] = "Удалено!"
       
     end

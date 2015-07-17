@@ -14,6 +14,8 @@
         %b Скачать
       %td
         %b Удалить
+      %td
+        %b Дата создания
       - @vids.each_with_index do |vid, i|
         %tr
           %td= i+1
@@ -24,3 +26,4 @@
           - if current_user.gmod == 1 || current_user.id == vid.user_id 
             %td
               = link_to "Удалить", user_vids_delete_path(id: vid.id), method: "post"
+          %td= vid.created_at.strftime("%c")
