@@ -50,6 +50,16 @@ def delete
   end
 end
 
+def bitdash
+  channel = params.permit(:channel)[:channel]
+  #raise ["hdkinco", "hdgames", "records"].include?(channel).inspect
+  if channel.nil? or !["hdkinco", "hdgames", "records"].include? channel
+    redirect_to '/bitdash/records'
+  else 
+    render layout: false
+  end
+end
+
 def chan_params
   params.require(:channel).permit(:channel, :streamer)
 end

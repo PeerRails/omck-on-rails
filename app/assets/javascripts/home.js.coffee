@@ -79,6 +79,8 @@ else
 
 #@GetChannel = (channel) ->
 
+@InsertBitDash = (omck) ->
+  $("#stream").html('<iframe src="/bitdash/'+omck+' width="100%" scrolling="no" frameborder="0" height="100%"></iframe>')
 @InsertHD = (omck) ->
   $("#stream").data( "service", "hd" )
   $("#stream").html('<div id="streamjs"></div>').promise().done( ->
