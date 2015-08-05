@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(version: 20150609142855) do
 
   create_table "sessions", force: :cascade do |t|
     t.inet     "ip"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "guest",      default: false
     t.date     "expires"
     t.string   "session_id"
-    t.integer  "user_id"
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree

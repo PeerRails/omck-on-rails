@@ -16,16 +16,20 @@ class VideosController < ApplicationController
     if vid.nil?
       flash[:danger] = "Такого видео нет!"
     else
-      if !replay.nil? && replay.status == 2
-        replay.status = 5
-        replay.save
+      if current_user.gmod ==1 || current_user.id == vid.user_id
+        if !replay.nil? && replay.status == 2
+          replay.status = 5
+          replay.save
+        else
+          File.delete(vid.path)
+          replay.destroy
+        end
+        vid.deleted = true
+        vid.save
+        flash[:success] = "Удалено!"
       else
-        File.delete(vid.path)
-        replay.destroy
+        flash[:success] = "Вы не владелец данного видео!"
       end
-      vid.deleted = true
-      vid.save
-      flash[:success] = "Удалено!"
       
     end
     redirect_to home_path
