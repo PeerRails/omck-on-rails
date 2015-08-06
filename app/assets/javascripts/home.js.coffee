@@ -9,6 +9,8 @@ if location.hostname == 'omck.moe'
   @hd = 'hd.omck.moe'
 else if location.hostname == 'omck.tv' || location.hostname == 'omck.ws'
   @hd = 'hd.omck.tv'
+else if location.hostname == 'localhost'
+  @hd = 'localhost'
 else
   @hd = 'local.dev'
 

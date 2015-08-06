@@ -31,7 +31,7 @@ module Omckonrails
     config.assets.paths << Rails.root.join('lib', 'assets', 'javascripts')
     config.assets.paths << Rails.root.join('lib', 'assets', 'flash')
     config.assets.paths << Rails.root.join('lib', 'assets', 'stylesheets')
-    config.assets.precompile += %w( .svg .eot .woff .ttf)
+    config.assets.precompile += %w( .svg .eot .woff .ttf .swf)
 
   end
 end
