@@ -42,8 +42,6 @@ GEM
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     bootstrap_form (2.3.0)
     brakeman (3.0.3)
       erubis (~> 2.6)
@@ -66,7 +64,6 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     commonjs (0.2.7)
-    debug_inspector (0.0.2)
     equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.5.2)
@@ -227,7 +224,6 @@ PLATFORMS
 
 DEPENDENCIES
   better_errors
-  binding_of_caller
   bootstrap_form
   brakeman
   coffee-rails
