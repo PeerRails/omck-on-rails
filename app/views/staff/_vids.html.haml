@@ -1,0 +1,29 @@
+#vids.tab-pane
+  %h2 Видосики
+  %table.table
+    %tbody
+      %tr
+      %td
+      %td
+        %b Имя
+      %td
+        %b Игра
+      %td
+        %b Описание
+      %td
+        %b Скачать
+      %td
+        %b Удалить
+      %td
+        %b Дата создания
+      - @vids.each_with_index do |vid, i|
+        %tr
+          %td= i+1
+          %td= current_user.name
+          %td= vid.game
+          %td= vid.description
+          %td= link_to "Скачать", "/videos/#{Pathname.new(vid.path).basename.to_s}", method: "post", target: "_blank"
+          - if current_user.gmod == 1 || current_user.id == vid.user_id 
+            %td
+              = link_to "Удалить", user_vids_delete_path(id: vid.id), method: "post"
+          %td= vid.created_at.strftime("%c")

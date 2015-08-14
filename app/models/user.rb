@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   scope :staff, -> { where('streamer = 1 or gmod = 1') }
 
-  def self.login(omniauth)
+  def self.login(omniauth, remote_ip)
   	return User.where(twitter_id: omniauth[:uid]).first_or_create do |user|
       user.twitter_id = omniauth[:uid],
       user.name = omniauth[:info][:name],
@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
       user.access_token = omniauth[:credentials][:token],
       user.secret_token = omniauth[:credentials][:secret],
       user.login_last = DateTime.now,
-      user.last_ip = request.remote_ip
+      user.last_ip = remote_ip
   	end
   end
 

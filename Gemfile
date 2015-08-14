@@ -3,8 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 #gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
-gem "puma", '2.9.0'
+gem "puma"
 gem 'brakeman'
+gem 'figaro'
 
 gem 'less-rails'
 gem 'coffee-rails'
@@ -24,7 +25,11 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 
 gem 'twitter'
-gem 'rails-footnotes', '>= 4.0.0', '<5', :group => 'development'
-gem 'quiet_assets', group: :development
 gem 'simple_form'
 gem 'russian', '~> 0.6.0'
+
+group :development do
+  gem "better_errors"
+  gem 'rails-footnotes', '>= 4.0.0', '<5'
+  gem 'quiet_assets'
+end

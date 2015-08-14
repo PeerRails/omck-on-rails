@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422140959) do
+ActiveRecord::Schema.define(version: 20150813142743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 20150422140959) do
 
   add_index "keys", ["key"], name: "index_keys_on_key", using: :btree
   add_index "keys", ["user_id"], name: "index_keys_on_user_id", using: :btree
+
+  create_table "playlists", force: :cascade do |t|
+    t.integer  "video_id"
+    t.integer  "status"
+    t.string   "path"
+    t.string   "thumb"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "playlists", ["video_id"], name: "index_playlists_on_video_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.inet     "ip"

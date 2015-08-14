@@ -9,6 +9,7 @@ class StaffController < ApplicationController
       @keys_guests = Key.present.is_guest
       @keys_streamers = Key.present.streamers
       @users = User.staff
+      @vids = current_user.gmod == 1 ? Video.where(deleted: false) : Video.where(user_id: current_user.id, deleted: false)
 
       if @user_key.nil?
         @user_key = Key.new(user_id: current_user.id, guest: false, streamer: current_user.name)

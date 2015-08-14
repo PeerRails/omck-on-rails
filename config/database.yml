@@ -9,7 +9,7 @@ development:
   database: omckonrails-dev
   username: dev
   password: dev
-  host: localhost
+  host: <%= ENV['PG_PORT_5432_TCP_ADDR'] || 'localhost' %>
 
 test:
   <<: *default

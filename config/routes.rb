@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get 'channel/all' => 'streams#get_all'
   get 'channel/:service/:channel' => 'streams#get_channel'
 
+  #bitdash
+  get 'bitdash/:channel' => 'channels#bitdash'
+
   #NGINX Controller
   get 'auth_stream' => 'nginx#get_key'
   get 'incr_stream' => 'nginx#increase_viewer_count'
@@ -41,6 +44,10 @@ Rails.application.routes.draw do
 
   #Tweet Controller
   post 'home/tweet' => 'tweets#tweet'
+
+  #Video
+  get 'user/vids' => 'videos#list'
+  post 'user/vids/delete' => 'videos#delete'
 
   #Root
   root 'home#index'

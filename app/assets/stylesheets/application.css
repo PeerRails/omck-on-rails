@@ -6,7 +6,6 @@
  *= require_tree .
  *= require bootstrap_and_overrides
  *= require rails_bootstrap_forms
- *= require video-js.min
 */
 
 .omckbar, .notifications {

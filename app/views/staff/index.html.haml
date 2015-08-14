@@ -24,6 +24,8 @@
               %a{"data-toggle" => "tab", href: "#keys-guest", role: "tab"} Гости
             %li{:role => "presentation"}
               %a{"data-toggle" => "tab", href: "#keys-streamers", role: "tab"} Стримеры
+            %li{:role => "presentation"}
+              %a{"data-toggle" => "tab", href: "#vids", role: "tab"} Видосики
             - if current_user.gmod == 1
               %li{:role => "presentation"}
                 %a{"data-toggle" => "tab", href: "#gmod", role: "tab"} Админка
@@ -83,5 +85,6 @@
             = render 'channels/index'
           = render 'keys_guests'
           = render 'keys_streamers'
+          = render 'vids'
           - if current_user.id == 1 || current_user.id == 2
             = render 'gmod'
