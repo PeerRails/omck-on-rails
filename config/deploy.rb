@@ -11,7 +11,7 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :domain, 'omck.tv'
-set :deploy_to, '/var/www/omck.tv'
+set :deploy_to, '/var/www/omckonrails'
 set :repository, 'git://...'
 set :branch, 'master'
 
