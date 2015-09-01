@@ -15,6 +15,8 @@ set :deploy_to, '/var/www/omck.tv'
 set :repository, 'git://...'
 set :branch, 'master'
 
+set :term_mode, nil
+
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
 
