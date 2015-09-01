@@ -3,6 +3,7 @@
 /tmp/
 /pids/
 /public/assets
+/shared
 
 # Ignore application configuration
 /config/application.yml
