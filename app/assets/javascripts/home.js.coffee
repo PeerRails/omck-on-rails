@@ -36,7 +36,7 @@ else
       $("#stream-count").html list.length
       list.map (chan) ->
         if chan.channel in official
-          ChangeMenuChannel chan.channel, "LIVE", chan.viewers, chan.game
+          ChangeMenuChannel chan.channel, "LIVE", chan.viewers, chan.title
         else if chan.channel not in menu_list
           AddMenuChannel chan.channel, chan.service, chan.streamer, "LIVE", chan.viewers, chan.title
       if menu_list.length != 0
@@ -120,7 +120,7 @@ else
       when "hd"
         if data.channel is "hdgames"
           InsertHD("live")
-        else if data.channel is "records"        
+        else if data.channel is "records"
           InsertHD("records")
         else
           InsertHD("cinema")

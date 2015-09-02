@@ -15,8 +15,8 @@ class StreamsController < ApplicationController
 
   def get_channel
     channel = serialize Channel.select(:channel, :streamer, :game, :live, :viewers, :title, :service)
-                     .where(service: params_channel[:service], channel: params_channel[:channel])
-                     .last
+                                .where(service: params_channel[:service], channel: params_channel[:channel])
+                                .last
     if channel.nil?
       render json: error("404")
     else

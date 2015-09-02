@@ -1,19 +1,22 @@
 class NginxController < ApplicationController
   before_filter :check_ip, :only => [:end_cinema, :move_record, :increase_viewer_count, :decrease_viewer_count, :get_key]
+
   def get_key
     streamer = Key.where(key: params_key[:key]).last if params_key[:name]
     if params_key[:name] == "omcktv"
-      if streamer.nil?
+      if streamer.nil? || (params_key[:app] != "live" && params_key[:app] != "cinema")
         render json: error("403"), status: 403
       else
         channel = "hdgames" if params_key[:app] == "live"
         channel = "hdkinco" if params_key[:app] == "cinema"
 
         update_chan = Channel.where(:service => "hd", channel: channel).last
-        update_chan.live = true
-        update_chan.game = streamer.game if channel == "hdgames"
-        update_chan.game = streamer.movie if channel == "hdkinco"
-        update_chan.title = streamer.game
+        title = channel == "hdgames" ? streamer.game : streamer.movie
+        update_chan.attributes = {
+          live: true,
+          game: title,
+          title: "#{title} | #{streamer.streamer}"
+        }
         update_chan.save
         render json: error("200"), status: 200
       end
@@ -25,7 +28,7 @@ class NginxController < ApplicationController
   def move_record
     if params_key[:key]
       channel = Channel.where(:service => "hd", :channel => "hdgames").last
-      channel.toggle!(:live)
+      channel.update(live: false)
       streamer = Key.where(key: params_key[:key]).last
       if params_key[:path]
         if streamer.nil?
@@ -52,7 +55,7 @@ class NginxController < ApplicationController
   def end_cinema
     if params_key[:key]
       channel = Channel.where(:service => "hd", :channel => "hdkinco").last
-      channel.toggle!(:live)
+      channel.update(live: false)
       render json: error("200"), status: 200
     else
       render json: error("403"), status: 200
@@ -65,16 +68,16 @@ class NginxController < ApplicationController
       channel = Channel.where(:service => "hd", :channel => "hdkinco").last if params_key[:app] == "cinema"
       channel.increment!(:viewers)
     end
-    render json: params, status: 200
+    render json: error("200"), status: 200
   end
 
   def decrease_viewer_count
     if params_key[:app]
       channel = Channel.where(:service => "hd", :channel => "hdgames").last if params_key[:app] == "live"
       channel = Channel.where(:service => "hd", :channel => "hdkinco").last if params_key[:app] == "cinema"
-      channel.decrement!(:viewers)
+      channel.decrement!(:viewers) if channel.viewers != 0
     end
-    render json: params, status: 200
+    render json: error("200"), status: 200
   end
 
   private

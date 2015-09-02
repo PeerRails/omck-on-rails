@@ -11,33 +11,27 @@
           %span.caret
         %ul#stream-menu.dropdown-menu{role: "menu", style: "width: 300px;"}
           %li.dropdown-header{"role" => "presentation"} Official Streams
-          %li#hdgames.list-group-item
-            %a#hdgames{href: "#/channel/hd/hdgames", onclick: "SelectStream('hd/hdgames');"}
-              %span.badge.pull-right
-                %i.fa.fa-eye#viewers-hdgames
-                  0
-              %span.label.label-danger.pull-right#live-hdgames
-              Games HD 
-              %br
-              #title-hdgames
-          %li#hdkinco.list-group-item
-            %a#hdkinco{href: "#/channel/hd/hdkinco", onclick: "SelectStream('hd/hdkinco');"}
-              %span.badge.pull-right
-                %i.fa.fa-eye#viewers-hdkinco
-                  0
-              %span.label.label-danger.pull-right#live-hdkinco
-              Cinema HD
-              %br
-              #title-hdkinco
-          %li#omcktv.list-group-item
-            %a#omcktv{href: "#/channel/twitch/omcktv", onclick: "SelectStream('twitch/omcktv');"}
-              %span.badge.pull-right
-                %i.fa.fa-eye#viewers-omcktv
-                  0
-              %span.label.label-danger.pull-right#live-omcktv
-              OmckTV Twitch
-              %br
-              #title-omcktv
+          %a#hdgames.list-group-item{href: "#/channel/hd/hdgames", onclick: "SelectStream('hd/hdgames');"}
+            %span.badge.pull-right
+              %i.fa.fa-eye#viewers-hdgames
+                0
+            Games HD
+            %span.label.label-danger.pull-right#live-hdgames
+            %p#title-hdgames
+          %a#hdkinco.list-group-item{href: "#/channel/hd/hdkinco", onclick: "SelectStream('hd/hdkinco');"}
+            %span.badge.pull-right
+              %i.fa.fa-eye#viewers-hdkinco
+                0
+            Cinema HD
+            %span.label.label-danger.pull-right#live-hdkinco
+            #title-hdkinco
+          %a#omcktv.list-group-item{href: "#/channel/twitch/omcktv", onclick: "SelectStream('twitch/omcktv');"}
+            %span.badge.pull-right
+              %i.fa.fa-eye#viewers-omcktv
+                0
+            OmckTV Twitch
+            %span.label.label-danger.pull-right#live-omcktv
+            %p#title-omcktv
           %li.dropdown-header{"role" => "presentation"} Random Streams
       %li.dropdown
         %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
