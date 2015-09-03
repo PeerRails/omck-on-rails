@@ -4,7 +4,6 @@ gem 'rails', '4.2.1'
 #gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
 gem "puma"
-gem 'brakeman'
 gem 'figaro'
 
 gem 'less-rails'
@@ -33,4 +32,5 @@ group :development do
   gem "binding_of_caller"
   gem 'rails-footnotes', '>= 4.0.0', '<5'
   gem 'quiet_assets'
+  gem 'brakeman'
 end
