@@ -3,6 +3,7 @@ class StaffController < ApplicationController
   def index
 
     if current_user
+      @tag_ids = []
       @tweets = Tweet.select(:comment, :user_id).order(id: :desc).limit(10)
       @user_key = Key.present.find_by_user_id(current_user.id)
       @channels = Channel.twitch

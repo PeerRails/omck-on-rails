@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
   #Video
   get 'user/vids' => 'videos#list'
-  post 'user/vids/delete' => 'videos#delete'
+  delete 'user/vids/delete' => 'videos#delete'
 
   #Root
   root 'home#index'

@@ -55,7 +55,7 @@ def bitdash
   #raise ["hdkinco", "hdgames", "records"].include?(channel).inspect
   if channel.nil? or !["hdkinco", "hdgames", "records"].include? channel
     redirect_to '/bitdash/records'
-  else 
+  else
     render layout: false
   end
 end

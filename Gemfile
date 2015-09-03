@@ -30,6 +30,7 @@ gem 'russian', '~> 0.6.0'
 
 group :development do
   gem "better_errors"
+  gem "binding_of_caller"
   gem 'rails-footnotes', '>= 4.0.0', '<5'
   gem 'quiet_assets'
 end

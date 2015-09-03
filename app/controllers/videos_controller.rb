@@ -9,10 +9,23 @@ class VideosController < ApplicationController
   def move
   end
 
-  # yeah
   def delete
-    vid = Video.find(vid_params[:id])
-    replay = Playlist.find_by_video_id(vid_params[:id])
+    ids = params[:tag_ids]
+    if ids.nil?
+      flash[:danger] = "Ничего не выбрано."
+    else
+      ids.each do |id|
+        delete_by_id id
+      end
+    end
+    flash[:success] = "Сделано"
+    redirect_to home_url
+  end
+
+  # yeah
+  def delete_by_id id
+    vid = Video.find(id)
+    replay = Playlist.find_by_video_id(id)
     if vid.nil?
       flash[:danger] = "Такого видео нет!"
     else
@@ -21,18 +34,19 @@ class VideosController < ApplicationController
           replay.status = 5
           replay.save
         else
-          File.delete(vid.path)
-          replay.destroy
+          if !replay.nil?
+            replay.destroy
+            File.delete(vid.path)
+          else
+            File.delete(vid.path)
+          end
         end
         vid.deleted = true
         vid.save
-        flash[:success] = "Удалено!"
       else
         flash[:success] = "Вы не владелец данного видео!"
       end
-      
     end
-    redirect_to home_path
   end
 
   def list
@@ -41,6 +55,6 @@ class VideosController < ApplicationController
   end
 
   def vid_params
-    params.permit(:id, :user_id)
+    params.require(:video).permit(:id, :user_id)
   end
 end

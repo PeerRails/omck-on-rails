@@ -1,26 +1,23 @@
 #vids.tab-pane
   %h2 Видосики
-  %table.table
-    %tbody
-      %tr
-      %td
-      %td
-        %b Игра
-      %td
-        %b Описание
-      %td
-        %b Скачать
-      %td
-        %b Удалить
-      %td
-        %b Дата создания
-      - @vids.each_with_index do |vid, i|
+  =bootstrap_form_tag :url => url_for(:action => 'delete', :controller => 'videos'), :method => 'delete' do |f|
+    %table.table
+      %tbody
         %tr
-          %td= i+1
-          %td= vid.game
-          %td= vid.description
-          %td= link_to "Скачать", "/videos/#{Pathname.new(vid.path).basename.to_s}", method: "get", target: "_blank"
-          - if current_user.gmod == 1 || current_user.id == vid.user_id
-            %td
-              = link_to "Удалить", user_vids_delete_path(id: vid.id), method: "post"
-          %td= vid.created_at.strftime("%c")
+        %td
+        %td
+          %b Игра
+        %td
+          %b Описание
+        %td
+          %b Скачать
+        %td
+          %b Дата создания
+        - @vids.each_with_index do |vid|
+          %tr
+            %td= check_box_tag "tag_ids[]", vid.id
+            %td= vid.game
+            %td= vid.description
+            %td= link_to "Скачать", "/videos/#{Pathname.new(vid.path).basename.to_s}", method: "get", target: "_blank"
+            %td= vid.created_at.utc.strftime("%c")
+    =f.submit "Удалить", class: "btn btn-danger"

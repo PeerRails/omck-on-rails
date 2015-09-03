@@ -2,7 +2,6 @@ class TweetsController < ApplicationController
   before_filter :auth
 
   def tweet
-
     @input = params.require(:tweet).permit(:comment, :own)
     @new_tweet = Tweet.new(comment: @input["comment"], user_id: current_user.id)
 
