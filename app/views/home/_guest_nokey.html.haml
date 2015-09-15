@@ -1,9 +1,0 @@
-.container
-  .row
-    = bootstrap_flash
-  .row.jumbotron
-    .col-md-4.col-md-offset-4
-      #h1 Введите ключ свой
-      = bootstrap_form_tag url: '/guest' do |f|
-        = f.text_field :key, placeholder: 'XXXXXX', label: "Ключик"
-        = f.submit "Получить доступ"

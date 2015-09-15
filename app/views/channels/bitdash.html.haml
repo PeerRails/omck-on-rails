@@ -4,41 +4,7 @@
     %title OmckTV LiveStream Channel
     = javascript_include_tag 'jquery'
     = javascript_include_tag 'bitdash.min'
+    = javascript_include_tag 'player'
     = favicon_link_tag 'favicon.ico'
   %body
     #video
-
-    :coffee
-      $(document).ready ->
-        if location.hostname == 'omck.moe'
-          @hd = 'hd.omck.moe'
-        else if location.hostname == 'omck.tv' || location.hostname == 'omck.ws'
-          @hd = 'hd.omck.tv'
-        else
-          @hd = 'local.dev'
-        if location.pathname.split('/')[2] == 'hdgames' || location.pathname.split('/')[2] == 'hdkinco' || location.pathname.split('/')[2] == 'records'
-          channel = location.pathname.split('/')[2]
-        else
-          channel = "records"
-        console.log 'http://' + @hd + '/dash/' + channel + '/omcktv.mpd'
-        conf = 
-          key: '4289ecc38c96d781a8aadf9941496941'
-          source:
-            mpd: 'http://' + @hd + '/dash/' + channel + '/omcktv.mpd'
-            hls: 'http://' + @hd + '/hls/' + channel + '/omcktv.m3u8'
-            poster: '/assets/bg/omck.jpg'
-          playback:
-            autoplay: true
-            muted: false
-          style:
-            width: '100%'
-            height: '100%'
-          events:
-            onError: (data) ->
-              console.error 'bitdash error: ' + data.code + ': ' + data.message
-              return
-            onReady: (obj) ->
-              console.log @getVersion() + ' onReady: ', obj
-              return
-        player = bitdash('video').setup(conf)
-        return

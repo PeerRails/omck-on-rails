@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   #bitdash
   get 'bitdash/:channel' => 'channels#bitdash'
+  get 'bitdash' => 'channels#bitdash'
 
   #NGINX Controller
   get 'auth_stream' => 'nginx#get_key'
