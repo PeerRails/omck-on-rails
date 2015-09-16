@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_filter :auth
+  before_filter :auth, except: [:bitdash]
 
 
   def new
@@ -52,8 +52,21 @@ end
 
 def bitdash
   channel = params.permit(:channel)[:channel]
-  #raise ["hdkinco", "hdgames", "records"].include?(channel).inspect
-  if channel.nil? or !["hdkinco", "hdgames", "records"].include? channel
+  if request.host == "localhost"
+    @host = "127.0.0.1"
+  else
+    @host = "hd." + request.host
+  end
+
+  case channel
+  when "hdgames"
+    @channel = "live"
+  when "hdkinco"
+    @channel = "cinema"
+  when "records"
+    @channel = "records"
+  end
+  if @channel.nil?
     redirect_to '/bitdash/records'
   else
     render layout: false

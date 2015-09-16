@@ -5,7 +5,8 @@
     #chat.col-md-4
       %iframe{bgcolor: "#ffffff", frameborder: "0", height: "100%", scrolling: "no", src: "/irc", width: "100%"}
       %a.twitter-share-button{"data-hashtags" => "omcktv", "data-related" => "omckws", "data-text" => "Я смотрю стрим на", "data-via" => "omcktv", href: "https://twitter.com/share"} Tweet
-    #panel.col-md-8
+  /
+    #panel.col-md-8{style: "marging-top: 5px"}
       .btn-group
         %button#hidecalendar.btn.btn-danger{onclick: "toggleSchedule();", style: "display: inline;"} Hide Schedule
         %button#hidecalendar.btn.btn-info{onclick: "SelectStream('hd/records');"} Records
@@ -27,3 +28,17 @@
       js.src = "//platform.twitter.com/widgets.js"
       fjs.parentNode.insertBefore js, fjs
   ) document, "script", "twitter-wjs"
+:css
+  .stream {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+  }
+  .stream iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }

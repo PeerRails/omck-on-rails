@@ -1,6 +1,3 @@
-//=require jwplayer
-//=require jwplayer.html5
-
 @ls_omck = '<object type="application/x-shockwave-flash" data="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false" height="100%" width="100%"><param name="movie" value="https://cdn.livestream.com/grid/LSPlayer.swf?channel=mc_mc_mc_omck&amp;color=0xe7e7e7&amp;autoPlay=true&amp;mute=false"><param name="wmode" value="transparent"><param name="allowFullscreen" value="true"></object>'
 @hd_omck = "<div id=\"mediaspace\"></div>"
 @tw_omck = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel=omcktv\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel=omcktv&auto_play=true&start_volume=100\" /></object>"
@@ -82,7 +79,7 @@ else
 #@GetChannel = (channel) ->
 
 @InsertBitDash = (omck) ->
-  $("#stream").html('<iframe src="/bitdash/'+omck+' width="100%" scrolling="no" frameborder="0" height="100%"></iframe>')
+  $("#stream").html('<iframe id="bit" src="/bitdash/'+omck+'" width="100%" allowfullscreen frameborder="0" height="100%"></iframe>')
 @InsertHD = (omck) ->
   $("#stream").data( "service", "hd" )
   $("#stream").html('<div id="streamjs"></div>').promise().done( ->
@@ -113,17 +110,12 @@ else
         $("#stream").data( "service", "livestream" )
         #$("button#viewers").html("Viewers: "+data.viewers)
       when "twitch"
-        twitch = "<object type=\"application/x-shockwave-flash\" height=\"100%\" width=\"100%\" id=\"live_embed_player_flash\" data=\"http://www.twitch.tv/widgets/live_embed_player.swf?channel="+data.channel+"\" bgcolor=\"#000000\"><param name=\"allowFullScreen\" value=\"true\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"allowNetworking\" value=\"all\" /><param name=\"movie\" value=\"http://www.twitch.tv/widgets/live_embed_player.swf\" /><param name=\"wmode\" value=\"transparent\"><param name=\"flashvars\" value=\"hostname=www.twitch.tv&channel="+data.channel+"&auto_play=true&start_volume=100\" /></object>"
+        twitch = '<iframe src="http://www.twitch.tv/'+data.channel+'/embed" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>'
         $("#stream").html(twitch)
         $("#stream").data( "service", "twitch" )
         #$("button#viewers").html("Viewers: "+data.viewers)
       when "hd"
-        if data.channel is "hdgames"
-          InsertHD("live")
-        else if data.channel is "records"
-          InsertHD("records")
-        else
-          InsertHD("cinema")
+        InsertBitDash(data.channel)
       else
         $("#stream").html @hd_omck
     #$("button#viewers").html "Viewers: " + data.viewers
