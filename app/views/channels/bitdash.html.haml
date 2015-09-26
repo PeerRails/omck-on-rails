@@ -15,11 +15,11 @@
         %a{:href => "http://videojs.com/html5-video-support/", :target => "_blank"} supports HTML5 video
 :coffee
   $(document).ready ->
-    videojs('content').width $(window).width()
-    videojs('content').height $(window).height()
+    videojs('content').width $(window).width() - 20
+    videojs('content').height $(window).height()- 20
     return
 
   $(window).resize ->
-    videojs('content').width $(window).width()
-    videojs('content').height $(window).height()
+    videojs('content').width $(window).width() - 20
+    videojs('content').height $(window).height() - 20
     return

@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
     def check_ip
-      if request.remote_ip != "127.0.0.1"
+      unless request.remote_ip.include? "172.17." || request.remote_ip == "127.0.0.1"
         render json: error("403"), status: 403
       end
     end
