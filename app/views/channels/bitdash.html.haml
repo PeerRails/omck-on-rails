@@ -3,16 +3,13 @@
   %head
     %title OmckTV LiveStream Channel
     = javascript_include_tag 'jquery'
-    = stylesheet_link_tag    'http://vjs.zencdn.net/4.12/video-js.css'
-    = javascript_include_tag 'http://vjs.zencdn.net/4.12/video.js'
+    = stylesheet_link_tag    '/player/video-js.css'
+    = javascript_include_tag '/player/video.js'
     = javascript_include_tag '/player/background.js'
     = favicon_link_tag 'favicon.ico'
   %body
     %video#content.video-js.vjs-default-skin{:controls => "", "data-setup" => "{}", :poster => "/assets/bg/omck.jpg", :preload => "auto", :autoplay => true,}
       %source{:src => "rtmp://#{@host}/#{@channel}/omcktv", :type => "rtmp/mp4"}
-      %p.vjs-no-js
-        To view this video please enable JavaScript, and consider upgrading to a web browser that
-        %a{:href => "http://videojs.com/html5-video-support/", :target => "_blank"} supports HTML5 video
 :coffee
   $(document).ready ->
     videojs('content').width $(window).width() - 20
