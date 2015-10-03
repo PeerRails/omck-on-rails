@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   #NGINX Controller
   get 'auth_stream' => 'nginx#get_key'
+  post 'auth_stream' => 'nginx#get_key'
   get 'incr_stream' => 'nginx#increase_viewer_count'
   get 'decr_stream' => 'nginx#decrease_viewer_count'
   get 'end_cinema' => 'nginx#end_cinema'
