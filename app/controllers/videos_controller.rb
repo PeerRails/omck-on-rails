@@ -9,6 +9,23 @@ class VideosController < ApplicationController
   def move
   end
 
+  def check_deleted
+    count = 0
+    Video.where(deleted: false).each do |v|
+      replay = Playlist.where(id: v.id).last
+      unless File.exist?(v.path)
+        v.deleted = true
+        v.save
+        count += 1
+        unless replay.nil?
+          replay.destroy
+        end
+      end
+    end
+    flash[:success] = "Проверка выполнена, удалено #{count}"
+    redirect_to home_url
+  end
+
   def delete
     ids = params[:tag_ids]
     if ids.nil?
@@ -25,7 +42,7 @@ class VideosController < ApplicationController
   # yeah
   def delete_by_id id
     vid = Video.find(id)
-    replay = Playlist.find_by_video_id(id)
+    replay = Playlist.where(id: id).last
     if vid.nil?
       flash[:danger] = "Такого видео нет!"
     else

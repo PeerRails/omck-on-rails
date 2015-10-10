@@ -1,5 +1,6 @@
 #vids.tab-pane
   %h2 Видосики
+  %a{href: "/user/vids/check"} Проверить целостность
   =bootstrap_form_tag :url => url_for(:action => 'delete', :controller => 'videos'), :method => 'delete' do |f|
     %table.table
       %tbody
@@ -18,6 +19,7 @@
             %td= check_box_tag "tag_ids[]", vid.id
             %td= vid.game
             %td= vid.description
-            %td= link_to "Скачать", "/videos/#{Pathname.new(vid.path).basename.to_s}", method: "get", target: "_blank"
+            %td
+              %a{href: "/videos/#{Pathname.new(vid.path).basename.to_s}", target: "_blank"} Скачать
             %td= vid.created_at.utc.strftime("%c")
     =f.submit "Удалить", class: "btn btn-danger"

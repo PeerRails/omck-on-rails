@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 
   #Video
   get 'user/vids' => 'videos#list'
+  get 'user/vids/check' => 'videos#check_deleted'
   delete 'user/vids/delete' => 'videos#delete'
 
   #Root
