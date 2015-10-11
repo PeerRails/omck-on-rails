@@ -146,6 +146,16 @@ else
   else
     console.log "ERROR!"
   return
+@changeChat = (option) ->
+  if option is 'alt'
+    $("#altchat").attr("onclick", "changeChat('old');").html "Old Chat"
+    $("#chat").html '<iframe src="http://client.canternet.org?channels=omcktv&uio=d4" width="100%" height="100%"></iframe>'
+  else if option is 'old'
+    $("#altchat").attr("onclick", "changeChat('alt');").html "Alt Chat"
+    $("#chat").html '<iframe src="/irc" width="100%" height="100%"></iframe>'
+  else
+    console.log "ERROR!"
+  return
 @toggleDong = (option) ->
   if option is 0
     $("#toggle-dong").attr("onclick", "toggleDong(1);").html "Enlarge Screen"
