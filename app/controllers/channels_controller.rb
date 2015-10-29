@@ -59,7 +59,7 @@ def bitdash
     @fmt = fmt
   end
   if request.host == "localhost"
-    @host = "127.0.0.1"
+    @host = "localhost"
   else
     @host = "hd." + request.host
   end
