@@ -51,7 +51,13 @@ def delete
 end
 
 def bitdash
-  channel = params.permit(:channel)[:channel]
+  channel = params.require(:channel) || "records"
+  fmt = params[:fmt] || "default"
+  unless ["default", "rtmp", "hls", "dash"].include? fmt
+    @fmt = "default"
+  else
+    @fmt = fmt
+  end
   if request.host == "localhost"
     @host = "127.0.0.1"
   else

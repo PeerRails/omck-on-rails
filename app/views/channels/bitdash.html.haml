@@ -4,13 +4,25 @@
     %title Test
     = javascript_include_tag 'jquery'
     = stylesheet_link_tag    'http://vjs.zencdn.net/5.0/video-js.css'
+    = stylesheet_link_tag    '/player/videojs-dash'
     = javascript_include_tag 'http://vjs.zencdn.net/5.0/video.js'
-    = javascript_include_tag '/player/background.js'
+    = javascript_include_tag '/player/dash.all.js'
+    = javascript_include_tag '/player/videojs-dash.js'
     = favicon_link_tag 'favicon.ico'
   %body
     %video#content.video-js.vjs-default-skin{:controls => "", "data-setup" => '{"techOrder": ["flash", "html5"], "nativeControlsForTouch": true, "controlBar": {"progressControl": false } }', :poster => "/assets/bg/omck.jpg", :preload => "auto", :autoplay => true}
-      %source{:src => "rtmp://#{@host}/#{@channel}/omcktv", :type => "rtmp/mp4"}
-      %source{:src => "http://#{@host}/hls/#{@channel}/omcktv.m3u8", :type => "video/mp4"}
+      -if @fmt == "default"
+        %source{:src => "rtmp://#{@host}:1935/#{@channel}/omcktv", :type => "rtmp/mp4"}
+        %source{:src => "http://#{@host}/hls/#{@channel}/omcktv.m3u8", :type => "video/mp4"}
+      - elsif @fmt == "rtmp"
+        %source{:src => "rtmp://#{@host}:1935/#{@channel}/omcktv", :type => "rtmp/mp4"}
+      - elsif @fmt == "hls"
+        %source{:src => "http://#{@host}/hls/#{@channel}/omcktv.m3u8", :type => "video/mp4"}
+      - elsif @fmt == "dash"
+        %source{:src => "http://#{@host}/dash/#{@channel}/omcktv.mpd", :type => "application/dash+xml"}
+      - else
+        %source{:src => "rtmp://#{@host}/#{@channel}/omcktv", :type => "rtmp/mp4"}
+        %source{:src => "http://#{@host}/hls/#{@channel}/omcktv.m3u8", :type => "video/mp4"}
       %p.vjs-no-js
         To view this video please enable JavaScript, and consider upgrading to a web browser that
         %a{:href => "http://videojs.com/html5-video-support/", :target => "_blank"} supports HTML5 video
