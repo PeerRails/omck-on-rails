@@ -12,6 +12,7 @@ gem 'therubyracer'
 gem 'uglifier'
 
 gem 'haml-rails'
+gem 'slim'
 
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
