@@ -56,10 +56,10 @@ class ChannelsController < ApplicationController
       channel.game = chan_params[:game] unless chan_params[:game].nil?
       channel.streamer = chan_params[:streamer] unless chan_params[:streamer].nil?
       if channel.save
-      	response = serialize channel
+        response = serialize channel
       else
-      	response = {error: true, message: "Invalid data"}
-      	response_status = 500
+        response = {error: true, message: "Invalid data"}
+        response_status = 500
       end
       render json: response, status: response_status
     end
