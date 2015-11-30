@@ -14,11 +14,11 @@ Rails.application.routes.draw do
 
   #Channel API
   get 'channel/live' => 'channels#list_live', defaults: {page: 0}
-  get 'channel/all' => 'channels#index', defaults: {page: 0}
+  get 'channel/all' => 'channels#list_all', defaults: {page: 0}
   get 'channel/:service/:channel' => 'channels#show'
   get 'service/:service' => 'channels#list_service_channels', defaults: {service: "hd"}
   post 'channel/new' => 'channels#new'
-  post 'channel/:service/:channel/update' => 'channels#update'
+  post 'channel/update' => 'channels#update'
 
   #User API
   get 'user/:twitter_id' => 'users#show'

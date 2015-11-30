@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   def auth
     if current_user.nil?
-      redirect_to '/login'
+      redirect_to 'home/login'
     else
       return true
     end
