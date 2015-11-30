@@ -58,24 +58,21 @@ class KeysController < ApplicationController
     if current_user.gmod == 1
       key = params.permit(:key)
       @old_key = Key.where(key: key["key"]).last
-      #@old_key.expires = DateTime.now
 
-      @new_key = Key.new(user_id: @old_key.user_id,streamer: @old_key.streamer,game: @old_key.game,movie: @old_key.movie,guest: @old_key.guest)
+      @new_key = Key.new(user_id: @old_key.user_id, streamer: @old_key.streamer, game: @old_key.game, movie: @old_key.movie, guest: )
       @new_key.expires = @old_key.expires
       @new_key.key = generate_key
+
+      @old_key.expires = DateTime.now
 
       if @new_key.save && @old_key.save
         flash[:success] = "Ключ пересоздан! Выдайте #{@new_key.streamer} : #{@new_key.key}"
       else
         flash[:danger] = "Ошибка создания ключа!"
       end
-      if @new_key.guest?
-        redirect_to guest_room_url(key["key"])
-      else
         redirect_to home_url
-      end
     else
-      flash[:danger] = "А Вы и не модер испарять ключи"
+      flash[:danger] = "А Вы и не модер создавать ключи гостям!"
     end
 
   end

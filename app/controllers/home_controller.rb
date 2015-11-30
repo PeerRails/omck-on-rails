@@ -1,35 +1,38 @@
 class HomeController < ApplicationController
-
-	def index
-    @current_user ||= User.select("users.*, sessions.ip, sessions.expires").joins(:sessions).where(sessions: {session_id: session[:session_id]}).last if session[:session_id].present?
-	end
-
-  def cabinet
-    redirect_to staff_url
+  def index
   end
 
-  def guest
-    @key = Key.new
-    if params_key.present?
-      key = params_key[:key]
-      @user_key = Key.is_guest.where(key: key).last
-      if @user_key.nil?
-        flash[:danger] = "Такого ключа нет! Номер напишите Пиру в личку"
-      end
+  def cabinet
+    if current_user
+      # placeholder
+      render 'login'
+    else
+      redirect_to home_login_url
     end
+  end
 
+  def login
+    if current_user.nil?
+      render 'login'
+    else
+      redirect_to home_url
+    end
+  end
+
+  def admin
+    if current_user
+      # placeholder
+      render 'login'
+    else
+      redirect_to home_login_url
+    end
   end
 
   def faq
-
-  end
-
-  def faq_irc
-
+    render 'faq'
   end
 
   def params_key
     params.permit(:key)
   end
-
 end

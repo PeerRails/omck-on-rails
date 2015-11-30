@@ -2,20 +2,23 @@ Rails.application.routes.draw do
 
   #Root
   root 'home#index'
+  get 'home/login' => 'home#login'
+  get 'home/' => 'home#cabinet'
+  get 'home/faq' => 'home#faq'
+  get 'home/admin' => 'home#admin'
 
   #auth
+  # get 'auth_session' => 'application#session_auth' #why I even need this
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
-  get 'auth_session' => 'application#session_auth'
   get 'logout' => 'users#logout'
 
   #Channel API
   get 'channel/live' => 'channels#list_live', defaults: {page: 0}
   get 'channel/all' => 'channels#index', defaults: {page: 0}
   get 'channel/:service/:channel' => 'channels#show'
-  get 'service/:service' => 'channels#list_channels', defaults: {service: "hd"}
-
+  get 'service/:service' => 'channels#list_service_channels', defaults: {service: "hd"}
   post 'channel/new' => 'channels#new'
-  post 'channel/:service/:channel/update'
+  post 'channel/:service/:channel/update' => 'channels#update'
 
   #User API
   get 'user/:twitter_id' => 'users#show'
@@ -43,11 +46,6 @@ Rails.application.routes.draw do
   #bitdash
   get 'bitdash/:channel' => 'channels#bitdash', defaults: {channel: "records"}
   get 'bitdash' => 'channels#bitdash'
-
-  #home
-  get '/home' => 'home#cabinet'
-  get 'faq' => 'home#faq'
-  get 'home/admin' => 'home#admin'
 
 #avconv -re -i /home/prails/Downloads/stream.flv -f flv rtmp://localhost:1935/live/omckws?key=50adf9fc-8499-4d45-b499-de831586cd9a
 =begin
