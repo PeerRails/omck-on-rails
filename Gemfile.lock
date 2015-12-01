@@ -69,11 +69,17 @@ GEM
     coffee-script-source (1.10.0)
     commonjs (0.2.7)
     debug_inspector (0.0.2)
+    diff-lcs (1.2.5)
     domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.10)
     erubis (2.7.0)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     fastercsv (1.5.5)
@@ -183,6 +189,23 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     ref (2.0.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-rails (3.4.0)
+      actionpack (>= 3.0, < 4.3)
+      activesupport (>= 3.0, < 4.3)
+      railties (>= 3.0, < 4.3)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
     ruby2ruby (2.2.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.0)
@@ -193,6 +216,8 @@ GEM
     safe_yaml (1.0.4)
     sass (3.4.19)
     sexp_processor (4.6.0)
+    shoulda-matchers (3.0.1)
+      activesupport (>= 4.0.0)
     simple_form (3.2.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -248,6 +273,7 @@ DEPENDENCIES
   bootstrap_form
   brakeman
   coffee-rails
+  factory_girl_rails (~> 4.0)
   figaro
   font-awesome-rails
   haml-rails
@@ -261,10 +287,15 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.2.1)
   rails-footnotes (>= 4.0.0, < 5)
+  rspec-rails (~> 3.0)
   russian (~> 0.6.0)
+  shoulda-matchers (~> 3.0)
   simple_form
   slim
   therubyracer
   twitter
   twitter-bootstrap-rails
   uglifier
+
+BUNDLED WITH
+   1.10.6

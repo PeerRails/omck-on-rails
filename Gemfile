@@ -33,5 +33,11 @@ group :development do
   gem "binding_of_caller"
   gem 'rails-footnotes', '>= 4.0.0', '<5'
   gem 'quiet_assets'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem "shoulda-matchers", '~> 3.0'
+  gem "factory_girl_rails", "~> 4.0"
   gem 'brakeman'
 end
