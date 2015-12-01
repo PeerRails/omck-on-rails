@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_filter :auth, except: [:bitdash
+  #before_filter :auth, except: [:bitdash]
 
   def list_live
     channels = Channel.live.map { |ch| serialize ch }
@@ -14,28 +14,30 @@ class ChannelsController < ApplicationController
   def show
     channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
     unless channel.nil?
-      response = (serialize channel).merge {status: 200}
+      response = (serialize channel).merge({status: 200})
     else
       response = {error: true, message: "Not Found", status: 404}
     end
     render json: response, status: response[:status]
   end
 
-  def list_service_channels
+=begin
+  def service_list
     channels = Channel.where(service: chan_params[:service]).map { |ch| serialize ch }
     render json: channels
   end
+=end
 
-  def new
+  def create
     unless chan_params.nil? || chan_params[:service].nil? || chan_params[:channel].nil?
       unless Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last.nil?
         response = {error: true, message: "Channel exists already", status: 403}
       else
         channel = Channel.new(chan_params)
         if channel.save
-          response = (serialize channel).merge {status: 200}
+          response = (serialize channel).merge({status: 200})
         else
-          response = {error: true, message: "Something went wrong", status: 500}
+          response = {error: true, message: channel.errors.full_messages, status: 500}
         end
       end
     else
@@ -53,12 +55,12 @@ class ChannelsController < ApplicationController
       channel.game = chan_params[:game] unless chan_params[:game].nil?
       channel.streamer = chan_params[:streamer] unless chan_params[:streamer].nil?
       if channel.save
-        response = (serialize channel).merge {status: 200}
+        response = (serialize channel).merge({status: 200})
       else
-        response = {error: true, message: "Invalid data", status: 403}
+        response = {error: true, message: channel.errors.full_messages, status: 403}
       end
-      render json: response, status: response[:Status]
     end
+    render json: response, status: response[:status]
   end
 
   def bitdash
@@ -69,7 +71,7 @@ class ChannelsController < ApplicationController
   end
 
   private
-  def serialize chan
+  def serialize(chan)
     return {"channel" => chan.channel,
             "viewers" => chan.viewers,
             "live" => chan.live,
@@ -77,6 +79,7 @@ class ChannelsController < ApplicationController
             "title" => chan.title,
             "streamer" => chan.streamer,
             "service" => chan.service,
+            "official" => chan.official,
             "error" => nil}
 
   end

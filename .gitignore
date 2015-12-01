@@ -4,6 +4,7 @@
 /pids/
 /public/assets
 /shared
+coverage
 
 # Ignore application configuration
 /config/application.yml

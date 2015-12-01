@@ -16,7 +16,7 @@ test:
   host: localhost
   database: omckonrails-test
   username: test
-  password: test1
+  password: test
 
 production:
   <<: *default

@@ -17,30 +17,30 @@ ActiveRecord::Schema.define(version: 20151201140634) do
   enable_extension "plpgsql"
 
   create_table "channels", force: :cascade do |t|
-    t.string   "channel",    limit: 255
-    t.boolean  "live",                   default: false
-    t.integer  "viewers",                default: 0,                            null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico"
-    t.string   "streamer",   limit: 255, default: "McDwarf"
-    t.string   "title",      limit: 255, default: "Boku wa Tomodachi ga Sekai"
-    t.string   "service",    limit: 255, default: "twitch"
+    t.string   "channel"
+    t.boolean  "live",       default: false
+    t.integer  "viewers",    default: 0,                            null: false
+    t.string   "game",       default: "Boku no Pico",               null: false
+    t.string   "streamer",   default: "McDwarf"
+    t.string   "title",      default: "Boku wa Tomodachi ga Sekai"
+    t.string   "service",    default: "twitch"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "official",               default: false
+    t.boolean  "official",   default: false
   end
 
   add_index "channels", ["channel"], name: "index_channels_on_channel", using: :btree
 
   create_table "keys", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "key",        limit: 255,                                        null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
-    t.date     "expires",                default: '2099-01-01',                 null: false
-    t.string   "streamer",   limit: 255, default: "McDwarf"
+    t.string   "key",                                               null: false
+    t.string   "game",       default: "Boku no Pico",               null: false
+    t.date     "expires",    default: '2099-01-01',                 null: false
+    t.string   "streamer",   default: "McDwarf"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "guest",                  default: false
-    t.string   "movie",      limit: 255, default: "Boku Wa Tomodachi Ga Sekai"
+    t.boolean  "guest",      default: false
+    t.string   "movie",      default: "Boku Wa Tomodachi Ga Sekai"
   end
 
   add_index "keys", ["key"], name: "index_keys_on_key", using: :btree
@@ -79,22 +79,19 @@ ActiveRecord::Schema.define(version: 20151201140634) do
   add_index "tweets", ["user_id"], name: "index_tweets_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "twitter_id",        limit: 255
-    t.string   "screen_name",       limit: 255,                  null: false
-    t.string   "profile_image_url", limit: 255, default: ""
-    t.string   "name",              limit: 255, default: "Anon"
+    t.string   "twitter_id"
+    t.string   "screen_name",       default: "Null", null: false
+    t.string   "profile_image_url"
+    t.string   "name",              default: "Anon"
+    t.integer  "gmod",              default: 0
+    t.integer  "streamer",          default: 0
     t.date     "login_last"
     t.inet     "last_ip"
-    t.string   "access_token",      limit: 255
-    t.string   "secret_token",      limit: 255
-    t.integer  "gmod",                          default: 0
-    t.string   "hd_channel",        limit: 255, default: "0",    null: false
-    t.integer  "streamer",                      default: 0
+    t.string   "access_token"
+    t.string   "secret_token"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
 
   create_table "videos", force: :cascade do |t|
     t.string   "game",        default: "Boku no Pico", null: false

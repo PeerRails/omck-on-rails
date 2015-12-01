@@ -15,8 +15,8 @@ Rails.application.routes.draw do
   get 'channel/live' => 'channels#list_live', defaults: { page: 0 }
   get 'channel/all' => 'channels#list_all', defaults: { page: 0 }
   get 'channel/:service/:channel' => 'channels#show'
-  get 'service/:service' => 'channels#list_service_channels', defaults: { service: 'hd' }
-  post 'channel/new' => 'channels#new'
+  #get 'service/:service' => 'channels#service_list', defaults: { service: 'hd' }
+  post 'channel/new' => 'channels#create'
   post 'channel/update' => 'channels#update'
 
   # User API
