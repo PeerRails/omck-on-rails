@@ -42,7 +42,7 @@ class NginxController < ApplicationController
             game: streamer.game,
             path: new_file,
             description: "#{streamer.game} by #{streamer.streamer}",
-            uid: SecureRandom.hex(6)
+            token: SecureRandom.hex(6)
             )
         end
       end

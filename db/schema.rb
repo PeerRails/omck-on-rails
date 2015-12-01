@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813142743) do
+ActiveRecord::Schema.define(version: 20151201140634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150813142743) do
     t.string   "channel",    limit: 255
     t.boolean  "live",                   default: false
     t.integer  "viewers",                default: 0,                            null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
+    t.string   "game",       limit: 255, default: "Boku no Pico"
     t.string   "streamer",   limit: 255, default: "McDwarf"
     t.string   "title",      limit: 255, default: "Boku wa Tomodachi ga Sekai"
     t.string   "service",    limit: 255, default: "twitch"
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20150813142743) do
     t.integer  "key_id"
     t.string   "youtube_id"
     t.text     "description", default: "Boku no Pico"
-    t.string   "uid",                                  null: false
+    t.string   "token",                                null: false
     t.string   "path"
     t.boolean  "deleted",     default: false
     t.datetime "created_at",                           null: false
