@@ -9,7 +9,7 @@ class KeysController < ApplicationController
     if current_user.gmod == 1
       keys = Key.all.map { |k| serialize k }
     else
-      keys = Key.where(user_id: key_params[:user_id]).present.map({ |k| serialize k })
+      keys = Key.where(user_id: key_params[:user_id]).present.map{ |k| serialize k }
     end
     render json: keys
   end
