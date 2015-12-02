@@ -53,10 +53,8 @@ class VideosController < ApplicationController
         else
           if !replay.nil?
             replay.destroy
-            File.delete(vid.path)
-          else
-            File.delete(vid.path)
           end
+          File.delete(vid.path.to_s)
         end
         vid.deleted = true
         vid.save
