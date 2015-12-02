@@ -18,10 +18,13 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require "omniauth"
 require "factory_girl_rails"
+require "faker"
 require "shoulda-matchers"
 require 'simplecov'
 
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter "app/models/playlist.rb"
+end
 OmniAuth.config.test_mode = true
 omni_twitter = {
   :provider => "twitter",

@@ -42,4 +42,5 @@ group :test do
   gem 'database_cleaner'
   gem 'brakeman', :require => false
   gem 'simplecov', :require => false
+  gem 'faker'
 end
