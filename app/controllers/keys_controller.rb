@@ -1,28 +1,23 @@
 class KeysController < ApplicationController
-  before_filter :auth
 
   def generate_key
     SecureRandom.uuid
   end
 
   def list
-    if current_user.gmod == 1
-      keys = Key.all.map { |k| serialize k }
-    else
-      keys = Key.where(user_id: key_params[:user_id]).present.map{ |k| serialize k }
-    end
+    keys = Key.all.map { |k| serialize k }
     render json: keys
   end
 
   def create
-    if key_params[:user_id] && key_params[:user_id] == current_user.id || current_user.gmod
+    if key_params[:user_id] && !User.where(id: key_params[:user_id]).last.nil?
       if Key.where(user_id: key_params[:user_id]).present.empty?
         key = Key.new(key_params)
         key.key = generate_key
         if key.save
           response = (serialize key).merge({status: 200})
         else
-          resonse = {error: true, message: "Something went wrong", status: 500}
+          resonse = {error: true, message: key.errors.full_messages, status: 500}
         end
       else
         response = {error: true, message: "You already have key", status: 403}
@@ -34,7 +29,7 @@ class KeysController < ApplicationController
   end
 
   def expire
-    if key_params[:user_id] && key_params[:user_id] == current_user.id || current_user.gmod == 1
+    if key_params[:user_id]
       key = Key.where(user_id: key_params[:user_id]).present.last
       unless key.nil?
         key.expires = DateTime.now
@@ -50,7 +45,7 @@ class KeysController < ApplicationController
   end
 
   def update
-    if key_params[:user_id] && key_params[:user_id] == current_user.id || current_user.gmod
+    if key_params[:user_id]
       key = Key.where(user_id: key_params[:user_id]).present.last
       key.streamer = key_params[:streamer]
       key.movie = key_params[:movie]
@@ -67,7 +62,7 @@ class KeysController < ApplicationController
   end
 
   def regenerate
-    if key_params[:user_id] && key_params[:user_id] == current_user.id || current_user.gmod == 1
+    if key_params[:user_id]
       key = Key.where(user_id: key_params[:user_id]).present.last
       unless key.nil?
         key.expires = DateTime.now
@@ -89,7 +84,6 @@ class KeysController < ApplicationController
   end
 
   private
-
   def serialize(key)
     { streamer: key.streamer,
       movie: key.movie,

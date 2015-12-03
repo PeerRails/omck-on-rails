@@ -1,5 +1,5 @@
 class Key < ActiveRecord::Base
-  belongs_to :users
+  belongs_to :user
   has_many :videos
   validates :key, :expires, :streamer, :presence => true
   validates :key, uniqueness: true
