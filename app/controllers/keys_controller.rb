@@ -47,16 +47,16 @@ class KeysController < ApplicationController
   def update
     if key_params[:user_id]
       key = Key.where(user_id: key_params[:user_id]).present.last
-      key.streamer = key_params[:streamer]
-      key.movie = key_params[:movie]
-      key.game = key_params[:game]
+      key.streamer = key_params[:streamer] unless key_params[:streamer].nil?
+      key.movie = key_params[:movie] unless key_params[:movie].nil?
+      key.game = key_params[:game] unless key_params[:game].nil?
       if key.save
         response = (serialize key).merge({status: 200})
       else
-        response = {error: true, message: "Invalid data", status: 500}
+        response = {error: true, message: key.errors.full_messages, status: 500}
       end
     else
-      response = {error: true, message: "Invalid data", status: 500}
+      response = {error: true, message: "Not valid key", status: 500}
     end
     render json: response, status: response[:status]
   end

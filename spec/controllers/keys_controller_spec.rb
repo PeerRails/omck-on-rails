@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe KeysController, type: :controller do
   before do
     @streamer = create(:user, :streamer)
-    create(:key, user_id: @streamer.id, key: Faker::Internet.password)
+    @key = create(:key, user_id: @streamer.id, key: Faker::Internet.password)
   end
   describe "GET #list" do
     it "returns http success" do
@@ -42,6 +42,52 @@ RSpec.describe KeysController, type: :controller do
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
       expect(json["message"]).to eq("Invalid data")
+    end
+  end
+  describe "POST #update" do
+    it 'should update streamer attribute' do
+      word = Faker::Lorem.word
+      post :update, key: {user_id: @streamer.id, streamer: word}
+      key = Key.find_by_user_id(@streamer.id)
+      expect(key.streamer).to  eq(word)
+    end
+    it 'should update game attribute' do
+      word = Faker::Lorem.word
+      post :update, key: {user_id: @streamer.id, game: word}
+      key = Key.find_by_user_id(@streamer.id)
+      expect(key.game).to  eq(word)
+    end
+    it 'should update movie attribute' do
+      word = Faker::Lorem.word
+      post :update, key: {user_id: @streamer.id, movie: word}
+      key = Key.find_by_user_id(@streamer.id)
+      expect(key.movie).to  eq(word)
+    end
+    it 'should update movie, game and streamer attribute' do
+      game = Faker::Lorem.word
+      movie = Faker::Lorem.word
+      streamer = Faker::Lorem.word
+      post :update, key: {user_id: @streamer.id, movie: movie, game: game, streamer: streamer}
+      key = Key.find_by_user_id(@streamer.id)
+      expect(key.movie).to  eq(movie)
+      expect(key.game).to  eq(game)
+      expect(key.streamer).to  eq(streamer)
+    end
+    it 'should not update key with not params and return error' do
+      word = Faker::Lorem.word
+      post :update
+      key = Key.find_by_user_id(@streamer.id)
+      expect(key.movie).to  eq(@key.movie)
+    end
+    it 'should update movie, game and streamer and return updated key' do
+      game = Faker::Lorem.word
+      movie = Faker::Lorem.word
+      streamer = Faker::Lorem.word
+      post :update, key: {user_id: @streamer.id, movie: movie, game: game, streamer: streamer}
+      json = JSON.parse(response.body)
+      expect(json["movie"]).to  eq(movie)
+      expect(json["game"]).to  eq(game)
+      expect(json["streamer"]).to  eq(streamer)
     end
   end
 end
