@@ -1,29 +1,41 @@
 class KeysController < ApplicationController
-
-  def generate_key
-    SecureRandom.uuid
-  end
-
   def list
     keys = Key.all.map { |k| serialize k }
     render json: keys
   end
 
   def create
-    if key_params[:user_id] && !User.where(id: key_params[:user_id]).last.nil?
+    if key_params[:user_id] && !key_owner(key_params[:user_id]).nil?
       if Key.where(user_id: key_params[:user_id]).present.empty?
         key = Key.new(key_params)
         key.key = generate_key
         if key.save
-          response = (serialize key).merge({status: 200})
+          response = (serialize key).merge(status: 200)
         else
-          resonse = {error: true, message: key.errors.full_messages, status: 500}
+          resonse = { error: true, message: key.errors.full_messages, status: 500 }
         end
       else
-        response = {error: true, message: "You already have key", status: 403}
+        response = { error: true, message: 'You already have key', status: 403 }
       end
     else
-      response = {error: true, message: "Invalid data", status: 403}
+      response = { error: true, message: 'Invalid data', status: 403 }
+    end
+    render json: response, status: response[:status]
+  end
+
+  def update
+    if key_params[:user_id] && !key_owner(key_params[:user_id]).nil?
+      key = Key.where(user_id: key_params[:user_id]).present.last
+      key.streamer = key_params[:streamer] unless key_params[:streamer].nil?
+      key.movie = key_params[:movie] unless key_params[:movie].nil?
+      key.game = key_params[:game] unless key_params[:game].nil?
+      if key.save
+        response = (serialize key).merge(status: 200)
+      else
+        response = { error: true, message: key.errors.full_messages, status: 500 }
+      end
+    else
+      response = { error: true, message: 'Not valid key', status: 500 }
     end
     render json: response, status: response[:status]
   end
@@ -34,29 +46,12 @@ class KeysController < ApplicationController
       unless key.nil?
         key.expires = DateTime.now
         key.save
-        response = (serialize key).merge({status: 200})
+        response = (serialize key).merge(status: 200)
       else
-        response = {error: true, message: "Key doesnt exists or already expired", status: 403}
+        response = { error: true, message: 'Key doesnt exists or already expired', status: 403 }
       end
     else
-      response = {error: true, message: "Invalid data", status: 403}
-    end
-    render json: response, status: response[:status]
-  end
-
-  def update
-    if key_params[:user_id]
-      key = Key.where(user_id: key_params[:user_id]).present.last
-      key.streamer = key_params[:streamer] unless key_params[:streamer].nil?
-      key.movie = key_params[:movie] unless key_params[:movie].nil?
-      key.game = key_params[:game] unless key_params[:game].nil?
-      if key.save
-        response = (serialize key).merge({status: 200})
-      else
-        response = {error: true, message: key.errors.full_messages, status: 500}
-      end
-    else
-      response = {error: true, message: "Not valid key", status: 500}
+      response = { error: true, message: 'Invalid data', status: 403 }
     end
     render json: response, status: response[:status]
   end
@@ -67,23 +62,30 @@ class KeysController < ApplicationController
       unless key.nil?
         key.expires = DateTime.now
         key.save
-        new_key = Key(key_params)
+        new_key = Key.new(user_id: key_params[:user_id], streamer: key_params[:streamer], movie: key_params[:movie], game: key_params[:game], guest: key_params[:guest], expires: DateTime.now + 3600, key: generate_key)
         new_key.save
-        response = (serialize new_key).merge({status: 200})
+        response = (serialize new_key).merge(status: 200)
       else
-        response = {error: true, message: "Invalid data", status: 500}
+        response = { error: true, message: 'Invalid key or already expired', status: 500 }
       end
     else
-      response = {error: true, message: "Invalid data", status: 500}
+      response = { error: true, message: 'Invalid data', status: 500 }
     end
     render json: response, status: response[:status]
   end
 
   def key_params
-    params.require(:key).permit(:user_id, :streamer, :movie, :game, :guest, :expires)
+    if params[:key]
+      return params.require(:key).permit(:user_id, :streamer, :movie, :game, :guest, :expires)
+    else
+      return { user_id: nil, streamer: nil, movie: nil, game: nil, guest: nil, expires: nil }
+    end
   end
 
-  private
+  def generate_key
+    SecureRandom.uuid
+  end
+
   def serialize(key)
     { streamer: key.streamer,
       movie: key.movie,
@@ -93,5 +95,9 @@ class KeysController < ApplicationController
       user: key.user.name,
       secret: key.key,
       'error' => nil }
+  end
+
+  def key_owner(id)
+    User.where(id: id).last
   end
 end

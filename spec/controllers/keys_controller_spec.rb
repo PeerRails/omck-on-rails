@@ -73,11 +73,18 @@ RSpec.describe KeysController, type: :controller do
       expect(key.game).to  eq(game)
       expect(key.streamer).to  eq(streamer)
     end
-    it 'should not update key with not params and return error' do
+    it 'should not update key without params and return error' do
       word = Faker::Lorem.word
       post :update
-      key = Key.find_by_user_id(@streamer.id)
-      expect(key.movie).to  eq(@key.movie)
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Not valid key")
+    end
+    it 'should not update key with incorrect id and return error' do
+      word = Faker::Lorem.word
+      post :update, key: {user_id: 1200}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
     end
     it 'should update movie, game and streamer and return updated key' do
       game = Faker::Lorem.word
@@ -88,6 +95,63 @@ RSpec.describe KeysController, type: :controller do
       expect(json["movie"]).to  eq(movie)
       expect(json["game"]).to  eq(game)
       expect(json["streamer"]).to  eq(streamer)
+    end
+  end
+  describe "POST #expire" do
+    it "should expire key and return success" do
+      user = create(:user, :mod)
+      create(:key, user_id: user.id)
+      post :expire, key: {user_id: user.id}
+      json = JSON.parse(response.body)
+      expect(Key.find_by_user_id(user.id).expires).to be < DateTime.now
+      expect(json["error"]).to be nil
+      expect(json["expires"]).to be < DateTime.now
+    end
+    it "should not expire key without params and return error" do
+      post :expire
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Invalid data")
+    end
+    it "should not expire key with incorrect id and return error" do
+      post :expire, key: {user_id: 1200}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Key doesnt exists or already expired")
+    end
+    it "should not expire expired key and return error" do
+      user = create(:user, :mod)
+      key = create(:key, user_id: user.id, expires: DateTime.now - 30)
+      post :expire, key: {user_id: user.id}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Key doesnt exists or already expired")
+    end
+  end
+  describe "POST #regenerate" do
+    it "should expire key and create new for user"do
+      user = create(:user, :mod)
+      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
+      expect{post :regenerate, key: {user_id: user.id, expires: DateTime.now + 3600, streamer: "Dwarf", game: "Gaem"}}.to change{Key.count}.by(1)
+      expect(Key.find(key.id).expires).to be < DateTime.now
+      json = JSON.parse(response.body)
+      expect(json["secret"]).not_to eq(key.key)
+    end
+    it "should not expire key if incorrect id" do
+      user = create(:user, :mod)
+      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
+      post :regenerate, key: {user_id: 120, expires: DateTime.now + 3600, streamer: "Dwarf", game: "Gaem"}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Invalid key or already expired")
+    end
+    it "should not expire key if no id" do
+      user = create(:user, :mod)
+      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
+      post :regenerate, key: {user_id: nil, expires: DateTime.now + 3600, streamer: "Dwarf", game: "Gaem"}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Invalid data")
     end
   end
 end
