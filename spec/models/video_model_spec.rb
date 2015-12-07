@@ -25,4 +25,9 @@ RSpec.describe Video, type: :model do
     create(:video, deleted: true)
     expect(Video.deleted.count).to eq(1)
   end
+  it "should list undeleted videos" do
+    video = create(:video, token: Faker::Internet.password)
+    expect(Video.list.last.token).to eq(video.token)
+    expect(Video.list.length).to eq(1)
+  end
 end

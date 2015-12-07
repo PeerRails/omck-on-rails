@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   post 'keys/update' => 'keys#update'
 
   # Video API
-  get 'video' => 'videos#index'
+  get 'video' => 'videos#list'
   post 'video/:id/save' => 'videos#save'
   delete 'video' => 'videos#remove'
 
