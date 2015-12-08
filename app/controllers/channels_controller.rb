@@ -14,11 +14,11 @@ class ChannelsController < ApplicationController
   def show
     channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
     unless channel.nil?
-      response = (serialize channel).merge({status: 200})
+      res = (serialize channel).merge({status: 200})
     else
-      response = {error: true, message: "Not Found", status: 404}
+      res = {error: true, message: "Not Found", status: 404}
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
 =begin
@@ -31,41 +31,41 @@ class ChannelsController < ApplicationController
   def create
     unless chan_params.nil? || chan_params[:service].nil? || chan_params[:channel].nil?
       unless Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last.nil?
-        response = {error: true, message: "Channel exists already", status: 403}
+        res = {error: true, message: "Channel exists already", status: 403}
       else
         channel = Channel.new(chan_params)
         if channel.save
-          response = (serialize channel).merge({status: 200})
+          res = (serialize channel).merge({status: 200})
         else
-          response = {error: true, message: channel.errors.full_messages, status: 500}
+          res = {error: true, message: channel.errors.full_messages, status: 500}
         end
       end
     else
-      response = {error: true, message: "No valid params", status: 500}
+      res = {error: true, message: "No valid params", status: 500}
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
   def update
     channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
     if channel.nil?
-      response = {error: true, message: "Channel not found", status: 404}
+      res = {error: true, message: "Channel not found", status: 404}
     else
       channel.title = chan_params[:title] unless chan_params[:title].nil?
       channel.game = chan_params[:game] unless chan_params[:game].nil?
       channel.streamer = chan_params[:streamer] unless chan_params[:streamer].nil?
       if channel.save
-        response = (serialize channel).merge({status: 200})
+        res = (serialize channel).merge({status: 200})
       else
-        response = {error: true, message: channel.errors.full_messages, status: 403}
+        res = {error: true, message: channel.errors.full_messages, status: 403}
       end
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
-
+=begin
   def bitdash
   end
-
+=end
   def chan_params
     params.permit(:channel, :streamer, :service, :game, :title)
   end

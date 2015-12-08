@@ -1,15 +1,11 @@
 Rails.application.routes.draw do
   # Root
-  root 'home#index'
-  get 'home/login' => 'home#login'
-  get 'home/' => 'home#cabinet'
-  get 'home/faq' => 'home#faq'
-  get 'home/admin' => 'home#admin'
+  #root 'home#index'
 
   # auth
   # get 'auth_session' => 'application#session_auth' #why I even need this
   match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
-  get 'logout' => 'users#logout'
+  get 'logout' => 'home#logout'
 
   # Channel API
   get 'channel/live' => 'channels#list_live', defaults: { page: 0 }
@@ -25,8 +21,8 @@ Rails.application.routes.draw do
   post 'user/:twitter_id/update' => 'users#update'
   post 'user/:twitter_id/grant' => 'users#grant'
 
-  match 'user/guest/auth' => 'users#guest_in', via: [:get, :post]
-  get 'user/guest/videos' => 'user#guest_video'
+  #match 'user/guest/auth' => 'users#guest_in', via: [:get, :post]
+  #get 'user/guest/videos' => 'user#guest_video'
 
   # Key API
   get 'your_keys' => 'keys#list'
@@ -37,14 +33,18 @@ Rails.application.routes.draw do
 
   # Video API
   get 'video' => 'videos#list'
-  post 'video/:id/save' => 'videos#save'
+  #post 'video/:id/save' => 'videos#save'
   delete 'video' => 'videos#remove'
 
   # Pages:
+  get 'home/index' => 'home#index'
+  get 'home/login' => 'home#login'
+  get 'home/' => 'home#cabinet'
+  get 'home/faq' => 'home#faq'
+  get 'home/admin' => 'home#admin'
 
   # bitdash
-  get 'bitdash/:channel' => 'channels#bitdash', defaults: { channel: 'records' }
-  get 'bitdash' => 'channels#bitdash'
+  #get 'bitdash/:channel' => 'channels#bitdash', defaults: { channel: 'records' }
 
   # avconv -re -i /home/prails/Downloads/stream.flv -f flv rtmp://localhost:1935/live/omckws?key=50adf9fc-8499-4d45-b499-de831586cd9a
   #     #Auth

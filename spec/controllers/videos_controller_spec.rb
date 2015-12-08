@@ -35,7 +35,22 @@ RSpec.describe VideosController, type: :controller do
       delete :remove, tag_tokens: [video.token]
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-
+    end
+    it "should not mark record as deleted with incorrect params" do
+      video = create(:video)
+      delete :remove, tag_tokens: nil
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Invalid tokens")
+    end
+    it "should not mark record as deleted with incorrect tokens" do
+      video = create(:video)
+      delete :remove, tag_tokens: [nil, "nil"]
+      json = JSON.parse(response.body)
+      expect(json["videos"][0]["error"]).to be true
+      expect(json["videos"][0]["message"]).to eq("Required file not found")
+      expect(json["videos"][1]["error"]).to be true
+      expect(json["videos"][1]["message"]).to eq("Required file not found")
     end
   end
 end

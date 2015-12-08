@@ -1,5 +1,4 @@
 class TweetsController < ApplicationController
-  before_filter :auth
 
   def tweet
     @input = params.require(:tweet).permit(:comment, :own)
@@ -18,6 +17,10 @@ class TweetsController < ApplicationController
     end
 
     redirect_to home_url
+  end
+
+  def last_tweets
+    
   end
 
 end

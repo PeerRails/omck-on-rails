@@ -2,15 +2,15 @@ class VideosController < ApplicationController
 
   def remove
     tks = params[:tag_tokens]
-    response = {}
     if tks.nil?
-      response = {error: true, message: "Invalid tokens", status: 403}
+      res = {error: true, message: "Invalid tokens", status: 403}
     else
+      res = {videos: [], status: 200}
       tks.each do |tk|
-        response.merge(delete_by_tk tk)
+        res[:videos].push(delete_by_tk tk)
       end
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
   # yeah
@@ -34,11 +34,11 @@ class VideosController < ApplicationController
 
   def list
     if params[:video].nil?
-      response = Video.list
+      res = Video.list
     else
-      response = Video.list.where(user_id: vid_params[:user_id])
+      res = Video.list.where(user_id: vid_params[:user_id])
     end
-    render json: response, status: 200
+    render json: res, status: 200
   end
 
   def vid_params

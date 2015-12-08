@@ -10,17 +10,17 @@ class KeysController < ApplicationController
         key = Key.new(key_params)
         key.key = generate_key
         if key.save
-          response = (serialize key).merge(status: 200)
+          res = (serialize key).merge(status: 200)
         else
           resonse = { error: true, message: key.errors.full_messages, status: 500 }
         end
       else
-        response = { error: true, message: 'You already have key', status: 403 }
+        res = { error: true, message: 'You already have key', status: 403 }
       end
     else
-      response = { error: true, message: 'Invalid data', status: 403 }
+      res = { error: true, message: 'Invalid data', status: 403 }
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
   def update
@@ -30,14 +30,14 @@ class KeysController < ApplicationController
       key.movie = key_params[:movie] unless key_params[:movie].nil?
       key.game = key_params[:game] unless key_params[:game].nil?
       if key.save
-        response = (serialize key).merge(status: 200)
+        res = (serialize key).merge(status: 200)
       else
-        response = { error: true, message: key.errors.full_messages, status: 500 }
+        res = { error: true, message: key.errors.full_messages, status: 500 }
       end
     else
-      response = { error: true, message: 'Not valid key', status: 500 }
+      res = { error: true, message: 'Not valid key', status: 500 }
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
   def expire
@@ -46,14 +46,14 @@ class KeysController < ApplicationController
       unless key.nil?
         key.expires = DateTime.now
         key.save
-        response = (serialize key).merge(status: 200)
+        res = (serialize key).merge(status: 200)
       else
-        response = { error: true, message: 'Key doesnt exists or already expired', status: 403 }
+        res = { error: true, message: 'Key doesnt exists or already expired', status: 403 }
       end
     else
-      response = { error: true, message: 'Invalid data', status: 403 }
+      res = { error: true, message: 'Invalid data', status: 403 }
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
   def regenerate
@@ -64,14 +64,14 @@ class KeysController < ApplicationController
         key.save
         new_key = Key.new(user_id: key_params[:user_id], streamer: key_params[:streamer], movie: key_params[:movie], game: key_params[:game], guest: key_params[:guest], expires: DateTime.now + 3600, key: generate_key)
         new_key.save
-        response = (serialize new_key).merge(status: 200)
+        res = (serialize new_key).merge(status: 200)
       else
-        response = { error: true, message: 'Invalid key or already expired', status: 500 }
+        res = { error: true, message: 'Invalid key or already expired', status: 500 }
       end
     else
-      response = { error: true, message: 'Invalid data', status: 500 }
+      res = { error: true, message: 'Invalid data', status: 500 }
     end
-    render json: response, status: response[:status]
+    render json: res, status: res[:status]
   end
 
   def key_params

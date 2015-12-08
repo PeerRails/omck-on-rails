@@ -120,12 +120,12 @@ RSpec.describe ChannelsController, type: :controller do
       expect(json["error"]).to eq(true)
     end
   end
-
+=begin
   describe "#bitdash" do
     it "return success" do
       get :bitdash
       expect(response).to have_http_status(:success)
     end
   end
-
+=end
 end

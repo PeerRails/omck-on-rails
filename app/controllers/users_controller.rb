@@ -1,84 +1,62 @@
 class UsersController < ApplicationController
-  before_filter :auth, except: [:login]
-  def login
-  	@omniauth = request.env['omniauth.auth']
-    if @omniauth.nil?
-      flash[:warning] = "Ошибка авторизации, попробуйте снова"
-      redirect_to root_url
-    else
-      user = User.login @omniauth, request.remote_ip
-      if user.save
-        Session.create_session(user, session[:session_id])
-        flash[:success] = "Добро пожаловать, #{user.name}"
-        redirect_to home_url
-      else
-        flash[:warning] = "Не удалась авторизация. Попробуйте снова."
-        redirect_to root_url
-      end
-    end
-
-  end
-
-  def manage_perm
-    user_params = params.require(:user).permit(:screen_name, :gmod, :streamer)
-    if current_user.gmod == 1
-      twitter_user = TClient.tclient.user(user_params[:screen_name])
-      if twitter_user.nil?
-        flash[:danger] = "Данного пользователя твиттера #{user_params[:screen_name]} не существует!"
-      else
-        user = User.find_by_twitter_id(twitter_user.id.to_s)
-        if user.nil?
-          user = User.create(
-            twitter_id: twitter_user.id,
-            name: twitter_user.name,
-            screen_name: twitter_user.screen_name,
-            profile_image_url: twitter_user.profile_image_url.to_s,
-            streamer: user_params[:streamer] || 1,
-            gmod: user_params[:gmod] || 0
-          )
-
-          key = Key.create(user_id: user.id, streamer: user.name, key: SecureRandom.uuid)
-        else
-          key = Key.create(user_id: user.id, streamer: user.name, key: SecureRandom.uuid) if user.streamer == 0 && user_params[:streamer] == 1 && Key.present.find_by_twitter_id(user.id).nil?
-          user.streamer = user_params[:streamer] || 1
-          user.gmod = user_params[:gmod] || 0
-          user.save
-          flash[:info] = "Права обновлены."
-        end
-      end
-    else
-      flash[:danger] = "Вы не админ."
-    end
-
-    redirect_to home_url
-
-  end
-
-
-  def remove_streamer
-    if current_user.gmod == 1 || current_user.streamer == 1
-      user_params = params.require(:user).permit(:id)
-      user = User.find(user_params[:id])
+  def show
+    if params && params[:twitter_id]
+      res = {}
+      user = User.where(twitter_id: params[:twitter_id]).last
       if user.nil?
-        flash[:danger] = "Пользователя не существует"
+        res = {error: true, message: "User not found", status: 404}
       else
-        User.update(user.id, streamer: 0)
-        Key.where(user_id: user.id).each do |key|
-          key.expires = DateTime.now
+        res = user.to_json
+      end
+    else
+      res = {error: true, message: "Invalid input data", status: 403}
+    end
+    render json: res, status: res["status"]
+  end
+
+  def videos
+    user = User.where(twitter_id: params[:twitter_id]).last
+    res = {}
+    if user.nil? || user.videos.list.empty?
+      res[:error] = true
+      res[:status] = 404
+      res[:message] = "User or videos not found"
+    else
+      res[:videos] = user.videos.list
+      res[:status] = 200
+    end
+    render json: res, status: res[:status]
+  end
+
+  def update
+
+  end
+
+  def grant
+    user = User.where(twitter_id: params[:twitter_id]).last
+    res = {}
+    if user.nil? || params[:permissions].nil?
+      res[:error] = true
+      res[:status] = 404
+      res[:message] = "User is not found"
+    else
+      user.streamer = perm_params[:streamer] if perm_params[:streamer]
+      user.gmod = perm_params[:gmod] if perm_params[:gmod]
+      if user.save
+        res = user.to_json
+        if user.keys.present.empty?
+          key = Key.new(user_id: user.id, key: SecureRandom.uuid, streamer: user.name, expires: DateTime.now + 900)
           key.save
         end
+      else
+        res[:error] = true
+        res[:status] = 403
+        res[:message] = "Invalid permissions"
       end
-      flash[:info] = "Права отобраны."
-    else
-      flash[:danger] = "Вы не админ."
     end
-    redirect_to home_url
+    render json: res, status: res["status"]
   end
-
-  def logout
-    Session.destroy_session(session[:session_id])
-  	reset_session
-  	redirect_to root_url
+  def perm_params
+    params.require(:permissions).permit(:streamer, :gmod)
   end
-
 end

@@ -3,15 +3,12 @@ class HomeController < ApplicationController
   end
 
   def cabinet
-
   end
 
   def login
-
   end
 
   def admin
-
   end
 
   def faq

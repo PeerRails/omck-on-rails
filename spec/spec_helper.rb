@@ -25,6 +25,8 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter "app/models/playlist.rb"
   add_filter "app/controllers/application.rb"
+  add_filter "app/controllers/nginx_controller.rb"
+  add_filter "app/controllers/tweets_controller.rb"
 end
 OmniAuth.config.test_mode = true
 omni_twitter = {

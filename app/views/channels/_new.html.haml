@@ -1,4 +1,0 @@
-= bootstrap_form_for @channel, html: {id: "create-channel", style: "display: none;"}, :url => url_for(:action => 'new', :controller => 'channels'), :method => 'post' do |f|
-  = f.text_field :channel, require: true, label: "Канал Твитча"
-  = f.text_field :streamer, require: true, label: "Имя стримера"
-  = f.submit "Добавить канал", class: "btn btn-success"
