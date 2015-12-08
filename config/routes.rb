@@ -4,8 +4,11 @@ Rails.application.routes.draw do
 
   # auth
   # get 'auth_session' => 'application#session_auth' #why I even need this
-  match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
-  get 'logout' => 'home#logout'
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
+    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
+    get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
+    delete 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
+  end
 
   # Channel API
   get 'channel/live' => 'channels#list_live', defaults: { page: 0 }
@@ -37,11 +40,11 @@ Rails.application.routes.draw do
   delete 'video' => 'videos#remove'
 
   # Pages:
-  get 'home/index' => 'home#index'
-  get 'home/login' => 'home#login'
-  get 'home/' => 'home#cabinet'
-  get 'home/faq' => 'home#faq'
-  get 'home/admin' => 'home#admin'
+  #get 'home/index' => 'home#index'
+  #get 'home/login' => 'home#login'
+  #get 'home/' => 'home#cabinet'
+  #get 'home/faq' => 'home#faq'
+  #get 'home/admin' => 'home#admin'
 
   # bitdash
   #get 'bitdash/:channel' => 'channels#bitdash', defaults: { channel: 'records' }

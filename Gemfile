@@ -11,7 +11,7 @@ gem 'coffee-rails'
 gem 'therubyracer'
 gem 'uglifier'
 
-gem 'haml-rails'
+#gem 'haml-rails'
 gem 'slim'
 
 gem 'jquery-rails'
@@ -20,7 +20,7 @@ gem 'bootstrap_form'
 gem "font-awesome-rails"
 gem 'jbuilder'
 
-
+gem 'devise'
 gem 'omniauth'
 gem 'omniauth-twitter'
 

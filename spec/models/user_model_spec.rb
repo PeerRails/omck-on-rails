@@ -42,7 +42,7 @@ RSpec.describe User, type: :model do
   it "should login and create user" do
     omni = OmniAuth.config.mock_auth[:twitter]
     expect {
-      user = User.login(omni, Faker::Internet.ip_v4_address)
+      user = User.login(omni)
     }.to change{ User.count }.by(1)
   end
 
@@ -59,11 +59,11 @@ RSpec.describe User, type: :model do
         secret: Faker::Lorem.characters(16)
       }
     }
-    user = User.login(omni, Faker::Internet.ip_v4_address)
+    user = User.login(omni)
     expect(user.twitter_id).to eq(@streamer.twitter_id)
   end
   it "should return nil if incorrect data" do
-    expect(User.login(nil, Faker::Internet.ip_v4_address)).to be_nil
+    expect(User.login(nil)).to be_nil
 
   end
 
