@@ -37,14 +37,14 @@ RSpec.describe UsersController, type: :controller do
       expect(json["message"]).to eq("User or videos not found")
     end
   end
-  describe "POST #update" do
-    before do
-      @user = create(:user, :streamer)
-    end
-    it "should update user data" do
-      expect(true).to be true
-    end
-  end
+  #describe "POST #update" do
+  #  before do
+  #    @user = create(:user, :streamer)
+  #  end
+  #  it "should update user data" do
+  #    expect(true).to be true
+  #  end
+  #end
   describe "POST #grant" do
     before do
       @user = create(:user)

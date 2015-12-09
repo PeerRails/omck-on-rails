@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
-  #def index
-  #end
+  def index
+    render json: current_user
+  end
 
   #def cabinet
   #end

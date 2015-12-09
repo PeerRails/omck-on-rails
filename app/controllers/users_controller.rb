@@ -28,9 +28,8 @@ class UsersController < ApplicationController
     render json: res, status: res[:status]
   end
 
-  def update
-
-  end
+  #def update
+  #end
 
   def grant
     user = User.where(twitter_id: params[:twitter_id]).last

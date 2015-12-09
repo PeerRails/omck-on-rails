@@ -1,13 +1,11 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def twitter
-    @user = User.login(env['omniauth.auth'])
-
+    @user = User.login_with_twitter(env['omniauth.auth'])
     if @user.persisted?
-      #flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Twitter'
       @user.remember_me = true
-      #sign_in_and_redirect @user, event: :authentication,
+      sign_in @user, event: :authentication
+      redirect_to root_path
     else
-      #flash[:notice] = I18n.t 'devise.omniauth_callbacks.failure', kind: 'Twitter', reason: 'User not found'
       redirect_to new_user_session_path
     end
   end

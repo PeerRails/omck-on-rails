@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
   # Root
-  #root 'home#index'
+  root 'home#index'
 
   # auth
   # get 'auth_session' => 'application#session_auth' #why I even need this
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
-    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
-    get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
-    delete 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
-  end
+  get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
+  get 'login', :to => 'users/sessions#new', :as => :new_user_session
+  get 'logout', :to => 'users/sessions#destroy', :as => :destroy_user_session
 
   # Channel API
   get 'channel/live' => 'channels#list_live', defaults: { page: 0 }
@@ -21,7 +19,7 @@ Rails.application.routes.draw do
   # User API
   get 'user/:twitter_id' => 'users#show'
   get 'user/:twitter_id/videos' => 'users#videos'
-  post 'user/:twitter_id/update' => 'users#update'
+  #post 'user/:twitter_id/update' => 'users#update'
   post 'user/:twitter_id/grant' => 'users#grant'
 
   #match 'user/guest/auth' => 'users#guest_in', via: [:get, :post]
