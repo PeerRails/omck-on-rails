@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    render json: current_user
+    render json: {user: current_user}
   end
 
   #def cabinet

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   # auth
   # get 'auth_session' => 'application#session_auth' #why I even need this
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   get 'login', :to => 'users/sessions#new', :as => :new_user_session
   get 'logout', :to => 'users/sessions#destroy', :as => :destroy_user_session

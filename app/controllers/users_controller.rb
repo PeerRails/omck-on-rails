@@ -18,12 +18,9 @@ class UsersController < ApplicationController
     user = User.where(twitter_id: params[:twitter_id]).last
     res = {}
     if user.nil? || user.videos.list.empty?
-      res[:error] = true
-      res[:status] = 404
-      res[:message] = "User or videos not found"
+      res = {error: true, message: "User or videos not found", status: 404}
     else
-      res[:videos] = user.videos.list
-      res[:status] = 200
+      res = {videos: user.videos.list, status: 200, error: nil}
     end
     render json: res, status: res[:status]
   end
@@ -35,9 +32,7 @@ class UsersController < ApplicationController
     user = User.where(twitter_id: params[:twitter_id]).last
     res = {}
     if user.nil? || params[:permissions].nil?
-      res[:error] = true
-      res[:status] = 404
-      res[:message] = "User is not found"
+      res = {error: true, message: "User is not found", status: 404}
     else
       user.streamer = perm_params[:streamer] if perm_params[:streamer]
       user.gmod = perm_params[:gmod] if perm_params[:gmod]
@@ -48,9 +43,7 @@ class UsersController < ApplicationController
           key.save
         end
       else
-        res[:error] = true
-        res[:status] = 403
-        res[:message] = "Invalid permissions"
+        res = {error: true, message: user.errors.full_messages, status: 500}
       end
     end
     render json: res, status: res["status"]

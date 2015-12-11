@@ -1,4 +1,6 @@
 class KeysController < ApplicationController
+  before_action :auth
+
   def list
     keys = Key.all.map { |k| serialize k }
     render json: keys

@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  #before_filter :auth, except: [:bitdash]
+  before_action :auth, except: [:list_live, :list_all, :show]
 
   def list_live
     channels = Channel.live.map { |ch| serialize ch }

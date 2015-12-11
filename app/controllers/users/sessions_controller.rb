@@ -3,7 +3,7 @@ class Users::SessionsController < ApplicationController
     if current_user
       redirect_to root_url
     else
-      render json: {error: true}
+      redirect_to "/users/auth/twitter"
     end
   end
 
