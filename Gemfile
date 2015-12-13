@@ -13,6 +13,7 @@ gem 'uglifier'
 
 #gem 'haml-rails'
 gem 'slim'
+gem 'cancancan', '~> 1.10'
 
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
@@ -43,4 +44,5 @@ group :test do
   gem 'brakeman', :require => false
   gem 'simplecov', :require => false
   gem 'faker'
+  gem 'webmock'
 end

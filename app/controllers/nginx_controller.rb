@@ -1,5 +1,5 @@
 class NginxController < ApplicationController
-  before_filter :check_ip, :only => [:end_cinema, :move_record, :increase_viewer_count, :decrease_viewer_count, :get_key]
+  #before_filter :check_ip, :only => [:end_cinema, :move_record, :increase_viewer_count, :decrease_viewer_count, :get_key]
 
   def get_key
     streamer = Key.where(key: params_key[:key]).where("expires > ?", DateTime.now).last if params_key[:name]

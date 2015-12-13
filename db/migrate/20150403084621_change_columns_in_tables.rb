@@ -10,5 +10,7 @@ class ChangeColumnsInTables < ActiveRecord::Migration
     change_table :keys do |t|4
       t.index :user_id
     end
+
+    add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
   end
 end

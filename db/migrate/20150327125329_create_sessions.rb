@@ -4,7 +4,7 @@ class CreateSessions < ActiveRecord::Migration
       t.inet :ip
       t.integer :user_id
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

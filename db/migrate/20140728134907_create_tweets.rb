@@ -6,7 +6,7 @@ class CreateTweets < ActiveRecord::Migration
       t.text :comment, null: false
       t.integer :tipe, default: 2, null: false
 
-      t.timestamps
+      t.timestamps null: true
       t.index :uid
     end
   end

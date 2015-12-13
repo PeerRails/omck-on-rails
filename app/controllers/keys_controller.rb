@@ -1,5 +1,5 @@
 class KeysController < ApplicationController
-  before_action :auth
+  load_and_authorize_resource
 
   def list
     keys = Key.all.map { |k| serialize k }
@@ -8,7 +8,7 @@ class KeysController < ApplicationController
 
   def create
     if key_params[:user_id] && !key_owner(key_params[:user_id]).nil?
-      if Key.where(user_id: key_params[:user_id]).present.empty?
+      if Key.present.where(user_id: key_params[:user_id]).empty?
         key = Key.new(key_params)
         key.key = generate_key
         if key.save
@@ -27,7 +27,7 @@ class KeysController < ApplicationController
 
   def update
     if key_params[:user_id] && !key_owner(key_params[:user_id]).nil?
-      key = Key.where(user_id: key_params[:user_id]).present.last
+      key = Key.where(user_id: key_params[:user_id]).last
       key.streamer = key_params[:streamer] unless key_params[:streamer].nil?
       key.movie = key_params[:movie] unless key_params[:movie].nil?
       key.game = key_params[:game] unless key_params[:game].nil?
@@ -44,7 +44,7 @@ class KeysController < ApplicationController
 
   def expire
     if key_params[:user_id]
-      key = Key.where(user_id: key_params[:user_id]).present.last
+      key = Key.present.where(user_id: key_params[:user_id]).last
       unless key.nil?
         key.expires = DateTime.now
         key.save
@@ -60,7 +60,7 @@ class KeysController < ApplicationController
 
   def regenerate
     if key_params[:user_id]
-      key = Key.where(user_id: key_params[:user_id]).present.last
+      key = Key.where(user_id: key_params[:user_id]).last
       unless key.nil?
         key.expires = DateTime.now
         key.save

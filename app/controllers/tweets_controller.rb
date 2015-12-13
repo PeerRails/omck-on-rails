@@ -1,4 +1,5 @@
 class TweetsController < ApplicationController
+  before_action :auth
 
   def tweet
     @input = params.require(:tweet).permit(:comment, :own)
@@ -8,19 +9,17 @@ class TweetsController < ApplicationController
       @new_tweet.comment = "Стрим на #omcktv || " + @new_tweet.comment
     end
 
-    TClient.tclient.update( @new_tweet.comment )
-
+    tweet = TClient.tclient.update( @new_tweet.comment )
+    res = {}
     if @new_tweet.save
-      flash[:success] = "Успешно послан твит!"
+      res[:error] = nil
+      res[:success] = "Успешно послан твит!"
     else
-      flash[:danger] = "Ошибка :с"
+      res[:error] = true
+      res[:message] = "Ошибка :с"
     end
 
-    redirect_to home_url
-  end
-
-  def last_tweets
-    
+    render json: res
   end
 
 end

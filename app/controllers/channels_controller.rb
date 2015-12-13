@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_action :auth, except: [:list_live, :list_all, :show]
+  load_and_authorize_resource
 
   def list_live
     channels = Channel.live.map { |ch| serialize ch }
@@ -12,7 +12,7 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
+    channel = Channel.where(service: params[:service], channel: params[:channel]).last
     unless channel.nil?
       res = (serialize channel).merge({status: 200})
     else
@@ -67,7 +67,7 @@ class ChannelsController < ApplicationController
   end
 =end
   def chan_params
-    params.permit(:channel, :streamer, :service, :game, :title)
+    params.require(:channels).permit(:channel, :streamer, :service, :game, :title)
   end
 
   private

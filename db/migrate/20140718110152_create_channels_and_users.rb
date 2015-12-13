@@ -9,7 +9,7 @@ class CreateChannelsAndUsers < ActiveRecord::Migration
       t.string :title, :default => "Boku wa Tomodachi ga Sekai"
       t.string :service, :default => "twitch"
 
-      t.timestamps
+      t.timestamps null: true
       t.index :channel
     end
 
@@ -27,7 +27,7 @@ class CreateChannelsAndUsers < ActiveRecord::Migration
       t.string :twitch
 
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

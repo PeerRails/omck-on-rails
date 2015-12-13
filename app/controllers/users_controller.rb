@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
+
   def show
     if params && params[:twitter_id]
       res = {}
@@ -48,7 +50,18 @@ class UsersController < ApplicationController
     end
     render json: res, status: res["status"]
   end
+
   def perm_params
     params.require(:permissions).permit(:streamer, :gmod)
+  end
+
+  def serialize user
+    return {
+      twitter_id: user.twitter_id,
+      name: user.name,
+      screen_name: user.screen_name,
+      streamer: user.streamer,
+      gmod: user.gmod
+    }
   end
 end

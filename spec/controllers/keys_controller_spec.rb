@@ -5,6 +5,7 @@ RSpec.describe KeysController, type: :controller do
     @streamer = create(:user, :streamer)
     @key = create(:key, user_id: @streamer.id, key: Faker::Internet.password)
     sign_in @streamer
+    request.env["HTTP_ACCEPT"] = 'application/json'
   end
   describe 'action without authorization' do
     before do
@@ -14,21 +15,21 @@ RSpec.describe KeysController, type: :controller do
       get :list
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
     it 'should not create new key' do
       user = create(:user)
       post :create, key: { user_id: user.id }
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
     it 'should not update streamer attribute' do
       word = Faker::Lorem.word
       post :update, key: { user_id: @streamer.id, streamer: word }
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
     it 'should not expire key' do
       user = create(:user, :mod)
@@ -36,7 +37,7 @@ RSpec.describe KeysController, type: :controller do
       post :expire, key: { user_id: user.id }
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
     it 'should not expire key and create new for user'do
       user = create(:user, :mod)
@@ -44,7 +45,7 @@ RSpec.describe KeysController, type: :controller do
       post :regenerate, key: { user_id: user.id, expires: DateTime.now + 3600, streamer: 'Dwarf', game: 'Gaem' }
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
   end
 
@@ -57,16 +58,17 @@ RSpec.describe KeysController, type: :controller do
   end
   describe 'POST #create' do
     it 'should create new key' do
-      user = create(:user)
-      expect { post :create, key: { user_id: user.id } }.to change { Key.count }.by(1)
+      @key.expires = DateTime.now
+      @key.save
+      expect { post :create, key: { user_id: @streamer.id } }.to change { Key.count }.by(1)
     end
     it 'should create new key and return it' do
-      user = create(:user)
-      post :create, key: { user_id: user.id }
+      @key.expires = DateTime.now
+      @key.save
+      post :create, key: { user_id: @streamer.id }
       json = JSON.parse(response.body)
-      # raise [user,json].inspect
       expect(json['error']).to be_nil
-      expect(json['user']).to eq(user.name)
+      expect(json['user']).to eq(@streamer.name)
     end
     it 'should not create new key and return duplicate error' do
       post :create, key: { user_id: @streamer.id }
@@ -78,13 +80,13 @@ RSpec.describe KeysController, type: :controller do
       post :create, key: { user_id: nil }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('Invalid data')
+      expect(json['message']).to eq('You dont have access to this action')
     end
     it 'should not create new key and return model error' do
       post :create, key: { user_id: 24 }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('Invalid data')
+      expect(json['message']).to eq('You dont have access to this action')
     end
   end
   describe 'POST #update' do
@@ -142,11 +144,9 @@ RSpec.describe KeysController, type: :controller do
   end
   describe 'POST #expire' do
     it 'should expire key and return success' do
-      user = create(:user, :mod)
-      create(:key, user_id: user.id)
-      post :expire, key: { user_id: user.id }
+      post :expire, key: { user_id: @streamer.id }
       json = JSON.parse(response.body)
-      expect(Key.find_by_user_id(user.id).expires).to be < DateTime.now
+      expect(Key.find_by_user_id(@streamer.id).expires).to be < DateTime.now
       expect(json['error']).to be nil
       expect(json['expires']).to be < DateTime.now
     end

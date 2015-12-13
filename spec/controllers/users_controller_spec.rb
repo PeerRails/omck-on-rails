@@ -4,6 +4,8 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #show" do
     before do
       @user = create(:user, :streamer)
+      sign_in @user
+      request.env["HTTP_ACCEPT"] = 'application/json'
     end
     it "should show user information" do
       get :show, twitter_id: @user.twitter_id
@@ -21,6 +23,8 @@ RSpec.describe UsersController, type: :controller do
   describe "get #videos" do
     before do
       @user = create(:user, :streamer)
+      sign_in @user
+      request.env["HTTP_ACCEPT"] = 'application/json'
     end
     it "should return list of videos" do
       vid = create(:video, user_id: @user.id)
@@ -48,7 +52,9 @@ RSpec.describe UsersController, type: :controller do
   describe "POST #grant" do
     before do
       @user = create(:user)
-      @streamer = create(:user, :streamer)
+      @streamer = create(:user, :mod)
+      sign_in @streamer
+      request.env["HTTP_ACCEPT"] = 'application/json'
     end
     it "should grant stream permission" do
       post :grant, twitter_id: @user.twitter_id, permissions: {streamer: 1}

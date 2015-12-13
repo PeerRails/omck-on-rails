@@ -4,6 +4,7 @@ RSpec.describe ChannelsController, type: :controller do
   before do
     @hdgames = create(:channel, :hdchannel)
     @twitch = create(:channel, :twitchchannel)
+    request.env["HTTP_ACCEPT"] = 'application/json'
   end
 
   describe 'serialize' do
@@ -75,16 +76,16 @@ RSpec.describe ChannelsController, type: :controller do
 
   describe 'action without authorization' do
     it 'should not create new channel' do
-      post :create, service: 'twitch', channel: 'blizzheroes', streamer: 'hots'
+      post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'host'}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
     it 'should not update channel' do
-      post :update, service: 'hd', channel: 'hdgames', streamer: 'Veli'
+      post :update, channels: {service: 'hd', channel: 'hdgames', streamer: 'Veli'}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You must be logged')
+      expect(json['message']).to eq('You dont have access to this action')
     end
   end
 
@@ -94,14 +95,14 @@ RSpec.describe ChannelsController, type: :controller do
       sign_in @streamer
     end
     it 'should create new channel' do
-      post :create, service: 'twitch', channel: 'blizzheroes', streamer: 'hots'
+      post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'hots'}
       json = JSON.parse(response.body)
       expect(json['channel']).to eq('blizzheroes')
     end
 
     it 'returns duplicate error' do
       create(:channel, service: 'twitch', channel: 'blizzheroes', streamer: 'hots')
-      post :create, service: 'twitch', channel: 'blizzheroes', streamer: 'hots'
+      post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'hots'}
       json = JSON.parse(response.body)
       expect(json['error']).to eq(true)
     end
@@ -113,7 +114,7 @@ RSpec.describe ChannelsController, type: :controller do
     end
 
     it 'return invalid channel name error' do
-      post :create, service: 'twitch', channel: 'хардкод'
+      post :create, channels: {service: 'twitch', channel: 'хардкод'}
       json = JSON.parse(response.body)
       expect(json['error']).to eq(true)
     end
@@ -125,17 +126,17 @@ RSpec.describe ChannelsController, type: :controller do
       sign_in @streamer
     end
     it 'returns updated channel' do
-      post :update, service: 'hd', channel: 'hdgames', streamer: 'Veli'
+      post :update, channels: {service: 'hd', channel: 'hdgames', streamer: 'Veli'}
       json = JSON.parse(response.body)
       expect(json['streamer']).to eq('Veli')
     end
     it 'returns not found error' do
-      post :update, service: 'hd', channel: 'hdcinema', streamer: 'Veli'
+      post :update, channels: {service: 'hd', channel: 'hdcinema', streamer: 'Veli'}
       json = JSON.parse(response.body)
       expect(json['error']).to eq(true)
     end
     it 'returns invalid channel name error' do
-      post :update, service: 'hd', channel: 'hdgames', streamer: ''
+      post :update, channels: {service: 'hd', channel: 'hdgames', streamer: ''}
       json = JSON.parse(response.body)
       expect(json['error']).to eq(true)
     end

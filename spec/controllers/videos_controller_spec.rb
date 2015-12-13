@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe VideosController, type: :controller do
   describe "get #list" do
+    before  do
+      request.env["HTTP_ACCEPT"] = 'application/json'
+    end
     it "should return list of videos" do
       user = create(:user)
       create(:key, user_id: user.id)
@@ -30,6 +33,11 @@ RSpec.describe VideosController, type: :controller do
     end
   end
   describe "delete  #remove" do
+    before  do
+      request.env["HTTP_ACCEPT"] = 'application/json'
+      @user = create(:user, :streamer)
+      sign_in @user
+    end
     it "should mark record as deleted" do
       video = create(:video)
       delete :remove, tag_tokens: [video.token]

@@ -7,7 +7,7 @@ class CreateKeys < ActiveRecord::Migration
       t.date :expires, null: false, default: DateTime.parse("2099-01-01")
       t.string :streamer, default: "McDwarf"
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

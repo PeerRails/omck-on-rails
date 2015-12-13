@@ -38,6 +38,9 @@ Rails.application.routes.draw do
   #post 'video/:id/save' => 'videos#save'
   delete 'video' => 'videos#remove'
 
+  #Twitter
+  post 'user/tweet' => 'tweets#tweet'
+
   # Pages:
   #get 'home/index' => 'home#index'
   #get 'home/login' => 'home#login'

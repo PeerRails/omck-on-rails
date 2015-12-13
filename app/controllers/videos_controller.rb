@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+  load_and_authorize_resource
 
   def remove
     tks = params[:tag_tokens]

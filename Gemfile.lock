@@ -60,6 +60,7 @@ GEM
       terminal-table (~> 1.4)
     buftok (0.2.0)
     builder (3.2.2)
+    cancancan (1.13.1)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -69,6 +70,8 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     commonjs (0.2.7)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
@@ -103,6 +106,7 @@ GEM
       activesupport (>= 4.1.0)
     haml (4.0.7)
       tilt
+    hashdiff (0.2.3)
     hashie (3.4.3)
     highline (1.7.8)
     http (0.9.8)
@@ -274,6 +278,10 @@ GEM
     unf_ext (0.0.7.1)
     warden (1.2.3)
       rack (>= 1.0)
+    webmock (1.22.3)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
 
 PLATFORMS
   ruby
@@ -283,6 +291,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap_form
   brakeman
+  cancancan (~> 1.10)
   coffee-rails
   database_cleaner
   devise
@@ -310,6 +319,4 @@ DEPENDENCIES
   twitter
   twitter-bootstrap-rails
   uglifier
-
-BUNDLED WITH
-   1.10.6
+  webmock
