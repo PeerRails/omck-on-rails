@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_action :auth
+  load_and_authorize_resource
 
   def tweet
     @input = params.require(:tweet).permit(:comment, :own)
