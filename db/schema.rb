@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20151208130924) do
     t.string   "channel",    limit: 255
     t.boolean  "live",                   default: false
     t.integer  "viewers",                default: 0,                            null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
+    t.string   "game",       limit: 255, default: "Boku no Pico"
     t.string   "streamer",   limit: 255, default: "McDwarf"
     t.string   "title",      limit: 255, default: "Boku wa Tomodachi ga Sekai"
     t.string   "service",    limit: 255, default: "twitch"
