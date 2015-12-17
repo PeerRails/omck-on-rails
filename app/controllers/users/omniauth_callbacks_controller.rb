@@ -4,7 +4,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       @user.remember_me = true
       sign_in @user, event: :authentication
-      redirect_to root_path
+      redirect_to home_admin_path
     else
       redirect_to new_user_session_path
     end

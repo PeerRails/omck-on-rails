@@ -199,7 +199,7 @@ else
   else
     $.backstretch $.cookie("background_image")
   return
-
+###
 $(document).ready ->
   setBG()
   if $(location).attr('pathname') is "/"
@@ -217,3 +217,4 @@ $(document).ready ->
     , 5000)
   $.ajaxSetup cache: false
   return
+###

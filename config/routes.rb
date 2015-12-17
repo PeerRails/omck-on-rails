@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   # Root
-  root 'home#index'
 
   # auth
   # get 'auth_session' => 'application#session_auth' #why I even need this
@@ -40,6 +39,10 @@ Rails.application.routes.draw do
 
   #Twitter
   post 'user/tweet' => 'tweets#tweet'
+
+  #admin
+
+  get 'home/admin' => 'home#admin'
 
   # Pages:
   #get 'home/index' => 'home#index'
