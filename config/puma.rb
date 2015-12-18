@@ -1,7 +1,7 @@
 tag 'omcktv'
 environment ENV["RAILS_ENV"] || 'development'
 
-env_workers = ENV["RAILS_ENV"] == "production" ? 2 : 1
+env_workers = ENV["RAILS_ENV"] == "production" ? 4 : 2
 
 workers env_workers
 threads 1, 6

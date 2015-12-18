@@ -26,26 +26,22 @@ Rails.application.routes.draw do
   #get 'user/guest/videos' => 'user#guest_video'
 
   # Key API
-  get 'your_keys' => 'keys#list'
-  post 'keys/create' => 'keys#create'
-  post 'keys/expire' => 'keys#expire'
-  post 'keys/regenerate' => 'keys#regenerate'
-  post 'keys/update' => 'keys#update'
+  get 'home/your_keys' => 'keys#list'
+  post 'home/keys/create' => 'keys#create'
+  post 'home/keys/expire' => 'keys#expire'
+  post 'home/keys/regenerate' => 'keys#regenerate'
+  post 'home/keys/update' => 'keys#update'
 
   # Video API
-  get 'video' => 'videos#list'
+  get 'home/video' => 'videos#list'
   #post 'video/:id/save' => 'videos#save'
-  delete 'video' => 'videos#remove'
+  delete 'home/video' => 'videos#remove'
 
   #Twitter
-  post 'user/tweet' => 'tweets#tweet'
-
-  #admin
-
-  get 'home/admin' => 'home#admin'
+  post 'home/user/tweet' => 'tweets#tweet'
 
   # Pages:
-  #get 'home/index' => 'home#index'
+  get 'home' => 'home#index'
   #get 'home/login' => 'home#login'
   #get 'home/' => 'home#cabinet'
   #get 'home/faq' => 'home#faq'

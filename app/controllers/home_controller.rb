@@ -1,13 +1,11 @@
 class HomeController < ApplicationController
-  def index
-    render json: { user: current_user }
-  end
+  before_action :authenticate_user!
 
-  def admin
+  def index
     if user_signed_in?
-      render 'home/admin/admin', layout: false
+      render 'home/user'
     else
-      redirect_to new_user_session_path
+      redirect_to new_user_session
     end
   end
 

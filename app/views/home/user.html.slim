@@ -1,0 +1,58 @@
+.container
+  .panel.panel-default
+    .panel-body
+      .page-header
+        h1
+          | Hello,
+          = current_user.name
+  .row
+    .col-md-2#navs
+      .panel.panel-primary
+        .panel-heading
+          | Навигация
+        .panel-body
+          ul.nav.nav-pills.nav-stacked
+            li.active
+              a href="#index" Главная
+            - if can? :manage, Key
+            li
+              a href="#keys" Ключи
+            - if can? :list, Video
+              li
+                a href="#videos" Видосики
+            li
+              a href="#channels" Каналы
+            li
+              a href="#streamers" Стримеры
+            li
+              a href="#guest" Гостевые ключи
+            - if can? :manage, :all
+              li
+                a href="#settings" Настройки ОмскТВ
+            - if current_user
+              li
+                a href="/logout" Выйти
+    .col-md-8#info
+      .panel.panel-primary
+        .panel-heading
+          | Ваши данные
+        .panel-body
+        table.table#userinfo data-twitterid="#{current_user.twitter_id}"
+          tr
+            td#input-img
+            td
+          tr
+            td Имя
+            td#input-name
+          tr
+            td Ник
+            td#input-screen
+          tr
+            td Права
+            td#input-priv
+          - if can? :manage, Key
+            tr
+              td Ключ
+              td#input-key
+  .row
+    .col-md-6#videos

@@ -10,14 +10,14 @@ class Ability
     can :list, Video
     can :show, User
     can :videos, User
-    if user.streamer?
+    if user.gmod?
+      can :manage, :all
+    elsif user.streamer?
       can :manage, Key, :user_id => user.id
       can :manage, Channel, :service => 'twitch'
       can :update, User, :user_id => user.id
       can :manage, Video, :deleted => false, :user_id => user.id
       can :tweet, Tweet
-    elsif user.gmod?
-      can :manage, :all
     end
   end
 end

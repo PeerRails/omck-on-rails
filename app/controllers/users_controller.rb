@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       if user.nil?
         res = {error: true, message: "User not found", status: 404}
       else
-        res = user.to_json
+        res = (serialize user).to_json
       end
     else
       res = {error: true, message: "Invalid input data", status: 403}
@@ -60,6 +60,7 @@ class UsersController < ApplicationController
       twitter_id: user.twitter_id,
       name: user.name,
       screen_name: user.screen_name,
+      profile_image_url: user.profile_image_url,
       streamer: user.streamer,
       gmod: user.gmod
     }

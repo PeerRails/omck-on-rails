@@ -1,14 +1,12 @@
 class Users::SessionsController < ApplicationController
   def new
-    if current_user
-      redirect_to root_url
-    else
-      redirect_to "/users/auth/twitter"
+    if user_signed_in?
+      redirect_to home_path      
     end
   end
 
   def destroy
     sign_out
-    redirect_to root_url
+    redirect_to home_path
   end
 end

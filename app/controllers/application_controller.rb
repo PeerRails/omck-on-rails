@@ -15,9 +15,4 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def auth
-    if !current_user
-      render json: {error: true, message: "You must be logged"}, status: 403
-    end
-  end
 end
