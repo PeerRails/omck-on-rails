@@ -19,7 +19,7 @@ class VideosController < ApplicationController
     if tk.nil?
       return {error: true, message: "Required file not found"}
     else
-      vid = Video.list.where(token: tk).last
+      vid = Video.select("id").list.where(token: tk).last
       if vid.nil?
         return {error: true, message: "Required file not found"}
       else
@@ -27,7 +27,7 @@ class VideosController < ApplicationController
         if vid.save
           return vid
         else
-          return {error: true, message: vid.errors.full_messages}
+          return {error: true, message: vid.errors.full_messages, token: vid.token}
         end
       end
     end

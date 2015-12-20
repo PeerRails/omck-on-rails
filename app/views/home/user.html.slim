@@ -15,8 +15,8 @@
             li.active
               a href="#index" Главная
             - if can? :manage, Key
-            li
-              a href="#keys" Ключи
+            /li
+              /a href="#keys" Ключи
             - if can? :list, Video
               li
                 a href="#videos" Видосики
@@ -37,22 +37,54 @@
         .panel-heading
           | Ваши данные
         .panel-body
-        table.table#userinfo data-twitterid="#{current_user.twitter_id}"
+        table.table#userinfo data-twitterid="#{current_user.twitter_id}" data-userid="#{current_user.id}"
           tr
             td#input-img
+            td
             td
           tr
             td Имя
             td#input-name
+            td
           tr
             td Ник
             td#input-screen
+            td
           tr
             td Права
             td#input-priv
+            td
           - if can? :manage, Key
             tr
               td Ключ
               td#input-key
-  .row
-    .col-md-6#videos
+              td
+                a data-key="regenerate" onclick="postRegeneration()" Пересоздать ключ
+            tr
+              td
+                | Выводимое имя стримера
+                #form-group
+                  input#inputStreamer type="text" class="form-control"
+                br
+                #responseKeyDaya
+              td
+                | Выводимое название игры
+                #form-group
+                  textarea#inputGame type="text" class="form-control"
+              td
+                |Выводимое название кинца
+                #form-group
+                  textarea#inputMovie type="text" class="form-control"
+    .col-md-8#videos
+      .panel.panel-primary
+          .panel-heading
+            | Видосики
+          .panel-body
+            #responseVideo
+            table.table#videoList
+              tr
+                td
+                td Название
+                td Дата
+                td
+

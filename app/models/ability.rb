@@ -16,7 +16,8 @@ class Ability
       can :manage, Key, :user_id => user.id
       can :manage, Channel, :service => 'twitch'
       can :update, User, :user_id => user.id
-      can :manage, Video, :deleted => false, :user_id => user.id
+      can :remove, Video, :deleted => false, :user_id => user.id
+      can :delete_by_tk, Video, :deleted => false, :user_id => user.id
       can :tweet, Tweet
     end
   end

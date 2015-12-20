@@ -2,8 +2,8 @@ class KeysController < ApplicationController
   load_and_authorize_resource
 
   def list
-    keys = Key.all.map { |k| serialize k }
-    render json: keys
+    keys = Key.present.where(user_id: current_user.id).map { |k| serialize k }
+    render json: keys.first
   end
 
   def create
@@ -64,7 +64,7 @@ class KeysController < ApplicationController
       unless key.nil?
         key.expires = DateTime.now
         key.save
-        new_key = Key.new(user_id: key_params[:user_id], streamer: key_params[:streamer], movie: key_params[:movie], game: key_params[:game], guest: key_params[:guest], expires: DateTime.now + 3600, key: generate_key)
+        new_key = Key.new(user_id: key.user_id, streamer: key.streamer, movie: key.movie, game: key.game, guest: key.guest, expires: DateTime.now + 3600, key: generate_key)
         new_key.save
         res = (serialize new_key).merge(status: 200)
       else

@@ -53,7 +53,7 @@ RSpec.describe KeysController, type: :controller do
     it 'returns list of keys' do
       get :list
       json = JSON.parse(response.body)
-      expect(json.count).to be(1)
+      expect(json["error"]).to be nil
     end
   end
   describe 'POST #create' do
@@ -175,7 +175,7 @@ RSpec.describe KeysController, type: :controller do
     it 'should expire key and create new for user'do
       user = create(:user, :mod)
       key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
-      expect { post :regenerate, key: { user_id: user.id, expires: DateTime.now + 3600, streamer: 'Dwarf', game: 'Gaem' } }.to change { Key.count }.by(1)
+      expect { post :regenerate, key: { user_id: user.id } }.to change { Key.count }.by(1)
       expect(Key.find(key.id).expires).to be < DateTime.now
       json = JSON.parse(response.body)
       expect(json['secret']).not_to eq(key.key)
@@ -183,7 +183,7 @@ RSpec.describe KeysController, type: :controller do
     it 'should not expire key if incorrect id' do
       user = create(:user, :mod)
       key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
-      post :regenerate, key: { user_id: 120, expires: DateTime.now + 3600, streamer: 'Dwarf', game: 'Gaem' }
+      post :regenerate, key: { user_id: 120}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
       expect(json['message']).to eq('Invalid key or already expired')
@@ -191,7 +191,7 @@ RSpec.describe KeysController, type: :controller do
     it 'should not expire key if no id' do
       user = create(:user, :mod)
       key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
-      post :regenerate, key: { user_id: nil, expires: DateTime.now + 3600, streamer: 'Dwarf', game: 'Gaem' }
+      post :regenerate, key: { user_id: nil }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
       expect(json['message']).to eq('Invalid data')
