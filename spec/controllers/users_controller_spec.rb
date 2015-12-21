@@ -88,4 +88,17 @@ RSpec.describe UsersController, type: :controller do
       expect(json["message"]).to eq("User is not found")
     end
   end
+  describe "GET #list" do
+    before do
+      @user = create(:user)
+      @streamer = create(:user, :mod)
+      sign_in @streamer
+      request.env["HTTP_ACCEPT"] = 'application/json'
+    end
+    it "should list all users to admin" do
+      get :list
+      json = JSON.parse(response.body)
+      expect(json.length).to eq(User.count)
+    end
+  end
 end

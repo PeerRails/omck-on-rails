@@ -22,7 +22,7 @@ RSpec.describe ChannelsController, type: :controller do
     end
   end
 
-  describe '#list_all' do
+  describe 'GET #list_all' do
     it 'returns list of all channels' do
       get :list_all
       json = JSON.parse(response.body)
@@ -30,7 +30,7 @@ RSpec.describe ChannelsController, type: :controller do
     end
   end
 
-  describe '#list_live' do
+  describe 'GET #list_live' do
     before do
       @omcktv = create(:channel, service: 'twitch', channel: 'omcktv', official: true, live: false)
     end
@@ -61,7 +61,7 @@ RSpec.describe ChannelsController, type: :controller do
   #     end
   #   end
 
-  describe '#show' do
+  describe 'GET #show' do
     it 'returns hdgames' do
       get :show, service: 'hd', channel: 'hdgames'
       json = JSON.parse(response.body)
@@ -89,7 +89,7 @@ RSpec.describe ChannelsController, type: :controller do
     end
   end
 
-  describe '#create' do
+  describe 'POST #create' do
     before do
       @streamer = create(:user, :streamer)
       sign_in @streamer
@@ -120,25 +120,38 @@ RSpec.describe ChannelsController, type: :controller do
     end
   end
 
-  describe '#update' do
+  describe 'PUT #update' do
     before do
       @streamer = create(:user, :streamer)
       sign_in @streamer
     end
     it 'returns updated channel' do
-      post :update, channels: {service: 'hd', channel: 'hdgames', streamer: 'Veli'}
+      put :update, channels: {service: 'hd', channel: 'hdgames', streamer: 'Veli'}
       json = JSON.parse(response.body)
       expect(json['streamer']).to eq('Veli')
     end
     it 'returns not found error' do
-      post :update, channels: {service: 'hd', channel: 'hdcinema', streamer: 'Veli'}
+      put :update, channels: {service: 'hd', channel: 'hdcinema', streamer: 'Veli'}
       json = JSON.parse(response.body)
       expect(json['error']).to eq(true)
     end
     it 'returns invalid channel name error' do
-      post :update, channels: {service: 'hd', channel: 'hdgames', streamer: ''}
+      put :update, channels: {service: 'hd', channel: 'hdgames', streamer: ''}
       json = JSON.parse(response.body)
       expect(json['error']).to eq(true)
+    end
+  end
+  
+  describe "DELETE #remove" do
+    before do
+      @streamer = create(:user, :streamer)
+      create(:channel, service: 'twitch', channel: 'velikun', streamer: 'Veli')
+      sign_in @streamer
+    end
+    it 'deletes channel' do
+      delete :remove, channels: {service: 'twitch', channel: 'velikun'}
+      json = JSON.parse(response.body)
+      expect(json['error']).to be nil
     end
   end
   #   describe "#bitdash" do

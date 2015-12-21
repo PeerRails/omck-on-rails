@@ -37,13 +37,6 @@ timeoutId = undefined
     return
     )
 
-$(document).ready ->
-  if location.pathname == "/home"
-    getUser $("#userinfo").data("twitterid")
-    getUserKey()
-    getVideoList()
-  return
-
 @saveKeyData = ->
   form =
     key:
@@ -73,4 +66,12 @@ $('.form-control').on 'input propertychange change', ->
     saveKeyData()
     return
   ), 1000)
+  return
+
+$(document).ready ->
+  if location.pathname == "/home"
+    getUser $("#userinfo").data("twitterid")
+    getUserKey()
+    getVideoList()
+    getChannelList()
   return

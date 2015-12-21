@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   get 'channel/:service/:channel' => 'channels#show'
   #get 'service/:service' => 'channels#service_list', defaults: { service: 'hd' }
   post 'channel/new' => 'channels#create'
-  post 'channel/update' => 'channels#update'
+  put 'channel/update' => 'channels#update'
+  delete 'channel/remove' => 'channels#remove'
 
   # User API
+  get 'users' => 'users#list'
   get 'user/:twitter_id' => 'users#show'
   get 'user/:twitter_id/videos' => 'users#videos'
   #post 'user/:twitter_id/update' => 'users#update'

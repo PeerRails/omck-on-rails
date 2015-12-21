@@ -7,7 +7,7 @@ class ChannelsController < ApplicationController
   end
 
   def list_all
-    channels = Channel.all.map { |ch| serialize ch}
+    channels = Channel.all.order(:id).map { |ch| serialize ch}
     render json: channels.to_json
   end
 
@@ -56,6 +56,20 @@ class ChannelsController < ApplicationController
       channel.streamer = chan_params[:streamer] unless chan_params[:streamer].nil?
       if channel.save
         res = (serialize channel).merge({status: 200})
+      else
+        res = {error: true, message: channel.errors.full_messages, status: 403}
+      end
+    end
+    render json: res, status: res[:status]
+  end
+
+  def remove
+    channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
+    if channel.nil?
+      res = {error: true, message: "Channel not found", status: 404}
+    else
+      if channel.destroy
+        res = (serialize channel).merge({status: 200, message: "Channel destroyed"})
       else
         res = {error: true, message: channel.errors.full_messages, status: 403}
       end

@@ -16,6 +16,11 @@ class UsersController < ApplicationController
     render json: res, status: res["status"]
   end
 
+  def list
+    res = User.all.map { |u| serialize u }
+    render json: res, status: 200
+  end
+
   def videos
     user = User.where(twitter_id: params[:twitter_id]).last
     res = {}

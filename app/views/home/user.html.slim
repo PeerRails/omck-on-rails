@@ -63,13 +63,13 @@
             tr
               td
                 | Выводимое имя стримера
-                #form-group
+                .form-group
                   input#inputStreamer type="text" class="form-control"
                 br
-                #responseKeyDaya
+                .responseKeyDaya
               td
                 | Выводимое название игры
-                #form-group
+                .form-group
                   textarea#inputGame type="text" class="form-control"
               td
                 |Выводимое название кинца
@@ -87,4 +87,25 @@
                 td Название
                 td Дата
                 td
-
+    .col-md-10#channels
+      .panel.panel-primary
+          .panel-heading
+            | Каналы
+          .panel-body
+            #responseChannel
+            .form-inline#inputNewChannel
+              .form-group
+                label Имя Канала
+                input#inputChannel type="text" class="form-control" value="Dwarf"
+              .form-group
+                label Стример
+                input#inputChannelStreamer type="text" class="form-control" value="McDwarf"
+              button.btn.btn-success onclick="addChannel()" Добавить
+            table.table-bordered.table-hover#channelList
+              tr
+                td Канал
+                td Стример
+                td Описание
+                td Сервис
+                td Статус
+                td

@@ -89,22 +89,22 @@ RSpec.describe KeysController, type: :controller do
       expect(json['message']).to eq('You dont have access to this action')
     end
   end
-  describe 'POST #update' do
+  describe 'PUT #update' do
     it 'should update streamer attribute' do
       word = Faker::Lorem.word
-      post :update, key: { user_id: @streamer.id, streamer: word }
+      put :update, key: { user_id: @streamer.id, streamer: word }
       key = Key.find_by_user_id(@streamer.id)
       expect(key.streamer).to eq(word)
     end
     it 'should update game attribute' do
       word = Faker::Lorem.word
-      post :update, key: { user_id: @streamer.id, game: word }
+      put :update, key: { user_id: @streamer.id, game: word }
       key = Key.find_by_user_id(@streamer.id)
       expect(key.game).to eq(word)
     end
     it 'should update movie attribute' do
       word = Faker::Lorem.word
-      post :update, key: { user_id: @streamer.id, movie: word }
+      put :update, key: { user_id: @streamer.id, movie: word }
       key = Key.find_by_user_id(@streamer.id)
       expect(key.movie).to eq(word)
     end
@@ -112,7 +112,7 @@ RSpec.describe KeysController, type: :controller do
       game = Faker::Lorem.word
       movie = Faker::Lorem.word
       streamer = Faker::Lorem.word
-      post :update, key: { user_id: @streamer.id, movie: movie, game: game, streamer: streamer }
+      put :update, key: { user_id: @streamer.id, movie: movie, game: game, streamer: streamer }
       key = Key.find_by_user_id(@streamer.id)
       expect(key.movie).to eq(movie)
       expect(key.game).to eq(game)
@@ -120,14 +120,14 @@ RSpec.describe KeysController, type: :controller do
     end
     it 'should not update key without params and return error' do
       word = Faker::Lorem.word
-      post :update
+      put :update
       json = JSON.parse(response.body)
       expect(json['error']).to be true
       expect(json['message']).to eq('Not valid key')
     end
     it 'should not update key with incorrect id and return error' do
       word = Faker::Lorem.word
-      post :update, key: { user_id: 1200 }
+      put :update, key: { user_id: 1200 }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
     end
@@ -135,7 +135,7 @@ RSpec.describe KeysController, type: :controller do
       game = Faker::Lorem.word
       movie = Faker::Lorem.word
       streamer = Faker::Lorem.word
-      post :update, key: { user_id: @streamer.id, movie: movie, game: game, streamer: streamer }
+      put :update, key: { user_id: @streamer.id, movie: movie, game: game, streamer: streamer }
       json = JSON.parse(response.body)
       expect(json['movie']).to eq(movie)
       expect(json['game']).to eq(game)
