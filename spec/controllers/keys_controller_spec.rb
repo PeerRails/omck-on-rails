@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe KeysController, type: :controller do
   before do
     @streamer = create(:user, :streamer)
-    @key = create(:key, user_id: @streamer.id, key: Faker::Internet.password)
+    @key = @streamer.keys.present.last
     sign_in @streamer
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
@@ -58,13 +58,11 @@ RSpec.describe KeysController, type: :controller do
   end
   describe 'POST #create' do
     it 'should create new key' do
-      @key.expires = DateTime.now
-      @key.save
+      Key.update(@key.id, expires: DateTime.now)
       expect { post :create, key: { user_id: @streamer.id } }.to change { Key.count }.by(1)
     end
     it 'should create new key and return it' do
-      @key.expires = DateTime.now
-      @key.save
+      Key.update(@key.id, expires: DateTime.now)
       post :create, key: { user_id: @streamer.id }
       json = JSON.parse(response.body)
       expect(json['error']).to be_nil
@@ -164,7 +162,7 @@ RSpec.describe KeysController, type: :controller do
     end
     it 'should not expire expired key and return error' do
       user = create(:user, :mod)
-      key = create(:key, user_id: user.id, expires: DateTime.now - 30)
+      Key.update(user.keys.present.last.id, expires: DateTime.now)
       post :expire, key: { user_id: user.id }
       json = JSON.parse(response.body)
       expect(json['error']).to be true

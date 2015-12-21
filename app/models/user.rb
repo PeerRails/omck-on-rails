@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
 
   scope :staff, -> { where('streamer = 1 or gmod = 1') }
 
+  after_create :key_create
+
   def self.login_with_twitter(omniauth)
     unless omniauth.nil?
       user = User.where(twitter_id: omniauth[:uid]).first_or_create do |user|
@@ -24,5 +26,10 @@ class User < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  private
+  def key_create
+    key = Key.create(user_id: self.id, key: SecureRandom.uuid)
   end
 end

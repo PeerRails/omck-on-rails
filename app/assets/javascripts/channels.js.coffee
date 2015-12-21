@@ -14,7 +14,12 @@
                     <td>'+ch.title+'</td>
                     <td><span class="label label-primary">'+ch.service+'</span></td>
                     <td>'+live+'</td>
-                    <td><a onclick="deleteChannel(\''+ch.service+'/'+ch.channel+'\')">Удалить</a></td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-default" title="Удалить" onclick="deleteChannel(\''+ch.service+'/'+ch.channel+'\')"><i class="fa fa-trash"></i></a>
+                        <!-- <a class="btn btn-default" title="Редактировать" onclick="editChannel(\''+ch.service+'/'+ch.channel+'\')"><i class="fa fa-pencil"></i></a> -->
+                      </div>
+                    </td>
                     </tr>')
           return
     return
@@ -57,7 +62,12 @@
                 <td>'+data.title+'</td>
                 <td><span class="label label-primary">'+data.service+'</span></td>
                 <td><span class="label label-danger">Офлайн</span></td>
-                <td><a onclick="deleteChannel(\''+data.service+'/'+data.channel+'\')">Удалить</a></td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn btn-default" title="Удалить" onclick="deleteChannel(\''+data.service+'/'+data.channel+'\')"><i class="fa fa-trash"></i></a>
+                    <!-- <a class="btn btn-default" title="Редактировать" onclick="editChannel(\''+data.service+'/'+data.channel+'\')"><i class="fa fa-pencil"></i></a> -->
+                  </div>
+                </td>
                 </tr>')
       $('#inputChannelStreamer').val('Dwarf')
       $('#inputChannel').val('dwarf')

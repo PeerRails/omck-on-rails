@@ -74,4 +74,5 @@ $(document).ready ->
     getUserKey()
     getVideoList()
     getChannelList()
+    getUserList()
   return

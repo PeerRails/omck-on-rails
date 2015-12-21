@@ -109,3 +109,24 @@
                 td Сервис
                 td Статус
                 td
+    .col-md-10#users
+      .panel.panel-primary
+          .panel-heading
+            | Стримеры
+          .panel-body
+            #responseUser
+            .form-inline#inputNewUser
+              label Пригласить чувака
+              .form-group
+                label E-Mail
+                input#inputEmail type="text" class="form-control" value="dwarf@localhost"
+              .form-group
+                label Или твиттер
+                input#inputTwitter type="text" class="form-control" value="McDwarf"
+              button.btn.btn-success onclick="inviteUser()" Пригласить
+            table.table#userList
+              tr
+                td Имя
+                td Твиттер
+                td Мыло
+                td

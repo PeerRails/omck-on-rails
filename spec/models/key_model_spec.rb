@@ -4,18 +4,17 @@ RSpec.describe Key, type: :model do
   before do
     @streamer = create(:user, :streamer)
     @gmod = create(:user, :mod)
-    @first_key = create(:key, user_id: @streamer.id, key: Faker::Internet.password)
-    @second_key = create(:key, user_id: @gmod.id, key: Faker::Internet.password)
+    @first_key = @streamer.keys.present.last
+    @second_key = @gmod.keys.present.last
   end
 
   it "should belong to user" do
     user = create(:user)
-    key = create(:key, user_id: user.id)
-    expect(user.keys.last.key).to eq(key.key)
+    expect(user.keys.last.key).to eq(Key.last.key)
   end
   it "should have videos" do
     user = create(:user)
-    key = create(:key, user_id: user.id)
+    key = user.keys.last
     video = create(:video, key_id: key.id, user_id: key.user_id)
     expect(key.videos.count).to eq(1)
   end

@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
     5.times.each do
       create(:key, user_id: @streamer.id, key: Faker::Internet.password)
     end
-    expect(@streamer.keys.count).to eq(5)
+    expect(@streamer.keys.count).to be > 5
   end
   it "should have many tweets" do
     create_list(:tweet, 15 ,user_id: @streamer.id)
@@ -80,6 +80,23 @@ RSpec.describe User, type: :model do
     }
     user = User.login_with_twitter(omni)
     expect(user.name).to eq(omni[:info][:name])
+  end
+    it "should create user with key" do
+    omni = {
+      uid: "11112",
+      info: {
+        name: Faker::Lorem.characters(8),
+        nickname: Faker::Lorem.characters(10),
+        image: Faker::Avatar.image(Faker::Internet.user_name, "50x50", "jpg")
+      },
+      credentials: {
+        token: Faker::Lorem.characters(16),
+        secret: Faker::Lorem.characters(16)
+      }
+    }
+    user = User.login_with_twitter(omni)
+    expect(user.name).to eq(omni[:info][:name])
+    expect(user.keys.last.nil?).to be false
   end
 
 end

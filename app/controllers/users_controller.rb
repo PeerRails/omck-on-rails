@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   end
 
   def list
-    res = User.all.map { |u| serialize u }
+    res = User.all.order(:id).map { |u| serialize u }
     render json: res, status: 200
   end
 
