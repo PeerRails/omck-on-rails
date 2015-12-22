@@ -66,8 +66,8 @@ class UsersController < ApplicationController
       name: user.name,
       screen_name: user.screen_name,
       profile_image_url: user.profile_image_url,
-      streamer: user.streamer,
-      gmod: user.gmod
+      streamer: (user.streamer == 1 ? true : false),
+      gmod: (user.gmod == 1 ? true : false)
     }
   end
 end

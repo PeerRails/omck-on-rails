@@ -116,17 +116,36 @@
           .panel-body
             #responseUser
             .form-inline#inputNewUser
-              label Пригласить чувака
               .form-group
                 label E-Mail
-                input#inputEmail type="text" class="form-control" value="dwarf@localhost"
+                input#inputEmail type="text" class="form-control"
               .form-group
                 label Или твиттер
-                input#inputTwitter type="text" class="form-control" value="McDwarf"
+                input#inputTwitter type="text" class="form-control" value="@McDwarf"
               button.btn.btn-success onclick="inviteUser()" Пригласить
             table.table#userList
               tr
                 td Имя
                 td Твиттер
                 td Мыло
+                td
+                td
+    .col-md-10#guests
+      .panel.panel-primary
+          .panel-heading
+            | Гости
+            .small Ключ будет показан ниже, передать лично в руки гостю!
+          .panel-body
+            #responseGuest
+            .form-inline#inputNewGuest
+              .form-group
+                label Ник гостя
+                input#inputGuestName type="text" class="form-control" value="McDwarf"
+              button.btn.btn-success onclick="inviteGuest()" Пригласить
+            table.table#userList
+              tr
+                td Имя
+                td Твиттер
+                td Мыло
+                td
                 td

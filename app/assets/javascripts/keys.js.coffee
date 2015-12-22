@@ -67,12 +67,3 @@ $('.form-control').on 'input propertychange change', ->
     return
   ), 1000)
   return
-
-$(document).ready ->
-  if location.pathname == "/home"
-    getUser $("#userinfo").data("twitterid")
-    getUserKey()
-    getVideoList()
-    getChannelList()
-    getUserList()
-  return

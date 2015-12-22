@@ -218,3 +218,14 @@ $(document).ready ->
   $.ajaxSetup cache: false
   return
 ###
+$(document).ready ->
+  if location.pathname.indexOf("/home") != -1
+    getUser $("#userinfo").data("twitterid")
+    getUserKey()
+    getVideoList()
+    getChannelList()
+    getUserList().done ->
+      $("#userList :checkbox").click ->
+        grantUser({userid: $(@).data('userid'), id: @id, checked: @checked})
+        return
+  return

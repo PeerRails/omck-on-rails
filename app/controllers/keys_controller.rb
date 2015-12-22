@@ -10,11 +10,12 @@ class KeysController < ApplicationController
     if key_params[:user_id] && !key_owner(key_params[:user_id]).nil?
       if Key.present.where(user_id: key_params[:user_id]).empty?
         key = Key.new(key_params)
+        key.user_id = current_user.id
         key.key = generate_key
         if key.save
           res = (serialize key).merge(status: 200)
         else
-          resonse = { error: true, message: key.errors.full_messages, status: 500 }
+          res = { error: true, message: key.errors.full_messages, status: 500 }
         end
       else
         res = { error: true, message: 'You already have key', status: 403 }
