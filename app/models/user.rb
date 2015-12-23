@@ -30,6 +30,6 @@ class User < ActiveRecord::Base
 
   private
   def key_create
-    key = Key.create(user_id: self.id, key: SecureRandom.uuid)
+    key = Key.create(user_id: self.id, key: SecureRandom.uuid, created_by: self.id)
   end
 end

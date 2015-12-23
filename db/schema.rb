@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208130924) do
+ActiveRecord::Schema.define(version: 20151223141142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,10 @@ ActiveRecord::Schema.define(version: 20151208130924) do
     t.datetime "updated_at"
     t.boolean  "guest",                  default: false
     t.string   "movie",      limit: 255, default: "Boku Wa Tomodachi Ga Sekai"
+    t.integer  "created_by"
   end
 
+  add_index "keys", ["created_by"], name: "index_keys_on_created_by", using: :btree
   add_index "keys", ["key"], name: "index_keys_on_key", using: :btree
   add_index "keys", ["user_id"], name: "index_keys_on_user_id", using: :btree
 

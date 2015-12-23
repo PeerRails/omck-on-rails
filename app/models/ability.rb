@@ -14,6 +14,8 @@ class Ability
       can :manage, :all
     elsif user.streamer?
       can :manage, Key, :user_id => user.id
+      can :manage, Key, :created_by => user.id
+      can :create_guest, Key
       can :manage, Channel, :service => 'twitch'
       can :update, User, :user_id => user.id
       can :remove, Video, :deleted => false, :user_id => user.id

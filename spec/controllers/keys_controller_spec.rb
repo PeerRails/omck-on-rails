@@ -56,6 +56,14 @@ RSpec.describe KeysController, type: :controller do
       expect(json["error"]).to be nil
     end
   end
+  describe 'GET #guests' do
+    it 'returns list of guests' do
+      create(:key, guest: true, created_by: @streamer.id)
+      get :guests
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+    end
+  end
   describe 'POST #create' do
     it 'should create new key' do
       Key.update(@key.id, expires: DateTime.now)
@@ -66,7 +74,6 @@ RSpec.describe KeysController, type: :controller do
       post :create, key: { user_id: @streamer.id }
       json = JSON.parse(response.body)
       expect(json['error']).to be_nil
-      expect(json['user']).to eq(@streamer.name)
     end
     it 'should not create new key and return duplicate error' do
       post :create, key: { user_id: @streamer.id }
@@ -78,13 +85,16 @@ RSpec.describe KeysController, type: :controller do
       post :create, key: { user_id: nil }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
+      expect(json['message']).to eq('Invalid data')
     end
     it 'should not create new key and return model error' do
-      post :create, key: { user_id: 24 }
+      post :create, key: { user_id: 0 }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
+      expect(json['message']).to eq('Invalid data')
+    end
+    it 'should create new guest key' do
+      expect { post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" } }.to change { Key.count }.by(1)
     end
   end
   describe 'PUT #update' do
@@ -172,7 +182,7 @@ RSpec.describe KeysController, type: :controller do
   describe 'POST #regenerate' do
     it 'should expire key and create new for user'do
       user = create(:user, :mod)
-      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
+      key = user.keys.present.last
       expect { post :regenerate, key: { user_id: user.id } }.to change { Key.count }.by(1)
       expect(Key.find(key.id).expires).to be < DateTime.now
       json = JSON.parse(response.body)
@@ -193,6 +203,15 @@ RSpec.describe KeysController, type: :controller do
       json = JSON.parse(response.body)
       expect(json['error']).to be true
       expect(json['message']).to eq('Invalid data')
+    end
+  end
+  describe "POST #expire_guest" do
+    it 'should expire guest key'do
+      key = create(:key, created_by: @streamer.id, guest: true)
+      post :expire_guest, id: key.id
+      json = JSON.parse(response.body)
+      expect(Key.find(key.id).expires).to be < DateTime.now
+      expect(json['guest_id']).to eq(key.id)
     end
   end
 end

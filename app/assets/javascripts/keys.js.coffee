@@ -37,6 +37,15 @@ timeoutId = undefined
     return
     )
 
+@postGuestRegeneration = (guest) ->
+  $.post("/home/keys/regenerate", {id: guest}, (data) ->
+    if data.error is true
+      console.log data.message
+    else
+      console.log data
+    return
+    )
+
 @saveKeyData = ->
   form =
     key:
@@ -58,6 +67,26 @@ timeoutId = undefined
       $('#responseKeyDaya').html('<div class="text-danger"> Error: ' + data.message + "</div>")
       return
   return
+
+@getGuestList = ->
+  $.get('/home/guest_keys', (data) ->
+    if data.error is true
+      console.log data.message
+    else
+      data.forEach (user) ->
+        $("#guestList tr:last").after('<tr data-userid="'+user.streamer+'">
+                  <td>'+user.game+'</td>
+                  <td>'+user.movie+'</td>
+                  <td></td>
+                  <td>
+                    <a onclick="/"
+                  </td>
+                  <td id="responseGuest">
+                  </td>
+                  </tr>')
+        return
+    return
+  )
 
 $('.form-control').on 'input propertychange change', ->
   $('#responseKeyDaya').html 'Data changed...'

@@ -29,8 +29,11 @@ Rails.application.routes.draw do
 
   # Key API
   get 'home/your_keys' => 'keys#list'
+  get 'home/guest_keys' => 'keys#guests'
   post 'home/keys/create' => 'keys#create'
+  post 'home/keys/create/guest' => 'keys#create_guest'
   post 'home/keys/expire' => 'keys#expire'
+  post 'home/keys/expire/guest' => 'keys#expire_guest'
   post 'home/keys/regenerate' => 'keys#regenerate'
   post 'home/keys/update' => 'keys#update'
 

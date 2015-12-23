@@ -5,6 +5,6 @@ class Key < ActiveRecord::Base
   validates :key, uniqueness: true
   scope :present, -> { where("expires > ?", DateTime.now).where(guest: false) }
   scope :expired, -> { where("expires <= ?", DateTime.now) }
-  scope :is_guest, -> { where(guest: true) }
+  scope :is_guest, -> { where("expires > ?", DateTime.now).where(guest: true) }
   scope :streamers, -> { where(guest: false) }
 end
