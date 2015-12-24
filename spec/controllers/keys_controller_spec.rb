@@ -61,7 +61,7 @@ RSpec.describe KeysController, type: :controller do
       create(:key, guest: true, created_by: @streamer.id)
       get :guests
       json = JSON.parse(response.body)
-      expect(json["error"]).to be nil
+      expect(json.length).to eq(1)
     end
   end
   describe 'POST #create' do
@@ -180,7 +180,7 @@ RSpec.describe KeysController, type: :controller do
     end
   end
   describe 'POST #regenerate' do
-    it 'should expire key and create new for user'do
+    it 'should expire key and create new for user' do
       user = create(:user, :mod)
       key = user.keys.present.last
       expect { post :regenerate, key: { user_id: user.id } }.to change { Key.count }.by(1)
@@ -212,6 +212,19 @@ RSpec.describe KeysController, type: :controller do
       json = JSON.parse(response.body)
       expect(Key.find(key.id).expires).to be < DateTime.now
       expect(json['guest_id']).to eq(key.id)
+    end
+  end
+  describe "POST #create_guest" do
+    it 'should not create too many guest key'do
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
+      json = JSON.parse(response.body)
+      expect(json['error']).to be true
     end
   end
 end

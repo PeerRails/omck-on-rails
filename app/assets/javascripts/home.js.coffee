@@ -228,4 +228,5 @@ $(document).ready ->
       $("#userList :checkbox").click ->
         grantUser({userid: $(@).data('userid'), id: @id, checked: @checked})
         return
+    getGuestList()
   return

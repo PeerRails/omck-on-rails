@@ -37,15 +37,6 @@ timeoutId = undefined
     return
     )
 
-@postGuestRegeneration = (guest) ->
-  $.post("/home/keys/regenerate", {id: guest}, (data) ->
-    if data.error is true
-      console.log data.message
-    else
-      console.log data
-    return
-    )
-
 @saveKeyData = ->
   form =
     key:
@@ -58,13 +49,13 @@ timeoutId = undefined
     type: 'POST'
     data: form
     beforeSend: (xhr) ->
-      $('#responseKeyDaya').html 'Saving...'
+      $('#responseKeyData').html 'Saving...'
       return
     success: (data) ->
-      $('#responseKeyDaya').html('<div class="text-success"> Saved </div>')
+      $('#responseKeyData').html('<div class="text-success"> Saved </div>')
       return
     error: (data) ->
-      $('#responseKeyDaya').html('<div class="text-danger"> Error: ' + data.message + "</div>")
+      $('#responseKeyData').html('<div class="text-danger"> Error: ' + data.message + "</div>")
       return
   return
 
@@ -74,12 +65,13 @@ timeoutId = undefined
       console.log data.message
     else
       data.forEach (user) ->
-        $("#guestList tr:last").after('<tr data-userid="'+user.streamer+'">
+        $("#guestList tr:last").after('<tr data-guestid="'+user.guest_id+'">
                   <td>'+user.game+'</td>
                   <td>'+user.movie+'</td>
                   <td></td>
+                  <td>'+user.created_by_name+'</td>
                   <td>
-                    <a onclick="/"
+                    <button class="btn btn-danger" onclick="postGuestExpire('+user.guest_id+')" title="Удалить"><i class="fa fa-trash"></i></a>
                   </td>
                   <td id="responseGuest">
                   </td>
@@ -88,6 +80,40 @@ timeoutId = undefined
     return
   )
 
+@inviteGuest = () ->
+  keys =
+    key:
+      streamer: $('#inputGuestName').val()
+      game: $('#inputGuestGame').val()
+      movie: $('#inputGuestMovie').val()
+  $.post("/home/keys/create/guest", keys, (data) ->
+    if data.error is true
+      $('#responseGuest').html('<div class="text-danger">Error: '+data.message+'</div>')
+    else
+      $('#responseGuest').html('<div class="text-success"> Guest added and his key: <b>'+data.secret+' </b>. Key wont appear again, save it!</div>')
+      $("#guestList tr:first").before('<tr data-guestid="'+data.guest_id+'">
+                <td>'+data.game+'</td>
+                <td>'+data.movie+'</td>
+                <td></td>
+                <td>'+data.created_by_name+'</td>
+                <td>
+                  <button class="btn btn-danger" onclick="postGuestExpire('+data.guest_id+')" title="Удалить"><i class="fa fa-trash"></i></a>
+                </td>
+                <td id="responseGuest">
+                </td>
+                </tr>')
+    return
+    )
+
+@postGuestExpire = (guest) ->
+  $.post("/home/keys/expire/guest", {id: guest}, (data) ->
+    if data.error is true
+      $('#responseGuest').html('<div class="text-danger">Error: '+data.message+'</div>')
+    else
+      $('*[data-guestid="'+guest+'"]').remove()
+      $('#responseGuest').html('<div class="text-success"> Guest removed</div>')
+    return
+    )
 $('.form-control').on 'input propertychange change', ->
   $('#responseKeyDaya').html 'Data changed...'
   clearTimeout timeoutId

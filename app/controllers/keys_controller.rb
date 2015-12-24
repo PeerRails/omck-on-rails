@@ -8,7 +8,7 @@ class KeysController < ApplicationController
 
   def guests
     keys = Key.is_guest.map { |k| serialize k }
-    render json: keys.first
+    render json: keys
   end
 
   def create
@@ -32,8 +32,13 @@ class KeysController < ApplicationController
   end
 
   def create_guest
-    guest = Key.create(created_by: current_user.id, streamer: key_params[:streamer], game: key_params[:game], movie: key_params[:movie], key: generate_key)
-    res = serialize guest
+    if Key.where(created_by: current_user.id, guest: true).count < 5 || current_user.screen_name == "omckws"
+      guest = Key.create(created_by: current_user.id, streamer: key_params[:streamer], game: key_params[:game], movie: key_params[:movie], key: generate_key, guest: true)
+      res = serialize guest
+      res[:secret] = guest.key
+    else
+      res = {error: true, message: "Too Many Invites"}
+    end
     render json: res, status: res[:status]
   end
 
@@ -117,6 +122,7 @@ class KeysController < ApplicationController
 
   def serialize(key)
     guest_id = key.guest == false ? nil : key.id
+    secret = key.guest == false ? key.key : nil
     return { guest_id: guest_id,
         streamer: key.streamer,
         movie: key.movie,
@@ -124,7 +130,8 @@ class KeysController < ApplicationController
         guest: key.guest,
         expires: key.expires,
         created_by: User.where(id: key.created_by).last.twitter_id,
-        secret: key.key,
+        created_by_name: User.where(id: key.created_by).last.name,
+        secret: secret,
         'error' => nil }
   end
 

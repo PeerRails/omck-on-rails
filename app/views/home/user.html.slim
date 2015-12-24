@@ -66,7 +66,7 @@
                 .form-group
                   input#inputStreamer type="text" class="form-control"
                 br
-                .responseKeyDaya
+                #responseKeyData
               td
                 | Выводимое название игры
                 .form-group
@@ -141,11 +141,18 @@
               .form-group
                 label Ник гостя
                 input#inputGuestName type="text" class="form-control" value="McDwarf"
+              .form-group
+                label Игра
+                input#inputGuestGame type="text" class="form-control" value="Dark Souls 3"
+              .form-group
+                label Кинчик
+                input#inputGuestMovie type="text" class="form-control" value="Boku No Pico"
               button.btn.btn-success onclick="inviteGuest()" Пригласить
-            table.table#userList
+            table.table#guestList
               tr
                 td Имя
                 td Игра
                 td Кино
                 td Пригласил
+                td
                 td
