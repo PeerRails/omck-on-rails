@@ -11,148 +11,158 @@
         .panel-heading
           | Навигация
         .panel-body
-          ul.nav.nav-pills.nav-stacked
+          ul.nav.nav-pills.nav-stacked#tabs
             li.active
-              a href="#index" Главная
-            - if can? :manage, Key
-            /li
-              /a href="#keys" Ключи
+              a href="#info" Главная
             - if can? :list, Video
               li
                 a href="#videos" Видосики
-            li
-              a href="#channels" Каналы
-            li
-              a href="#streamers" Стримеры
-            li
-              a href="#guest" Гостевые ключи
+            - if can? :manage, Channel
+              li
+                a href="#channels" Каналы
+            - if can? :manage, User
+              li
+                a href="#users" Стримеры
+            - if can? :manage, Key, guest: true
+              li
+                a href="#guests" Гостевые ключи
             - if can? :manage, :all
               li
                 a href="#settings" Настройки ОмскТВ
             - if current_user
               li
                 a href="/logout" Выйти
-    .col-md-8#info
-      .panel.panel-primary
-        .panel-heading
-          | Ваши данные
-        .panel-body
-        table.table#userinfo data-twitterid="#{current_user.twitter_id}" data-userid="#{current_user.id}"
-          tr
-            td#input-img
-            td
-            td
-          tr
-            td Имя
-            td#input-name
-            td
-          tr
-            td Ник
-            td#input-screen
-            td
-          tr
-            td Права
-            td#input-priv
-            td
-          - if can? :manage, Key
+    .tab-content
+      .col-md-10.tab-pane.active#info
+        .panel.panel-primary
+          .panel-heading
+            | Ваши данные
+          .panel-body
+          table.table#userinfo data-twitterid="#{current_user.twitter_id}" data-userid="#{current_user.id}"
             tr
-              td Ключ
-              td#input-key
+              td#input-img
               td
-                a data-key="regenerate" onclick="postRegeneration()" Пересоздать ключ
+              td
             tr
+              td Имя
+              td#input-name
               td
-                | Выводимое имя стримера
-                .form-group
-                  input#inputStreamer type="text" class="form-control"
-                br
-                #responseKeyData
+            tr
+              td Ник
+              td#input-screen
               td
-                | Выводимое название игры
-                .form-group
-                  textarea#inputGame type="text" class="form-control"
+            tr
+              td Права
+              td#input-priv
               td
-                |Выводимое название кинца
-                #form-group
-                  textarea#inputMovie type="text" class="form-control"
-    .col-md-8#videos
-      .panel.panel-primary
-          .panel-heading
-            | Видосики
-          .panel-body
-            #responseVideo
-            table.table#videoList
+            - if can? :manage, Key
+              tr
+                td Ключ
+                td#input-key
+                td
+                  a data-key="regenerate" onclick="postRegeneration()" Пересоздать ключ
               tr
                 td
-                td Название
-                td Дата
+                  | Выводимое имя стримера
+                  .form-group
+                    input#inputStreamer type="text" class="form-control"
+                  br
+                  #responseKeyData
                 td
-    .col-md-10#channels
-      .panel.panel-primary
-          .panel-heading
-            | Каналы
-          .panel-body
-            #responseChannel
-            .form-inline#inputNewChannel
-              .form-group
-                label Имя Канала
-                input#inputChannel type="text" class="form-control" value="Dwarf"
-              .form-group
-                label Стример
-                input#inputChannelStreamer type="text" class="form-control" value="McDwarf"
-              button.btn.btn-success onclick="addChannel()" Добавить
-            table.table-bordered.table-hover#channelList
-              tr
-                td Канал
-                td Стример
-                td Описание
-                td Сервис
-                td Статус
+                  | Выводимое название игры
+                  .form-group
+                    textarea#inputGame type="text" class="form-control"
                 td
-    .col-md-10#users
-      .panel.panel-primary
-          .panel-heading
-            | Стримеры
-          .panel-body
-            #responseUser
-            .form-inline#inputNewUser
-              .form-group
-                label E-Mail
-                input#inputEmail type="text" class="form-control"
-              .form-group
-                label Или твиттер
-                input#inputTwitter type="text" class="form-control" value="@McDwarf"
-              button.btn.btn-success onclick="inviteUser()" Пригласить
-            table.table#userList
-              tr
-                td Имя
-                td Твиттер
-                td Мыло
-                td
-                td
-    .col-md-10#guests
-      .panel.panel-primary
-          .panel-heading
-            | Гости
-            .small Ключ будет показан ниже, передать лично в руки гостю!
-          .panel-body
-            #responseGuest
-            .form-inline#inputNewGuest
-              .form-group
-                label Ник гостя
-                input#inputGuestName type="text" class="form-control" value="McDwarf"
-              .form-group
-                label Игра
-                input#inputGuestGame type="text" class="form-control" value="Dark Souls 3"
-              .form-group
-                label Кинчик
-                input#inputGuestMovie type="text" class="form-control" value="Boku No Pico"
-              button.btn.btn-success onclick="inviteGuest()" Пригласить
-            table.table#guestList
-              tr
-                td Имя
-                td Игра
-                td Кино
-                td Пригласил
-                td
-                td
+                  |Выводимое название кинца
+                  #form-group
+                    textarea#inputMovie type="text" class="form-control"
+      - if can? :list, Video
+        .col-md-10.tab-pane#videos
+          .panel.panel-primary
+              .panel-heading
+                | Видосики
+              .panel-body
+                #responseVideo
+                table.table#videoList
+                  tr
+                    td
+                    td Название
+                    td Дата
+                    td
+      - if can? :manage, Channel
+        .col-md-10.tab-pane#channels
+          .panel.panel-primary
+              .panel-heading
+                | Каналы
+              .panel-body
+                #responseChannel
+                .form-inline#inputNewChannel
+                  .form-group
+                    label Имя Канала
+                    input#inputChannel type="text" class="form-control" value="Dwarf"
+                  .form-group
+                    label Стример
+                    input#inputChannelStreamer type="text" class="form-control" value="McDwarf"
+                  button.btn.btn-success onclick="addChannel()" Добавить
+                table.table-bordered.table-hover#channelList
+                  tr
+                    td Канал
+                    td Стример
+                    td Описание
+                    td Сервис
+                    td Статус
+                    td
+      - if can? :manage, User
+        .col-md-10.tab-pane#users
+          .panel.panel-primary
+              .panel-heading
+                | Стримеры
+              .panel-body
+                #responseUser
+                .form-inline#inputNewUser
+                  .form-group
+                    label E-Mail
+                    input#inputEmail type="text" class="form-control"
+                  .form-group
+                    label Или твиттер
+                    input#inputTwitter type="text" class="form-control" value="@McDwarf"
+                  button.btn.btn-success onclick="inviteUser()" Пригласить
+                table.table#userList
+                  tr
+                    td Имя
+                    td Твиттер
+                    td Мыло
+                    td
+                    td
+      - if can? :manage, Key, guest: true
+        .col-md-10.tab-pane#guests
+          .panel.panel-primary
+              .panel-heading
+                | Гости
+                .small Ключ будет показан ниже, передать лично в руки гостю!
+              .panel-body
+                #responseGuest
+                .form-inline#inputNewGuest
+                  .form-group
+                    label Ник гостя
+                    input#inputGuestName type="text" class="form-control" value="McDwarf"
+                  .form-group
+                    label Игра
+                    input#inputGuestGame type="text" class="form-control" value="Dark Souls 3"
+                  .form-group
+                    label Кинчик
+                    input#inputGuestMovie type="text" class="form-control" value="Boku No Pico"
+                  button.btn.btn-success onclick="inviteGuest()" Пригласить
+                table.table#guestList
+                  tr
+                    td Имя
+                    td Игра
+                    td Кино
+                    td Пригласил
+                    td
+      .col-md-10.tab-pane#settings
+        .panel.panel-primary
+            .panel-heading
+              | Настройки омска
+            .panel-body
+              | Пока что ебаное нихуя

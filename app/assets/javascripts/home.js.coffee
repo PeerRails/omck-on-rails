@@ -229,4 +229,6 @@ $(document).ready ->
         grantUser({userid: $(@).data('userid'), id: @id, checked: @checked})
         return
     getGuestList()
+    $('#tabs a').click ->
+      $(@).tab('show')
   return

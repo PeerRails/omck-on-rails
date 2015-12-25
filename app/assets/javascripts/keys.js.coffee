@@ -66,14 +66,13 @@ timeoutId = undefined
     else
       data.forEach (user) ->
         $("#guestList tr:last").after('<tr data-guestid="'+user.guest_id+'">
+                  <td>'+user.streamer+'</td>
                   <td>'+user.game+'</td>
                   <td>'+user.movie+'</td>
-                  <td></td>
                   <td>'+user.created_by_name+'</td>
+                  <td></td>
                   <td>
                     <button class="btn btn-danger" onclick="postGuestExpire('+user.guest_id+')" title="Удалить"><i class="fa fa-trash"></i></a>
-                  </td>
-                  <td id="responseGuest">
                   </td>
                   </tr>')
         return
@@ -91,11 +90,12 @@ timeoutId = undefined
       $('#responseGuest').html('<div class="text-danger">Error: '+data.message+'</div>')
     else
       $('#responseGuest').html('<div class="text-success"> Guest added and his key: <b>'+data.secret+' </b>. Key wont appear again, save it!</div>')
-      $("#guestList tr:first").before('<tr data-guestid="'+data.guest_id+'">
+      $("#guestList tr:first").after('<tr data-guestid="'+data.guest_id+'">
+                <td>'+data.streamer+'</td>
                 <td>'+data.game+'</td>
                 <td>'+data.movie+'</td>
+                <td>'+user.created_by_name+'</td>
                 <td></td>
-                <td>'+data.created_by_name+'</td>
                 <td>
                   <button class="btn btn-danger" onclick="postGuestExpire('+data.guest_id+')" title="Удалить"><i class="fa fa-trash"></i></a>
                 </td>

@@ -73,3 +73,10 @@
       $('#inputChannel').val('dwarf')
     return
     )
+@editChannel = (input) ->
+  channel =
+    channels:
+      service: input.split("/")[0]
+      channel: input.split("/")[1]
+      title: $('#editTitle *[data-allTogether="'+input.split("/")[0]+'/'+input.split("/")[1]+'"]').val()
+      streamer: $('#editStreamer *[data-allTogether="'+input.split("/")[0]+'/'+input.split("/")[1]+'"]').val()
