@@ -101,4 +101,50 @@ RSpec.describe UsersController, type: :controller do
       expect(json.length).to eq(User.count)
     end
   end
+  describe 'POST #invite' do
+    before do
+      @mod = create(:user, :mod)
+      @user = create(:user, :streamer)
+      sign_in @mod
+      request.env["HTTP_ACCEPT"] = 'application/json'
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=TwitterDev&skip_status=true").
+         to_return(:status => 200, :body => '{
+           "contributors_enabled": false,
+           "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+           "id": 2244994945,
+           "id_str": "2244994945",
+           "name": "TwitterDev",
+           "screen_name": "TwitterDev"
+         }', :headers => {})
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=#{@user.screen_name}&skip_status=true").
+        to_return(:status => 200, :body => "{
+          'contributors_enabled': false,
+          'created_at': 'Sat Dec 14 04:35:55 +0000 2013',
+          'id': #{@user.twitter_id},
+          'id_str': '#{@user.twitter_id},',
+          'name': '#{@user.name},',
+          'screen_name': '#{@user.screen_name},'
+        }", :headers => {})
+    end
+    it 'should invite twitter user' do
+      post :invite, screen_name: "TwitterDev"
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["twitter_id"]).to eq("2244994945")
+    end
+    it 'should not invite existing user' do
+      post :invite, screen_name: @user.screen_name
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).not_to be nil
+    end
+    it 'should grant permission to existing user' do
+      User.update(@user.id, streamer: 0)
+      post :invite, screen_name: @user.screen_name
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["twitter_id"]).to eq(@user.twitter_id)
+      expect(json["streamer"]).to be true
+    end
+  end
 end

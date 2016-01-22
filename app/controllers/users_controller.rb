@@ -56,8 +56,32 @@ class UsersController < ApplicationController
     render json: res, status: res["status"]
   end
 
+  def invite
+    invitee = invite_params[:screen_name]
+    user = User.where(screen_name: invitee).last
+    if user.nil?
+      account = tclient.user(invitee, :skip_status => true)
+      user = User.new(twitter_id: account.id, screen_name: account.screen_name, name: account.name, streamer: 1)
+      if user.save
+        res = serialize user
+      else
+        res = {error: true, message: user.errors.full_messages, status: 503}
+      end
+    elsif user.streamer == 0
+      user = User.update(user.id, streamer: 1)
+      res = serialize user
+    else
+      res = {error: true, message: "User exists and has permission to stream", status: 200}
+    end
+    render json: res
+  end
+
   def perm_params
     params.require(:permissions).permit(:streamer, :gmod)
+  end
+
+  def invite_params
+    params.permit(:screen_name)
   end
 
   def serialize user
