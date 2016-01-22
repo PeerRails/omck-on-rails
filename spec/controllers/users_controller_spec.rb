@@ -109,7 +109,6 @@ RSpec.describe UsersController, type: :controller do
       request.env["HTTP_ACCEPT"] = 'application/json'
       stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=TwitterDev&skip_status=true").
          to_return(:status => 200, :body => '{
-           "contributors_enabled": false,
            "created_at": "Sat Dec 14 04:35:55 +0000 2013",
            "id": 2244994945,
            "id_str": "2244994945",
@@ -118,12 +117,19 @@ RSpec.describe UsersController, type: :controller do
          }', :headers => {})
       stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=#{@user.screen_name}&skip_status=true").
         to_return(:status => 200, :body => "{
-          'contributors_enabled': false,
           'created_at': 'Sat Dec 14 04:35:55 +0000 2013',
           'id': #{@user.twitter_id},
-          'id_str': '#{@user.twitter_id},',
-          'name': '#{@user.name},',
-          'screen_name': '#{@user.screen_name},'
+          'id_str': '#{@user.twitter_id}',
+          'name': '#{@user.name}',
+          'screen_name': '#{@user.screen_name}'
+        }", :headers => {})
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=#{@mod.screen_name}&skip_status=true").
+        to_return(:status => 200, :body => "{
+          'created_at': 'Sat Dec 14 04:35:55 +0000 2013',
+          'id': #{@mod.twitter_id},
+          'id_str': '#{@mod.twitter_id}',
+          'name': '#{@mod.name}',
+          'screen_name': '#{@mod.screen_name}'
         }", :headers => {})
     end
     it 'should invite twitter user' do
@@ -145,6 +151,13 @@ RSpec.describe UsersController, type: :controller do
       expect(json["error"]).to be nil
       expect(json["twitter_id"]).to eq(@user.twitter_id)
       expect(json["streamer"]).to be true
+    end
+    it 'should not grant permission to self' do
+      User.update(@mod.id, streamer: 0)
+      post :invite, screen_name: @mod.screen_name
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("You cannot grant access to yourself")
     end
   end
 end

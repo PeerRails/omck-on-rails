@@ -40,6 +40,8 @@ class UsersController < ApplicationController
     res = {}
     if user.nil? || params[:permissions].nil?
       res = {error: true, message: "User is not found", status: 404}
+    elsif user.id == current_user.id
+      res = {error: true, message: "You cannot grant access to yourself", status: 403}
     else
       user.streamer = perm_params[:streamer] if perm_params[:streamer]
       user.gmod = perm_params[:gmod] if perm_params[:gmod]
@@ -67,6 +69,8 @@ class UsersController < ApplicationController
       else
         res = {error: true, message: user.errors.full_messages, status: 503}
       end
+    elsif user.id == current_user.id
+      res = {error: true, message: "You cannot grant access to yourself", status: 200, twitter_id: current_user.screen_name, another: invitee}
     elsif user.streamer == 0
       user = User.update(user.id, streamer: 1)
       res = serialize user

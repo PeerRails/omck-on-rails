@@ -118,15 +118,12 @@
               .panel-heading
                 | Стримеры
               .panel-body
-                #responseUser
+                #responseInvite
                 .form-inline#inputNewUser
                   .form-group
-                    label E-Mail
-                    input#inputEmail type="text" class="form-control"
-                  .form-group
-                    label Или твиттер
+                    label Введи твиттер
                     input#inputTwitter type="text" class="form-control" value="@McDwarf"
-                  button.btn.btn-success onclick="inviteUser()" Пригласить
+                  button.btn.btn-success onclick="inviteUser();" Пригласить
                 table.table#userList
                   tr
                     td Имя
