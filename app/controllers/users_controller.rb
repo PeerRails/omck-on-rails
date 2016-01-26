@@ -47,10 +47,6 @@ class UsersController < ApplicationController
       user.gmod = perm_params[:gmod] if perm_params[:gmod]
       if user.save
         res = user.to_json
-        if user.keys.present.empty?
-          key = Key.new(user_id: user.id, key: SecureRandom.uuid, streamer: user.name, expires: DateTime.now + 900)
-          key.save
-        end
       else
         res = {error: true, message: user.errors.full_messages, status: 500}
       end
