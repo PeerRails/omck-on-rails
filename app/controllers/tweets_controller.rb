@@ -9,16 +9,18 @@ class TweetsController < ApplicationController
       @new_tweet.comment = "Стрим на #omcktv || " + @new_tweet.comment
     end
 
-    tweet = TClient.tclient.update( @new_tweet.comment )
+    tweet = tclient.update( @new_tweet.comment )
     res = {}
     if @new_tweet.save
       res[:error] = nil
       res[:success] = "Успешно послан твит!"
+      res[:text] = @new_tweet.comment
+      res[:user] = @new_tweet.user.name
     else
       res[:error] = true
-      res[:message] = "Ошибка :с"
+      res[:message] = @new_tweet.errors.full_messages
     end
-
+    
     render json: res
   end
 
