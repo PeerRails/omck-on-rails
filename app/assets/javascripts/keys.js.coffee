@@ -114,7 +114,7 @@ timeoutId = undefined
       $('#responseGuest').html('<div class="text-success"> Guest removed</div>')
     return
     )
-$('.form-control').on 'input propertychange change', ->
+$('#userKeyControl .form-control').on 'input propertychange change', ->
   $('#responseKeyDaya').html 'Data changed...'
   clearTimeout timeoutId
   timeoutId = setTimeout((->

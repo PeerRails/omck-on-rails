@@ -5,7 +5,7 @@ class TweetsController < ApplicationController
     @input = params.require(:tweet).permit(:comment, :own)
     @new_tweet = Tweet.new(comment: @input["comment"], user_id: current_user.id)
 
-    if @input["own"] == "0"
+    if @input["own"] == "0" || @input["own"] == "false"
       @new_tweet.comment = "Стрим на #omcktv || " + @new_tweet.comment
     end
 
@@ -20,7 +20,7 @@ class TweetsController < ApplicationController
       res[:error] = true
       res[:message] = @new_tweet.errors.full_messages
     end
-    
+
     render json: res
   end
 

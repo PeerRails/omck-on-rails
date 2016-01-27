@@ -61,7 +61,7 @@
                 td#input-key
                 td
                   a data-key="regenerate" onclick="postRegeneration()" Пересоздать ключ
-              tr
+              tr#userKeyControl
                 td
                   | Выводимое имя стримера
                   .form-group
@@ -76,6 +76,25 @@
                   |Выводимое название кинца
                   #form-group
                     textarea#inputMovie type="text" class="form-control"
+            - if can? :tweet, Tweet
+              tr#tweetControl
+                td Написать твит
+                td
+                  .form-group
+                    textarea#inputTweet type="text" class="form-control" placeholder="Стрим на #omcktv || "
+                td
+                  .checkbox
+                    label
+                      input id="tweet_own" type="checkbox" Без суффикса "Стрим на #omcktv || " ?
+                td
+                  .form-group
+                    a.btn.btn-success onclick="postTweetUpdate()" Отправить
+              tr
+                td
+                  .text-success#count
+                td
+                  #responseTweet
+
       - if can? :list, Video
         .col-md-10.tab-pane#videos
           .panel.panel-primary
