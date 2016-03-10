@@ -54,6 +54,7 @@ class ChannelsController < ApplicationController
       channel.title = chan_params[:title] unless chan_params[:title].nil?
       channel.game = chan_params[:game] unless chan_params[:game].nil?
       channel.streamer = chan_params[:streamer] unless chan_params[:streamer].nil?
+      channel.live = chan_params[:live] unless chan_params[:live].nil?
       if channel.save
         res = (serialize channel).merge({status: 200})
       else
@@ -81,7 +82,7 @@ class ChannelsController < ApplicationController
   end
 =end
   def chan_params
-    params.require(:channels).permit(:channel, :streamer, :service, :game, :title)
+    params.require(:channels).permit(:channel, :streamer, :service, :game, :title, :live)
   end
 
   private
