@@ -11,16 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223141142) do
+ActiveRecord::Schema.define(version: 20160315201750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_tokens", force: :cascade do |t|
+    t.string   "secret"
+    t.integer  "user_id"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "api_tokens", ["secret"], name: "index_api_tokens_on_secret", using: :btree
+  add_index "api_tokens", ["user_id"], name: "index_api_tokens_on_user_id", using: :btree
 
   create_table "channels", force: :cascade do |t|
     t.string   "channel",    limit: 255
     t.boolean  "live",                   default: false
     t.integer  "viewers",                default: 0,                            null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico"
+    t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
     t.string   "streamer",   limit: 255, default: "McDwarf"
     t.string   "title",      limit: 255, default: "Boku wa Tomodachi ga Sekai"
     t.string   "service",    limit: 255, default: "twitch"

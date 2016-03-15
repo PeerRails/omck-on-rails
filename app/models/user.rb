@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :tweets
   has_many :sessions
   has_many :videos
+  has_one :api_token
   validates :twitter_id, presence: true, uniqueness: true
   devise :rememberable, :omniauthable, omniauth_providers: [:twitter]
 
