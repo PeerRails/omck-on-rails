@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.5'
+gem 'rails-api'
 #gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
 gem "puma"
@@ -28,6 +29,10 @@ gem 'omniauth-twitter'
 gem 'twitter'
 gem 'simple_form'
 gem 'russian', '~> 0.6.0'
+
+gem 'oj'
+gem 'oj_mimic_json'
+gem 'active_model_serializers'
 
 group :development do
   gem "better_errors"

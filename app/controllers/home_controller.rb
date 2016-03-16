@@ -5,7 +5,10 @@ class HomeController < ApplicationController
     if user_signed_in?
       render 'home/user'
     else
-      redirect_to new_user_session
+      respond_to do |format|
+        format.json { render json: {error: true, message: "You must log in to continue"}, status: 403 }
+        format.html redirect_to new_user_session
+      end
     end
   end
 
