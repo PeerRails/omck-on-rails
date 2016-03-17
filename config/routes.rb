@@ -59,17 +59,23 @@ Rails.application.routes.draw do
   #API
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
-      #post 'auth' => 'main#check'
+      # Channels API
       get 'channels/live' => 'channels#live'
       get 'channels/all' => 'channels#all'
-
-      post 'channels/create' => 'channels#create'
-      post 'channels/:service/:channel/update' => 'channels#update'
-
       get 'channels/:service/:channel' => 'channels#show'
       get 'channels/:service' => 'channels#service'
-
+      post 'channels/create' => 'channels#create'
+      post 'channels/:service/:channel/update' => 'channels#update'
       delete 'channels/:service/:channel/delete' => 'channels#delete'
+
+      # Keys API
+      get 'keys' => 'keys#retrieve'
+      get 'keys/all' => 'keys#all'
+      get 'keys/guest' => 'keys#guest'
+      post 'keys/create' => 'keys#create'
+      post 'keys/regenerate' => 'keys#regenerate'
+      post 'keys/update' => 'keys#update'
+      delete 'keys/expire' => 'keys#expire'
     end
   end
 
