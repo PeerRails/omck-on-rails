@@ -31,19 +31,19 @@ RSpec.describe TweetsController, type: :controller do
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
     end
-    it "should update tweet without own" do
-      post :tweet, tweet: {comment: "text", own: 1}
-      json = JSON.parse(response.body)
-      expect(json["error"]).to be nil
-      expect(json["text"]).to eq("text")
-      expect(json["user"]).to eq(@user.name)
-    end
-    it "should update tweet without own" do
-      post :tweet, tweet: {comment: "text", own: 0}
-      json = JSON.parse(response.body)
-      expect(json["error"]).to be nil
-      expect(json["text"]).to eq("Стрим на #omcktv || text")
-      expect(json["user"]).to eq(@user.name)
-    end
+    #it "should update tweet without own" do
+    #  post :tweet, tweet: {comment: "text", own: 1}
+    #  json = JSON.parse(response.body)
+    #  expect(json["error"]).to be nil
+    #  expect(json["text"]).to eq("text")
+    #  expect(json["user"]).to eq(@user.name)
+    #end
+    #it "should update tweet without own" do
+    #  post :tweet, tweet: {comment: "text", own: 0}
+    #  json = JSON.parse(response.body)
+    #  expect(json["error"]).to be nil
+    #  expect(json["text"]).to eq("Стрим на #omcktv || text")
+    #  expect(json["user"]).to eq(@user.name)
+    #end
   end
 end

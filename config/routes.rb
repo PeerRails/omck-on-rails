@@ -60,6 +60,14 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       #post 'auth' => 'main#check'
+      get 'channels/live' => 'channels#live'
+      get 'channels/all' => 'channels#all'
+
+      post 'channels/create' => 'channels#create'
+      post 'channels/:service/:channel/update' => 'channels#update'
+
+      get 'channels/:service/:channel' => 'channels#show'
+      get 'channels/:service' => 'channels#service'
     end
   end
 

@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def token
+    return ApiToken.where(user_id: self.id).where("expires_at > ?", DateTime.now).first
+  end
+
   private
   def key_create
     key = Key.create(user_id: self.id, key: SecureRandom.uuid, created_by: self.id)

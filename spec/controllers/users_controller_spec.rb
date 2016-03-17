@@ -98,7 +98,7 @@ RSpec.describe UsersController, type: :controller do
     it "should list all users to admin" do
       get :list
       json = JSON.parse(response.body)
-      expect(json.length).to eq(User.count)
+      expect(json["users"].length).to eq(User.count)
     end
   end
   describe 'POST #invite' do

@@ -10,7 +10,7 @@ RSpec.describe VideosController, type: :controller do
       create(:key, user_id: user.id)
       video = create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list
-      json = JSON.parse(response.body)
+      json = JSON.parse(response.body)["videos"]
       expect(json.length).to eq(1)
       expect(json[0]["token"]).to eq(video.token)
     end
@@ -19,7 +19,7 @@ RSpec.describe VideosController, type: :controller do
       create(:key, user_id: user.id)
       create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list, video: {user_id: user.id}
-      json = JSON.parse(response.body)
+      json = JSON.parse(response.body)["videos"]
       expect(json.length).to eq(1)
       expect(json[0]["token"]).to eq(user.videos.last.token)
     end
@@ -28,7 +28,7 @@ RSpec.describe VideosController, type: :controller do
       create(:key, user_id: user.id)
       create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list, video: {user_id: 0}
-      json = JSON.parse(response.body)
+      json = JSON.parse(response.body)["videos"]
       expect(json.length).to eq(0)
     end
   end

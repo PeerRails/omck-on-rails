@@ -26,6 +26,10 @@ RSpec.describe Channel, type: :model do
     expect(Channel.hd.first).to eq(@hdgames)
   end
 
+  it "should validate uniqueness of channel on service" do
+    expect{create(:channel, :hdchannel)}.to raise_error(ActiveRecord::RecordInvalid) 
+  end
+
   #it "should update info" do
    # account = Fabricate(:account)
     #account.update_info(@omni)

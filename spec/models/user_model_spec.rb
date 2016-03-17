@@ -81,7 +81,7 @@ RSpec.describe User, type: :model do
     user = User.login_with_twitter(omni)
     expect(user.name).to eq(omni[:info][:name])
   end
-    it "should create user with key" do
+  it "should create user with key" do
     omni = {
       uid: "11112",
       info: {
@@ -97,6 +97,10 @@ RSpec.describe User, type: :model do
     user = User.login_with_twitter(omni)
     expect(user.name).to eq(omni[:info][:name])
     expect(user.keys.last.nil?).to be false
+  end
+  it "should show api token" do
+    token = create(:api_token, user_id: @streamer.id)
+    expect(@streamer.token.id).to eq(token.id)
   end
 
 end
