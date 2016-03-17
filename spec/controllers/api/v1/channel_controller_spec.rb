@@ -56,7 +56,7 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
 
   describe 'action without authorization' do
     it 'should not create new channel' do
-      post :create, channels: {service: 'twitch', channels: 'blizzheroes', streamer: 'host'}
+      post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'host'}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
       expect(json['message']).to eq('You dont have access to this action')
@@ -129,15 +129,7 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
       sign_in @streamer
     end
     it 'deletes channel' do
-      delete :remove, channels: {service: 'twitch', channel: 'velikun'}
-      json = JSON.parse(response.body)
-      expect(json['error']).to be nil
+      expect{delete :delete, {service: 'twitch', channel: 'velikun'}}.to change{Channel.count}.by(-1)
     end
   end
-  #   describe "#bitdash" do
-  #     it "return success" do
-  #       get :bitdash
-  #       expect(response).to have_http_status(:success)
-  #     end
-  #   end
 end

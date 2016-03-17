@@ -68,6 +68,8 @@ Rails.application.routes.draw do
 
       get 'channels/:service/:channel' => 'channels#show'
       get 'channels/:service' => 'channels#service'
+
+      delete 'channels/:service/:channel/delete' => 'channels#delete'
     end
   end
 
