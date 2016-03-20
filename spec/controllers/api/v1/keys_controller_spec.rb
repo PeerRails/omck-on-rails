@@ -15,4 +15,21 @@ RSpec.describe Api::V1::KeysController, type: :controller do
       expect(json["user_id"]).to eq(@streamer.id)
     end
   end
+
+  describe "GET #all" do
+    it 'should list all keys to gmod' do
+      get :all
+      json = JSON.parse(response.body)["key"]
+      expect(json["error"]).to be nil
+    end
+  end
+
+  describe "GET #guest" do
+    it 'should list guest keys to gmod' do
+      get :all
+      json = JSON.parse(response.body)["key"]
+      expect(json["error"]).to be nil
+    end
+  end
+
 end
