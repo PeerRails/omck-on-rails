@@ -11,6 +11,11 @@ module Api
         keys = Key.all
         render json: keys
       end
+
+      def guest
+        keys = Key.is_guest
+        render json: keys
+      end
     end
   end
 end

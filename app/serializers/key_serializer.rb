@@ -1,9 +1,5 @@
 class KeySerializer < ActiveModel::Serializer
-  attributes :guest_id, :streamer, :movie, :game, :guest, :expires, :created_by, :created_by_name, :secret, :user_id
-
-  def guest_id
-    self.guest == false ? nil : self.id
-  end
+  attributes :streamer, :movie, :game, :guest, :expires, :created_by, :created_by_name, :secret, :user_id
 
   def secret
     #raise self.key.inspect

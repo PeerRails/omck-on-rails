@@ -27,7 +27,7 @@ RSpec.describe Api::V1::KeysController, type: :controller do
   describe "GET #guest" do
     it 'should list guest keys to gmod' do
       get :all
-      json = JSON.parse(response.body)["key"]
+      json = JSON.parse(response.body)["keys"]
       expect(json["error"]).to be nil
     end
   end
