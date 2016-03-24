@@ -22,8 +22,13 @@ module Api
         if key.save
           render json: key
         else
-          render json {error: true, message: key.errors}
+          render json: {error: true, message: key.errors}
         end
+      end
+
+      private
+      def key_params
+        params.require(:key).permit(:user_id, :guest)
       end
     end
   end

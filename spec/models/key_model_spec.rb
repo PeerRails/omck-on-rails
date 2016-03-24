@@ -18,9 +18,6 @@ RSpec.describe Key, type: :model do
     video = create(:video, key_id: key.id, user_id: key.user_id)
     expect(key.videos.count).to eq(1)
   end
-  it "should validate key secret presence" do
-    expect{create(:key, user_id: @streamer.id, key: nil)}.to raise_error(ActiveRecord::RecordInvalid)
-  end
   it "should validate key secret uniqueness" do
     expect{create(:key, user_id: @streamer.id, key: @first_key.key)}.to raise_error(ActiveRecord::RecordInvalid)
   end
@@ -44,5 +41,12 @@ RSpec.describe Key, type: :model do
   it "should return streamer keys" do
     create(:key, guest: true)
     expect(Key.streamers.count).to eq(2)
+  end
+  it "shoulda generate key before creation" do
+    user = create(:user)
+    user.keys.present.last.destroy
+    key = Key.new(game: "game", movie: "movie", expires: DateTime.now + 23, streamer: "User", guest: false, user_id: user.id, created_by: user.id)
+    key.save
+    expect(key.key).not_to eq(nil)
   end
 end
