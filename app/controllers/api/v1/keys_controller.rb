@@ -1,7 +1,7 @@
 module Api
   module V1
-    class KeysController < ApiApplicationController\
-
+    class KeysController < ApiApplicationController
+      
       def retrieve
         key = Key.present.where(user_id: current_user.id).last
         render json: key
@@ -22,11 +22,22 @@ module Api
         if key.save
           render json: key
         else
-          render json: {error: true, message: key.errors}
+          render json: { error: true, message: key.errors }
+        end
+      end
+
+      def regenerate
+        key = Key.find_by_user_id(key_params[:user_id])
+        if key.expire
+          new_key = Key.create(user_id: key.user_id, guest: false, streamer: key.streamer, game: key.game, movie: key.movie, created_by: current_user.id)
+          render json: new_key
+        else
+          render json: { error: true, message: key.errors }
         end
       end
 
       private
+
       def key_params
         params.require(:key).permit(:user_id, :guest)
       end

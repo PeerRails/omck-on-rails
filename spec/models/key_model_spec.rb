@@ -49,4 +49,12 @@ RSpec.describe Key, type: :model do
     key.save
     expect(key.key).not_to eq(nil)
   end
+  it "should expire itself" do
+    expect{@first_key.expire}.to change{ Key.present.count }.to(1)
+  end
+  it "should check for key limit per user" do
+    count_then = Key.present.count
+    key = Key.create(user_id: @streamer.id, guest: false, key: @first_key.key)
+    expect(Key.present.count).to eq(count_then)
+  end
 end

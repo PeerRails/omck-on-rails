@@ -7,7 +7,6 @@ RSpec.describe VideosController, type: :controller do
     end
     it "should return list of videos" do
       user = create(:user)
-      create(:key, user_id: user.id)
       video = create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list
       json = JSON.parse(response.body)["videos"]
@@ -16,7 +15,6 @@ RSpec.describe VideosController, type: :controller do
     end
     it "should return list of user videos" do
       user = create(:user)
-      create(:key, user_id: user.id)
       create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list, video: {user_id: user.id}
       json = JSON.parse(response.body)["videos"]
@@ -25,7 +23,6 @@ RSpec.describe VideosController, type: :controller do
     end
     it "should return empty list with incorrect id" do
       user = create(:user)
-      create(:key, user_id: user.id)
       create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list, video: {user_id: 0}
       json = JSON.parse(response.body)["videos"]

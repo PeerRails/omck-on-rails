@@ -9,10 +9,8 @@ RSpec.describe User, type: :model do
   end
 
   it "should have many keys" do
-    5.times.each do
-      create(:key, user_id: @streamer.id, key: Faker::Internet.password)
-    end
-    expect(@streamer.keys.count).to be > 5
+    create(:key, user_id: @streamer.id, key: Faker::Internet.password, guest: true)
+    expect(@streamer.keys.count).to be 2
   end
   it "should have many tweets" do
     create_list(:tweet, 15 ,user_id: @streamer.id)
@@ -26,8 +24,7 @@ RSpec.describe User, type: :model do
   end
   it "should have  many videos" do
     user = create(:user, twitter_id: "123456")
-    key = create(:key, user_id: user.id)
-    video = create(:video, key_id: key.id, user_id: key.user_id)
+    video = create(:video, key_id: user.keys.present.last.id, user_id: user.id)
     expect(user.videos.count).to eq(1)
   end
   it "should validate twitter_id presence" do

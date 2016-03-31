@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Video, type: :model do
   before do
     @user = create(:user, :streamer)
-    @key = create(:key, user_id: @user.id)
+    @key = @user.keys.present.last
   end
 
   it "should belong to key" do

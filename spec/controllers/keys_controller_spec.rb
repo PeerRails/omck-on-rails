@@ -33,7 +33,6 @@ RSpec.describe KeysController, type: :controller do
     end
     it 'should not expire key' do
       user = create(:user, :mod)
-      create(:key, user_id: user.id)
       post :expire, key: { user_id: user.id }
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
@@ -41,7 +40,6 @@ RSpec.describe KeysController, type: :controller do
     end
     it 'should not expire key and create new for user'do
       user = create(:user, :mod)
-      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
       post :regenerate, key: { user_id: user.id, expires: DateTime.now + 3600, streamer: 'Dwarf', game: 'Gaem' }
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
@@ -190,7 +188,6 @@ RSpec.describe KeysController, type: :controller do
     end
     it 'should not expire key if incorrect id' do
       user = create(:user, :mod)
-      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
       post :regenerate, key: { user_id: 120}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
@@ -198,7 +195,6 @@ RSpec.describe KeysController, type: :controller do
     end
     it 'should not expire key if no id' do
       user = create(:user, :mod)
-      key = create(:key, user_id: user.id, expires: DateTime.now + 3600)
       post :regenerate, key: { user_id: nil }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
@@ -216,12 +212,6 @@ RSpec.describe KeysController, type: :controller do
   end
   describe "POST #create_guest" do
     it 'should not create too many guest key'do
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
       post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
