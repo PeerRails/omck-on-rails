@@ -58,6 +58,7 @@ Rails.application.routes.draw do
 
   #API
   namespace :api, defaults: {format: 'json'} do
+    # Version 1.0
     namespace :v1 do
       # Channels API
       get 'channels/live' => 'channels#live'
@@ -76,6 +77,15 @@ Rails.application.routes.draw do
       post 'keys/regenerate' => 'keys#regenerate'
       post 'keys/update' => 'keys#update'
       delete 'keys/expire' => 'keys#expire'
+
+      # Users API
+      get 'users' => 'users#list'
+      get 'user/:twitter_id' => 'users#show'
+      get 'user/:twitter_id/videos' => 'users#videos'
+      post 'user/:twitter_id/update' => 'users#update'
+      post 'user/:twitter_id/grant' => 'users#grant'
+      post 'user/invite' => 'users#invite'
+
     end
   end
 
