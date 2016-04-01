@@ -210,11 +210,4 @@ RSpec.describe KeysController, type: :controller do
       expect(json['guest_id']).to eq(key.id)
     end
   end
-  describe "POST #create_guest" do
-    it 'should not create too many guest key'do
-      post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" }
-      json = JSON.parse(response.body)
-      expect(json['error']).to be true
-    end
-  end
 end

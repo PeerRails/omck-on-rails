@@ -18,10 +18,11 @@ RSpec.describe Api::V1::KeysController, type: :controller do
   end
 
   describe "GET #all" do
-    it 'should list all keys to gmod' do
+    it 'should list all present keys to gmod' do
       get :all
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
+      expect(json["keys"].count).to eq(Key.present.count)
     end
   end
 
@@ -50,6 +51,28 @@ RSpec.describe Api::V1::KeysController, type: :controller do
       old_key = user.keys.present.last.key
       post :regenerate, key: {user_id: user.id}
       expect(user.keys.present.last.key).not_to eq(old_key)
+    end
+  end
+
+  describe "POST #update" do
+    it "should update key data" do
+      post :update, key: {user_id: @streamer.id, game: "MonHun", streamer: "Dwarf", movie: "Derp"}
+      json = JSON.parse(response.body)
+      key_new = Key.find(@key.id)
+      expect(json["error"]).to be nil
+      expect(json["key"]["game"]).to eq("MonHun")
+      expect(key_new.game).not_to eq(@key.game)
+    end
+  end
+
+  describe "DELETE #expire" do
+    it "should expire key" do
+      delete :expire, key: {user_id: @streamer.id}
+      json = JSON.parse(response.body)
+      key_new = Key.find(@key.id)
+      expect(json["error"]).to be nil
+      expect(json["message"]).to eq("Ключ испарен!")
+      expect(key_new.expires).to be < DateTime.now
     end
   end
 
