@@ -5,6 +5,7 @@ class KeySerializer < ActiveModel::Serializer
     #raise self.key.inspect
     #self.guest == false ? self.key : nil
     "placeholder"
+    #current_user.id == self.id ? self.key : "placeholder"
   end
 
   def created_by_name
