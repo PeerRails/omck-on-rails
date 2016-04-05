@@ -25,4 +25,8 @@ class ApiApplicationController < ActionController::API
   rescue_from ActionController::ParameterMissing do
     render json: {error: true, message: "No valid params"}, status: 403
   end
+
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: {error: true, message: "Record not Found"}, status: 404
+  end
 end

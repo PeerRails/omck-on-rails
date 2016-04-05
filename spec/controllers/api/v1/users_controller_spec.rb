@@ -18,10 +18,50 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe "GET #show" do
     it "should list required user" do
-      get :show, twitter_id: @streamer.twitter_id
+      get :show, id: @streamer.id
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["user"]["twitter_id"]).to eq(@streamer.twitter_id)
+    end
+  end
+
+  describe "GET #videos" do
+    it "should list users videos" do
+      create(:video, user_id: @streamer.id, key_id: @streamer.keys.last.id)
+      get :videos, id: @streamer.id
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["videos"][0]["user_id"]).to eq(@streamer.id)
+    end
+  end
+
+  describe "POST #update" do
+    it "should update user data" do
+      post :update, {id: @streamer.id, user: {screen_name: "new", name: "ahhaha", profile_image_url: "http://google.com/jpg.jpg"}}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["user"]["id"]).to eq(@streamer.id)
+      expect(json["user"]["screen_name"]).to eq("new")
+    end
+  end
+
+  describe "POST #grant" do
+    it "should grant user permissions" do
+      post :grant, {id: @streamer.id, user: {streamer: 0, gmod: 1}}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["user"]["id"]).to eq(@streamer.id)
+      expect(json["user"]["streamer"]).to eq(0)
+    end
+  end
+
+  describe "POST #invite" do
+    it "should grant user permissions" do
+      post :grant, {id: @streamer.id, user: {streamer: 0, gmod: 1}}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["user"]["id"]).to eq(@streamer.id)
+      expect(json["user"]["streamer"]).to eq(0)
     end
   end
 

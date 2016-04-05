@@ -80,10 +80,10 @@ Rails.application.routes.draw do
 
       # Users API
       get 'users' => 'users#list'
-      get 'user/:twitter_id' => 'users#show'
-      get 'user/:twitter_id/videos' => 'users#videos'
-      post 'user/:twitter_id/update' => 'users#update'
-      post 'user/:twitter_id/grant' => 'users#grant'
+      get 'user/:id' => 'users#show'
+      get 'user/:id/videos' => 'users#videos'
+      post 'user/:id/update' => 'users#update'
+      post 'user/:id/grant' => 'users#grant'
       post 'user/invite' => 'users#invite'
 
     end
