@@ -45,6 +45,18 @@ module Api
         end
       end
 
+      def invite
+        account = tclient.user(user_params[:screen_name], :skip_status => true)
+        user = User.find_by_twitter_id(account.id)
+        user = User.update(streamer: 1) unless user.nil?
+        user = User.new(twitter_id: account.id, screen_name: account.screen_name, name: account.name, streamer: 1) if user.nil?
+        if user.save
+          render json: user
+        else
+          render json: {error: true, message: user.errors}
+        end
+      end
+
       def user_params
         params.require(:user).permit(:screen_name, :name, :profile_image_url)
       end

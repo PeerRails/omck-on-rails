@@ -56,12 +56,24 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe "POST #invite" do
-    it "should grant user permissions" do
-      post :grant, {id: @streamer.id, user: {streamer: 0, gmod: 1}}
+    before do
+      request.env["HTTP_ACCEPT"] = 'application/json'
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=@omckws&skip_status=true").
+         to_return(:status => 200, :body => '{
+           "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+           "id": 2244994945,
+           "id_str": "2244994945",
+           "name": "omckws",
+           "screen_name": "omckws"
+         }', :headers => {})
+    end
+    it "should invite new user by twitter username" do
+      post :invite, user: {screen_name: "@omckws"}
       json = JSON.parse(response.body)
+      user = User.last
       expect(json["error"]).to be nil
-      expect(json["user"]["id"]).to eq(@streamer.id)
-      expect(json["user"]["streamer"]).to eq(0)
+      expect(json["user"]["id"]).to eq(user.id)
+      expect(json["user"]["screen_name"]).to eq("omckws")
     end
   end
 
