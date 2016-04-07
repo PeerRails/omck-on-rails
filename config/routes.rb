@@ -86,6 +86,14 @@ Rails.application.routes.draw do
       post 'user/:id/grant' => 'users#grant'
       post 'user/invite' => 'users#invite'
 
+      # Videos API
+      get 'videos' => 'videos#list'
+      get 'videos/archive' => 'videos#list', defaults: { status: "deleted" }
+      get 'video/:token' => 'video#show'
+      post 'video/add' => 'video#add'
+      post 'video/:token/update' => 'video#update'
+      delete 'video/:token/remove' => 'video#remove'
+
     end
   end
 
