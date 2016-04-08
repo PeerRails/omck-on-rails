@@ -14,20 +14,17 @@ RSpec.describe Video, type: :model do
     video = create(:video, user_id: @user.id, key_id: @key.id)
     expect(@user.videos.last).to eq(video)
   end
-  it "should validate token presence" do
-    expect{create(:video, token: nil)}.to raise_error(ActiveRecord::RecordInvalid)
-  end
-  it "should validate token uniqueness" do
-    video = create(:video, token: "123456")
-    expect{create(:video, token: video.token)}.to raise_error(ActiveRecord::RecordInvalid)
-  end
   it "should show deleted videos" do
     create(:video, deleted: true)
     expect(Video.deleted.count).to eq(1)
   end
   it "should list undeleted videos" do
-    video = create(:video, token: Faker::Internet.password)
+    video = create(:video)
     expect(Video.list.last.token).to eq(video.token)
     expect(Video.list.length).to eq(1)
+  end
+  it "should generate token for new video" do
+    video = create(:video, user_id: @user.id, key_id: @key.id)
+    expect(video.token).not_to be nil
   end
 end

@@ -1,9 +1,9 @@
 module Api
   module V1
     class VideosController < ApiApplicationController
-
       def list
-        videos = Video.where(deleted: false)
+        deleted = params[:deleted] || false
+        videos = Video.where(deleted: deleted)
         render json: videos
       end
 
