@@ -175,14 +175,10 @@ module Api
       # }
       def delete
         channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
-        if channel.nil?
-          render json: {error: true, message: "Channel not found"}
+        if channel.destroy
+          render json: {error: nil, message: "Deleted!"}
         else
-          if channel.destroy
-            render json: {error: nil, message: "Deleted!"}
-          else
-            render json: {error: true, message: channel.errors}
-          end
+          render json: {error: true, message: channel.errors}
         end
       end
 

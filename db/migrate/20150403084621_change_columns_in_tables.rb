@@ -7,10 +7,10 @@ class ChangeColumnsInTables < ActiveRecord::Migration
     remove_column :tweets, :tipe
     remove_column :users, :twitch
 
-    change_table :keys do |t|4
+    change_table :keys do |t|
       t.index :user_id
     end
 
-    add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
+    #add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
   end
 end
