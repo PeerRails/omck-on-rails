@@ -94,6 +94,13 @@ Rails.application.routes.draw do
       post 'video/:token/update' => 'videos#update'
       delete 'video/:token/archive' => 'videos#archive'
 
+      # Tweets API
+      get 'tweets' => 'tweets#list'
+      get 'tweets/timeline' => 'tweets#timeline'
+      get 'tweets/:id' => 'tweets#show'
+      get 'tweets/user/:user_id' => 'tweets#by_user'
+      post 'tweets/post' => 'tweets#post'
+      delete 'tweets/:id/delete' => 'tweets#delete'
     end
   end
 

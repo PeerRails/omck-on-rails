@@ -9,7 +9,7 @@ class TweetsController < ApplicationController
       @new_tweet.comment = "Стрим на #omcktv || " + @new_tweet.comment
     end
 
-    tweet = tclient.update( @new_tweet.comment )
+    tclient.update( @new_tweet.comment )
     res = {}
     if @new_tweet.save
       res[:error] = nil
