@@ -5,15 +5,17 @@ RSpec.describe Api::V1::KeysController, type: :controller do
     @streamer = create(:user, :streamer)
     @key = @streamer.keys.present.last
     @gkey = create(:key, guest: true, created_by: @streamer.id, user_id: @streamer.id)
-    sign_in @streamer
+    @token = create(:api_token, user_id: @streamer.id)
     request.env["HTTP_ACCEPT"] = 'application/json'
+    request.headers["HTTP_API_TOKEN"] = @token.secret
   end
 
   describe "GET #retrive" do
     it "should show user key" do
       get :retrieve
-      json = JSON.parse(response.body)["key"]
-      expect(json["user_id"]).to eq(@streamer.id)
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["key"]["user_id"]).to eq(@streamer.id)
     end
   end
 

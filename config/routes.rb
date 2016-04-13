@@ -8,9 +8,6 @@ Rails.application.routes.draw do
   get 'login', :to => 'users/sessions#new', :as => :new_user_session
   get 'logout', :to => 'users/sessions#destroy', :as => :destroy_user_session
 
-  get 'api/v1/auth' => 'api_application#check'
-  post 'api/v1/auth' => 'api_application#check'
-
   # Channel API
   get 'channel/live' => 'channels#list_live', defaults: { page: 0 }
   get 'channel/all' => 'channels#list_all', defaults: { page: 0 }
@@ -48,6 +45,14 @@ Rails.application.routes.draw do
 
   #Twitter
   post 'home/user/tweet' => 'tweets#tweet'
+
+  #API tokens
+  get 'home/token' => 'api_tokens#list'
+  get 'home/tokens' => 'api_tokens#list_all'
+  get 'home/token/:user_id/show' => 'api_tokens#show'
+  post 'home/token/create' => 'api_tokens#create'
+  post 'home/token/expire' => 'api_tokens#expire'
+
 
   # Pages:
   get 'home' => 'home#index'

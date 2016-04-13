@@ -27,5 +27,11 @@ class Ability
     #Remote API
     alias_action :live, :all, :show, :service, :to => :api_channel_view
     can :api_channel_view, Channel
+
+    #API Tokens
+    can :list, ApiToken
+    can :show, ApiToken, user_id: user.id
+    can :delete, ApiToken, user_id: user.id
+    can :create, ApiToken, user_id: user.id
   end
 end

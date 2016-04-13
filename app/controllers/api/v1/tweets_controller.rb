@@ -18,7 +18,7 @@ module Api
       end
 
       def post
-        tweet = Tweet.new(tweet_params)
+        tweet = Tweet.new(tweet_params, user_id: @current_user.id)
         if tclient.update( tweet.comment )
           tweet.save
           render json: tweet

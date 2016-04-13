@@ -1,16 +1,14 @@
 class ApiApplicationController < ActionController::API
   include ActionController::Serialization
   respond_to :json
+  before_action :check
 
   def check
     token = request.headers["HTTP_API_TOKEN"] || nil
     user = User.new
     user = ApiToken.where(secret: token).present.user unless token.nil? || ApiToken.find_by_secret(token).nil?
-    render json: user
-  end
-
-  def auth_api
-    #placeholder
+    @current_user = user
+    @current_ability ||= Ability.new(@current_user)
   end
 
   def tclient
