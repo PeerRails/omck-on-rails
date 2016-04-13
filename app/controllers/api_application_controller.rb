@@ -22,11 +22,11 @@ class ApiApplicationController < ActionController::API
     end
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do |e|
     render json: {error: true, message: "You dont have access to this action"}, status: 403
   end
 
-  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+  rescue_from ActionController::InvalidAuthenticityToken do |e|
     render json: {error: true, message: "You dont have access to this action"}, status: 403
   end
 
@@ -36,5 +36,9 @@ class ApiApplicationController < ActionController::API
 
   rescue_from ActiveRecord::RecordNotFound do
     render json: {error: true, message: "Record not Found"}, status: 404
+  end
+
+  rescue_from Twitter::Error do |e|
+    render json: {error: true, message: e}
   end
 end

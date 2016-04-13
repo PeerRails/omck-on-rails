@@ -38,10 +38,39 @@ RSpec.describe Api::V1::TweetsController, type: :controller do
 
   describe "GET #by_user" do
     it "should show tweet by user id param" do
-      get :show, id: @streamer.id
+      get :by_user, user_id: @streamer.id
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      #expect(json["tweets"][0]["author"]).to eq(@streamer.name)
+      expect(json["tweets"][0]["user"]["name"]).to eq(@streamer.name)
+    end
+  end
+
+  #  Just a placeholder
+  #describe "GET #timeline" do
+    #it "should show tweet timeline" do
+      #it shouldnt
+    #end
+  #end
+
+  # Damn you, webmock
+  #describe "POST #tweet" do
+  #  before do
+  #    stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").with(:body => {"status"=>"text"}).to_return(:status => 200, :body => '{"created_at": "Wed Sep 05 00:37:15 +0000 2012", "id_str": "243145735212777472", "text": "text", "id": 243145735212777472}', :headers => {})
+  #  end
+  #  it "should post tweet" do
+  #    post :post, tweet: {comment: "Стрим на #omcktv || text"}
+  #    json = JSON.parse(response.body)
+  #    expect(json["error"]).to be nil
+  #    expect(json["tweet"]["id"]).to eq("243145735212777472")
+  #  end
+  #end
+
+  describe "DELETE #delete" do
+    it "should delete tweet from db" do
+      delete :delete, id: @tweet.id
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["message"]).to eq("Deleted!")
     end
   end
 

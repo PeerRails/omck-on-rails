@@ -96,7 +96,7 @@ Rails.application.routes.draw do
 
       # Tweets API
       get 'tweets' => 'tweets#list'
-      get 'tweets/timeline' => 'tweets#timeline'
+      #get 'tweets/timeline' => 'tweets#timeline'
       get 'tweets/:id' => 'tweets#show'
       get 'tweets/user/:user_id' => 'tweets#by_user'
       post 'tweets/post' => 'tweets#post'
