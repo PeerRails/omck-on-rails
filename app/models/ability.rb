@@ -33,5 +33,6 @@ class Ability
     can :show, ApiToken, user_id: user.id
     can :delete, ApiToken, user_id: user.id
     can :create, ApiToken, user_id: user.id
+    can :expire, ApiToken, user_id: user.id
   end
 end

@@ -9,12 +9,12 @@ RSpec.describe ApiTokensController, type: :controller do
     sign_in @user
   end
 
-  describe "GET #token" do
-    it "should show api token for user" do
+  describe "GET #list" do
+    it "should show api tokens for user" do
       get :list
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["token"]["user_id"]).to eq(@user.id)
+      expect(json["tokens"][0]["user_id"]).to eq(@user.id)
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe ApiTokensController, type: :controller do
 
   describe "expire #expire" do
     it "should expire api token for user" do
-      post :create, id: @token.id
+      post :expire, id: @token.id
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["message"]).to eq("Expired!")
