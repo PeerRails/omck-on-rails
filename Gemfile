@@ -29,6 +29,8 @@ gem 'omniauth-twitter'
 gem 'twitter'
 gem 'simple_form'
 gem 'russian', '~> 0.6.0'
+gem 'bitly'
+gem 'twitter-text'
 
 gem 'oj'
 gem 'oj_mimic_json'

@@ -10,3 +10,5 @@ export REDIS_URL=6379
 export PUMAPATH="/home/peer/git/omck-on-rails"
 export LOGIN_AUTH=
 export LOGIN_SECRET=
+export BITLY_USER=
+export BITLY_TOKEN=

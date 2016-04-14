@@ -1,6 +1,8 @@
 module Api
   module V1
     class TweetsController < ApiApplicationController
+      include Twitter::Extractor
+
       def list
         #page = params[:page].nil? ? 0 : params[:page]
         tweets = Tweet.all
@@ -19,9 +21,12 @@ module Api
 
       def post
         tweet = Tweet.new(tweet_params, user_id: @current_user.id)
-        if tclient.update( tweet.comment )
-          tweet.save
+        tweet.comment = extract_url(tweet.comment)
+        if tweet.save
+          tclient.update( tweet.comment )
           render json: tweet
+        else
+          render json: {error: true, message: tweet.errors}
         end
       end
 
@@ -32,6 +37,12 @@ module Api
         else
           render json: {error: true, message: tweet.errors}
         end
+      end
+
+      def extract_url(comment)
+        links = extract_urls(comment)
+        links.each {|link| comment.gsub! link, bitly.shorten(link).short_url}
+        return comment
       end
 
       def tweet_params

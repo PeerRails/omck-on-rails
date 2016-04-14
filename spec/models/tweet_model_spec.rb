@@ -7,7 +7,7 @@ RSpec.describe Tweet, type: :model do
   end
 
   it "should belong to user" do
-    expect(@user.tweets.first.user_id).to eq(@tweet.id)
+    expect(@user.tweets.last.user_id).to eq(@tweet.user_id)
   end
 
   it "should validate presence of comment" do
@@ -15,13 +15,8 @@ RSpec.describe Tweet, type: :model do
   end
 
   it "should validate length of comment" do
-    text = SecureRandom.hex(140)
+    text = SecureRandom.hex(142)
     expect{create(:tweet, user_id: @user.id, comment: text)}.to raise_error(ActiveRecord::RecordInvalid)
-  end
-
-  it "should find urls in text and compress them to 23 symbols" do
-    text = "text here http://foo.example.org/bla and here mailto:test@example.com and here also."
-    raise text.inspect
   end
 
 end
