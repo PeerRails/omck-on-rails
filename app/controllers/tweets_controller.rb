@@ -9,9 +9,9 @@ class TweetsController < ApplicationController
       @new_tweet.comment = "Стрим на #omcktv || " + @new_tweet.comment
     end
 
-    tclient.update( @new_tweet.comment )
     res = {}
     if @new_tweet.save
+      tclient.update( @new_tweet.comment )
       res[:error] = nil
       res[:success] = "Успешно послан твит!"
       res[:text] = @new_tweet.comment

@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Api::V1::TweetsController, type: :controller do
   before do
     @streamer = create(:user, :streamer)
-    sign_in @streamer
+    @token = create(:api_token, user_id: @streamer.id)
+    request.headers["HTTP_API_TOKEN"] = @token.secret
     #@video = create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id)
     @tweet = create(:tweet, own: 0, comment: "Wow", user_id: @streamer.id)
     request.env["HTTP_ACCEPT"] = 'application/json'

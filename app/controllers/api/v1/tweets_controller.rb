@@ -20,7 +20,7 @@ module Api
       end
 
       def post
-        tweet = Tweet.new(tweet_params, user_id: @current_user.id)
+        tweet = Tweet.new(comment: tweet_params[:comment], user_id: @current_user.id)
         tweet.comment = extract_url(tweet.comment)
         if tweet.save
           tclient.update( tweet.comment )

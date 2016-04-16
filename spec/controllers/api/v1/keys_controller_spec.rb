@@ -38,21 +38,21 @@ RSpec.describe Api::V1::KeysController, type: :controller do
 
   describe "POST #create" do
     it "should create new key for user" do
-      user = create(:user)
-      user.keys.present.last.expire
-      post :create, key: {user_id: user.id, guest: false}
+      @key.expire
+      post :create, key: {user_id: @streamer.id, guest: false}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(Key.where(user_id: user.id).count).to eq(2)
+      expect(Key.where(user_id: @streamer.id).count).to eq(3)
     end
   end
 
   describe "POST #regenerate" do
     it "should expire old key, create and give back new key" do
-      user = create(:user)
-      old_key = user.keys.present.last.key
-      post :regenerate, key: {user_id: user.id}
-      expect(user.keys.present.last.key).not_to eq(old_key)
+      post :regenerate, key: {user_id: @streamer.id}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["key"]["id"]).not_to eq(@key.id)
+      expect(@streamer.keys.present.last.key).not_to eq(@key.key)
     end
   end
 

@@ -1,8 +1,7 @@
 module Api
   module V1
     class ChannelsController < ApiApplicationController
-      #include CanCan::ControllerAdditions
-      #load_and_authorize_resource
+      load_and_authorize_resource
 
       # List live channels at current moment
       # Request:
@@ -119,11 +118,11 @@ module Api
       #  ]
       # }
       def create
-        channel = Channel.create(chanmod_params)
-        if channel.errors.any?
-          render json: {error: true, message: channel.errors}
-        else
+        channel = Channel.new(chanmod_params)
+        if channel.save
           render json: channel
+        else
+          render json: {error: true, message: channel.errors}
         end
       end
 
@@ -156,11 +155,10 @@ module Api
         if channel.nil?
           render json: {error: true, message: "Channel not found"}
         else
-          channel = Channel.update(channel.id, chanmod_params)
-          if channel.errors.any?
-            render json: {error: true, message: channel.errors}
-          else
+          if channel.update(chanmod_params)
             render json: channel
+          else
+            render json: {error: true, message: channel.errors}
           end
         end
       end

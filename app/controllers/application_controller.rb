@@ -22,8 +22,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: {error: true, message: "Record not Found"}, status: 404
+  end
+
   def tclient
-    tclient = Twitter::REST::Client.new do |config|
+    Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["TICKET_1"]
       config.consumer_secret     = ENV["TICKET_2"]
       config.access_token        = ENV["TICKET_3"]

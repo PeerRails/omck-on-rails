@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Api::V1::UsersController, type: :controller do
   before do
     @streamer = create(:user, :streamer)
-    sign_in @streamer
+    @token = create(:api_token, user_id: @streamer.id)
+    request.headers["HTTP_API_TOKEN"] = @token.secret
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
 

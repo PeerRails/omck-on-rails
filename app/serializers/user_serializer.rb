@@ -6,7 +6,11 @@ class UserSerializer < ActiveModel::Serializer
   #has_many :sessions
   #has_many :videos
   #has_many :api_token
-  has_many :keys do
-    object.keys.present
+
+  def keys
+    object.keys.present.map do |key|
+      KeySerializer.new(key, scope: scope, root: false)
+    end
   end
+
 end

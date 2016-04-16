@@ -4,7 +4,28 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
   before do
     @hdgames = create(:channel, :hdchannel)
     @twitch = create(:channel, :twitchchannel)
+    @user = create(:user, :streamer, twitter_id: "222")
+    @token = create(:api_token, user_id: @user.id)
+    request.headers["HTTP_API_TOKEN"] = @token.secret
     request.env["HTTP_ACCEPT"] = 'application/json'
+  end
+
+  describe 'action without authorization' do
+    before do
+      request.headers["HTTP_API_TOKEN"] = nil
+    end
+    it 'should not create new channel' do
+      post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'host'}
+      json = JSON.parse(response.body)
+      expect(json['error']).to be true
+      expect(json['message']).to eq('You dont have access to this action')
+    end
+    it 'should not update channel' do
+      post :update, {service: 'hd', channel: 'hdgames', channels: {streamer: 'Veli'}}
+      json = JSON.parse(response.body)
+      expect(json['error']).to be true
+      expect(json['message']).to eq('You dont have access to this action')
+    end
   end
 
   describe 'GET #all' do
@@ -54,21 +75,6 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
     end
   end
 
-  describe 'action without authorization' do
-    it 'should not create new channel' do
-      post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'host'}
-      json = JSON.parse(response.body)
-      expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
-    end
-    it 'should not update channel' do
-      post :update, {service: 'hd', channel: 'hdgames', channels: {streamer: 'Veli'}}
-      json = JSON.parse(response.body)
-      expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
-    end
-  end
-
   describe 'POST #create' do
     before do
       @streamer = create(:user, :streamer)
@@ -76,8 +82,8 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
     end
     it 'should create new channel' do
       post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'hots'}
-      json = JSON.parse(response.body)["channel"]
-      expect(json['channel']).to eq('blizzheroes')
+      json = JSON.parse(response.body)
+      expect(json["channel"]['channel']).to eq('blizzheroes')
     end
 
     it 'returns duplicate error' do

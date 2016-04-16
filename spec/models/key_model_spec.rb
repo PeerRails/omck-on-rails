@@ -15,7 +15,7 @@ RSpec.describe Key, type: :model do
   it "should have videos" do
     user = create(:user)
     key = user.keys.last
-    video = create(:video, key_id: key.id, user_id: key.user_id)
+    create(:video, key_id: key.id, user_id: key.user_id)
     expect(key.videos.count).to eq(1)
   end
   it "should validate key secret uniqueness" do
@@ -38,10 +38,6 @@ RSpec.describe Key, type: :model do
     create(:key, guest: true)
     expect(Key.is_guest.count).to eq(1)
   end
-  it "should return streamer keys" do
-    create(:key, guest: true)
-    expect(Key.streamers.count).to eq(2)
-  end
   it "shoulda generate key before creation" do
     user = create(:user)
     user.keys.present.last.destroy
@@ -54,7 +50,19 @@ RSpec.describe Key, type: :model do
   end
   it "should check for key limit per user" do
     count_then = Key.present.count
-    key = Key.create(user_id: @streamer.id, guest: false, key: @first_key.key)
+    Key.create(user_id: @streamer.id, guest: false, key: @first_key.key)
     expect(Key.present.count).to eq(count_then)
+  end
+  it "should validate lenght of game" do
+    @first_key.update(game: "lo")
+    expect(@first_key.errors).not_to be nil
+  end
+  it "should validate lenght of movie" do
+    @first_key.update(movie: "lo")
+    expect(@first_key.errors).not_to be nil
+  end
+  it "should validate lenght of streamer" do
+    @first_key.update(streamer: "lo")
+    expect(@first_key.errors).not_to be nil
   end
 end

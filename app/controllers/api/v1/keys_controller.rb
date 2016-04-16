@@ -1,6 +1,7 @@
 module Api
   module V1
     class KeysController < ApiApplicationController
+      load_and_authorize_resource
 
       def retrieve
         key = Key.present.where(user_id: @current_user.id).last
@@ -12,7 +13,7 @@ module Api
       end
 
       def all
-        keys = Key.present
+        keys = Key.present.order(:id)
         render json: keys
       end
 

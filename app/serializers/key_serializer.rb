@@ -1,5 +1,5 @@
 class KeySerializer < ActiveModel::Serializer
-  attributes :streamer, :movie, :game, :guest, :expires, :created_by, :created_by_name, :secret, :user_id
+  attributes :id, :streamer, :movie, :game, :guest, :expires, :created_by, :created_by_name, :secret, :user_id
 
   def secret
     #raise self.key.inspect
