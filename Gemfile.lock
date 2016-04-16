@@ -179,6 +179,8 @@ GEM
     orm_adapter (0.5.0)
     pg (0.17.1)
     puma (3.1.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -333,6 +335,7 @@ DEPENDENCIES
   omniauth-twitter
   pg (= 0.17.1)
   puma
+  pundit
   quiet_assets
   rails (= 4.2.5)
   rails-api

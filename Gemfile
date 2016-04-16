@@ -25,6 +25,7 @@ gem 'jbuilder'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem "pundit"
 
 gem 'twitter'
 gem 'simple_form'
