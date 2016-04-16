@@ -25,15 +25,6 @@ class ApiTokensController < ApplicationController
     end
   end
 
-  def delete
-    token = ApiToken.find(params[:id])
-    if token.destroy
-      render json: {error: nil, message: "Expired!"}
-    else
-      render json: {error: true, message: token.errors}
-    end
-  end
-
   def expire
     token = ApiToken.find(params[:id])
     if token.update(expires_at: DateTime.now)
