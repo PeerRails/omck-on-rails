@@ -31,11 +31,11 @@ RSpec.describe Key, type: :model do
     expect(Key.present.count).to eq(2)
   end
   it "should return expired keys" do
-    create(:key, expires: DateTime.now)
+    create(:key, expires: DateTime.now, user_id: @streamer.id+2)
     expect(Key.expired.count).to eq(1)
   end
   it "should return guest keys" do
-    create(:key, guest: true)
+    create(:key, guest: true, user_id: @streamer.id+2)
     expect(Key.is_guest.count).to eq(1)
   end
   it "shoulda generate key before creation" do

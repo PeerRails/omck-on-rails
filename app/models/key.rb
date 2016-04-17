@@ -2,6 +2,7 @@ class Key < ActiveRecord::Base
   belongs_to :user
   has_many :videos
   validates :expires, :streamer, :presence => true
+  validates :user_id, :presence => true, on: :create
   validates :key, uniqueness: true
   validates :streamer, length: { minimum: 3, maximum: 40, message: "Имя стримера должно быть более 3 и менее 40 символов " }
   validates :game, length: { minimum: 3, maximum: 40, message: "Название игры должно быть более 3 и менее 40 символов " }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315201750) do
+ActiveRecord::Schema.define(version: 20160417141715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,9 +100,9 @@ ActiveRecord::Schema.define(version: 20160315201750) do
     t.inet     "last_ip"
     t.string   "access_token",        limit: 255
     t.string   "secret_token",        limit: 255
-    t.integer  "gmod",                            default: 0
+    t.integer  "gmod",                            default: 0,      null: false
     t.string   "hd_channel",          limit: 255, default: "0",    null: false
-    t.integer  "streamer",                        default: 0
+    t.integer  "streamer",                        default: 0,      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "remember_created_at"

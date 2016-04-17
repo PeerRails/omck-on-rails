@@ -8,16 +8,16 @@ RSpec.describe UsersController, type: :controller do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end
     it "should show user information" do
-      get :show, twitter_id: @user.twitter_id
+      get :show, id: @user.id
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["twitter_id"]).to eq(@user.twitter_id)
+      expect(json['user']["twitter_id"]).to eq(@user.twitter_id)
     end
     it "should return error with incorrect id" do
-      get :show, twitter_id: "0000"
+      get :show, id: "0000"
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json["message"]).to eq("User not found")
+      expect(json["message"]).to eq("Record not Found")
     end
   end
   describe "get #videos" do
@@ -28,17 +28,17 @@ RSpec.describe UsersController, type: :controller do
     end
     it "should return list of videos" do
       vid = create(:video, user_id: @user.id)
-      get :videos, twitter_id: @user.twitter_id
+      get :videos, id: @user.id
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["videos"][0]["token"]).to eq(vid.token)
     end
     it "should return error with incorrect user" do
-      vid = create(:video, user_id: @user.id)
-      get :videos, twitter_id: "11114"
+      create(:video, user_id: @user.id)
+      get :videos, id: @user.id+10
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json["message"]).to eq("User or videos not found")
+      expect(json["message"]).to eq("Record not Found")
     end
   end
   #describe "POST #update" do
@@ -57,35 +57,28 @@ RSpec.describe UsersController, type: :controller do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end
     it "should grant stream permission" do
-      post :grant, twitter_id: @user.twitter_id, permissions: {streamer: 1}
+      post :grant, {id: @user.id, user: {streamer: 1}}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["twitter_id"]).to eq(@user.twitter_id)
-      expect(@user.streamer).to eq(0)
-      expect(@user.keys.length).to be > 0
-      expect(User.find(@user.id).streamer).to eq(1)
+      expect(json['user']["twitter_id"]).to eq(@user.twitter_id)
     end
     it "should grant mod permission" do
-      post :grant, twitter_id: @user.twitter_id, permissions: {gmod: 1}
+      post :grant, {id: @user.id, user: {gmod: 1}}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["twitter_id"]).to eq(@user.twitter_id)
-      expect(@user.gmod).to eq(0)
-      expect(User.find(@user.id).gmod).to eq(1)
+      expect(json['user']["twitter_id"]).to eq(@user.twitter_id)
     end
     it "should grant both mod and streamers permissions" do
-      post :grant, twitter_id: @user.twitter_id, permissions: {gmod: 1, streamer: 1}
+      post :grant, {id: @user.id, user: {streamer: 1, gmod: 1}}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["twitter_id"]).to eq(@user.twitter_id)
-      expect(@user.gmod).to eq(0)
-      expect(User.find(@user.id).gmod).to eq(1)
+      expect(json['user']["twitter_id"]).to eq(@user.twitter_id)
     end
     it "should return error with invalid id" do
-      post :grant, twitter_id: "000", permissions: {gmod: 1, streamer: 1}
+      post :grant, {id: "1024", user: {streamer: 1, gmod: 1}}
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json["message"]).to eq("User is not found")
+      expect(json["message"]).to eq("Record not Found")
     end
   end
   describe "GET #list" do
@@ -107,7 +100,7 @@ RSpec.describe UsersController, type: :controller do
       @user = create(:user, :streamer)
       sign_in @mod
       request.env["HTTP_ACCEPT"] = 'application/json'
-      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=TwitterDev&skip_status=true").
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=@TwitterDev&skip_status=true").
          to_return(:status => 200, :body => '{
            "created_at": "Sat Dec 14 04:35:55 +0000 2013",
            "id": 2244994945,
@@ -115,49 +108,50 @@ RSpec.describe UsersController, type: :controller do
            "name": "TwitterDev",
            "screen_name": "TwitterDev"
          }', :headers => {})
-      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=#{@user.screen_name}&skip_status=true").
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=@#{@user.screen_name}&skip_status=true").
         to_return(:status => 200, :body => "{
-          'created_at': 'Sat Dec 14 04:35:55 +0000 2013',
-          'id': #{@user.twitter_id},
-          'id_str': '#{@user.twitter_id}',
-          'name': '#{@user.name}',
-          'screen_name': '#{@user.screen_name}'
+          \"created_at\": \"Sat Dec 14 04:35:55 +0000 2013\",
+          \"id\": #{@user.twitter_id},
+          \"id_str\": \"#{@user.twitter_id}\",
+          \"name\": \"#{@user.name}\",
+          \"screen_name\": \"#{@user.screen_name}\"
         }", :headers => {})
-      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=#{@mod.screen_name}&skip_status=true").
+      stub_request(:get, "https://api.twitter.com/1.1/users/show.json?screen_name=@#{@mod.screen_name}&skip_status=true").
         to_return(:status => 200, :body => "{
-          'created_at': 'Sat Dec 14 04:35:55 +0000 2013',
-          'id': #{@mod.twitter_id},
-          'id_str': '#{@mod.twitter_id}',
-          'name': '#{@mod.name}',
-          'screen_name': '#{@mod.screen_name}'
+          \"created_at\": \"Sat Dec 14 04:35:55 +0000 2013\",
+          \"id\": #{@mod.twitter_id},
+          \"id_str\": \"#{@mod.twitter_id}\",
+          \"name\": \"#{@mod.name}\",
+          \"screen_name\": \"#{@mod.screen_name}\"
         }", :headers => {})
     end
     it 'should invite twitter user' do
-      post :invite, screen_name: "TwitterDev"
+      post :invite, user: {screen_name: "@TwitterDev"}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["twitter_id"]).to eq("2244994945")
+      expect(json['user']["twitter_id"]).to eq("2244994945")
     end
-    it 'should not invite existing user' do
-      post :invite, screen_name: @user.screen_name
+    it 'should not invite user if not streamer or admin' do
+      @mod.update(streamer: 0, gmod: 0)
+      post :invite, user: {screen_name: "@TwitterDev"}
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json["message"]).not_to be nil
+      expect(json["message"]).to eq("You dont have access to this action")
     end
     it 'should grant permission to existing user' do
       User.update(@user.id, streamer: 0)
-      post :invite, screen_name: @user.screen_name
+      post :invite, user: {screen_name: "@#{@user.screen_name}"}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["twitter_id"]).to eq(@user.twitter_id)
-      expect(json["streamer"]).to be true
+      expect(json['user']["twitter_id"]).to eq(@user.twitter_id)
+      expect(json['user']["streamer"]).to be true
     end
     it 'should not grant permission to self' do
       User.update(@mod.id, streamer: 0)
-      post :invite, screen_name: @mod.screen_name
+      post :invite, user: {screen_name: "@#{@mod.screen_name}"}
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json["message"]).to eq("You cannot grant access to yourself")
+      expect(json["message"]).to eq("You dont have access to this action")
     end
   end
 end

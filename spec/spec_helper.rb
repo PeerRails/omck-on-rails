@@ -28,6 +28,8 @@ WebMock.disable_net_connect!(allow_localhost: true)
 
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
+  add_filter "app/controllers/tweets_controller.rb"
+  add_filter "app/controllers/api/v1/tweets_controller.rb"
 end
 OmniAuth.config.test_mode = true
 omni_twitter = {

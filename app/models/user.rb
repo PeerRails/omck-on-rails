@@ -13,12 +13,11 @@ class User < ActiveRecord::Base
 
   def self.login_with_twitter(omniauth)
     unless omniauth.nil?
-      user = User.where(twitter_id: omniauth[:uid]).first_or_create do |user|
-        user.twitter_id = omniauth[:uid]
-        user.screen_name = omniauth[:info][:nickname]
+      user = User.where(twitter_id: omniauth[:uid]).first_or_create do |u|
+        u.twitter_id = omniauth[:uid]
+        u.screen_name = omniauth[:info][:nickname]
       end
-      user = update(user.id,
-                    name: omniauth[:info][:name],
+      user.update(  name: omniauth[:info][:name],
                     screen_name: omniauth[:info][:nickname],
                     profile_image_url: omniauth[:info][:image],
                     access_token: omniauth[:credentials][:token],
@@ -35,6 +34,6 @@ class User < ActiveRecord::Base
 
   private
   def key_create
-    key = Key.create(user_id: self.id, key: SecureRandom.uuid, created_by: self.id)
+    Key.create(user_id: self.id, key: SecureRandom.uuid, created_by: self.id)
   end
 end

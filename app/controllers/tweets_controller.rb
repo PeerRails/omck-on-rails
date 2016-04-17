@@ -1,27 +1,33 @@
 class TweetsController < ApplicationController
-  load_and_authorize_resource
+  before_action :check_auth
 
   def tweet
-    @input = params.require(:tweet).permit(:comment, :own)
-    @new_tweet = Tweet.new(comment: @input["comment"], user_id: current_user.id)
+    tweet = Tweet.new(comment: tweet_params[:comment], user_id: @current_user.id)
 
-    if @input["own"] == "0" || @input["own"] == "false"
-      @new_tweet.comment = "Стрим на #omcktv || " + @new_tweet.comment
+    unless tweet.nil?
+      authorize tweet
+      tweet.comment = extract_url(tweet.comment)
     end
 
-    res = {}
-    if @new_tweet.save
-      tclient.update( @new_tweet.comment )
-      res[:error] = nil
-      res[:success] = "Успешно послан твит!"
-      res[:text] = @new_tweet.comment
-      res[:user] = @new_tweet.user.name
+    if tweet.save
+      tclient.update( tweet.comment )
+      render json: tweet
     else
-      res[:error] = true
-      res[:message] = @new_tweet.errors.full_messages
+      render json: {error: true, message: tweet.errors}
     end
-
-    render json: res
   end
+
+  def list
+    tweets = Tweet.order(:id).last(10)
+    render json: tweets
+  end
+
+  private
+
+    def extract_url(comment="")
+      links = extract_urls(comment)
+      links.each {|link| comment.gsub! link, bitly.shorten(link).short_url}
+      return comment
+    end
 
 end

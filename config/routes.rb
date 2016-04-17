@@ -14,15 +14,15 @@ Rails.application.routes.draw do
   get 'channel/:service/:channel' => 'channels#show'
   #get 'service/:service' => 'channels#service_list', defaults: { service: 'hd' }
   post 'channel/new' => 'channels#create'
-  put 'channel/update' => 'channels#update'
-  delete 'channel/remove' => 'channels#remove'
+  put 'channel/:service/:channel/update' => 'channels#update'
+  delete 'channel/:service/:channel/remove' => 'channels#remove'
 
   # User API
   get 'users' => 'users#list'
-  get 'user/:twitter_id' => 'users#show'
-  get 'user/:twitter_id/videos' => 'users#videos'
+  get 'user/:id' => 'users#show'
+  get 'user/:id/videos' => 'users#videos'
   #post 'user/:twitter_id/update' => 'users#update'
-  post 'user/:twitter_id/grant' => 'users#grant'
+  post 'user/:id/grant' => 'users#grant'
   post 'user/invite' => 'users#invite'
 
   #match 'user/guest/auth' => 'users#guest_in', via: [:get, :post]
@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   # Key API
   get 'home/your_keys' => 'keys#list'
+  get 'home/secret/:id' => 'keys#secret'
+  get 'home/streamer_keys' => 'keys#streamers'
   get 'home/guest_keys' => 'keys#guests'
   post 'home/keys/create' => 'keys#create'
   post 'home/keys/create/guest' => 'keys#create_guest'
@@ -44,7 +46,8 @@ Rails.application.routes.draw do
   delete 'home/video' => 'videos#remove'
 
   #Twitter
-  post 'home/user/tweet' => 'tweets#tweet'
+  get 'home/tweets' => 'tweets#tweet'
+  post 'home/user/tweet' => 'tweets#list'
 
   #API tokens
   get 'home/token' => 'api_tokens#list'

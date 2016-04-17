@@ -17,6 +17,12 @@ RSpec.describe KeysController, type: :controller do
       expect(json["error"]).to be true
       expect(json['message']).to eq('You dont have access to this action')
     end
+    it "should not return list of keys" do
+      get :streamers
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json['message']).to eq('You dont have access to this action')
+    end
     it 'should not create new key' do
       user = create(:user)
       post :create, key: { user_id: user.id }
@@ -48,15 +54,22 @@ RSpec.describe KeysController, type: :controller do
   end
 
   describe 'GET #list' do
+    it 'returns user key' do
+      get :streamers
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+    end
+  end
+  describe 'GET #streamers' do
     it 'returns list of keys' do
-      get :list
+      get :streamers
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
     end
   end
   describe 'GET #guests' do
     it 'returns list of guests' do
-      create(:key, guest: true, created_by: @streamer.id)
+      create(:key, guest: true, user_id: @streamer.id)
       get :guests
       json = JSON.parse(response.body)
       expect(json.length).to eq(1)
@@ -83,13 +96,13 @@ RSpec.describe KeysController, type: :controller do
       post :create, key: { user_id: nil }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
+      expect(json['message']["user_id"][0]).to eq('не может быть пустым')
     end
     it 'should not create new key and return model error' do
       post :create, key: { user_id: 0 }
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
+      expect(json['message']).to eq('Record not Found')
     end
     it 'should create new guest key' do
       expect { post :create_guest, key: { streamer: "Dwarf", game: "Flashback", movie: "Flash" } }.to change { Key.count }.by(1)
@@ -182,12 +195,11 @@ RSpec.describe KeysController, type: :controller do
   end
   describe 'POST #regenerate' do
     it 'should expire key and create new for user' do
-      user = create(:user, :mod)
-      key = user.keys.present.last
-      expect { post :regenerate, key: { user_id: user.id } }.to change { Key.count }.by(1)
-      expect(Key.find(key.id).expires).to be < DateTime.now
+      expect { post :regenerate, key: { user_id: @streamer.id } }.to change { Key.count }.by(1)
+      expect(Key.find(@key.id).expires).to be < DateTime.now
       json = JSON.parse(response.body)
-      expect(json['secret']).not_to eq(key.key)
+      expect(json['error']).to be nil
+      expect(json['key']['id']).to eq(@streamer.keys.present.last.id)
     end
     it 'should not expire key if incorrect id' do
       create(:user, :mod)
@@ -212,6 +224,30 @@ RSpec.describe KeysController, type: :controller do
       expect(Key.find(key.id).expires).to be < DateTime.now
       expect(json['error']).to be nil
       expect(json['key']['expires']).to eq(DateTime.now.strftime("%Y-%m-%d"))
+    end
+  end
+  describe 'GET #secret' do
+    it 'returns user key secret' do
+      get :secret, id: @key.id
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json['key']["secret"]).to eq(@key.key)
+    end
+
+    it 'should not return another user key secret' do
+      user = create(:user, :mod)
+      get :secret, id: user.keys.present.last.id
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+    end
+
+    it 'should return another user key secret if admin' do
+      user = create(:user, :mod)
+      sign_in user
+      get :secret, id: user.keys.present.last.id
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json['key']["secret"]).to eq(user.keys.present.last.key)
     end
   end
 end

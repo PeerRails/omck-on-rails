@@ -47,10 +47,13 @@ module Api
 
       def invite
         account = tclient.user(user_params[:screen_name], :skip_status => true)
-        user = User.find_by_twitter_id(account.id)
-        user = User.update(streamer: 1) unless user.nil?
-        user = User.new(twitter_id: account.id, screen_name: account.screen_name, name: account.name, streamer: 1) if user.nil?
-        if user.save
+        user = User.find_or_create_by(twitter_id: account.id) do |u|
+          u.twitter_id = account.id
+          u.screen_name = account.screen_name
+          u.name = account.name
+        end
+        #authorize user
+        if user.update(streamer: 1)
           render json: user
         else
           render json: {error: true, message: user.errors}

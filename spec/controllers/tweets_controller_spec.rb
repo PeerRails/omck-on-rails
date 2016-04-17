@@ -27,9 +27,17 @@ RSpec.describe TweetsController, type: :controller do
     end
     it "should not update tweet without auth" do
       sign_out @user
-      post :tweet, tweet: {comment: "text", own: 0}
+      post :tweet, tweet: {comment: "text"}
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
+    end
+
+    it "should show last tweets" do
+      create(:tweet, comment: "Hello twitter!", user_id: @user.id)
+      get :list
+      json = JSON.parse(response.body)
+      expect(json['error']).to be nil
+      expect(json['tweets'].last['user']['id']).to eq(@user.id)
     end
     #it "should update tweet without own" do
     #  post :tweet, tweet: {comment: "text", own: 1}

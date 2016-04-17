@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :twitter_id, :name, :screen_name, :profile_image_url, :streamer, :gmod, :keys
+  attributes :id, :twitter_id, :name, :screen_name, :streamer, :gmod, :profile_image_url, :keys
 
   #has_many :keys
   #has_many :tweets
@@ -11,6 +11,14 @@ class UserSerializer < ActiveModel::Serializer
     object.keys.present.map do |key|
       KeySerializer.new(key, scope: scope, root: false)
     end
+  end
+
+  def streamer
+    object.streamer == 1 ? true : false
+  end
+
+  def gmod
+    object.gmod == 1 ? true : false
   end
 
 end

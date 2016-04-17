@@ -1,24 +1,23 @@
 class ChannelsController < ApplicationController
-  load_and_authorize_resource
+  before_action :check_auth, only: [:remove, :update, :create]
 
   def list_live
-    channels = Channel.live.map { |ch| serialize ch }
-    render json: channels.to_json
+    channels = Channel.live
+    render json: channels
   end
 
   def list_all
-    channels = Channel.all.order(:id).map { |ch| serialize ch}
-    render json: channels.to_json
+    channels = Channel.all.order(:id)
+    render json: channels
   end
 
   def show
-    channel = Channel.where(service: params[:service], channel: params[:channel]).last
+    channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
     unless channel.nil?
-      res = (serialize channel).merge({status: 200})
+      render json: channel
     else
-      res = {error: true, message: "Not Found", status: 404}
+      raise ActiveRecord::RecordNotFound
     end
-    render json: res, status: res[:status]
   end
 
 =begin
@@ -29,74 +28,46 @@ class ChannelsController < ApplicationController
 =end
 
   def create
-    unless chan_params.nil? || chan_params[:service].nil? || chan_params[:channel].nil?
-      unless Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last.nil?
-        res = {error: true, message: "Channel exists already", status: 403}
-      else
-        channel = Channel.new(chan_params)
-        if channel.save
-          res = (serialize channel).merge({status: 200})
-        else
-          res = {error: true, message: channel.errors.full_messages, status: 500}
-        end
-      end
+    channel = Channel.new(chanmod_params)
+    authorize channel unless channel.nil?
+    if channel.save
+      render json: channel
     else
-      res = {error: true, message: "No valid params", status: 500}
+      render json: {error: true, message: channel.errors}
     end
-    render json: res, status: res[:status]
   end
 
   def update
-    channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
+    channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
+    authorize channel unless channel.nil?
     if channel.nil?
-      res = {error: true, message: "Channel not found", status: 404}
+      render json: {error: true, message: "Channel not found"}
     else
-      channel.title = chan_params[:title] unless chan_params[:title].nil?
-      channel.game = chan_params[:game] unless chan_params[:game].nil?
-      channel.streamer = chan_params[:streamer] unless chan_params[:streamer].nil?
-      channel.live = chan_params[:live] unless chan_params[:live].nil?
-      if channel.save
-        res = (serialize channel).merge({status: 200})
+      if channel.update(chanmod_params)
+        render json: channel
       else
-        res = {error: true, message: channel.errors.full_messages, status: 403}
+        render json: {error: true, message: channel.errors}
       end
     end
-    render json: res, status: res[:status]
   end
 
   def remove
-    channel = Channel.where(service: chan_params[:service], channel: chan_params[:channel]).last
-    if channel.nil?
-      res = {error: true, message: "Channel not found", status: 404}
+    channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
+    authorize channel unless channel.nil?
+    if channel.destroy
+      render json: {error: nil, message: "Deleted!"}
     else
-      if channel.destroy
-        res = (serialize channel).merge({status: 200, message: "Channel destroyed"})
-      else
-        res = {error: true, message: channel.errors.full_messages, status: 403}
-      end
+      render json: {error: true, message: channel.errors}
     end
-    render json: res, status: res[:status]
   end
-=begin
-  def bitdash
+  # Search for channel params
+  def channel_params
+    params.permit(:channel, :service)
   end
-=end
-  def chan_params
+
+  # Channel modifying params
+  def chanmod_params
     params.require(:channels).permit(:channel, :streamer, :service, :game, :title, :live)
-  end
-
-  private
-  def serialize(chan)
-    return {"channel" => chan.channel,
-            "viewers" => chan.viewers,
-            "live" => chan.live,
-            "game" => chan.game,
-            "title" => chan.title,
-            "streamer" => chan.streamer,
-            "service" => chan.service,
-            "official" => chan.official,
-            "error" => nil}
-
   end
 
 end
