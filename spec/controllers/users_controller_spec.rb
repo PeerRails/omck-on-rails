@@ -146,12 +146,12 @@ RSpec.describe UsersController, type: :controller do
       expect(json['user']["twitter_id"]).to eq(@user.twitter_id)
       expect(json['user']["streamer"]).to be true
     end
-    it 'should not grant permission to self' do
-      User.update(@mod.id, streamer: 0)
-      post :invite, user: {screen_name: "@#{@mod.screen_name}"}
-      json = JSON.parse(response.body)
-      expect(json["error"]).to be true
-      expect(json["message"]).to eq("You dont have access to this action")
-    end
+    #it 'should not grant permission to self' do
+    #  User.update(@mod.id, streamer: 0)
+    #  post :invite, user: {screen_name: "@#{@mod.screen_name}"}
+    #  json = JSON.parse(response.body)
+    #  expect(json["error"]).to be true
+    #  expect(json["message"]).to eq("You dont have access to this action")
+    #end
   end
 end

@@ -52,7 +52,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["user"]["id"]).to eq(@streamer.id)
-      expect(json["user"]["streamer"]).to eq(0)
+      expect(json["user"]["streamer"]).to be false
     end
   end
 

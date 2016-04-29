@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 gem 'rails-api'
 #gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
