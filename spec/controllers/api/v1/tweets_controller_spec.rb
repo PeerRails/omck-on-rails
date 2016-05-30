@@ -53,18 +53,33 @@ RSpec.describe Api::V1::TweetsController, type: :controller do
     #end
   #end
 
-  # Damn you, webmock
-  #describe "POST #tweet" do
-  #  before do
-  #    stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").with(:body => {"status"=>"text"}).to_return(:status => 200, :body => '{"created_at": "Wed Sep 05 00:37:15 +0000 2012", "id_str": "243145735212777472", "text": "text", "id": 243145735212777472}', :headers => {})
-  #  end
-  #  it "should post tweet" do
-  #    post :post, tweet: {comment: "Стрим на #omcktv || text"}
-  #    json = JSON.parse(response.body)
-  #    expect(json["error"]).to be nil
-  #    expect(json["tweet"]["id"]).to eq("243145735212777472")
-  #  end
-  #end
+  # webmock?
+  let(:json_file) { File.new(File.expand_path('../../../../support/status.json', __FILE__)) }
+  let(:json_file_with_link) { File.new(File.expand_path('../../../../support/status_with_link.json', __FILE__)) }
+  let(:bitly_response) { File.new(File.expand_path('../../../../support/bitly.json', __FILE__)) }
+
+  describe "POST #tweet" do
+    it "should post tweet" do
+      stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").with(:body => {"status"=>"text"}).to_return(:status => 200, :body => json_file)
+      post :post, tweet: {comment: "text"}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["tweet"]["comment"]).to eq("text")
+      expect(json["tweet"]["user"]["id"]).to eq(@streamer.id)
+    end
+
+    #it "should post tweet with link" do
+    #  stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").with(:body => {"status"=>"text"}).to_return(:status => 200, #:body => json_file_with_link)
+    #  stub_request(:get, "http://api.bitly.com/v3/shorten?apiKey=bt&login=bu&longUrl=http://omck.tv").
+    #     with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+    #     to_return(:status => 200, :body => bitly_response, :headers => {})
+    #  post :post, tweet: {comment: "Стрим на http://omck.tv || text"}
+    #  json = JSON.parse(response.body)
+    #  expect(json["error"]).to be nil
+    #  expect(json["tweet"]["comment"]).to eq("text")
+    #  expect(json["tweet"]["user"]["id"]).to eq(@streamer.id)
+    #end
+  end
 
   describe "DELETE #delete" do
     it "should delete tweet from db" do

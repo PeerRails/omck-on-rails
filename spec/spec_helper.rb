@@ -26,6 +26,8 @@ require "cancan/matchers"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
+
+
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
   add_filter "app/controllers/tweets_controller.rb"
@@ -33,6 +35,17 @@ SimpleCov.start 'rails' do
   add_group "Serializers", "app/serializers"
   add_group "Policies", "app/policies"
 end
+
+ENV["TICKET_1"] = "t1"
+ENV["TICKET_2"] = "t2"
+ENV["TICKET_3"] = "t3"
+ENV["TICKET_4"] = "t4"
+ENV["LOGIN_AUTH"] = "la"
+ENV["LOGIN_SECRET"] = "ls"
+ENV["TWITCH_ID"] = "tid"
+ENV["BITLY_USER"] = "bu"
+ENV["BITLY_TOKEN"] = "bt"
+
 OmniAuth.config.test_mode = true
 omni_twitter = {
   :provider => "twitter",

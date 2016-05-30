@@ -6,24 +6,6 @@ RSpec.describe TweetsController, type: :controller do
       @user = create(:user, :streamer)
       request.env["HTTP_ACCEPT"] = 'application/json'
       sign_in @user
-      stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").
-         with(:body => {"status"=>"text"},
-              :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'TwitterRubyGem/5.15.0'}).
-         to_return(:status => 200, :body => '{
-           "created_at": "Wed Sep 05 00:37:15 +0000 2012",
-           "id_str": "243145735212777472",
-           "text": "text",
-           "id": 243145735212777472
-         }', :headers => {})
-      stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").
-         with(:body => {"status"=>"Стрим на #omcktv || text"},
-              :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'TwitterRubyGem/5.15.0'}).
-         to_return(:status => 200, :body => '{
-           "created_at": "Wed Sep 05 00:37:15 +0000 2012",
-           "id_str": "243145735212777472",
-           "text": "Стрим на #omcktv || text",
-           "id": 243145735212777472
-         }', :headers => {})
     end
     it "should not update tweet without auth" do
       sign_out @user
@@ -39,19 +21,34 @@ RSpec.describe TweetsController, type: :controller do
       expect(json['error']).to be nil
       expect(json['tweets'].last['user']['id']).to eq(@user.id)
     end
-    #it "should update tweet without own" do
-    #  post :tweet, tweet: {comment: "text", own: 1}
+
+    let(:json_file) { File.new(File.expand_path('../../support/status.json', __FILE__)) }
+    let(:json_file_with_link) { File.new(File.expand_path('../../../../support/status_with_link.json', __FILE__)) }
+    let(:bitly_response) { File.new(File.expand_path('../../../../support/bitly.json', __FILE__)) }
+
+    it "should update tweet" do
+      stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").
+        with(:body => {"status"=>"text"}, :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'TwitterRubyGem/5.16.0'}).
+         to_return(:status => 200, :body => json_file, :headers => {})
+      post :tweet, tweet: {comment: "text"}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["tweet"]["comment"]).to eq("text")
+      expect(json["tweet"]["user"]["id"]).to eq(@user.id)
+    end
+
+    #it "should update tweet with link" do
+    #  stub_request(:post, "https://api.twitter.com/1.1/statuses/update.json").
+    #    with(:body => {"status"=>"text"}, :headers => {'Accept'=>'application/json', #'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'TwitterRubyGem/5.16.0'}).
+    #     to_return(:status => 200, :body => json_file, :headers => {})
+    #  stub_request(:get, "http://api.bitly.com/v3/shorten?apiKey=bt&login=bu&longUrl=http://omck.tv").
+    #     with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+    #     to_return(:status => 200, :body => bitly_response, :headers => {})
+    #  post :tweet, tweet: {comment: "text http://omck.tv"}
     #  json = JSON.parse(response.body)
     #  expect(json["error"]).to be nil
-    #  expect(json["text"]).to eq("text")
-    #  expect(json["user"]).to eq(@user.name)
-    #end
-    #it "should update tweet without own" do
-    #  post :tweet, tweet: {comment: "text", own: 0}
-    #  json = JSON.parse(response.body)
-    #  expect(json["error"]).to be nil
-    #  expect(json["text"]).to eq("Стрим на #omcktv || text")
-    #  expect(json["user"]).to eq(@user.name)
+    #  expect(json["tweet"]["comment"]).to eq("text")
+    #  expect(json["tweet"]["user"]["id"]).to eq(@user.id)
     #end
   end
 end

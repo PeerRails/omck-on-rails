@@ -1,0 +1,48 @@
+form.form-horizontal
+  fieldset
+    legend Key Info
+    .form-group
+      label.col-lg-2.control-label for="inputText"  Streamer
+      .col-lg-10
+        input#inputStreamer.form-control type="text" /
+    .form-group
+      label.col-lg-2.control-label for="inputGame"  Game
+      .col-lg-10
+        input#inputGame.form-control type="text" /
+    .form-group
+      label.col-lg-2.control-label for="inputMovie"  Movie
+      .col-lg-10
+        input#inputMovie.form-control type="text" /
+    span.help-block#help-account
+      .alert.alert-dismissible.alert-info
+        button.close data-dismiss="alert" type="button"  &times;
+        strong Saved!
+  fieldset
+    legend Post Tweet
+    .form-group
+      label.col-lg-2.control-label for="textArea"  Text
+      .col-lg-10
+        textarea#tweetText.form-control rows="2"
+        span.help-block#tweet-count 140
+    .form-group
+      label.col-lg-2.control-label Options
+      .col-lg-10
+        .radio
+          label
+            input#optionsGame checked="" name="optionsRadios" type="radio" value="tweet-game" /
+            | Стрим на http://omck.tv/#/channel/hdgames
+        .radio
+          label
+            input#optionsKinco checked="" name="optionsRadios" type="radio" value="tweet-kinco" /
+            | Стрим на http://omck.tv/#/channel/hdcinema
+        .radio
+          label
+            input#optionsOwn checked="" name="optionsRadios" type="radio" value="own" /
+            | Без анонса
+    .form-group
+      .col-lg-10.col-lg-offset-2
+        button.btn.btn-primary Post
+    span.help-block#help-tweet
+      .alert.alert-dismissible.alert-info
+        button.close data-dismiss="alert" type="button"  &times;
+        strong Saved!

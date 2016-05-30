@@ -1,4 +1,4 @@
-class KeyPolicy < ApplicationPolicy
+class TweetPolicy < ApplicationPolicy
 
   def tweet?
     streamer? or admin?

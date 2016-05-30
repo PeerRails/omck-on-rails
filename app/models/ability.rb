@@ -32,7 +32,7 @@ class Ability
       can :archive, Video, :deleted => false
       can :remove, Video, :deleted => false, :user_id => user.id
       can :delete_by_tk, Video, :deleted => false, :user_id => user.id
-      can :tweet, Tweet
+      can :post, Tweet
       can :delete, Tweet
     end
     unless user.id.nil?
@@ -45,6 +45,5 @@ class Ability
         can :create, ApiToken, user_id: user.id
         can :expire, ApiToken, user_id: user.id
     end
-
   end
 end

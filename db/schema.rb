@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20160417141715) do
     t.string   "channel",    limit: 255
     t.boolean  "live",                   default: false
     t.integer  "viewers",                default: 0,                            null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
+    t.string   "game",       limit: 255, default: "Boku no Pico"
     t.string   "streamer",   limit: 255, default: "McDwarf"
     t.string   "title",      limit: 255, default: "Boku wa Tomodachi ga Sekai"
     t.string   "service",    limit: 255, default: "twitch"
@@ -107,11 +107,6 @@ ActiveRecord::Schema.define(version: 20160417141715) do
     t.datetime "updated_at"
     t.datetime "remember_created_at"
     t.string   "remember_token"
-    t.integer  "sign_in_count",                   default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
   end
 
   add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree

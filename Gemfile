@@ -7,19 +7,19 @@ gem 'pg', '0.17.1'
 gem "puma"
 gem 'figaro'
 
-gem 'less-rails'
 gem 'coffee-rails'
 gem 'therubyracer'
 gem 'uglifier'
+gem 'sass-rails', '>= 3.2'
 
 #gem 'haml-rails'
 gem 'slim'
 gem 'cancancan', '~> 1.10'
 
 gem 'jquery-rails'
-gem 'twitter-bootstrap-rails'
+gem 'bootstrap-sass', '~> 3.3.6'
 gem 'bootstrap_form'
-gem "font-awesome-rails"
+gem "font-awesome-sass"
 gem 'jbuilder'
 
 gem 'devise'
