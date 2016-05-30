@@ -55,4 +55,5 @@ group :test do
   gem 'simplecov', :require => false
   gem 'faker'
   gem 'webmock'
+  gem 'coveralls', require: false
 end

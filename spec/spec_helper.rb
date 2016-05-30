@@ -23,10 +23,11 @@ require "shoulda-matchers"
 require 'simplecov'
 require 'webmock/rspec'
 require "cancan/matchers"
+require 'coveralls'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
-
+Coveralls.wear!
 
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
