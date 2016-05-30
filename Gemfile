@@ -42,6 +42,8 @@ group :development do
   gem "binding_of_caller"
   gem 'rails-footnotes', '>= 4.0.0', '<5'
   gem 'quiet_assets'
+  gem 'rubocop'
+  gem 'ruby-lint'
 end
 
 group :test do

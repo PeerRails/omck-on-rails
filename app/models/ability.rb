@@ -9,9 +9,13 @@ class Ability
 
     can :channels_view, Channel
     can :api_channel_view, Channel
-    can :read, Tweet
+    can :list, Tweet
+    can :by_user, Tweet
     can :list, Video
+    can :show, Video
     can :show, User
+    can :show, Tweet
+    can :list, User
     can :videos, User
 
     if user.gmod?
@@ -20,10 +24,16 @@ class Ability
       can :manage, Key, user_id: user.id, created_by: user.id
       can :create_guest, Key
       can :manage, Channel, :service => 'twitch'
-      #can :update, User, :user_id => user.id
+      can :update, User, :id => user.id
+      can :grant, User
+      can :invite, User
+      can :add, Video
+      can :update, Video
+      can :archive, Video, :deleted => false
       can :remove, Video, :deleted => false, :user_id => user.id
       can :delete_by_tk, Video, :deleted => false, :user_id => user.id
       can :tweet, Tweet
+      can :delete, Tweet
     end
     unless user.id.nil?
         can :all, Key, user_id: user.id

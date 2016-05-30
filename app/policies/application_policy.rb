@@ -15,4 +15,8 @@ class ApplicationPolicy
     user.streamer == 1 ? true : false
   end
 
+  def user?
+    !user.nil?
+  end
+
 end

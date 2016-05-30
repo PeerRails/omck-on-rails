@@ -1,6 +1,8 @@
 module Api
   module V1
     class VideosController < ApiApplicationController
+      load_and_authorize_resource
+
       def list
         deleted = params[:deleted] == "true" ? true : false
         videos = Video.where(deleted: deleted)

@@ -1,5 +1,5 @@
 class ApiTokensController < ApplicationController
-  load_and_authorize_resource
+  before_action :check_auth
 
   def list
     tokens = ApiToken.where(user_id: @current_user.id).where("expires_at > ?", DateTime.now)

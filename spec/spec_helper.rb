@@ -30,6 +30,8 @@ SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
   add_filter "app/controllers/tweets_controller.rb"
   add_filter "app/controllers/api/v1/tweets_controller.rb"
+  add_group "Serializers", "app/serializers"
+  add_group "Policies", "app/policies"
 end
 OmniAuth.config.test_mode = true
 omni_twitter = {

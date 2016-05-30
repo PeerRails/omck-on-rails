@@ -1,5 +1,5 @@
 class VideosController < ApplicationController
-  load_and_authorize_resource
+  before_action :check_auth, only: [:remove, :delete_by_tk]
 
   def remove
     tks = params[:tag_tokens]

@@ -2,6 +2,7 @@ module Api
   module V1
     class TweetsController < ApiApplicationController
       include Twitter::Extractor
+      load_and_authorize_resource
 
       def list
         #page = params[:page].nil? ? 0 : params[:page]

@@ -1,6 +1,7 @@
 module Api
   module V1
     class UsersController < ApiApplicationController
+      load_and_authorize_resource
 
       def list
         users = User.all
