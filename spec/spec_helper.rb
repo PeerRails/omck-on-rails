@@ -28,7 +28,7 @@ require 'coveralls'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
-#SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
