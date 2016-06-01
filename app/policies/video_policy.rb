@@ -1,4 +1,4 @@
-class ApiTokenPolicy < ApplicationPolicy
+class VideoPolicy < ApplicationPolicy
 
   def remove?
     user.id == video.user_id or admin?

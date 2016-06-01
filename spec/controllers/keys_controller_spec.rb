@@ -55,11 +55,12 @@ RSpec.describe KeysController, type: :controller do
 
   describe 'GET #list' do
     it 'returns user key' do
-      get :streamers
+      get :list
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
     end
   end
+
   describe 'GET #streamers' do
     it 'returns list of keys' do
       get :streamers

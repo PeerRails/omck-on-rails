@@ -35,6 +35,13 @@ RSpec.describe VideosController, type: :controller do
       @user = create(:user, :streamer)
       sign_in @user
     end
+    it "shouldnt delete video if unathorized" do
+      video = create(:video)
+      sign_out @user
+      delete :remove, tag_tokens: [video.token]
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+    end
     it "should mark record as deleted" do
       video = create(:video)
       delete :remove, tag_tokens: [video.token]

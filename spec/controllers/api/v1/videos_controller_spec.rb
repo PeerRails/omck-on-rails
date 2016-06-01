@@ -8,6 +8,7 @@ RSpec.describe Api::V1::VideosController, type: :controller do
     @video = create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id)
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
+  let(:clear_headers) {request.headers["HTTP_API_TOKEN"] = nil}
 
   describe "GET #videos" do
     it "should list undeleted videos" do
@@ -57,12 +58,21 @@ RSpec.describe Api::V1::VideosController, type: :controller do
   end
 
   describe "DELETE #archive" do
-    it "should update video video" do
+    it "should update video" do
       video = create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id, deleted: false, game: @streamer.keys.present.last.game, description: "#{@streamer.keys.present.last.game} by #{@streamer.name} #{DateTime.now.strftime("%Y%m%d%H%M%S")}")
       delete :archive, {token: video.token}
       json = JSON.parse(response.body)
       expect(json["error"]).to be false
       expect(json["message"]).to eq("Archived!")
+    end
+
+    it "shouldnt delete video if unathorized" do
+      video = create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id, deleted: false, game: @streamer.keys.present.last.game, description: "#{@streamer.keys.present.last.game} by #{@streamer.name} #{DateTime.now.strftime("%Y%m%d%H%M%S")}")
+      clear_headers
+      delete :archive, {token: video.token}
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("You dont have access to this action")
     end
   end
 
