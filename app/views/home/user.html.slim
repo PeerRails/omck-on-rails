@@ -1,14 +1,15 @@
+span.help-box#help-all
 ul.nav.nav-tabs
   li.active
     a data-toggle="tab" href="#account"  Account
   li
-    a data-toggle="tab" href="#videos"  Videos
+    a data-toggle="tab" href="#videos" onclick="getVideos()"  Videos
   li
-    a data-toggle="tab" href="#channels"  Channels
+    a data-toggle="tab" href="#channels" onclick="getChannels()"  Channels
   li
-    a data-toggle="tab" href="#guest"  Guests
+    a data-toggle="tab" href="#guest" onclick="getGuests()" Guests
   li
-    a data-toggle="tab" href="#users"  Users
+    a data-toggle="tab" href="#users" onclick="getUsers()" Users
 #content.tab-content
   #account.tab-pane.fade.active.in
     = render "account"
@@ -20,3 +21,27 @@ ul.nav.nav-tabs
     = render "channels"
   #users.tab-pane.fade
     = render "users"
+
+.modal.fade#showEditKey aria-labelledby="showEditKey" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-body
+        form.form-horizontal
+          fieldset
+            legend Редактировать ключ
+            #editKeyInfo data-id=""
+            .form-group
+              label.col-lg-2.control-label for="inputKeyName"  Имя стримера
+              .col-lg-10
+                input#inputKeyName.form-control type="text" /
+            .form-group
+              label.col-lg-2.control-label for="inputKeyGame"  Игра
+              .col-lg-10
+                input#inputKeyGame.form-control type="text" /
+            .form-group
+              label.col-lg-2.control-label for="inputKeyKinco"  Кинцо
+              .col-lg-10
+                input#inputKeyKinco.form-control type="text" /
+            .form-group
+              .col-lg-10
+                a.btn.btn-primary href="#" onclick="updateKey();" Редактировать

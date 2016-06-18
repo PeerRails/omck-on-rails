@@ -46,8 +46,8 @@ Rails.application.routes.draw do
   delete 'home/video' => 'videos#remove'
 
   #Twitter
-  get 'home/tweets' => 'tweets#tweet'
-  post 'home/user/tweet' => 'tweets#list'
+  post 'home/tweets' => 'tweets#tweet'
+  get 'home/user/tweet' => 'tweets#list'
 
   #API tokens
   get 'home/token' => 'api_tokens#list'

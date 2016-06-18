@@ -27,7 +27,7 @@ RSpec.describe UsersController, type: :controller do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end
     it "should return list of videos" do
-      vid = create(:video, user_id: @user.id)
+      vid = create(:video, user_id: @user.id, key_id: @user.keys.last.id)
       get :videos, id: @user.id
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil

@@ -1,30 +1,43 @@
-$("#tweetControl #inputTweet").on 'input propertychange change', ->
-  if $("#tweet_own").is(":checked")
-    count = 140
-  else
-    count = 99
-  length = count - $(this).val().length
-  if length <= 0 and $("#count").attr("class") is "text-success"
-    $("#count").toggleClass "text-success text-danger"
-    $(".subm").prop "disabled", true
-  else if length >= 0 and $("#count").attr("class") is "text-danger"
-    $("#count").toggleClass "text-danger text-success"
-    $(".subm").prop "disabled", false
-  $("#count").text length
-  return
+@readyTweetText = ->
+  $("#inputTweet").on 'input propertychange change', ->
+    if $("#optionsOwn").is(":checked")
+      count = 140
+    else if $("#optionsKinco").is(":checked") or $("#optionsGame").is(":checked")
+      count = 105
+    else
+      count = 99
+    length = count - $(this).val().length
+    if length <= 0 and $("#tweet-count").attr("class") is "text-success"
+      $("#tweet-count").toggleClass "text-success text-danger"
+      $(".subm").prop "disabled", true
+    else if length >= 0 and $("#tweet-count").attr("class") is "text-danger"
+      $("#tweet-count").toggleClass "text-danger text-success"
+      $(".subm").prop "disabled", false
+    $("#tweet-count").text length
+    return
 
 @postTweetUpdate = ->
   tweet =
-    own: $("#tweet_own").is(":checked")
+    kinco: $("#optionsKinco").is(":checked")
+    games: $("#optionsGame").is(":checked")
+    own: $("#optionsOwn").is(":checked")
     comment: $("#inputTweet").val()
+  console.log tweet
   if tweet.comment == ""
-    $("#responseTweet").html("<div class='text-danger'>Пустое поле!</div>")
+    createAlertBox("#help-tweet", "Пустое поле!")
   else
-    $.post('/home/user/tweet', {tweet: tweet}, (data) ->
+    if tweet.kinco
+      tweet.comment = "Стрим на http://omck.tv/#/channel/hdgames || " + tweet.comment
+    else if tweet.games
+      tweet.comment = "Стрим на http://omck.tv/#/channel/hdcinema || " + tweet.comment
+    else if tweet.own
+      tweet.comment = tweet.comment
+    $.post('/home/tweets', {tweet: tweet}, (data) ->
       if data.error is true
-        $("#responseTweet").html("<div class='text-danger'>"+data.message+"</div>")
+        createAlertBox("#help-tweet", "Ошибка! : " + data.message)
       else
-        $("#responseTweet").html("<div class='text-success'>Твит обновлен! Статус: '"+data.text+"'</div>")
-        console.log tweet
+        createAlertBox("#help-tweet", "Отправлено!")
       return
-    )
+      )
+    return
+

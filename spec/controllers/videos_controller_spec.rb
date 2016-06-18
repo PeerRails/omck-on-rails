@@ -15,7 +15,7 @@ RSpec.describe VideosController, type: :controller do
     end
     it "should return list of user videos" do
       user = create(:user)
-      create(:video, user_id: user.id)
+      create(:video, user_id: user.id, key_id: user.keys.last.id)
       get :list, video: {user_id: user.id}
       json = JSON.parse(response.body)["videos"]
       expect(json.length).to eq(1)

@@ -1,0 +1,52 @@
+h3 Список Стримеров
+table.table#userList
+  span.help-block#help-users
+  ul.nav.nav-pills#userActions
+    li
+      a onclick="addUser();" Пригласить стримера
+  tr
+    td Стример
+    td Твиттер
+    td Игра
+    td Кинцо
+    td Действителен до
+    td Экшн
+
+.modal.fade#showUserInvite aria-labelledby="showUserInvite" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-body
+        form.form-horizontal
+          fieldset
+            legend Пригласить
+            .form-group
+              label.col-lg-2.control-label for="inputUserTwitter"  Твиттер
+              .col-lg-10
+                input#inputUserTwitter.form-control type="text" /
+            .form-group
+              .col-lg-10
+                a.btn.btn-primary href="#" onclick="inviteUser();" Создать
+
+.modal.fade#editUserGrants aria-labelledby="editUserGrants" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-body
+        form.form-horizontal
+          fieldset
+            legend Редактировать Права
+            #userIdInfo data-id=""
+            .form-group
+              label.col-lg-2.control-label for="inputUserStreamer"  Стример?
+              .col-lg-10
+                select.form-control#inputUserStreamerOption
+                  option value="0" Нет
+                  option value="1" Да
+            .form-group
+              label.col-lg-2.control-label for="inputUserAdmin"  Админ?
+              .col-lg-10
+                select.form-control#inputUserAdminOption
+                  option value="0" Нет
+                  option value="1" Да
+            .form-group
+              .col-lg-10
+                a.btn.btn-primary href="#" onclick="grantUser();" Создать

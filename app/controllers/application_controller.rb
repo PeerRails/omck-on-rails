@@ -50,6 +50,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # :nocov:
+  def bitly
+    Bitly.use_api_version_3
+    Bitly.new(ENV["BITLY_USER"], ENV["BITLY_TOKEN"])
+  end
+  # :nocov:
+
   def check_auth
     raise Pundit::NotAuthorizedError, "You dont have access to this action" unless current_user
   end

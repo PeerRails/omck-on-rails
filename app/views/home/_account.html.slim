@@ -1,48 +1,79 @@
 form.form-horizontal
+  #userinfo data-userid="#{current_user.id}"
   fieldset
-    legend Key Info
+    legend Ключик
     .form-group
-      label.col-lg-2.control-label for="inputText"  Streamer
+      label.col-lg-2.control-label for="inputStreamer"  Стример
       .col-lg-10
         input#inputStreamer.form-control type="text" /
     .form-group
-      label.col-lg-2.control-label for="inputGame"  Game
+      label.col-lg-2.control-label for="inputGame"  Игра
       .col-lg-10
         input#inputGame.form-control type="text" /
     .form-group
-      label.col-lg-2.control-label for="inputMovie"  Movie
+      label.col-lg-2.control-label for="inputMovie"  Кинцо
       .col-lg-10
         input#inputMovie.form-control type="text" /
+    .form-group
+      label.col-lg-2.control-label for="KeyActions" Действия
+      .col-lg-10
+        ul.nav.nav-pills#keyActions
+          li
+            a href="#postTweet" onclick="showKey();" Показать ключ
+          li
+            a href="#postTweet" onclick="postRegeneration();" Пересоздать ключ
     span.help-block#help-account
-      .alert.alert-dismissible.alert-info
-        button.close data-dismiss="alert" type="button"  &times;
-        strong Saved!
+      /.alert.alert-dismissible.alert-info
+        /button.close data-dismiss="alert" type="button"  &times;
+        /strong Saved!
   fieldset
-    legend Post Tweet
-    .form-group
-      label.col-lg-2.control-label for="textArea"  Text
+    legend Затвитить
+    .form-group#tweetControl
+      label.col-lg-2.control-label for="textArea"  Текст
       .col-lg-10
-        textarea#tweetText.form-control rows="2"
-        span.help-block#tweet-count 140
+        textarea#inputTweet.form-control rows="2" placeholder="Здесь текст твита"
+        span.help-block#tweet-count 105
     .form-group
-      label.col-lg-2.control-label Options
+      label.col-lg-2.control-label Префикс твита:
       .col-lg-10
         .radio
           label
-            input#optionsGame checked="" name="optionsRadios" type="radio" value="tweet-game" /
-            | Стрим на http://omck.tv/#/channel/hdgames
+            input#optionsGame checked="checked" name="optionsRadios" type="radio" value="1" /
+            | Стрим на http://omck.tv/#/channel/hdgames ||
         .radio
           label
-            input#optionsKinco checked="" name="optionsRadios" type="radio" value="tweet-kinco" /
-            | Стрим на http://omck.tv/#/channel/hdcinema
+            input#optionsKinco name="optionsRadios" type="radio" value="0" /
+            | Стрим на http://omck.tv/#/channel/hdcinema ||
         .radio
           label
-            input#optionsOwn checked="" name="optionsRadios" type="radio" value="own" /
-            | Без анонса
+            input#optionsOwn name="optionsRadios" type="radio" value="0" /
+            | (Без анонса)
     .form-group
       .col-lg-10.col-lg-offset-2
-        button.btn.btn-primary Post
+        a.btn.btn-primary href="#postTweet" onclick="postTweetUpdate();" Post
     span.help-block#help-tweet
-      .alert.alert-dismissible.alert-info
-        button.close data-dismiss="alert" type="button"  &times;
-        strong Saved!
+      /.alert.alert-dismissible.alert-info
+        /button.close data-dismiss="alert" type="button"  &times;
+        /strong Saved!
+
+.modal.fade#showSmallKey aria-labelledby="showSmallKey" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h4.modal-title Ключик
+      .modal-body
+        p Отмечу, что различаются два канала только по ссылке live (игра) и cinema (кино). То есть поле ключа можно не менять. Лучше иметь 2 разных профиля для obs или xsplit
+        h3 Игровой канал
+        b Ссылочки-писечки
+        .text-warning rtmp://hd.omck.tv/live
+        .text-danger rtmp://hd.omck.moe/live
+        hr
+        h3 Кинцо-анимцо
+        b Ссылочки-писечки
+        .text-warning rtmp://hd.omck.tv/cinema
+        .text-danger rtmp://hd.omck.moe/cinema
+        br
+        b Далее в поле ключ (key) вставляем ваш ключ:
+        br
+        h4
+          #user-key.label.label-warning

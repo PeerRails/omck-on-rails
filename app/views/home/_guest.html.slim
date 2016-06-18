@@ -1,0 +1,36 @@
+h3 Список Гостевых ключей
+table.table#guestList
+  span.help-block#help-guest
+  ul.nav.nav-pills#guestActions
+    li
+      a onclick="addGuest();" Пригласить гостя
+  tr
+    td Стример
+    td Пригласил
+    td Игра
+    td Кинцо
+    td Действителен до
+    td Экшн
+
+.modal.fade#showGuestInvite aria-labelledby="showGuestInvite" role="dialog" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-body
+        form.form-horizontal
+          fieldset
+            legend Создать гостевой ключ
+            .form-group
+              label.col-lg-2.control-label for="inputGuestName"  Имя стримера
+              .col-lg-10
+                input#inputGuestName.form-control type="text" /
+            .form-group
+              label.col-lg-2.control-label for="inputGuestGame"  Игра
+              .col-lg-10
+                input#inputGuestGame.form-control type="text" /
+            .form-group
+              label.col-lg-2.control-label for="inputGuestKinco"  Кинцо
+              .col-lg-10
+                input#inputGuestKinco.form-control type="text" /
+            .form-group
+              .col-lg-10
+                a.btn.btn-primary href="#" onclick="createGuest();" Создать
