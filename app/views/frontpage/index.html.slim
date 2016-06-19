@@ -50,9 +50,13 @@
       img.img-rounded#streamerpic src="http://i.imgur.com/YD9knNJ.jpg"
       h3.text-center#streamername Nobody
 
-  .col-lg-4.hidden-xs.hidden-sm.hidden-md#other
-    .thumbnail
-      img alt="placeholder" src="http://i.imgur.com/YD9knNJ.jpg"
+  .col-lg-4.hidden-xs.hidden-sm.hidden-md
+    #other
+      .thumbnail.draggable
+        a href="#" onclick="$('#other').height(700)" Удлинить
+        '
+        a href="#" onclick="$('#other').hide()" [X]
+        iframe width="350px" height="95%" src="http://client.canternet.org/?channels=omcktv&uio=MT1mYWxzZSYyPXRydWUmOT10cnVlJjExPTI3NyYxMz1mYWxzZSYxND1mYWxzZQ90"
 .row.stream-windows
   .col-lg-12.col-md-8
     iframe#stream data-channelservice="hd" data-channelname="hdgames" frameborder="0" scrolling="no" src="https://player.omck.tv/hd/hdgames" width="100%"

@@ -24,6 +24,18 @@ body {
   background-color: #f7f7f7;
 }
 
+.draggable.is-dragging { opacity: 0.7; }
+.draggable { height: 100%; }
+
+#other {
+  resize: both;
+  z-index: 1000;
+  position: absolute;
+  top: 83px;
+  float:right;
+  height: 700px;
+}
+
 #streamerpic {
   max-height: 180px;
 }

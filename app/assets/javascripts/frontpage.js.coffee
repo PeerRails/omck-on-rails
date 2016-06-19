@@ -1,3 +1,4 @@
+//= require draggabilly.min
 $(document).ready ->
   window.automodeTimer = ""
   autoplaySwitch $.cookie("autoplay")
@@ -8,6 +9,7 @@ $(document).ready ->
     updateChannel()
     return
   ), 30000
+  $draggable = $('.draggable').draggabilly()
   return
 
 @turnInterval = () ->
