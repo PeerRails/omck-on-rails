@@ -58,7 +58,7 @@ Rails.application.routes.draw do
 
 
   # Pages:
-  get 'home' => 'home#index'
+  get 'home' => 'home#admin'
   #get 'home/login' => 'home#login'
   #get 'home/' => 'home#cabinet'
   #get 'home/faq' => 'home#faq'
