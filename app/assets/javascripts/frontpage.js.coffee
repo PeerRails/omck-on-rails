@@ -10,6 +10,9 @@ $(document).ready ->
     return
   ), 30000
   $draggable = $('.draggable').draggabilly()
+  if $(location).attr('hash').split('/')[1] == "channel"
+    hash_stream = $(location).attr('hash').split("/")
+    changeChannel(hash_stream[2] + '/' + hash_stream[3])
   return
 
 @turnInterval = () ->
