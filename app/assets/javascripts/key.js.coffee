@@ -1,4 +1,5 @@
 timeoutId = undefined
+
 @getUser = (twitter_id) ->
   $.get('/user/'+twitter_id, (data) ->
     if data.error is true

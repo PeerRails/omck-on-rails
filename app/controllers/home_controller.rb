@@ -1,9 +1,5 @@
 class HomeController < ApplicationController
-  before_action :authenticate_user!, except: :index
-
-  def index
-    render 'home/index'
-  end
+  before_action :authenticate_user!
 
   def admin
     if user_signed_in?
@@ -11,13 +7,4 @@ class HomeController < ApplicationController
     end
   end
 
-  # def cabinet
-  # end
-
-  # def login
-  # end
-
-  # def faq
-  # render 'faq'
-  # end
 end

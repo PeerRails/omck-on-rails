@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # Root
-  root :to => 'home#index'
+  root :to => 'frontpage#index'
   # auth
   # get 'auth_session' => 'application#session_auth' #why I even need this
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }

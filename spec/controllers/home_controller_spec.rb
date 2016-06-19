@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe HomeController, type: :controller do
-  describe "GET #index" do
+  describe "GET #admin" do
     it "should redirect to login" do
-      get :index
+      get :admin
       expect(response).to redirect_to "/login"
     end
   end
-  describe "GET #index authorized" do
+  describe "GET #admin authorized" do
     before do
       @admin = create(:user, :admin)
       sign_in @admin
     end
     it "should show home page" do
-      get :index
+      get :admin
       expect(response.status).to eq(200)
     end
   end

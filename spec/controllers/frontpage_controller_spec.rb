@@ -1,0 +1,10 @@
+require 'rails_helper'
+
+RSpec.describe FrontpageController, type: :controller do
+  describe "GET #index" do
+    it "should show main page" do
+      get :index
+      expect(response.status).to eq(200)
+    end
+  end
+end
