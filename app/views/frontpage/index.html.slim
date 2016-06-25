@@ -2,13 +2,12 @@
   .row
     .col-lg-12
       .row.status-bar
-
         .col-lg-1.hidden-xs.hidden-sm#logo
           img.img-circle src="http://i.imgur.com/JKPn8DR.png" alt="OmckTV Live Videogame Stream Channel"
 
         .col-lg-4#controls
           .col-md-6
-            .well.well-sm.text-center
+            .thumbnail.text-center
               ul.nav.nav-pills.nav-stacked
                 li
                   a#hdgames data-channelservice='hd' data-channelname='hdgames' href="#/channel/hd/hdgames" onclick="changeChannel('hd/hdgames')"
@@ -54,14 +53,16 @@
               |Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             h3.text-center#streamername Лента
         .col-lg-4.hidden-xs.hidden-sm.hidden-md
-          #other
-            .thumbnail.draggable
-              p Чатик
-              iframe width="350px" height="95%" src="http://client.canternet.org/?channels=omcktv&uio=MT1mYWxzZSYyPXRydWUmOT10cnVlJjExPTI3NyYxMz1mYWxzZSYxND1mYWxzZQ90"
-      .row.stream-windows
-        .col-lg-12.col-md-8
-          iframe#stream data-channelservice="twitch" data-channelname="omcktv" frameborder="0" scrolling="no" src="http://player.twitch.tv/?channel=omcktv" width="100%"
+          .thumbnail.draggable
+            p Чатик
+.container-fluid
+  .row.stream-windows
+    .col-lg-9.col-md-12
+      iframe#stream data-channelservice="twitch" data-channelname="omcktv" frameborder="0" scrolling="no" src="http://player.twitch.tv/?channel=omcktv" width="100%"
+    .col-lg-3.hidden-xs.hidden-sm.hidden-md
+      iframe#chat width="100%" src="http://client.canternet.org/?channels=omcktv&uio=MT1mYWxzZSYyPXRydWUmOT10cnVlJjExPTI3NyYxMz1mYWxzZSYxND1mYWxzZQ90"
+.container
+  .row.schedule
+    .col-sm-12
       br
-      .row.schedule
-        .col-sm-12
-          iframe src="https://calendar.google.com/calendar/embed?showTitle=0&showNav=0&showPrint=0&showCalendars=0&mode=AGENDA&height=300&wkst=2&bgcolor=%23FFFFFF&src=sr623auvi91joo5asn2es33k3s@group.calendar.google.com&color=%23182C57&ctz=Europe/Moscow" width='100%' frameborder='0' height='300' id='schedule-iframe' scrolling='no'
+      iframe src="https://calendar.google.com/calendar/embed?showTitle=0&showNav=0&showPrint=0&showCalendars=0&mode=AGENDA&height=300&wkst=2&bgcolor=%23FFFFFF&src=sr623auvi91joo5asn2es33k3s@group.calendar.google.com&color=%23182C57&ctz=Europe/Moscow" width='100%' frameborder='0' height='300' id='schedule-iframe' scrolling='no'
