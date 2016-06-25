@@ -40,52 +40,7 @@ body {
   max-height: 180px;
 }
 
-#stream_type
-{
-    text-transform:capitalize;
-}
-
 #background-hide
 {
 	display: none;
-}
-
-#streambg {
-
-}
-
-#streams, #special {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-#full_width {
-  width: 100%;
-}
-
-#bg-hide{
-  margin-top: 10px;
-  display: none;
-}
-
-nav {
-	@extend .navbar;
-	@extend .navbar-default;
-	@extend .navbar-static-top;
-}
-
-.omckbar {
-	@extend .container;
-}
-
-.streambg {
-	@extend .container;
-	@extend .row;
-	@extend .col-lg-12;
-}
-
-.omck-status {
-	@extend .navbar-collapse;
-	@extend .collapse;
-
 }

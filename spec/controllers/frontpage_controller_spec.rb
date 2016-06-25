@@ -7,4 +7,11 @@ RSpec.describe FrontpageController, type: :controller do
       expect(response.status).to eq(200)
     end
   end
+
+  describe "GET #player" do
+    it "should show player page" do
+      get :player
+      expect(response.status).to eq(200)
+    end
+  end
 end

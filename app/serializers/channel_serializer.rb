@@ -19,7 +19,7 @@ class ChannelSerializer < ActiveModel::Serializer
   def player
     case self.service
     when 'hd'
-      "http://player.omck.tv/hd/#{self.channel}"
+      "/player?channel=#{self.channel}"
     when 'twitch'
       "http://player.twitch.tv/?channel=#{self.channel}"
     end
