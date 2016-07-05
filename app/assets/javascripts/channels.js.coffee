@@ -63,6 +63,6 @@
         getChannels()
         return
       error: (data) ->
-        createAlertBox("#help-channels", data.message)
+        createAlertBox("#help-channels", "Ошибка!")
         return
   return

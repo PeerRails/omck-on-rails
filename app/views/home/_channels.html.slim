@@ -2,34 +2,36 @@ h3 Список Каналов
 table.table#channelList
   span.help-block#help-channels
   ul.nav.nav-pills#channelActions
-    li
-      a onclick="addChannel();" Добавить Канал
+    - if current_user.streamer == 1 or current_user.gmod == 1
+      li
+        a onclick="addChannel();" Добавить Канал
   tr
     td Канал
     td Сервис
     td Игра
     td Описание
     td Действие
-.modal.fade#showChannelCreate aria-labelledby="showChannelCreate" role="dialog" tabindex="-1"
-  .modal-dialog
-    .modal-content
-      .modal-body
-        form.form-horizontal
-          fieldset
-            legend Новый канал
-            .form-group
-              label.col-lg-2.control-label for="inputChannelName"  Название Канала
-              .col-lg-10
-                input#inputChannelName.form-control type="text" /
-            .form-group
-              label.col-lg-2.control-label for="inputChannelStreamer"  Стример
-              .col-lg-10
-                input#inputChannelStreamer.form-control type="text" /
-            .form-group
-              label.col-lg-2.control-label for="inputChannelService"  Сервис
-              .col-lg-10
-                select.form-control#inputChannelServiceOption
-                  option twitch
-            .form-group
-              .col-lg-10
-                a.btn.btn-primary href="#" onclick="createChannel();" Создать
+- if current_user.streamer == 1 or current_user.gmod == 1
+  .modal.fade#showChannelCreate aria-labelledby="showChannelCreate" role="dialog" tabindex="-1"
+    .modal-dialog
+      .modal-content
+        .modal-body
+          form.form-horizontal
+            fieldset
+              legend Новый канал
+              .form-group
+                label.col-lg-2.control-label for="inputChannelName"  Название Канала
+                .col-lg-10
+                  input#inputChannelName.form-control type="text" /
+              .form-group
+                label.col-lg-2.control-label for="inputChannelStreamer"  Стример
+                .col-lg-10
+                  input#inputChannelStreamer.form-control type="text" /
+              .form-group
+                label.col-lg-2.control-label for="inputChannelService"  Сервис
+                .col-lg-10
+                  select.form-control#inputChannelServiceOption
+                    option twitch
+              .form-group
+                .col-lg-10
+                  a.btn.btn-primary href="#" onclick="createChannel();" Создать

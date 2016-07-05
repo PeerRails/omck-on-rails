@@ -6,9 +6,11 @@ table.table#videoList
     td Игра
     td Дата
     td Действие
+
 ul.nav.nav-pills#keyActions
-  li
-    a href="#" onclick="deleteVideos();" Удалить выделенное
-  li
-    a href="#" onclick="updateVideos();" Проверить целостность
+  - if current_user.streamer == 1 or current_user.gmod == 1
+    li
+      a href="#" onclick="deleteVideos();" Удалить выделенное
+    li
+      a href="#" onclick="updateVideos();" Проверить целостность
 span.help-block#help-videos
