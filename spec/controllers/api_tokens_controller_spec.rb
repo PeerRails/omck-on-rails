@@ -46,6 +46,13 @@ RSpec.describe ApiTokensController, type: :controller do
       expect(json["error"]).to be nil
       expect(json["token"]["user_id"]).to eq(@user.id)
     end
+    it "should create new api token for current user" do
+      @token.destroy
+      post :create
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["token"]["user_id"]).to eq(@user.id)
+    end
   end
 
   describe "DELETE #delete" do

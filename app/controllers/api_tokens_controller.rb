@@ -17,7 +17,8 @@ class ApiTokensController < ApplicationController
   end
 
   def create
-    token = ApiToken.new(user_id: params[:user_id])
+    user_id = params[:user_id] || current_user.id
+    token = ApiToken.new(user_id: user_id)
     if token.save
       render json: token
     else

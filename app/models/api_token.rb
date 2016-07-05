@@ -8,7 +8,7 @@ class ApiToken < ActiveRecord::Base
 
   def default_vals
     self.secret = SecureRandom.hex(6)
-    self.expires_at = DateTime.now + 99
+    self.expires_at = DateTime.now + 9999
   end
 
 end

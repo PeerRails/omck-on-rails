@@ -13,6 +13,8 @@
           a data-toggle="tab" href="#guest" onclick="getGuests()" Guests
         li
           a data-toggle="tab" href="#users" onclick="getUsers()" Users
+        li
+          a data-toggle="tab" href="#tokens" onclick="getTokens()" API Tokens
       #content.tab-content
         #account.tab-pane.fade.active.in
           = render "account"
@@ -24,6 +26,8 @@
           = render "channels"
         #users.tab-pane.fade
           = render "users"
+        #tokens.tab-pane.fade
+          = render "tokens"
 
       .modal.fade#showEditKey aria-labelledby="showEditKey" role="dialog" tabindex="-1"
         .modal-dialog
