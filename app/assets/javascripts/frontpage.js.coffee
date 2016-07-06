@@ -1,12 +1,13 @@
-//= require draggabilly.min
 $(document).ready ->
   window.automodeTimer = ""
   autoplaySwitch $.cookie("autoplay")
   getLiveStreams()
   updateChannel()
+  loadTweet()
   setInterval (->
     getLiveStreams()
     updateChannel()
+    loadTweet()
     return
   ), 30000
   $draggable = $('.draggable').draggabilly()
@@ -92,6 +93,26 @@ $(document).ready ->
     $.cookie("autoplay", "off")
     clearInterval(window.automodeTimer)
     $("#autoplaybtn").text('Autoplay is '+ mode).attr("onclick", "autoplaySwitch('on')")
+  return
+
+@loadTweet = ->
+  $.get('/home/user/tweet', (data) ->
+      if data.error == null
+        $("#timeline").html("Ошибка загрузки данных")
+      else
+        tweet = data.tweets[4]
+        $("#timeline").html('<div class="media">
+                              <div class="media-left">
+                                <a href="#">
+                                  <img class="media-object" src="'+tweet.user.profile_image_url+'" alt="profile image">
+                                </a>
+                              </div>
+                              <div class="media-body">
+                                <h4 class="media-heading">Последний твит</h4>
+                                  <p>'+tweet.comment+'</p><div class="text-muted small">'+tweet.created_at.substring(0,10)+'\tот <strong>'+tweet.user.name+'</strong></div>
+                              </div>
+                            </div>')
+    )
   return
 
 @clearChannelMenu = () ->

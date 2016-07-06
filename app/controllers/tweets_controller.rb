@@ -19,7 +19,7 @@ class TweetsController < ApplicationController
   end
 
   def list
-    tweets = Tweet.order(:id).last(10)
+    tweets = Tweet.order("id asc").last(5)
     render json: tweets
   end
 
