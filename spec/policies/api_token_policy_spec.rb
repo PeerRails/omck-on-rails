@@ -4,11 +4,11 @@ describe ApiTokenPolicy do
   subject { ApiTokenPolicy }
   let(:user){build(:user)}
   let(:admin){build(:user, :admin)}
-  let(:apitoken){build(:api_token)}
+  let(:apitoken){build(:api_token, user: user)}
 
   permissions :create? do
-    it "denies access if user is not logged" do
-      expect{subject.new(nil, ApiToken.new())}.to raise_error(Pundit::NotAuthorizedError)
+    it "allows to create new token if user is logged" do
+      expect(subject).to permit(user, ApiToken.new())
     end
   end
 
@@ -25,8 +25,13 @@ describe ApiTokenPolicy do
   end
 
   permissions :expire? do
-    it "denies access if user is not logged" do
-      expect{subject.new(nil, apitoken)}.to raise_error(Pundit::NotAuthorizedError)
+    it "allows to expire old token if user is logged and owns it" do
+      expect(subject).to permit(user, apitoken)
+    end
+
+    it "denies access if user doesnt own it" do
+      user2 = create(:user)
+      expect(subject).not_to permit(user, build(:api_token, user: user2))
     end
   end
 

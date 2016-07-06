@@ -13,7 +13,7 @@ class ApiTokenPolicy < ApplicationPolicy
   end
 
   def expire?
-    user?
+    user.id == api_token.user_id
   end
 
   def api_token

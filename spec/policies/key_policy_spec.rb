@@ -35,20 +35,97 @@ describe KeyPolicy do
 
 
   permissions :update? do
-    it "denies access if user doesnt owns key" do
+    it "denies access if user doesnt own key" do
       another_user = create(:user)
       expect(subject).not_to permit(user, build(:key, user: another_user))
     end
 
-    it "allows update of new Key if user owns key" do
+    it "allows update new Key if user owns key" do
       expect(subject).to permit(user, key)
     end
 
-    it "allows update of new Key if user invited" do
+    it "allows update new Key if user invited" do
       expect(subject).to permit(user, Key.new(guest: true, created_by: user.id, user_id: user.id))
     end
 
-    it "allows update of new Key if user is admin" do
+    it "allows update new Key if user is admin" do
+      expect(subject).to permit(admin, key)
+    end
+  end
+
+
+  permissions :expire? do
+    it "denies access if user doesnt own key" do
+      another_user = create(:user)
+      expect(subject).not_to permit(user, build(:key, user: another_user))
+    end
+
+    it "allows expire old Key if user owns key" do
+      expect(subject).to permit(user, key)
+    end
+
+    it "allows expire old Key if user invited" do
+      expect(subject).to permit(user, Key.new(guest: true, created_by: user.id, user_id: user.id))
+    end
+
+    it "allows expire old Key if user is admin" do
+      expect(subject).to permit(admin, key)
+    end
+  end
+
+  permissions :regenerate? do
+    it "denies access if user doesnt own key" do
+      another_user = create(:user)
+      expect(subject).not_to permit(user, build(:key, user: another_user))
+    end
+
+    it "allows regenerate old Key if user owns key" do
+      expect(subject).to permit(user, key)
+    end
+
+    it "allows regenerate old Key if user invited" do
+      expect(subject).to permit(user, Key.new(guest: true, created_by: user.id, user_id: user.id))
+    end
+
+    it "allows regenerate old Key if user is admin" do
+      expect(subject).to permit(admin, key)
+    end
+  end
+
+  permissions :expire_guest? do
+    it "denies access if user doesnt own key" do
+      another_user = create(:user)
+      expect(subject).not_to permit(user, build(:key, user: another_user))
+    end
+
+    it "allows expire guest Key if user created guest key" do
+      expect(subject).to permit(user, key)
+    end
+
+    it "allows regenerate guest Key if user invited" do
+      expect(subject).to permit(user, Key.new(guest: true, created_by: user.id, user_id: user.id))
+    end
+
+    it "allows regenerate guest Key if user is admin" do
+      expect(subject).to permit(admin, key)
+    end
+  end
+
+  permissions :secret? do
+    it "denies access if user doesnt own key" do
+      another_user = create(:user)
+      expect(subject).not_to permit(user, build(:key, user: another_user))
+    end
+
+    it "allows look at Key secret if user created guest key" do
+      expect(subject).to permit(user, key)
+    end
+
+    it "allows look at Key secret if user invited" do
+      expect(subject).to permit(user, Key.new(guest: true, created_by: user.id, user_id: user.id))
+    end
+
+    it "allows look at Key secret Key if user is admin" do
       expect(subject).to permit(admin, key)
     end
   end
