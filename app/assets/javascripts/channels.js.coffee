@@ -5,13 +5,16 @@
     else
       $("#channelList").find("tr:gt(0)").remove()
       for ch in data.channels
-        $("#channelList tr:last").after('<tr data-channelID="'+ch.service+'/'+ch.channel+'">
-                  <td>'+ch.channel+'</td>
-                  <td>'+ch.service+'</td>
-                  <td>'+ch.game+'</td>
-                  <td>'+ch.title+'</td>
-                  <td><a href="#" onclick="deleteChannel(\''+ch.service+'/'+ch.channel+'\')">Удалить</a></td>
-                  </tr>')
+        if ch.service != "hd" && ch.service != "livestream" && ch.channel != "omcktv"
+          after_text = '<tr data-channelID="'+ch.service+'/'+ch.channel+'">
+                    <td>'+ch.channel+'</td>
+                    <td>'+ch.service+'</td>
+                    <td>'+ch.game+'</td>
+                    <td>'+ch.title+'</td>'
+          if $('#accountInfo').data('streamer') == 1 or $('#accountInfo').data('gmod') == 1
+            after_text = after_text + '<td><a href="#" onclick="deleteChannel(\''+ch.service+'/'+ch.channel+'\')">Удалить</a></td>'
+          after_text = after_text + '</tr>'
+          $("#channelList tr:last").after(after_text)
     return
   )
 
@@ -35,13 +38,6 @@
       return
     success: (data) ->
       createAlertBox("#help-channels", "Сохранено")
-      $("#channelList tr:last").after('<tr data-channelID="'+data.channel.service+'/'+data.channel.channel+'">
-                  <td>'+data.channel.channel+'</td>
-                  <td>'+data.channel.service+'</td>
-                  <td>'+data.channel.game+'</td>
-                  <td>'+data.channel.title+'</td>
-                  <td><a href="#" onclick="deleteChannels(\''+data.channel.service+'/'+data.channel.channel+'\')">Удалить</a></td>
-                  </tr>')
       getChannels()
       return
     error: (data) ->

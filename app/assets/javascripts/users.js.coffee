@@ -5,14 +5,17 @@
     else
       $("#userList").find("tr:gt(0)").remove()
       for user in data.keys
-        $("#userList tr:last").after('<tr data-userID="'+user.user_id+'" data-userStreamer="'+user.streamer+'" data-userGame="'+user.game+'" data-userMovie="'+user.movie+'">
-                  <td>'+user.streamer+'</td>
-                  <td><a href="http://twitter.com/'+user.created_by_screen_name+'">@'+user.created_by_screen_name+'</a></td>
-                  <td>'+user.game+'</td>
-                  <td>'+user.movie+'</td>
-                  <td>'+user.expires+'</td>
-                  <td><a href="#" onclick="editUser(\''+user.user_id+'\')">Редактировать права</a></td>
-                  </tr>')
+        after_text = '<tr data-userID="'+user.user_id+'" data-userStreamer="'+user.streamer+'"
+                      data-userGame="'+user.game+'" data-userMovie="'+user.movie+'">
+                      <td>'+user.streamer+'</td>
+                      <td><a href="http://twitter.com/'+user.created_by_screen_name+'">@'+user.created_by_screen_name+'</a></td>
+                      <td>'+user.game+'</td>
+                      <td>'+user.movie+'</td>
+                      <td>'+user.expires+'</td>'
+        if $('#accountInfo').data('streamer') == 1 or $('#accountInfo').data('gmod') == 1
+          after_text = after_text + '<td><a href="#" onclick="editUser(\''+user.user_id+'\')">Редактировать права</a></td>'
+        after_text = after_text + '</tr>'
+        $("#userList tr:last").after(after_text)
     return
   )
 
@@ -32,17 +35,12 @@
       createAlertBox("#help-users", "Сохраняется...")
       return
     success: (data) ->
-      createAlertBox("#help-users", "Сохранено.")
+      createAlertBox("#help-users", "Приглашен.")
       return
     error: (data) ->
       createAlertBox("#help-users", "Ошибка: " + data.message)
       return
   getUsers()
-  return
-
-@showGuestKey = (key) ->
-  guest_key = showAnotherKey(key)
-  createAlertBox("#help-users", "Ключ: " + guest_key)
   return
 
 @regenerateUser = (id="") ->

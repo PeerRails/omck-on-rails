@@ -1,19 +1,22 @@
 @getGuests = ->
   $.get('/home/guest_keys', (data) ->
     if data.error is true
-      createAlertBox("#help-guest", "Ошибка: " + data.message)
+      createAlertBox("#help-guests", "Ошибка: " + data.message)
     else
       $("#guestList").find("tr:gt(0)").remove()
       for guest in data.keys
-        $("#guestList tr:last").after('<tr data-guestID="'+guest.id+'" data-guestStreamer="'+guest.streamer+'" data-guestGame="'+guest.game+'" data-guestMovie="'+guest.movie+'">
-                  <td>'+guest.streamer+'</td>
-                  <td>'+guest.created_by_name+'</td>
-                  <td>'+guest.game+'</td>
-                  <td>'+guest.movie+'</td>
-                  <td>'+guest.expires+'</td>
-                  <td><a href="#" onclick="deleteGuest(\''+guest.id+'\')">Удалить</a><br>
-                  <a href="#" onclick="showGuestKey(\''+guest.id+'\')">Показать ключ</a></td>
-                  </tr>')
+        after_text = '<tr data-guestID="'+guest.id+'" data-guestStreamer="'+guest.streamer+'" data-guestGame="'+guest.game+'"
+                      data-guestMovie="'+guest.movie+'">
+                      <td>'+guest.streamer+'</td>
+                      <td>'+guest.created_by_name+'</td>
+                      <td>'+guest.game+'</td>
+                      <td>'+guest.movie+'</td>
+                      <td>'+guest.expires+'</td>'
+        if $('#accountInfo').data('streamer') == 1 or $('#accountInfo').data('gmod') == 1
+          after_text = after_text + '<td><a href="#" onclick="deleteGuest(\''+guest.id+'\')">Удалить</a><br>
+                                    <a href="#" onclick="showGuestKey(\''+guest.id+'\')">Показать ключ</a></td>'
+        after_text = after_text + '</tr>'
+        $("#guestList tr:last").after(after_text)
     return
   )
 
@@ -27,25 +30,26 @@
       streamer: $('#inputGuestName').val()
       game: $('#inputGuestGame').val()
       movie: $('#inputGuestKinco').val()
-  $.ajax
+  $.ajax(
     url: '/home/keys/create/guest'
     type: 'POST'
     data: form
     beforeSend: (xhr) ->
-      createAlertBox("#help-guest", "Сохраняется...")
+      createAlertBox("#help-guests", "Сохраняется...")
       return
-    success: (data) ->
-      createAlertBox("#help-guest", "Сохранено. Новый ключ: " + showAnotherKey(data.key.id))
+    ).done( (data) ->
+      createAlertBox("#help-guests", "Сохранено. Новый ключ: " + showAnotherKey(data.key.id))
       getGuests()
       return
-    error: (data) ->
-      createAlertBox("#help-guest", "Ошибка: " + data.message)
-      return
+    ).error( (data) ->
+      createAlertBox("#help-guests", "Ошибка!")
+      return)
+  $("#showGuestInvite").modal('hide')
   return
 
+
 @showGuestKey = (key) ->
-  guest_key = showAnotherKey(key)
-  createAlertBox("#help-guest", "Ключ: " + guest_key)
+  createAlertBox("#help-guests", "Ключ: " + showAnotherKey(key))
   return
 
 @deleteGuest = (id="") ->
@@ -56,11 +60,11 @@
       type: 'POST'
       data: id: id
       success: (data) ->
-        createAlertBox("#help-guest", "Удалено")
+        createAlertBox("#help-guests", "Удалено")
         getGuests()
         return
       error: (data) ->
-        createAlertBox("#help-guest", data.message)
+        createAlertBox("#help-guests", data.message)
   return
 
 @editGuestKey = (key) ->

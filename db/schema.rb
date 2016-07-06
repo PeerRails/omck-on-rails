@@ -107,6 +107,11 @@ ActiveRecord::Schema.define(version: 20160417141715) do
     t.datetime "updated_at"
     t.datetime "remember_created_at"
     t.string   "remember_token"
+    t.integer  "sign_in_count",                   default: 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
   end
 
   add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree

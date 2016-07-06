@@ -4,7 +4,7 @@
       span.help-box#help-all
       ul.nav.nav-tabs
         li.active
-          a data-toggle="tab" href="#account"  Account
+          a#accountInfo data-toggle="tab" href="#account" data-streamer="#{current_user.streamer}" data-gmod="#{current_user.gmod}"  Account
         li
           a data-toggle="tab" href="#videos" onclick="getVideos()"  Videos
         li

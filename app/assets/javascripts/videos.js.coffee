@@ -5,13 +5,15 @@
     else
       $("#videoList").find("tr:gt(0)").remove()
       for vid in data.videos
-        $("#videoList tr:last").after('<tr data-videoID="'+vid.token+'">
-                  <td><input type="checkbox" name="tag_ids[]" id="tag_ids" value="'+vid.token+'"></td>
-                  <td>'+vid.username+'</td>
-                  <td>'+vid.game+'</td>
-                  <td>'+vid.created_at+'</td>
-                  <td><a href="#" onclick="deleteVideos(\''+vid.token+'\')">Удалить</a></td>
-                  </tr>')
+        after_text ='<tr data-videoID="'+vid.token+'">
+                      <td><input type="checkbox" name="tag_ids[]" id="tag_ids" value="'+vid.token+'"></td>
+                      <td>'+vid.username+'</td>
+                      <td>'+vid.game+'</td>
+                      <td>'+vid.created_at+'</td>'
+        if $('#accountInfo').data('streamer') == 1 or $('#accountInfo').data('gmod') == 1
+          after_text = after_text + '<td><a href="#" onclick="deleteVideos(\''+vid.token+'\')">Удалить</a></td>'
+        after_text = after_text + '</tr>'
+        $("#videoList tr:last").after(after_text)
     return
   )
 
@@ -32,7 +34,7 @@
           createAlertBox("#help-videos", vid.message)
         else
           createAlertBox("#help-videos", "Удалено")
-          $('tr *[data-videoID="'+vid.token+'"]').remove()
+          getVideos()
       return
     error: (data) ->
       createAlertBox("#help-videos", data.message)
