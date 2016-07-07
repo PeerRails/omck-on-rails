@@ -3,13 +3,13 @@ class Stream < ActiveRecord::Base
   belongs_to :user
   belongs_to :channel
 
+  validates :key_id, :user_id, :channel_id, :presence => true
+
   def stop!(date=DateTime.now)
-  	raise self.ended_at.inspect
   	if self.ended_at.nil?
-  	  self.update(date)
+  	  self.update(ended_at: date)
   	  return true
   	else
-  	  self.errors[:ended_at] = "It was already stopped"
   	  return false
   	end
   end

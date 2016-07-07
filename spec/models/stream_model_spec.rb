@@ -19,7 +19,18 @@ RSpec.describe Stream, type: :model do
     before do
       @stream = create(:stream, user_id: user.id, key_id: key.id, channel_id: channel.id, ended_at: DateTime.now)
     end
+    let(:stream_factory) { create(:stream, user_id: user.id, key_id: key.id, channel_id: channel.id) }
 
-    it { expect(@stream.stop!(DateTime.now).errors).not_to be nil }
+    it { expect(create(:stream, user_id: user.id, key_id: key.id, channel_id: channel.id).ended_at).to be nil }
+    it { expect(@stream.stop!(DateTime.now)).to be false }
+    it {
+      @stream.update(ended_at: nil)
+      expect(@stream.stop!(DateTime.now)).to be true
+    }
+
+    it { expect(stream_factory).to validate_presence_of(:key_id) }
+    it { expect(stream_factory).to validate_presence_of(:user_id) }
+    it { expect(stream_factory).to validate_presence_of(:channel_id) }
+
   end
 end

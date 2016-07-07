@@ -21,6 +21,7 @@ class Ability
     can :last, Stream
     can :by_user, Stream
     can :show, Stream
+    can :by_period, Stream
 
     if user.gmod?
       can :manage, :all

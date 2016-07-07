@@ -25,13 +25,42 @@ module Api
         if stream.stop!(DateTime.now)
           render json: stream
         else
+          render json: {error: true, message: "It was already stopped"}
+        end
+      end
+
+      def create
+        stream = Stream.new(stream_params)
+        if stream.save
+          render json: stream
+        else
           render json: {error: true, message: stream.errors}
         end
       end
 
+      def delete
+        stream = Stream.find(params[:id])
+        if stream.destroy
+          render json: {error: nil, message: "Deleted!"}
+        else
+          render json: {error: true, message: stream.errors}
+        end
+      end
+
+      def by_period
+        started = DateTime.parse(date_params[:started])
+        ended = DateTime.parse(date_params[:ended])
+        streams = Stream.where(ended_at: started..ended)
+        render json: streams
+      end
+
       private
       def stream_params
-        params.require(:stream).permit(:channel_id, :key_id, :user_id, :game, :streamer)
+        params.require(:stream).permit(:channel_id, :key_id, :user_id, :game, :streamer, :ended_at)
+      end
+
+      def date_params
+        params.require(:date).permit(:started, :ended)
       end
     end
   end

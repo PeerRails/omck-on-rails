@@ -118,8 +118,8 @@ Rails.application.routes.draw do
       get 'streams/:user/list' => 'streams#by_user'
       get 'streams/:id/show' => 'streams#show'
       get 'streams/:id/stop' => 'streams#stop'
-      post 'streams/period' => 'streams#period'
-      post 'streams/new' => 'streams#new'
+      post 'streams/period' => 'streams#by_period'
+      post 'streams/new' => 'streams#create'
       delete 'streams/:id/delete' => 'streams#delete'
     end
   end
