@@ -8,20 +8,20 @@ class ChannelSerializer < ActiveModel::Serializer
   #has_many :api_token
 
   def url
-    case self.service
+    case object.service
     when 'hd'
-      "http://omck.tv/#/channel/hd/#{self.channel}"
+      "http://omck.tv/#/channel/hd/#{object.channel}"
     when 'twitch'
-      "http://twitch.tv/#{self.channel}"
+      "http://twitch.tv/#{object.channel}"
     end
   end
 
   def player
-    case self.service
+    case object.service
     when 'hd'
-      "/player?channel=#{self.channel}"
+      "/player?channel=#{object.channel}"
     when 'twitch'
-      "http://player.twitch.tv/?channel=#{self.channel}"
+      "http://player.twitch.tv/?channel=#{object.channel}"
     end
   end
 

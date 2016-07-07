@@ -36,4 +36,10 @@ describe ChannelPolicy do
     end
   end
 
+  permissions :channel do
+    it "associates record with channel" do
+      expect(subject.new(user, Channel.new()).channel.class).to eq(Channel)
+    end
+  end
+
 end

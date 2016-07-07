@@ -16,4 +16,10 @@ describe TweetPolicy do
     end
   end
 
+  permissions :tweet do
+    it "associates record with tweet" do
+      expect(subject.new(user, Tweet.new()).tweet.class).to eq(Tweet)
+    end
+  end
+
 end

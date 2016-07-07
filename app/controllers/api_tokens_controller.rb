@@ -13,14 +13,14 @@ class ApiTokensController < ApplicationController
 
   def show
     token = ApiToken.find_by_user_id(params[:user_id])
-    render json: token
+    render json: token, root: "token"
   end
 
   def create
     user_id = params[:user_id] || current_user.id
     token = ApiToken.new(user_id: user_id)
     if token.save
-      render json: token
+      render json: token, root: "token"
     else
       render json: {error: true, message: token.errors}
     end
