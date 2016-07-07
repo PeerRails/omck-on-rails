@@ -18,6 +18,10 @@ class Ability
     can :list, User
     can :videos, User
 
+    can :last, Stream
+    can :by_user, Stream
+    can :show, Stream
+
     if user.gmod?
       can :manage, :all
     elsif user.streamer?
@@ -34,11 +38,15 @@ class Ability
       can :delete_by_tk, Video, :deleted => false, :user_id => user.id
       can :post, Tweet
       can :delete, Tweet
+
+      # Stream API
+      can :stop, Stream
+
     end
     unless user.id.nil?
         can :all, Key, user_id: user.id
 
-        #API Tokens
+        # API Tokens
         can :list, ApiToken
         can :show, ApiToken, user_id: user.id
         can :delete, ApiToken, user_id: user.id

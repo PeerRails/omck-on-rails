@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417141715) do
+ActiveRecord::Schema.define(version: 20160707122952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,22 @@ ActiveRecord::Schema.define(version: 20160417141715) do
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
+
+  create_table "streams", force: :cascade do |t|
+    t.integer  "key_id", null: false
+    t.integer  "user_id", null: false
+    t.integer  "channel_id", null: false
+    t.string   "game"
+    t.string   "movie"
+    t.string   "streamer"
+    t.date     "ended_at", null: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "streams", ["channel_id"], name: "index_streams_on_channel_id", using: :btree
+  add_index "streams", ["key_id"], name: "index_streams_on_key_id", using: :btree
+  add_index "streams", ["user_id"], name: "index_streams_on_user_id", using: :btree
 
   create_table "tweets", force: :cascade do |t|
     t.integer  "user_id",    default: 1, null: false

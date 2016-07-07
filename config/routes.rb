@@ -111,6 +111,16 @@ Rails.application.routes.draw do
       get 'tweets/user/:user_id' => 'tweets#by_user'
       post 'tweets/post' => 'tweets#post'
       delete 'tweets/:id/delete' => 'tweets#delete'
+
+      # Streams API
+      get 'streams/last' => 'streams#last', defaults: {user: nil}
+      get 'streams/:user/last' => 'streams#last'
+      get 'streams/:user/list' => 'streams#by_user'
+      get 'streams/:id/show' => 'streams#show'
+      get 'streams/:id/stop' => 'streams#stop'
+      post 'streams/period' => 'streams#period'
+      post 'streams/new' => 'streams#new'
+      delete 'streams/:id/delete' => 'streams#delete'
     end
   end
 

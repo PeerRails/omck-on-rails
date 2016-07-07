@@ -1,4 +1,5 @@
 class Channel < ActiveRecord::Base
+  has_many :streams
   validates :channel, presence: true
   validates_format_of :channel, :with => /\A[a-zA-Z\d -_]*\z/i,
                                 :message => "Только латиница и числа!"
