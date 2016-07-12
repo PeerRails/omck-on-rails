@@ -115,6 +115,10 @@ $(document).ready ->
     )
   return
 
+@openChat = ->
+    window.open("/chat", "popupChat", "height=500, width=350, resizable=1");
+  return
+
 @clearChannelMenu = () ->
   $("#channelmenu").each ->
     $(this).find("li").each ->

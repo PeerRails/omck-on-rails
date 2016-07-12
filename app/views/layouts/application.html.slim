@@ -43,8 +43,12 @@ html lang="en"
               a href="http://twitter.com/omcktv" target="_blank" Twitter
             li
               a href="https://www.youtube.com/channel/UCDvV4W4d_nV7LPgaW-hPZng" target="_blank" Youtube
-            li
+            li.hidden-lg.hidden-md
               a href="/chat" target="_blank" Chat
+            li.hidden-sm.hidden-xs
+              a href="#" onclick="openChat();" Chat
+            li
+              a href="/faq" target="_blank" FAQ
     = yield
     footer
       p &copy; OmckTV 2011-2016
