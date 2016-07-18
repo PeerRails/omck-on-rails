@@ -10,7 +10,7 @@ $(document).ready ->
     loadTweet()
     return
   ), 30000
-  $draggable = $('.draggable').draggabilly()
+  #$draggable = $('.draggable').draggabilly()
   if $(location).attr('hash').split('/')[1] == "channel"
     hash_stream = $(location).attr('hash').split("/")
     changeChannel(hash_stream[2] + '/' + hash_stream[3])
@@ -115,13 +115,12 @@ $(document).ready ->
     )
   return
 
-@openChat = ->
-    window.open("/chat", "popupChat", "height=500, width=350, resizable=1");
-  return
-
 @clearChannelMenu = () ->
   $("#channelmenu").each ->
     $(this).find("li").each ->
       $(this).find("a").each ->
         $(this).remove()
- return
+  return
+
+@openChat = () ->
+  window.open("/chat", "popupChat", "height=500, width=350, resizable=1")
