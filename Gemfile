@@ -53,6 +53,8 @@ group :test do
   gem 'database_cleaner'
   gem 'brakeman', :require => false
   gem 'simplecov', :require => false
+  gem 'simplecov-json', :require => false
+  gem 'simplecov-rcov', :require => false
   gem 'faker'
   gem 'webmock'
   gem 'coveralls', require: false

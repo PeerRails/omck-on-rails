@@ -3,6 +3,8 @@ require "factory_girl_rails"
 require "faker"
 require "shoulda-matchers"
 require 'simplecov'
+require 'simplecov-json'
+require 'simplecov-rcov'
 require 'webmock/rspec'
 require "cancan/matchers"
 require "pundit/rspec"
@@ -10,7 +12,12 @@ require 'coveralls'
 
 WebMock.enable!
 
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::JSONFormatter,
+  Coveralls::SimpleCov::Formatter,
+  SimpleCov::Formatter::RcovFormatter,
+]
 
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
