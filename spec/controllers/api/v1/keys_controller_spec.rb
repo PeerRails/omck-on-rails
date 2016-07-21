@@ -78,4 +78,36 @@ RSpec.describe Api::V1::KeysController, type: :controller do
     end
   end
 
+  describe "GET #authorize" do
+    before do
+      @gmod = create(:user, :admin)
+      @gkey = @gmod.keys.present.last
+      @gtoken = create(:api_token, user_id: @gmod.id)
+      request.env["HTTP_ACCEPT"] = 'application/json'
+      request.headers["HTTP_API_TOKEN"] = @gtoken.secret
+    end
+
+    it "should validate key " do
+      get :authorize, key: @gkey.key
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["message"]).to eq("OK")
+    end
+
+    it "should not validate wrong key " do
+      get :authorize, key: "wrong_key"
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Forbidden")
+    end
+
+    it "should not validate key if not admin token" do
+      request.headers["HTTP_API_TOKEN"] = @token.secret
+      get :authorize, key: @gkey.key
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Forbidden")
+    end
+  end
+
 end

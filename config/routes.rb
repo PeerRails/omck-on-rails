@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       get 'keys' => 'keys#retrieve'
       get 'keys/all' => 'keys#all'
       get 'keys/guest' => 'keys#guest'
+      get 'keys/authorize' => 'keys#authorize'
       post 'keys/create' => 'keys#create'
       post 'keys/regenerate' => 'keys#regenerate'
       post 'keys/update' => 'keys#update'

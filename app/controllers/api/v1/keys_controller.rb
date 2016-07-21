@@ -60,6 +60,15 @@ module Api
         end
       end
 
+      def authorize
+        key = Key.find_by_key(params[:key])
+        if key.nil? or current_user.gmod == 0
+          render json: { error: true, message: "Forbidden" }
+        else
+          render json: { error: nil, message: "OK" }
+        end
+      end
+
       def key_params
         params.require(:key).permit(:user_id, :guest, :streamer, :game, :movie)
       end
