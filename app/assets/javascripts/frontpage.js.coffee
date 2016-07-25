@@ -103,13 +103,10 @@ $(document).ready ->
         tweet = data.tweets[4]
         $("#timeline").html('<div class="media">
                               <div class="media-left">
-                                <a href="#">
-                                  <img class="media-object" src="'+tweet.user.profile_image_url+'" alt="profile image">
-                                </a>
                               </div>
                               <div class="media-body">
                                 <h4 class="media-heading">Последний твит</h4>
-                                  <p>'+tweet.comment+'</p><div class="text-muted small">'+tweet.created_at.substring(0,10)+'\tот <strong>'+tweet.user.name+'</strong></div>
+                                  <p>'+tweet.comment+'</p><div class="text-muted small">'+tweet.created_at.substring(0,10)+' '+tweet.created_at.substring(11,19)+'\tот <strong>'+tweet.user.name+'</strong></div>
                               </div>
                             </div>')
     )

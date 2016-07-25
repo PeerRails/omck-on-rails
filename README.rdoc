@@ -12,3 +12,4 @@ export LOGIN_AUTH=
 export LOGIN_SECRET=
 export BITLY_USER=
 export BITLY_TOKEN=
+export HD_PLAY=

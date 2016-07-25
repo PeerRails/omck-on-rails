@@ -83,9 +83,9 @@ ActiveRecord::Schema.define(version: 20160707122952) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
 
   create_table "streams", force: :cascade do |t|
-    t.integer  "key_id"
-    t.integer  "user_id"
-    t.integer  "channel_id"
+    t.integer  "key_id",     null: false
+    t.integer  "user_id",    null: false
+    t.integer  "channel_id", null: false
     t.string   "game"
     t.string   "movie"
     t.string   "streamer"
