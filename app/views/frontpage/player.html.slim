@@ -20,7 +20,7 @@ html
       | }
   body
     video#player.video-js.vjs-default-skin controls=""
-      source src="#{@host}/hls/#{@channel}/omcktv.m3u8" type="application/x-mpegURL"
+      source src="#{@host}/hls/#{@channel}/omcktv/index.m3u8" type="application/x-mpegURL"
     javascript:
       videojs.options.flash.swf = "video-js.swf";
       videojs("player").play();
