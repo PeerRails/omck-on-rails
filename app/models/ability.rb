@@ -45,14 +45,14 @@ class Ability
 
     end
     unless user.id.nil?
-        can :all, Key, user_id: user.id
+      can :all, Key, user_id: user.id
 
-        # API Tokens
-        can :list, ApiToken
-        can :show, ApiToken, user_id: user.id
-        can :delete, ApiToken, user_id: user.id
-        can :create, ApiToken, user_id: user.id
-        can :expire, ApiToken, user_id: user.id
+      # API Tokens
+      can :list, ApiToken
+      can :show, ApiToken, user_id: user.id
+      can :delete, ApiToken, user_id: user.id
+      can :create, ApiToken, user_id: user.id
+      can :expire, ApiToken, user_id: user.id
     end
   end
 end
