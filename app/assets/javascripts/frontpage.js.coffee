@@ -120,4 +120,4 @@ $(document).ready ->
   return
 
 @openChat = () ->
-  window.open("/chat", "popupChat", "height=500, width=350, resizable=1")
+  window.open("https://www.twitch.tv/omcktv/chat?popout=", "popupChat", "height=500, width=350, resizable=1")
