@@ -66,7 +66,7 @@ module Api
         if key.nil? or current_user.gmod == 0
           render json: { error: true, message: "Forbidden" }
         else
-          render json: { error: nil, message: "OK" }
+          render json: key
         end
       end
 

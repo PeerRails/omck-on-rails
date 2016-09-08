@@ -91,7 +91,7 @@ RSpec.describe Api::V1::KeysController, type: :controller do
       get :authorize, key: @gkey.key
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
-      expect(json["message"]).to eq("OK")
+      expect(json["key"]["id"]).to eq(@gkey.id)
     end
 
     it "should not validate wrong key " do

@@ -1,5 +1,5 @@
 class ChannelSerializer < ActiveModel::Serializer
-  attributes :channel, :viewers, :live, :game, :title, :streamer, :service, :official, :url, :player
+  attributes :id, :channel, :viewers, :live, :game, :title, :streamer, :service, :official, :url, :player
 
   #has_many :keys
   #has_many :tweets
