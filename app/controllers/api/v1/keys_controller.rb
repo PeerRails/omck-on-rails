@@ -6,7 +6,8 @@ module Api
       def retrieve
         key = Key.present.where(user_id: @current_user.id).last
         if key.nil?
-          raise ActiveRecord::RecordNotFound
+          new_key = Key.create(user_id: @current_user.id, guest: false, created_by: @current_user.id)
+          render json: new_key, scope: current_user
         else
           render json: key
         end
