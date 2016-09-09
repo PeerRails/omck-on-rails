@@ -39,10 +39,11 @@ RSpec.describe Api::V1::VideosController, type: :controller do
 
   describe "POST #add" do
     it "should add new video" do
-      post :add, {video: {user_id: @streamer.id, key_id: @streamer.keys.present.last.id, deleted: false, game: @streamer.keys.present.last.game, description: "#{@streamer.keys.present.last.game} by #{@streamer.name} #{DateTime.now.strftime("%Y%m%d%H%M%S")}"}}
+      post :add, {video: {path: "/home/user/videos/test.flv", user_id: @streamer.id, key_id: @streamer.keys.present.last.id, deleted: false, game: @streamer.keys.present.last.game, description: "#{@streamer.keys.present.last.game} by #{@streamer.name} #{DateTime.now.strftime("%Y%m%d%H%M%S")}"}}
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["video"]["key_id"]).to eq(@streamer.keys.present.last.id)
+      expect(json["video"]["path"]).to eq("/home/user/videos/test.flv")
     end
   end
 
