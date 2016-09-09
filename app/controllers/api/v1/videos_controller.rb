@@ -38,6 +38,11 @@ module Api
         end
       end
 
+      def path
+        video = Video.select(:id, :path, :token).find_by_token(params[:token]).to_json
+        render json: video
+      end
+
       def vid_params
         params.require(:video).permit(:user_id, :key_id, :game, :description, :path, :deleted)
       end

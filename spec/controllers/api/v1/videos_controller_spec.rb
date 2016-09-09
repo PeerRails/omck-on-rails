@@ -5,7 +5,7 @@ RSpec.describe Api::V1::VideosController, type: :controller do
     @streamer = create(:user, :streamer)
     @token = create(:api_token, user_id: @streamer.id)
     request.headers["HTTP_API_TOKEN"] = @token.secret
-    @video = create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id)
+    @video = create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id, path: "/home/user/videos/123.flv")
     request.env["HTTP_ACCEPT"] = 'application/json'
   end
   let(:clear_headers) {request.headers["HTTP_API_TOKEN"] = nil}
@@ -43,7 +43,6 @@ RSpec.describe Api::V1::VideosController, type: :controller do
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["video"]["key_id"]).to eq(@streamer.keys.present.last.id)
-      expect(json["video"]["path"]).to eq("/home/user/videos/test.flv")
     end
   end
 
@@ -74,6 +73,17 @@ RSpec.describe Api::V1::VideosController, type: :controller do
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
       expect(json["message"]).to eq("You dont have access to this action")
+    end
+  end
+
+  describe "GET #path" do
+    it "should show video path by token param" do
+      @streamer.update(gmod: 1)
+      get :path, token: @video.token
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["token"]).to eq(@video.token)
+      expect(json["path"]).to eq(@video.path)
     end
   end
 
