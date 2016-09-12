@@ -187,7 +187,7 @@ module Api
 
       # Channel modifying params
       def chanmod_params
-        params.require(:channels).permit(:channel, :streamer, :service, :game, :title, :live)
+        params.require(:channels).permit(:channel, :streamer, :service, :game, :title, :live, :viewers)
       end
     end
   end

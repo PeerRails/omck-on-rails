@@ -22,7 +22,7 @@ module Api
 
       def stop
         stream = Stream.find(params[:id])
-        if stream.stop!(DateTime.now)
+        if stream.stop!
           render json: stream
         else
           render json: {error: true, message: "It was already stopped"}

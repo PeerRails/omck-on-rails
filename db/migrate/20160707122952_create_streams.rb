@@ -7,7 +7,7 @@ class CreateStreams < ActiveRecord::Migration
       t.string :game
       t.string :movie
       t.string :streamer
-      t.date :ended_at, null: true, default: nil
+      t.datetime :ended_at, null: true, default: nil
 
       t.timestamps null: false
     end
