@@ -98,6 +98,7 @@ Rails.application.routes.draw do
 
       # Videos API
       get 'videos' => 'videos#list'
+      get 'videos/unarchived' => 'videos#list', defaults: { deleted: "false" }
       get 'videos/archive' => 'videos#list', defaults: { deleted: "true" }
       get 'video/:token' => 'videos#show'
       post 'video/add' => 'videos#add'

@@ -26,6 +26,16 @@ RSpec.describe Api::V1::VideosController, type: :controller do
       expect(json["videos"].count).not_to eq(0)
       expect(json["videos"][0]["deleted"]).to be true
     end
+
+    it "should list all unarchived videos" do
+      create(:video, user_id: @streamer.id, key_id: @streamer.keys.present.last.id, token: "deletededede", deleted: false)
+      get :list, deleted: "false"
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be nil
+      expect(json["videos"].count).not_to eq(0)
+      expect(json["videos"][0]["deleted"]).to be false
+    end
+
   end
 
   describe "GET #show" do
