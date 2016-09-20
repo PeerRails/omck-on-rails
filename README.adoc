@@ -1,0 +1,236 @@
+== Welcome to OmckTV
+:Author:    Peer Rails
+:Email:     <peer@omck.ws>
+:Date:      2016.09.20
+:Revision:  1.0
+:Rubyversion: Ruby 2.3+
+:Pg: 9.3+
+
+{author} {email}
+
+Updated at *{date}*
+
+Omck on Rails is the open source multistream view platform built for our game community
+It works as:
+- View for Nginx with RTMP module and authentication
+- Twitch channel list
+- Chatroom (but for now we use Twitch chat)
+- Control room for own HD channels
+
+== Development
+
+1. If You are new to Rails or advanced Rails developer I will be happy accept any help
+2. To install please read install guide to set comfortable enviroment for yourself
+3. To help me and understand what I need, please read TODO file
+
+*Requirements:* link:https://www.ruby-lang.org/en/downloads/[{rubyversion}], link:https://www.postgresql.org/download/[Postgres {pg}]
+
+*Environment Variable:*
+
+- TICKET_1: TWITTER_POST_CONSUMER_KEY
+- TICKET_2: TWITTER_POST_SECRET_KEY
+- TICKET_3: TWITTER_POST_ACCESS_TOKEN
+- TICKET_4: TWITTER_POST_SECRET_TOKEN
+- LOGIN_AUTH: TWITTER_LOGIN_CONSUMER_KEY
+- LOGIN_SECRET: TWITTER_LOGIN_SECRET_KEY
+- TWITCH_ID: TWITCH_ID
+- SECRET_KEY_BASE: RAILS_SECRET_KEY
+- BITLY_USER: SELF
+- BITLY_TOKEN: SELF
+- Or check *config/application.yml.example*
+
+== Install Guide
+
+1. I use link:rvm.io[RVM - Ruby Version Manager], it's great tool to manage ruby projects, installing this tool is recommended. Look at content of *.ruby-version* file
+2. Clone, bundle gems, install some seeds
+[source, bash]
+git clone repo
+rvm .ruby-version
+gem install bundle && bundle install
+3. Set Postgresql databases _omckonrails-dev_, _omckonrails-test_, migrate and seed some data, though seed data is not available at the moment
+[source, bash]
+rake db:setup db:migrate db:seed #optional
+4. Set Environment Variables that were listed earlier with creating and editing keys in config/application.yml file
+[source, bash]
+cp config/application.yml.example config/application.yml
+
+5. Run some tests
+[source, bash]
+rspec
+
+6. You are done!
+[source, ruby]
+puma
+
+==== Advanced setup
+
+- Compile Nginx with RTMP module under user nginx with base directory /opt/nginx (this is optional)
+[source, bash]
+----
+mkdir src
+wget -nc -O src/nginx-1.11.3.tar.gz http://nginx.org/download/nginx-1.11.3.tar.gz
+wget -nc -O src/v1.1.8.tar.gz https://github.com/arut/nginx-rtmp-module/archive/1.1.8.tar.gz
+
+cd src
+tar xf nginx-1.11.3.tar.gz
+tar xf v1.1.8.tar.gz
+
+cd nginx-$NGINX_VERSION
+
+./configure --add-module=$WORKSPACE/src/nginx-rtmp-module-1.1.8 --prefix=/opt/nginx
+
+make
+make install
+----
+
+- Edit nginx.conf
+[source,c]
+----
+    user  nginx;
+    worker_processes  1;
+
+    events {
+        worker_connections  1024;
+    }
+
+    error_log  /opt/nginx/logs/error.log warn;
+    pid /opt/nginx/logs/nginx.pid;
+
+    rtmp {
+
+        server {
+
+            listen 1935;
+
+            chunk_size 4000;
+
+            application hdgames {
+                live on;
+                notify_method get;
+                on_publish http://authomck:9001/auth;
+                on_publish_done http://authomck:9001/publish_done;
+                allow play all;
+                idle_streams on;
+                hls on;
+                hls_nested on;
+                hls_path /tmp/hls/hdgames;
+                hls_fragment 10s;
+                play_restart on;
+
+                #RECORD
+                record all;
+                record_path /tmp/rec;
+                record_unique on;
+                on_record_done http://authomck:9001/record_done;
+                #exec ffmpeg -i rtmp://127.0.0.1:1935/$app/$name -acodec copy -c:v libx264 -preset veryfast -profile:v baseline -vsync cfr -s 480x360 -b:v 400k maxrate 400k -bufsize 400k -threads 0 -r 30 -f flv rtmp://127.0.0.1:1935/mobilelive/$;
+            }
+
+            # MOBILE
+
+            application mobilelive {
+                allow play all;
+                live on;
+                hls on;
+                hls_nested on;
+                hls_path /tmp/hls/hdgames/mobile;
+                hls_fragment 10s;
+            }
+
+            # DASH
+            application dashlive {
+                live on;
+                dash on;
+                dash_path /tmp/dash/live;
+                allow play all;
+            }
+        }
+    }
+
+
+    http {
+        include /opt/nginx/conf/mime.types;
+        default_type application/octet-stream;
+        sendfile  on;
+        keepalive_timeout 65;
+        gzip  on;
+
+        server {
+
+            listen      8080;
+
+            location / {
+                root /opt/nginx/html;
+                index index.html;
+            }
+
+            location /stat {
+                rtmp_stat all;
+                rtmp_stat_stylesheet stat.xsl;
+            }
+
+            location /stat.xsl {
+                root /tmp/stat/stat.xsl/;
+            }
+
+            location /hls {
+                add_header Cache-Control no-cache;
+                add_header Access-Control-Allow-Origin *;
+                types {
+                    application/vnd.apple.mpegurl m3u8;
+                    video/mp2t ts;
+                }
+                root /tmp;
+                add_header Cache-Control no-cache;
+            }
+
+            location /dash {
+                add_header Cache-Control no-cache;
+                add_header Access-Control-Allow-Origin *;
+                root /tmp;
+                add_header Cache-Control no-cache;
+            }
+        }
+    }
+----
+
+- Create directories in /tmp
+[source, bash]
+mkdir -p /tmp/hls/hdgames/mobile
+mkdir -p /tmp/dash/hdgames/mobile
+mkdir /tmp/rec
+mkdir /tmp/stat
+
+- start nginx
+[source, bash]
+/opt/nginx/sbin/nginx
+
+== Contributing
+
+Omck On Rails is 100% free and open source. I encourage an active support and accept contributions from the public – including you!
+
+Please read TODO file for understanding what I'm working with.
+Clone repo, set environment, make changes, test and pull request.
+
+Thank you!
+
+== License
+----
+The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+----
