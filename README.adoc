@@ -10,7 +10,12 @@
 
 Updated at *{date}*
 
-Omck on Rails is the open source multistream view platform built for our game community
+image:https://coveralls.io/repos/github/PeerRails/omck-on-rails/badge.svg[
+"Coverage Status",
+link="https://coveralls.io/github/PeerRails/omck-on-rails]
+image:https://codeship.com/projects/9bf7b890-0877-0134-e0a4-0a16241ce4dd/status?branch=master["CodeShip Build Status"]
+
+*Omck on Rails* is the open source multistream view platform built for our game community
 It works as:
 - View for Nginx with RTMP module and authentication
 - Twitch channel list
@@ -19,7 +24,7 @@ It works as:
 
 == Development
 
-1. If You are new to Rails or advanced Rails developer I will be happy accept any help
+1. If You are new to Rails or advanced Rails developer I still will be happy to accept any help
 2. To install please read install guide to set comfortable enviroment for yourself
 3. To help me and understand what I need, please read TODO file
 
@@ -234,3 +239,5 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ----
+
+
