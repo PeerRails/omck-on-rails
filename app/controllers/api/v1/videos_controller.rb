@@ -39,8 +39,11 @@ module Api
       end
 
       def path
-        video = Video.select(:id, :path, :token).find_by_token(params[:token]).to_json
-        render json: video
+        video = Video.select(:id, :path, :token, :deleted, :description).find_by_token(params[:token])
+        if video.nil?
+          video = {error: true, message: "Not Found"}
+        end
+        render json: video.to_json
       end
 
       def vid_params

@@ -87,13 +87,24 @@ RSpec.describe Api::V1::VideosController, type: :controller do
   end
 
   describe "GET #path" do
-    it "should show video path by token param" do
+    before do
       @streamer.update(gmod: 1)
+      @video.update(deleted: true)
+    end
+
+    it "should show video path by token param" do
       get :path, token: @video.token
       json = JSON.parse(response.body)
       expect(json["error"]).to be nil
       expect(json["token"]).to eq(@video.token)
       expect(json["path"]).to eq(@video.path)
+    end
+
+    it "should show error if token incorrect" do
+      get :path, token: "123456"
+      json = JSON.parse(response.body)
+      expect(json["error"]).to be true
+      expect(json["message"]).to eq("Not Found")
     end
   end
 
