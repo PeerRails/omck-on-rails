@@ -104,11 +104,11 @@ module Api
       private
       # @!visibility public
       # Strong parameters for querying channel
-      # @param opts [Hash]
-      # @option opts [String] :service Livestream Service
-      # @option opts [String] :channel Channel Name
+      # @param _opts [Hash]
+      # @option _opts [String] :service Livestream Service
+      # @option _opts [String] :channel Channel Name
       # @return [Hash]
-      def channel_params(opts={})
+      def channel_params(_opts={})
         params.permit(:channel, :service)
       end
 
@@ -116,16 +116,16 @@ module Api
       # @!visibility public
       # Strong parameters for editing channel, requires namespace 'channels'
       #
-      # @param opts [Hash] Namespace 'channels'
-      # @option opts [String] :service Livestream Service
-      # @option opts [String] :channel Channel Name
-      # @option opts [String] :game - *optional* game title
-      # @option opts [String] :streamer - *optional* streamer name
-      # @option opts [Boolean] :live - *optional* Live Status
-      # @option opts [Integer] :viewers - *optional* viewer count
-      # @option opts [String] :title - *optional* Channel title
+      # @param _opts [Hash] Namespace 'channels'
+      # @option _opts [String] :service Livestream Service
+      # @option _opts [String] :channel Channel Name
+      # @option _opts [String] :game - *optional* game title
+      # @option _opts [String] :streamer - *optional* streamer name
+      # @option _opts [Boolean] :live - *optional* Live Status
+      # @option _opts [Integer] :viewers - *optional* viewer count
+      # @option _opts [String] :title - *optional* Channel title
       # @return [Hash]
-      def chanmod_params(opts={})
+      def chanmod_params(_opts={})
         params.require(:channels).permit(:channel, :streamer, :service, :game, :title, :live, :viewers)
       end
 

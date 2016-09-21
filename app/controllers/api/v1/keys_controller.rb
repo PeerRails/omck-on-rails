@@ -113,24 +113,24 @@ module Api
       # @!visibility public
       # Strong parameters for creating keys, requires namespace 'key'
       #
-      # @param opts [Hash] Namespace 'key'
-      # @option opts [Integer] :user_id User Id
-      # @option opts [Boolean] :guest *optional* Guest key?
-      # @option opts [String] :streamer - *optional* Streamer name
-      # @option opts [String] :game - *optional* Game Title
-      # @option opts [Boolean] :movie - *optional* Movie Title
-      def key_params(opts={})
+      # @param _opts [Hash] Namespace 'key'
+      # @option _opts [Integer] :user_id User Id
+      # @option _opts [Boolean] :guest *optional* Guest key?
+      # @option _opts [String] :streamer - *optional* Streamer name
+      # @option _opts [String] :game - *optional* Game Title
+      # @option _opts [Boolean] :movie - *optional* Movie Title
+      def key_params(_opts={})
         params.require(:key).permit(:user_id, :guest, :streamer, :game, :movie)
       end
 
       # @!visibility public
       # Strong parameters for updating keys, requires namespace 'key'
       #
-      # @param opts [Hash] Namespace 'key'
-      # @option opts [String] :streamer - *optional* Streamer name
-      # @option opts [String] :game - *optional* Game Title
-      # @option opts [Boolean] :movie - *optional* Movie Title
-      def key_params_update(opts={})
+      # @param _opts [Hash] Namespace 'key'
+      # @option _opts [String] :streamer - *optional* Streamer name
+      # @option _opts [String] :game - *optional* Game Title
+      # @option _opts [Boolean] :movie - *optional* Movie Title
+      def key_params_update(_opts={})
         params.require(:key).permit(:streamer, :game, :movie)
       end
     end

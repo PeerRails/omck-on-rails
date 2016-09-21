@@ -34,3 +34,5 @@ exclude_paths:
 - spec/
 - vendor/
 - app/assets
+- docs/
+- public/player

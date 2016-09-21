@@ -1,7 +1,7 @@
 == Welcome to OmckTV
 :Author:    Peer Rails
 :Email:     <peer@omck.ws>
-:Date:      2016.09.20
+:Date:      2016.09.21
 :Revision:  1.0
 :Rubyversion: Ruby 2.3+
 :Pg: 9.3+
@@ -15,8 +15,9 @@ image:https://codeship.com/projects/9bf7b890-0877-0134-e0a4-0a16241ce4dd/status?
 image:https://codeclimate.com/github/PeerRails/omck-on-rails/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/PeerRails/omck-on-rails"]
 image:https://codeclimate.com/github/PeerRails/omck-on-rails/badges/issue_count.svg["Issue Count", link="https://codeclimate.com/github/PeerRails/omck-on-rails"]
 
-*Omck on Rails* is the open source multistream view platform built for our game community
+*Omck on Rails* is the open source multistream view platform built for our game community link:http://omck.tv["OmckTV Videogame Live Stream Channel"]
 It works as:
+
 - View for Nginx with RTMP module and authentication
 - Twitch channel list
 - Chatroom (but for now we use Twitch chat)
@@ -26,7 +27,7 @@ It works as:
 
 1. If You are new to Rails or advanced Rails developer I still will be happy to accept any help
 2. To install please read install guide to set comfortable enviroment for yourself
-3. To help me and understand what I need, please read TODO file
+3. Project has now documentation link:https://peerrails.github.io/omck-on-rails[https://peerrails.github.io/omck-on-rails]
 
 *Requirements:* link:https://www.ruby-lang.org/en/downloads/[{rubyversion}], link:https://www.postgresql.org/download/[Postgres {pg}]
 
@@ -210,9 +211,8 @@ mkdir /tmp/stat
 
 == Contributing
 
-Omck On Rails is 100% free and open source. I encourage an active support and accept contributions from the public – including you!
+*Omck On Rails* is 100% free and open source. I encourage an active support and accept contributions from the public – including you!
 
-Please read TODO file for understanding what I'm working with.
 Clone repo, set environment, make changes, test and pull request.
 
 Thank you!

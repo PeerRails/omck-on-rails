@@ -254,7 +254,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#key_params-instance_method" title="#key_params (instance method)">#<strong>key_params</strong>(opts = {})  &#x21d2; Object </a>
+      <a href="#key_params-instance_method" title="#key_params (instance method)">#<strong>key_params</strong>(_opts = {})  &#x21d2; Object </a>
     
 
     
@@ -278,7 +278,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#key_params_update-instance_method" title="#key_params_update (instance method)">#<strong>key_params_update</strong>(opts = {})  &#x21d2; Object </a>
+      <a href="#key_params_update-instance_method" title="#key_params_update (instance method)">#<strong>key_params_update</strong>(_opts = {})  &#x21d2; Object </a>
     
 
     
@@ -721,7 +721,7 @@
       <div class="method_details ">
   <h3 class="signature " id="key_params-instance_method">
   
-    #<strong>key_params</strong>(opts = {})  &#x21d2; <tt>Object</tt> 
+    #<strong>key_params</strong>(_opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -741,7 +741,7 @@
   
     <li>
       
-        <span class='name'>opts</span>
+        <span class='name'>_opts</span>
       
       
         <span class='type'>(<tt>Hash</tt>)</span>
@@ -762,7 +762,7 @@
   
     
     
-    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
+    <p class="tag_title">Options Hash (<tt>_opts</tt>):</p>
     <ul class="option">
       
         <li>
@@ -850,7 +850,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 122</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -861,7 +861,7 @@
       <div class="method_details ">
   <h3 class="signature " id="key_params_update-instance_method">
   
-    #<strong>key_params_update</strong>(opts = {})  &#x21d2; <tt>Object</tt> 
+    #<strong>key_params_update</strong>(_opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -881,7 +881,7 @@
   
     <li>
       
-        <span class='name'>opts</span>
+        <span class='name'>_opts</span>
       
       
         <span class='type'>(<tt>Hash</tt>)</span>
@@ -902,7 +902,7 @@
   
     
     
-    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
+    <p class="tag_title">Options Hash (<tt>_opts</tt>):</p>
     <ul class="option">
       
         <li>
@@ -964,7 +964,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 133</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_key_params_update'>key_params_update</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_key_params_update'>key_params_update</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1197,7 +1197,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Sep 21 16:28:29 2016 by
+  Generated on Wed Sep 21 18:00:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

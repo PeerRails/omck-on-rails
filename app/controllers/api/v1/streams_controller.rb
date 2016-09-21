@@ -100,14 +100,14 @@ module Api
       # @!visibility public
       # Strong parameters for updating streams, requires namespace 'stream'
       #
-      # @param opts [Hash] Namespace 'stream'
-      # @option opts [Integer] :channel_id - Channel Id
-      # @option opts [Integer] :key_id - Key id
-      # @option opts [Integer] :user_id - User id
-      # @option opts [String] :game - *optional* Game title
-      # @option opts [String] :streamer - *optional* Streamer name
-      # @option opts [Date] :ended_at - *optional* End date
-      def stream_params(opts={})
+      # @param _opts [Hash] Namespace 'stream'
+      # @option _opts [Integer] :channel_id - Channel Id
+      # @option _opts [Integer] :key_id - Key id
+      # @option _opts [Integer] :user_id - User id
+      # @option _opts [String] :game - *optional* Game title
+      # @option _opts [String] :streamer - *optional* Streamer name
+      # @option _opts [Date] :ended_at - *optional* End date
+      def stream_params(_opts={})
         params.require(:stream).permit(:channel_id, :key_id, :user_id, :game, :streamer, :ended_at)
       end
 
@@ -115,10 +115,10 @@ module Api
       # @!visibility public
       # Strong parameters for updating streams, requires namespace 'date'
       #
-      # @param opts [Hash] Namespace 'date'
-      # @option opts [Date] :started - Start Date
-      # @option opts [Date] :ended - End Date
-      def date_params(opts={})
+      # @param _opts [Hash] Namespace 'date'
+      # @option _opts [Date] :started - Start Date
+      # @option _opts [Date] :ended - End Date
+      def date_params(_opts={})
         params.require(:date).permit(:started, :ended)
       end
     end
