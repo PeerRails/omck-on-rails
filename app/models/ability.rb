@@ -3,25 +3,17 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    #Main
     alias_action :list_live, :list_all, :show, :to => :channels_view
     alias_action :live, :all, :show, :service, :to => :api_channel_view
+    alias_action :last, :by_user, :show, :by_period, to: :stream_view
+    alias_action :show, :list, :videos, :by_user, to: :user_view
 
     can :channels_view, Channel
     can :api_channel_view, Channel
-    can :list, Tweet
-    can :by_user, Tweet
-    can :list, Video
-    can :show, Video
-    can :show, User
-    can :show, Tweet
-    can :list, User
-    can :videos, User
-
-    can :last, Stream
-    can :by_user, Stream
-    can :show, Stream
-    can :by_period, Stream
+    can :user_view, Tweet
+    can :user_view, Video
+    can :user_view, User
+    can :stream_view, Stream
 
     if user.gmod?
       can :manage, :all
@@ -39,15 +31,11 @@ class Ability
       can :delete_by_tk, Video, :deleted => false, :user_id => user.id
       can :post, Tweet
       can :delete, Tweet
-
-      # Stream API
       can :stop, Stream
-
     end
+
     unless user.id.nil?
       can :all, Key, user_id: user.id
-
-      # API Tokens
       can :list, ApiToken
       can :show, ApiToken, user_id: user.id
       can :delete, ApiToken, user_id: user.id
