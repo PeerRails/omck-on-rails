@@ -18,13 +18,13 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
       post :create, channels: {service: 'twitch', channel: 'blizzheroes', streamer: 'host'}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
+      expect(json['message']).to eq('Access Denied')
     end
     it 'should not update channel' do
       post :update, {service: 'hd', channel: 'hdgames', channels: {streamer: 'Veli'}}
       json = JSON.parse(response.body)
       expect(json['error']).to be true
-      expect(json['message']).to eq('You dont have access to this action')
+      expect(json['message']).to eq('Access Denied')
     end
   end
 

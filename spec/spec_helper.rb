@@ -9,21 +9,24 @@ require 'webmock/rspec'
 require "cancan/matchers"
 require "pundit/rspec"
 require 'coveralls'
+require "codeclimate-test-reporter"
 
+# WebMock for Bitly and Twitter
 WebMock.enable!
 
+# Test Coverage
 SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::JSONFormatter,
   Coveralls::SimpleCov::Formatter,
   SimpleCov::Formatter::RcovFormatter,
 ]
-
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
   add_group "Serializers", "app/serializers"
   add_group "Policies", "app/policies"
 end
+CodeClimate::TestReporter.start
 
 ENV["TICKET_1"] = "t1"
 ENV["TICKET_2"] = "t2"

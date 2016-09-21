@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.7'
 gem 'rails-api'
 #gem 'redis', '3.1.0'
 gem 'pg', '0.17.1'
@@ -58,4 +58,5 @@ group :test do
   gem 'faker'
   gem 'webmock'
   gem 'coveralls', require: false
+  gem "codeclimate-test-reporter", require: false
 end

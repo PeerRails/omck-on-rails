@@ -1,6 +1,8 @@
+* add docs
 * fix bugs
 * remove old video model
 * remodel user logic (providers)
 * add twitch integration
 * add email
 * add custom methods for telegram bot and rss
+* rewrite frontend

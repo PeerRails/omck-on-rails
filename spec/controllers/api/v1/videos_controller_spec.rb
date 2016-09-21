@@ -82,7 +82,7 @@ RSpec.describe Api::V1::VideosController, type: :controller do
       delete :archive, {token: video.token}
       json = JSON.parse(response.body)
       expect(json["error"]).to be true
-      expect(json["message"]).to eq("You dont have access to this action")
+      expect(json["message"]).to eq("Access Denied")
     end
   end
 

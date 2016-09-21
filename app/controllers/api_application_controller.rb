@@ -31,12 +31,12 @@ class ApiApplicationController < ActionController::API
     end
   # :nocov:
 
-  rescue_from CanCan::AccessDenied do |e|
-    render json: {error: true, message: "You dont have access to this action"}, status: 403
+  rescue_from CanCan::AccessDenied do
+    render json: {error: true, message: "Access Denied"}, status: 403
   end
 
-  rescue_from ActionController::InvalidAuthenticityToken do |e|
-    render json: {error: true, message: "You dont have access to this action"}, status: 403
+  rescue_from ActionController::InvalidAuthenticityToken do
+    render json: {error: true, message: "Invalid Authenticity Token"}, status: 403
   end
 
   rescue_from ActionController::ParameterMissing do
