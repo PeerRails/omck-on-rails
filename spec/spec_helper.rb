@@ -13,6 +13,7 @@ require "codeclimate-test-reporter"
 
 # WebMock for Bitly and Twitter
 WebMock.enable!
+WebMock.disable_net_connect!(allow: 'https://codeclimate.com')
 
 # Test Coverage
 SimpleCov.formatters = [
