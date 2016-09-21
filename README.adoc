@@ -13,7 +13,7 @@ Updated at *{date}*
 image:https://coveralls.io/repos/github/PeerRails/omck-on-rails/badge.svg["Test Coverage Status",link="https://coveralls.io/github/PeerRails/omck-on-rails]
 image:https://codeship.com/projects/9bf7b890-0877-0134-e0a4-0a16241ce4dd/status?branch=master["CodeShip Build Status"]
 image:https://codeclimate.com/github/PeerRails/omck-on-rails/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/PeerRails/omck-on-rails"]
-image:https://codeclimate.com/github/PeerRails/omck-on-rails/badges/issue_count.svg["Issue Count", link="hhttps://codeclimate.com/github/PeerRails/omck-on-rails"]
+image:https://codeclimate.com/github/PeerRails/omck-on-rails/badges/issue_count.svg["Issue Count", link="https://codeclimate.com/github/PeerRails/omck-on-rails"]
 
 *Omck on Rails* is the open source multistream view platform built for our game community
 It works as:
