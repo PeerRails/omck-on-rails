@@ -1,0 +1,11 @@
+--no-private
+--protected
+-
+app/controllers/*.rb
+app/models/*.rb
+app/serializers/*.rb
+app/policies/*.rb
+db/migrate/*
+db/schema.rb
+README.adoc
+

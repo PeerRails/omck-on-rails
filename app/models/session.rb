@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: sessions
+#
+#  id         :integer          not null, primary key
+#  ip         :inet
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  guest      :boolean          default(FALSE)
+#  expires    :date
+#  session_id :string
+#
+
 class Session < ActiveRecord::Base
   belongs_to :user
   validates :session_id, presence: true, uniqueness: true

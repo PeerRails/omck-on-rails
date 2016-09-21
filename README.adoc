@@ -64,10 +64,9 @@ cp config/application.yml.example config/application.yml
 rspec
 
 6. You are done!
-[source, ruby]
-puma
+`puma`
 
-==== Advanced setup
+== Advanced setup
 
 - Compile Nginx with RTMP module under user nginx with base directory /opt/nginx (this is optional)
 [source, bash]

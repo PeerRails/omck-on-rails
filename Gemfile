@@ -44,6 +44,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rubocop'
   gem 'ruby-lint'
+  gem 'annotate'
 end
 
 group :test do

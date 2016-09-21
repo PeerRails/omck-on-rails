@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: api_tokens
+#
+#  id         :integer          not null, primary key
+#  secret     :string
+#  user_id    :integer
+#  expires_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class ApiToken < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :user_id, on: :create

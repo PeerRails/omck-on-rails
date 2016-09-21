@@ -1,27 +1,63 @@
+# == Schema Information
+#
+# Table name: channels
+#
+#  id         :integer          not null, primary key
+#  channel    :string(255)
+#  live       :boolean          default(FALSE)
+#  viewers    :integer          default(0), not null
+#  game       :string(255)      default("Boku no Pico")
+#  streamer   :string(255)      default("McDwarf")
+#  title      :string(255)      default("Boku wa Tomodachi ga Sekai")
+#  service    :string(255)      default("twitch")
+#  created_at :datetime
+#  updated_at :datetime
+#  official   :boolean          default(FALSE)
+#
+
+# == Serializer Information
+# Return JSON object for Array
+#    {"channels":
+#      "id": Integer,
+#      "channel": String,
+#      "viewers": Integer,
+#      "live": Boolean,
+#      "game": String,
+#      "title": String,
+#      "streamer": String,
+#      "service": String,
+#      "official": Boolean,
+#      "url": String,
+#      "player": String
+#    }
+#
+# For single channel response API returns with namespace *channel*
 class ChannelSerializer < ActiveModel::Serializer
   attributes :id, :channel, :viewers, :live, :game, :title, :streamer, :service, :official, :url, :player
 
-  #has_many :keys
-  #has_many :tweets
-  #has_many :sessions
-  #has_many :videos
-  #has_many :api_token
-
+  # Return origin URL of channel
+  # @return [String]
   def url
     case object.service
     when 'hd'
       "http://omck.tv/#/channel/hd/#{object.channel}"
     when 'twitch'
       "http://twitch.tv/#{object.channel}"
+    else
+      "Unknown Source"
     end
   end
 
+  # Return URL of player with queryed channel
+  # @return [String]
   def player
     case object.service
     when 'hd'
       "/player?channel=#{object.channel}"
     when 'twitch'
       "http://player.twitch.tv/?channel=#{object.channel}"
+    else
+      "Unknown Source"
     end
   end
 

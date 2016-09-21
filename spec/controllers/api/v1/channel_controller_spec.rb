@@ -70,8 +70,8 @@ RSpec.describe Api::V1::ChannelsController, type: :controller do
   describe 'GET #show' do
     it 'returns hdgames' do
       get :show, service: 'hd', channel: 'hdgames'
-      json = JSON.parse(response.body)["channels"]
-      expect(json[0]['channel']).to eq('hdgames')
+      json = JSON.parse(response.body)["channel"]
+      expect(json['channel']).to eq('hdgames')
     end
   end
 

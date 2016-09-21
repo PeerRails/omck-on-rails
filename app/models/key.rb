@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: keys
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  key        :string(255)      not null
+#  game       :string(255)      default("Boku no Pico"), not null
+#  expires    :date             default(Thu, 01 Jan 2099), not null
+#  streamer   :string(255)      default("McDwarf")
+#  created_at :datetime
+#  updated_at :datetime
+#  guest      :boolean          default(FALSE)
+#  movie      :string(255)      default("Boku Wa Tomodachi Ga Sekai")
+#  created_by :integer
+#
+
 class Key < ActiveRecord::Base
   belongs_to :user
   has_many :videos

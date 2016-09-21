@@ -1,122 +1,60 @@
 module Api
   module V1
+    # API Channel Controller
+    # Class for handling channel requests
+    #
+    # @todo Add pagination
     class ChannelsController < ApiApplicationController
       load_and_authorize_resource
 
-      # List live channels at current moment
-      # Request:
-      # GET /api/v1/channels/live.json
-      # Response:
-      # {"channels":
-      #   [{"channel": string,
-      #     "viewers": integer,
-      #     "live": boolean,
-      #     "game": string,
-      #     "title": string,
-      #     "streamer": string,
-      #     "service": string ("hd" or "twitch"),
-      #     "official": boolean,
-      #     "url": string},
-      #    ...
-      #  ]
-      # }
+
+      # Return list of channels that live at current moment
+      #
+      # GET /api/v1/channels/live
+      # @return [Array<ChannelSerializer>]
       def live
         channels = Channel.live
         render json: channels
       end
 
-      # List all channels
-      # Request:
-      # GET /api/v1/channels/all.json
-      # Response:
-      # {"channels":
-      #   [{"channel": string,
-      #     "viewers": integer,
-      #     "live": boolean,
-      #     "game": string,
-      #     "title": string,
-      #     "streamer": string,
-      #     "service": string ("hd" or "twitch"),
-      #     "official": boolean,
-      #     "url": string},
-      #    ...
-      #  ]
-      # }
+
+      # Return list of all channels
+      #
+      # GET /api/v1/channels/live
+      # @return [Array<ChannelSerializer>]
       def all
         channels = Channel.all
         render json: channels
       end
 
+
       # Show required channel
-      # Request:
-      # GET /api/v1/channels/twitch/kraken
-      # Response:
-      # {"channels":
-      #   [{"channel": string,
-      #     "viewers": integer,
-      #     "live": boolean,
-      #     "game": string,
-      #     "title": string,
-      #     "streamer": string,
-      #     "service": string ("hd" or "twitch"),
-      #     "official": boolean,
-      #     "url": string}
-      #  ]
-      # }
+      #
+      # GET /api/v1/channels/:service/:channel
+      # @return [ChannelSerializer]
+      # @raise [ActiveRecord::RecordNotFound]
       def show
-        channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel])
+        channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
         render json: channel
       end
 
-      # Show all channels from required service
-      # Request:
-      # GET /api/v1/channels/twitch
-      # Response:
-      # {"channels":
-      #   [{"channel": string,
-      #     "viewers": integer,
-      #     "live": boolean,
-      #     "game": string,
-      #     "title": string,
-      #     "streamer": string,
-      #     "service": string ("hd" or "twitch"),
-      #     "official": boolean,
-      #     "url": string},
-      #     ...
-      #  ]
-      # }
+
+      # Show all channels with required service
+      #
+      # GET /api/v1/channels/:service
+      # @return [Array<ChannelSerializer>]
       def service
         channels = Channel.where(service: channel_params[:service])
         render json: channels
       end
 
+
       # Create channel
-      # Request:
-      # POST /api/v1/channels/create.json
-      # Body:
-      # {"channels": {
-      #    "service": "twitch"(required),
-      #    "channel": string(required),
-      #    "streamer": string(required),
-      #    "game": string,
-      #    "title": string,
-      #    "live": string
-      #  }
-      # }
-      # Response:
-      # {"channels":
-      #   [{"channel": string,
-      #     "viewers": integer,
-      #     "live": boolean,
-      #     "game": string,
-      #     "title": string,
-      #     "streamer": string,
-      #     "service": string,
-      #     "official": boolean,
-      #     "url": string},
-      #     ...
-      #  ]
-      # }
+      #
+      # @see channel_params #channel_params for query fields
+      # @see chanmod_params #chanmod_params for editing fields
+      # POST /api/v1/channels/create
+      # @return [ChannelSerializer]
       def create
         channel = Channel.new(chanmod_params)
         if channel.save
@@ -126,30 +64,13 @@ module Api
         end
       end
 
+
       # Update channel
-      # Request:
-      # POST /api/v1/channels/twitch/kraken/update.json
-      # Body:
-      # {"channels": {
-      #    "game": string,
-      #    "title": string,
-      #    "live": string
-      #  }
-      # }
-      # Response:
-      # {"channels":
-      #   [{"channel": string,
-      #     "viewers": integer,
-      #     "live": boolean,
-      #     "game": string,
-      #     "title": string,
-      #     "streamer": string,
-      #     "service": string,
-      #     "official": boolean,
-      #     "url": string},
-      #     ...
-      #  ]
-      # }
+      #
+      # POST /api/v1/channels/:service/:channel/update
+      # @see channel_params #channel_params for query fields
+      # @see chanmod_params #chanmod_params for editing fields
+      # @return [ChannelSerializer]
       def update
         channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
         if channel.nil?
@@ -163,14 +84,13 @@ module Api
         end
       end
 
+
       # Delete channel
-      # Request:
-      # DELETE /api/v1/channels/twitch/kraken/delete.json
-      # Response:
-      # {
-      #  "error": null,
-      #  "message": string
-      # }
+      #
+      # DELETE /api/v1/channels/:service/:channel/delete
+      # @example Example response
+      #    {error: true|nil, message: "Deleted!"|[Error]}
+      # @return [JSON]
       def delete
         channel = Channel.where(service: channel_params[:service], channel: channel_params[:channel]).first
         if channel.destroy
@@ -180,15 +100,36 @@ module Api
         end
       end
 
-      # Search for channel params
-      def channel_params
+
+      private
+      # @!visibility public
+      # Strong parameters for querying channel
+      # @param opts [Hash]
+      # @option opts [String] :service Livestream Service
+      # @option opts [String] :channel Channel Name
+      # @return [Hash]
+      def channel_params(opts={})
         params.permit(:channel, :service)
       end
 
-      # Channel modifying params
-      def chanmod_params
+
+      # @!visibility public
+      # Strong parameters for editing channel, requires namespace 'channels'
+      #
+      # @param opts [Hash] Namespace 'channels'
+      # @option opts [String] :service Livestream Service
+      # @option opts [String] :channel Channel Name
+      # @option opts [String] :game - *optional* game title
+      # @option opts [String] :streamer - *optional* streamer name
+      # @option opts [Boolean] :live - *optional* Live Status
+      # @option opts [Integer] :viewers - *optional* viewer count
+      # @option opts [String] :title - *optional* Channel title
+      # @return [Hash]
+      def chanmod_params(opts={})
         params.require(:channels).permit(:channel, :streamer, :service, :game, :title, :live, :viewers)
       end
+
+
     end
   end
 end

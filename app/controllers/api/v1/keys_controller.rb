@@ -1,8 +1,14 @@
 module Api
   module V1
+    # API Key Controller
+    # Class for handling key requests
     class KeysController < ApiApplicationController
       load_and_authorize_resource
 
+      # Returns current user's key with secret
+      #
+      # GET api/v1/keys
+      # @return [KeySerializer]
       def retrieve
         key = Key.present.where(user_id: @current_user.id).last
         if key.nil?
@@ -13,16 +19,28 @@ module Api
         end
       end
 
+      # Returns all present keys
+      #
+      # GET api/v1/keys/all
+      # @return [Array<KeySerializer>]
       def all
         keys = Key.present.order(:id)
         render json: keys
       end
 
+      # Returns all guest present keys
+      #
+      # GET api/v1/keys/guest
+      # @return [Array<KeySerializer>]
       def guest
         keys = Key.is_guest
         render json: keys
       end
 
+      # Create key
+      #
+      # POST api/v1/keys/create
+      # @return [KeySerializer]
       def create
         key = Key.new(key_params)
         if key.save
@@ -32,6 +50,11 @@ module Api
         end
       end
 
+      # Create key
+      #
+      # @see key_params #key_params for query fields
+      # POST api/v1/keys/create
+      # @return [KeySerializer]
       def regenerate
         key = User.find(key_params[:user_id]).keys.present.last
         if key.expire
@@ -42,6 +65,12 @@ module Api
         end
       end
 
+      # Update required key
+      #
+      # @see key_params #key_params for query fields
+      # @see key_params_update #key_params_update for editing fields
+      # POST api/v1/keys/update
+      # @return [KeySerializer]
       def update
         key = User.find(key_params[:user_id]).keys.present.last
         key.update(key_params_update)
@@ -52,6 +81,11 @@ module Api
         end
       end
 
+      # Expire required key
+      #
+      # @see key_params #key_params for query fields
+      # POST api/v1/keys/expire
+      # @return [JSON]
       def expire
         key = User.find(key_params[:user_id]).keys.present.last
         if key.expire
@@ -61,6 +95,11 @@ module Api
         end
       end
 
+      # Check if key is valid
+      #
+      # GET api/v1/keys/update
+      # @return [KeySerializer]
+      # @todo change to POST for better security
       def authorize
         key = Key.find_by_key(params[:key])
         if key.nil? or current_user.gmod == 0
@@ -70,11 +109,28 @@ module Api
         end
       end
 
-      def key_params
+      private
+      # @!visibility public
+      # Strong parameters for creating keys, requires namespace 'key'
+      #
+      # @param opts [Hash] Namespace 'key'
+      # @option opts [Integer] :user_id User Id
+      # @option opts [Boolean] :guest *optional* Guest key?
+      # @option opts [String] :streamer - *optional* Streamer name
+      # @option opts [String] :game - *optional* Game Title
+      # @option opts [Boolean] :movie - *optional* Movie Title
+      def key_params(opts={})
         params.require(:key).permit(:user_id, :guest, :streamer, :game, :movie)
       end
 
-      def key_params_update
+      # @!visibility public
+      # Strong parameters for updating keys, requires namespace 'key'
+      #
+      # @param opts [Hash] Namespace 'key'
+      # @option opts [String] :streamer - *optional* Streamer name
+      # @option opts [String] :game - *optional* Game Title
+      # @option opts [Boolean] :movie - *optional* Movie Title
+      def key_params_update(opts={})
         params.require(:key).permit(:streamer, :game, :movie)
       end
     end
