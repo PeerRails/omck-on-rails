@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.5
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <iframe id="search_frame" src="class_list.html"></iframe>
+
+      <div id="content"><div id='filecontents'><div class="sect1">
+<h2 id="_welcome_to_omcktv">Welcome to OmckTV</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Peer Rails &lt;<a href="mailto:peer@omck.ws">peer@omck.ws</a>&gt;</p>
+</div>
+<div class="paragraph">
+<p>Updated at <strong>2016.09.20</strong></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href=""https://coveralls.io/github/PeerRails/omck-on-rails"><img src="https://coveralls.io/repos/github/PeerRails/omck-on-rails/badge.svg" alt="Test Coverage Status"></a></span>
+<span class="image"><img src="https://codeship.com/projects/9bf7b890-0877-0134-e0a4-0a16241ce4dd/status?branch=master" alt="CodeShip Build Status"></span>
+<span class="image"><a class="image" href="https://codeclimate.com/github/PeerRails/omck-on-rails"><img src="https://codeclimate.com/github/PeerRails/omck-on-rails/badges/gpa.svg" alt="Code Climate"></a></span>
+<span class="image"><a class="image" href="https://codeclimate.com/github/PeerRails/omck-on-rails"><img src="https://codeclimate.com/github/PeerRails/omck-on-rails/badges/issue_count.svg" alt="Issue Count"></a></span></p>
+</div>
+<div class="paragraph">
+<p><strong>Omck on Rails</strong> is the open source multistream view platform built for our game community
+It works as:
+- View for Nginx with RTMP module and authentication
+- Twitch channel list
+- Chatroom (but for now we use Twitch chat)
+- Control room for own HD channels</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development">Development</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If You are new to Rails or advanced Rails developer I still will be happy to accept any help</p>
+</li>
+<li>
+<p>To install please read install guide to set comfortable enviroment for yourself</p>
+</li>
+<li>
+<p>To help me and understand what I need, please read TODO file</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Requirements:</strong> <a href="https://www.ruby-lang.org/en/downloads/">Ruby 2.3+</a>, <a href="https://www.postgresql.org/download/">Postgres 9.3+</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Environment Variable:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TICKET_1: TWITTER_POST_CONSUMER_KEY</p>
+</li>
+<li>
+<p>TICKET_2: TWITTER_POST_SECRET_KEY</p>
+</li>
+<li>
+<p>TICKET_3: TWITTER_POST_ACCESS_TOKEN</p>
+</li>
+<li>
+<p>TICKET_4: TWITTER_POST_SECRET_TOKEN</p>
+</li>
+<li>
+<p>LOGIN_AUTH: TWITTER_LOGIN_CONSUMER_KEY</p>
+</li>
+<li>
+<p>LOGIN_SECRET: TWITTER_LOGIN_SECRET_KEY</p>
+</li>
+<li>
+<p>TWITCH_ID: TWITCH_ID</p>
+</li>
+<li>
+<p>SECRET_KEY_BASE: RAILS_SECRET_KEY</p>
+</li>
+<li>
+<p>BITLY_USER: SELF</p>
+</li>
+<li>
+<p>BITLY_TOKEN: SELF</p>
+</li>
+<li>
+<p>Or check <strong>config/application.yml.example</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_guide">Install Guide</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>I use <a href="rvm.io">RVM - Ruby Version Manager</a>, it&#8217;s great tool to manage ruby projects, installing this tool is recommended. Look at content of <strong>.ruby-version</strong> file</p>
+</li>
+<li>
+<p>Clone, bundle gems, install some seeds</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">git clone repo
+rvm .ruby-version
+gem install bundle &amp;&amp; bundle install</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Set Postgresql databases <em>omckonrails-dev</em>, <em>omckonrails-test</em>, migrate and seed some data, though seed data is not available at the moment</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">rake db:setup db:migrate db:seed #optional</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Set Environment Variables that were listed earlier with creating and editing keys in config/application.yml file</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cp config/application.yml.example config/application.yml</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run some tests</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">rspec</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>You are done!
+<code>puma</code></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advanced_setup">Advanced setup</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Compile Nginx with RTMP module under user nginx with base directory /opt/nginx (this is optional)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="code ruby"><code class="ruby">mkdir src
+wget -nc -O src/nginx-1.11.3.tar.gz http://nginx.org/download/nginx-1.11.3.tar.gz
+wget -nc -O src/v1.1.8.tar.gz https://github.com/arut/nginx-rtmp-module/archive/1.1.8.tar.gz
+
+cd src
+tar xf nginx-1.11.3.tar.gz
+tar xf v1.1.8.tar.gz
+
+cd nginx-$NGINX_VERSION
+
+./configure --add-module=$WORKSPACE/src/nginx-rtmp-module-1.1.8 --prefix=/opt/nginx
+
+make
+make install</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Edit nginx.conf</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="code ruby"><code class="ruby">    user  nginx;
+    worker_processes  1;
+
+    events {
+        worker_connections  1024;
+    }
+
+    error_log  /opt/nginx/logs/error.log warn;
+    pid /opt/nginx/logs/nginx.pid;
+
+    rtmp {
+
+        server {
+
+            listen 1935;
+
+            chunk_size 4000;
+
+            application hdgames {
+                live on;
+                notify_method get;
+                on_publish http://authomck:9001/auth;
+                on_publish_done http://authomck:9001/publish_done;
+                allow play all;
+                idle_streams on;
+                hls on;
+                hls_nested on;
+                hls_path /tmp/hls/hdgames;
+                hls_fragment 10s;
+                play_restart on;
+
+                #RECORD
+                record all;
+                record_path /tmp/rec;
+                record_unique on;
+                on_record_done http://authomck:9001/record_done;
+                #exec ffmpeg -i rtmp://127.0.0.1:1935/$app/$name -acodec copy -c:v libx264 -preset veryfast -profile:v baseline -vsync cfr -s 480x360 -b:v 400k maxrate 400k -bufsize 400k -threads 0 -r 30 -f flv rtmp://127.0.0.1:1935/mobilelive/$;
+            }
+
+            # MOBILE
+
+            application mobilelive {
+                allow play all;
+                live on;
+                hls on;
+                hls_nested on;
+                hls_path /tmp/hls/hdgames/mobile;
+                hls_fragment 10s;
+            }
+
+            # DASH
+            application dashlive {
+                live on;
+                dash on;
+                dash_path /tmp/dash/live;
+                allow play all;
+            }
+        }
+    }
+
+
+    http {
+        include /opt/nginx/conf/mime.types;
+        default_type application/octet-stream;
+        sendfile  on;
+        keepalive_timeout 65;
+        gzip  on;
+
+        server {
+
+            listen      8080;
+
+            location / {
+                root /opt/nginx/html;
+                index index.html;
+            }
+
+            location /stat {
+                rtmp_stat all;
+                rtmp_stat_stylesheet stat.xsl;
+            }
+
+            location /stat.xsl {
+                root /tmp/stat/stat.xsl/;
+            }
+
+            location /hls {
+                add_header Cache-Control no-cache;
+                add_header Access-Control-Allow-Origin *;
+                types {
+                    application/vnd.apple.mpegurl m3u8;
+                    video/mp2t ts;
+                }
+                root /tmp;
+                add_header Cache-Control no-cache;
+            }
+
+            location /dash {
+                add_header Cache-Control no-cache;
+                add_header Access-Control-Allow-Origin *;
+                root /tmp;
+                add_header Cache-Control no-cache;
+            }
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create directories in /tmp</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">mkdir -p /tmp/hls/hdgames/mobile
+mkdir -p /tmp/dash/hdgames/mobile
+mkdir /tmp/rec
+mkdir /tmp/stat</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>start nginx</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">/opt/nginx/sbin/nginx</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributing">Contributing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Omck On Rails is 100% free and open source. I encourage an active support and accept contributions from the public – including you!</p>
+</div>
+<div class="paragraph">
+<p>Please read TODO file for understanding what I&#8217;m working with.
+Clone repo, set environment, make changes, test and pull request.</p>
+</div>
+<div class="paragraph">
+<p>Thank you!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_license">License</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="code ruby"><code class="ruby">The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the &quot;Software&quot;), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</code></pre>
+</div>
+</div>
+</div>
+</div></div></div>
+
+      <div id="footer">
+  Generated on Wed Sep 21 16:28:28 2016 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.5 (ruby-2.3.1).
+</div>
+
+    </div>
+  </body>
+</html>
