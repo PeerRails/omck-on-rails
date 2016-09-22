@@ -1,7 +1,7 @@
 --no-private
 --protected
 -
-app/controllers/*.rb
+app/controllers/api/v1/*.rb
 app/models/*.rb
 app/serializers/*.rb
 app/policies/*.rb

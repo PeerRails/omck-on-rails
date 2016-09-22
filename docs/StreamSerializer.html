@@ -121,6 +121,21 @@ ended_at   :date
 created_at :datetime         not null
 updated_at :datetime         not null</code></pre>
 
+<h2 id="label-JSON+scheme">JSON scheme</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>stream</span><span class='label_end'>&quot;:</span> <span class='lbrace'>{</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='label_end'>&quot;:</span>               <span class='const'>Integer</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user_id</span><span class='label_end'>&quot;:</span>          <span class='const'>Integer</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key_id</span><span class='label_end'>&quot;:</span>           <span class='const'>Integer</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>channel_id</span><span class='label_end'>&quot;:</span>       <span class='const'>Integer</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>game</span><span class='label_end'>&quot;:</span>             <span class='const'>String</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_at</span><span class='label_end'>&quot;:</span>       <span class='const'>Date</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ended_at</span><span class='label_end'>&quot;:</span>         <span class='const'>Date</span>
+    <span class='rbrace'>}</span>
+<span class='rbrace'>}</span>
+</code></pre>
+
 
   </div>
 </div>
@@ -140,7 +155,7 @@ updated_at :datetime         not null</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

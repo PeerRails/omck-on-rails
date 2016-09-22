@@ -59,24 +59,31 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>class</span> <span class='const'>UserPolicy</span> <span class='op'>&lt;</span> <span class='const'>ApplicationPolicy</span>
+      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='comment'># Policy for API Tweet
+</span><span class='kw'>class</span> <span class='const'>UserPolicy</span> <span class='op'>&lt;</span> <span class='const'>ApplicationPolicy</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_grant?'>grant?</span>
-    <span class='id identifier rubyid_admin?'>admin?</span>
-  <span class='kw'>end</span>
+    <span class='comment'># Show permission for user to grant permissions
+</span>    <span class='comment'># @return [Boolean]
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_grant?'>grant?</span>
+      <span class='id identifier rubyid_admin?'>admin?</span>
+    <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_invite?'>invite?</span>
-    <span class='id identifier rubyid_admin?'>admin?</span> <span class='kw'>or</span> <span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>!=</span> <span class='id identifier rubyid_user_record'>user_record</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='kw'>and</span> <span class='id identifier rubyid_streamer?'>streamer?</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+    <span class='comment'># Show permission for user to invite new streamers
+</span>    <span class='comment'># @return [Boolean]
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_invite?'>invite?</span>
+      <span class='id identifier rubyid_admin?'>admin?</span> <span class='kw'>or</span> <span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>!=</span> <span class='id identifier rubyid_user_record'>user_record</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='kw'>and</span> <span class='id identifier rubyid_streamer?'>streamer?</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_user_record'>user_record</span>
-    <span class='ivar'>@record</span>
-  <span class='kw'>end</span>
+    <span class='comment'># Define record
+</span>    <span class='comment'># @return [User]
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_user_record'>user_record</span>
+      <span class='ivar'>@record</span>
+    <span class='kw'>end</span>
 
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

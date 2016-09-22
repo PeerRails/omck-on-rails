@@ -59,57 +59,110 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>class</span> <span class='const'>VideosController</span> <span class='op'>&lt;</span> <span class='const'>ApplicationController</span>
-  <span class='id identifier rubyid_before_action'>before_action</span> <span class='symbol'>:check_auth</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='lbracket'>[</span><span class='symbol'>:remove</span><span class='comma'>,</span> <span class='symbol'>:delete_by_tk</span><span class='rbracket'>]</span>
+      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>module</span> <span class='const'>Api</span>
+  <span class='kw'>module</span> <span class='const'>V1</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_remove'>remove</span>
-    <span class='id identifier rubyid_tks'>tks</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:tag_tokens</span><span class='rbracket'>]</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_tks'>tks</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid tokens</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>403</span><span class='rbrace'>}</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>videos:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>200</span><span class='rbrace'>}</span>
-      <span class='id identifier rubyid_tks'>tks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tk'>tk</span><span class='op'>|</span>
-        <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:videos</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_delete_by_tk'>delete_by_tk</span> <span class='id identifier rubyid_tk'>tk</span><span class='rparen'>)</span>
+    <span class='comment'># API Video Controller
+</span>    <span class='comment'># Class for managing videos
+</span>    <span class='kw'>class</span> <span class='const'>VideosController</span> <span class='op'>&lt;</span> <span class='const'>ApiApplicationController</span>
+      <span class='id identifier rubyid_load_and_authorize_resource'>load_and_authorize_resource</span>
+
+      <span class='comment'># Returns all videos
+</span>      <span class='comment'>#
+</span>      <span class='comment'>#&gt;GET api/v1/videos
+</span>      <span class='comment'>#&gt;GET api/v1/videos/unarchived
+</span>      <span class='comment'>#&gt;GET api/v1/videos/archive
+</span>      <span class='comment'># @return [Array&lt;VideoSerializer&gt;]
+</span>      <span class='comment'># @todo add pagination
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_list'>list</span>
+        <span class='id identifier rubyid_deleted'>deleted</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:deleted</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
+        <span class='id identifier rubyid_videos'>videos</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>deleted:</span> <span class='id identifier rubyid_deleted'>deleted</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_videos'>videos</span>
       <span class='kw'>end</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_res'>res</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
 
-  <span class='comment'># yeah
-</span>  <span class='kw'>def</span> <span class='id identifier rubyid_delete_by_tk'>delete_by_tk</span> <span class='id identifier rubyid_tk'>tk</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_tk'>tk</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='kw'>return</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Required file not found</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_vid'>vid</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>token:</span> <span class='id identifier rubyid_tk'>tk</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
-      <span class='kw'>if</span> <span class='id identifier rubyid_vid'>vid</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-        <span class='kw'>return</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Required file not found</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_vid'>vid</span><span class='period'>.</span><span class='id identifier rubyid_deleted'>deleted</span> <span class='op'>=</span> <span class='kw'>true</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_vid'>vid</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-          <span class='kw'>return</span> <span class='id identifier rubyid_vid'>vid</span>
+      <span class='comment'># Returns queried video
+</span>      <span class='comment'>#
+</span>      <span class='comment'># GET api/v1/video/:token
+</span>      <span class='comment'># @return [VideoSerializer]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_show'>show</span>
+        <span class='id identifier rubyid_video'>video</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_find_by_token'>find_by_token</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_video'>video</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Create new video
+</span>      <span class='comment'>#
+</span>      <span class='comment'># POST api/v1/videos/add
+</span>      <span class='comment'># @see vid_params #vid_params for queried fields
+</span>      <span class='comment'># @return [VideoSerializer]
+</span>      <span class='comment'># @raise [{error: true, message: video.errors}]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span>
+        <span class='id identifier rubyid_video'>video</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_vid_params'>vid_params</span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_video'>video</span>
         <span class='kw'>else</span>
-          <span class='kw'>return</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_vid'>vid</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_full_messages'>full_messages</span><span class='comma'>,</span> <span class='label'>token:</span> <span class='id identifier rubyid_vid'>vid</span><span class='period'>.</span><span class='id identifier rubyid_token'>token</span><span class='rbrace'>}</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='rbrace'>}</span>
         <span class='kw'>end</span>
       <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_list'>list</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:video</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_list'>list</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='id identifier rubyid_vid_params'>vid_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_res'>res</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>200</span>
-  <span class='kw'>end</span>
+      <span class='comment'># Update queried video
+</span>      <span class='comment'>#
+</span>      <span class='comment'># POST api/v1/videos/:token/update
+</span>      <span class='comment'># @see vid_params #vid_params for queried fields
+</span>      <span class='comment'># @return [VideoSerializer]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
+        <span class='id identifier rubyid_video'>video</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_find_by_token'>find_by_token</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_vid_params'>vid_params</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_video'>video</span>
+      <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_vid_params'>vid_params</span>
-    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:video</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:user_id</span><span class='rparen'>)</span>
+      <span class='comment'># Archive queried video, set `deleted=true`
+</span>      <span class='comment'>#
+</span>      <span class='comment'># POST api/v1/videos/:token/archive
+</span>      <span class='comment'># @return [VideoSerializer]
+</span>      <span class='comment'># @raise [{error: true, message: video.errors}]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_archive'>archive</span>
+        <span class='id identifier rubyid_video'>video</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_find_by_token'>find_by_token</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_destroy'>destroy</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Archived!</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Show path for required video
+</span>      <span class='comment'>#
+</span>      <span class='comment'># GET api/v1/videos/:token/path
+</span>      <span class='comment'># @return [{video: id: [Integer], description: [String], token: [String], path: [String], deleted: [Boolean]}]
+</span>      <span class='comment'># @raise [{error: true, message: video.errors}]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span>
+        <span class='id identifier rubyid_video'>video</span> <span class='op'>=</span> <span class='const'>Video</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:path</span><span class='comma'>,</span> <span class='symbol'>:token</span><span class='comma'>,</span> <span class='symbol'>:deleted</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find_by_token'>find_by_token</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+          <span class='id identifier rubyid_video'>video</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not Found</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_video'>video</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_private'>private</span>
+      <span class='comment'># @!visibility public
+</span>      <span class='comment'># Strong parameters for quering videos, requires namespace &#39;video&#39;
+</span>      <span class='comment'>#
+</span>      <span class='comment'># @param _opts [Hash] Namespace &#39;video&#39;
+</span>      <span class='comment'># @option _opts [Integer] :user_id - User id
+</span>      <span class='comment'># @option _opts [Integer] :key_id - Key id
+</span>      <span class='comment'># @option _opts [Integer] :game - Game Title
+</span>      <span class='comment'># @option _opts [Integer] :description - Description
+</span>      <span class='comment'># @option _opts [Integer] :path - Path to file
+</span>      <span class='comment'># @option _opts [Integer] :deleted - Archive status
+</span>      <span class='comment'># @return [Hash]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_vid_params'>vid_params</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:video</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:key_id</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:path</span><span class='comma'>,</span> <span class='symbol'>:deleted</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

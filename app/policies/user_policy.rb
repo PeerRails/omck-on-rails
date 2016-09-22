@@ -1,15 +1,22 @@
+# Policy for API Tweet
 class UserPolicy < ApplicationPolicy
 
-  def grant?
-    admin?
-  end
+    # Show permission for user to grant permissions
+    # @return [Boolean]
+    def grant?
+      admin?
+    end
 
-  def invite?
-    admin? or (user.id != user_record.id and streamer?)
-  end
+    # Show permission for user to invite new streamers
+    # @return [Boolean]
+    def invite?
+      admin? or (user.id != user_record.id and streamer?)
+    end
 
-  def user_record
-    @record
-  end
+    # Define record
+    # @return [User]
+    def user_record
+      @record
+    end
 
 end

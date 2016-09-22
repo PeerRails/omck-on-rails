@@ -101,7 +101,18 @@
   
 </div>
 
-<div id="subclasses">
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>General Policy for all nested Policies</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="ApiTokenPolicy.html" title="ApiTokenPolicy (class)">ApiTokenPolicy</a></span>, <span class='object_link'><a href="ChannelPolicy.html" title="ChannelPolicy (class)">ChannelPolicy</a></span>, <span class='object_link'><a href="KeyPolicy.html" title="KeyPolicy (class)">KeyPolicy</a></span>, <span class='object_link'><a href="TweetPolicy.html" title="TweetPolicy (class)">TweetPolicy</a></span>, <span class='object_link'><a href="UserPolicy.html" title="UserPolicy (class)">UserPolicy</a></span>, <span class='object_link'><a href="VideoPolicy.html" title="VideoPolicy (class)">VideoPolicy</a></span></p>
 </div>
@@ -171,7 +182,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Return boolean value on user&#39;s gmod field.</p>
+</div></span>
   
 </li>
 
@@ -196,7 +209,31 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of ApplicationPolicy.</p>
+<p>Initialize policy&#39;s user and record.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#own%3F-instance_method" title="#own? (instance method)">#<strong>own?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return boolean value on user&#39;s ownage or record.</p>
 </div></span>
   
 </li>
@@ -219,7 +256,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Return boolean value on user&#39;s streamer field.</p>
+</div></span>
   
 </li>
 
@@ -241,7 +280,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Return boolean value on authorized user.</p>
+</div></span>
   
 </li>
 
@@ -264,7 +305,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of ApplicationPolicy</p>
+<p>Initialize policy&#39;s user and record</p>
 
 
   </div>
@@ -291,14 +332,14 @@
       <pre class="lines">
 
 
-4
-5
 6
 7
-8</pre>
+8
+9
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 6</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Pundit</span><span class='op'>::</span><span class='const'>NotAuthorizedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>must be logged in</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_user'>user</span>
@@ -343,12 +384,12 @@
       <pre class="lines">
 
 
-2
 3
-4</pre>
+4
+5</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 2</span>
+      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 3</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
   <span class='ivar'>@user</span>
@@ -377,58 +418,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Return boolean value on user&#39;s gmod field</p>
 
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-10
-11
-12</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 10</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_admin?'>admin?</span>
-  <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_gmod'>gmod</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="streamer?-instance_method">
-  
-    #<strong>streamer?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
 
   </div>
 </div>
@@ -461,8 +452,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 14</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_streamer?'>streamer?</span>
-  <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_streamer'>streamer</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_admin?'>admin?</span>
+  <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_gmod'>gmod</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -470,9 +461,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="user?-instance_method">
+  <h3 class="signature " id="own?-instance_method">
   
-    #<strong>user?</strong>  &#x21d2; <tt>Boolean</tt> 
+    #<strong>own?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -481,6 +472,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Return boolean value on user&#39;s ownage or record</p>
+
 
   </div>
 </div>
@@ -506,12 +499,120 @@
       <pre class="lines">
 
 
-18
-19
-20</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_own?'>own?</span>
+  <span class='ivar'>@user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>==</span> <span class='ivar'>@record</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="streamer?-instance_method">
+  
+    #<strong>streamer?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return boolean value on user&#39;s streamer field</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_streamer?'>streamer?</span>
+  <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_streamer'>streamer</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='kw'>true</span> <span class='op'>:</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user?-instance_method">
+  
+    #<strong>user?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return boolean value on authorized user</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/policies/application_policy.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user?'>user?</span>
   <span class='op'>!</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -526,7 +627,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

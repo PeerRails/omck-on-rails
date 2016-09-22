@@ -103,7 +103,18 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Policy for API Tweet</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -126,7 +137,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#tweet-instance_method" title="#tweet (instance method)">#<strong>tweet</strong>  &#x21d2; Object </a>
+      <a href="#tweet-instance_method" title="#tweet (instance method)">#<strong>tweet</strong>  &#x21d2; Tweet </a>
     
 
     
@@ -140,7 +151,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Define record.</p>
+</div></span>
   
 </li>
 
@@ -162,7 +175,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Show if user can tweet.</p>
+</div></span>
   
 </li>
 
@@ -180,7 +195,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ApplicationPolicy.html" title="ApplicationPolicy (class)">ApplicationPolicy</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ApplicationPolicy.html#admin%3F-instance_method" title="ApplicationPolicy#admin? (method)">#admin?</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#initialize-instance_method" title="ApplicationPolicy#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#streamer%3F-instance_method" title="ApplicationPolicy#streamer? (method)">#streamer?</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#user%3F-instance_method" title="ApplicationPolicy#user? (method)">#user?</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ApplicationPolicy.html#admin%3F-instance_method" title="ApplicationPolicy#admin? (method)">#admin?</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#initialize-instance_method" title="ApplicationPolicy#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#own%3F-instance_method" title="ApplicationPolicy#own? (method)">#own?</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#streamer%3F-instance_method" title="ApplicationPolicy#streamer? (method)">#streamer?</a></span>, <span class='object_link'><a href="ApplicationPolicy.html#user%3F-instance_method" title="ApplicationPolicy#user? (method)">#user?</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -196,24 +211,48 @@
       <div class="method_details first">
   <h3 class="signature first" id="tweet-instance_method">
   
-    #<strong>tweet</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>tweet</strong>  &#x21d2; <tt><span class='object_link'><a href="Tweet.html" title="Tweet (class)">Tweet</a></span></tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Define record</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tweet.html" title="Tweet (class)">Tweet</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-7
-8
-9</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/policies/tweet_policy.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'app/policies/tweet_policy.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tweet'>tweet</span>
   <span class='ivar'>@record</span>
@@ -235,6 +274,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Show if user can tweet</p>
+
 
   </div>
 </div>
@@ -260,12 +301,12 @@
       <pre class="lines">
 
 
-3
-4
-5</pre>
+6
+7
+8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/policies/tweet_policy.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'app/policies/tweet_policy.rb', line 6</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tweet?'>tweet?</span>
   <span class='id identifier rubyid_streamer?'>streamer?</span> <span class='kw'>or</span> <span class='id identifier rubyid_admin?'>admin?</span>
@@ -280,7 +321,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

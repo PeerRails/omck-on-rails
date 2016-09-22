@@ -59,109 +59,147 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>class</span> <span class='const'>KeysController</span> <span class='op'>&lt;</span> <span class='const'>ApplicationController</span>
-  <span class='id identifier rubyid_before_action'>before_action</span> <span class='symbol'>:check_auth</span>
+      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>module</span> <span class='const'>Api</span>
+  <span class='kw'>module</span> <span class='const'>V1</span>
+    <span class='comment'># API Key Controller
+</span>    <span class='comment'># Class for handling key requests
+</span>    <span class='kw'>class</span> <span class='const'>KeysController</span> <span class='op'>&lt;</span> <span class='const'>ApiApplicationController</span>
+      <span class='id identifier rubyid_load_and_authorize_resource'>load_and_authorize_resource</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_list'>list</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='id identifier rubyid_new_key'>new_key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>guest:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>created_by:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_new_key'>new_key</span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='id identifier rubyid_current_user'>current_user</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='id identifier rubyid_current_user'>current_user</span>
+      <span class='comment'># Returns current user&#39;s key with secret
+</span>      <span class='comment'>#
+</span>      <span class='comment'># GET api/v1/keys
+</span>      <span class='comment'># @return [KeySerializer]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_retrieve'>retrieve</span>
+        <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+          <span class='id identifier rubyid_new_key'>new_key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>guest:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>created_by:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_new_key'>new_key</span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='id identifier rubyid_current_user'>current_user</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Returns all present keys
+</span>      <span class='comment'>#
+</span>      <span class='comment'># GET api/v1/keys/all
+</span>      <span class='comment'># @return [Array&lt;KeySerializer&gt;]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span>
+        <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_keys'>keys</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Returns all guest present keys
+</span>      <span class='comment'>#
+</span>      <span class='comment'># GET api/v1/keys/guest
+</span>      <span class='comment'># @return [Array&lt;KeySerializer&gt;]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_guest'>guest</span>
+        <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_is_guest'>is_guest</span>
+        <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_keys'>keys</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Create key
+</span>      <span class='comment'>#
+</span>      <span class='comment'># POST api/v1/keys/create
+</span>      <span class='comment'># @return [KeySerializer]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+        <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Create key
+</span>      <span class='comment'>#
+</span>      <span class='comment'># @see key_params #key_params for query fields
+</span>      <span class='comment'># POST api/v1/keys/create
+</span>      <span class='comment'># @return [KeySerializer]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_regenerate'>regenerate</span>
+        <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_expire'>expire</span>
+          <span class='id identifier rubyid_new_key'>new_key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='comma'>,</span> <span class='label'>guest:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>streamer:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_streamer'>streamer</span><span class='comma'>,</span> <span class='label'>game:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_game'>game</span><span class='comma'>,</span> <span class='label'>movie:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_movie'>movie</span><span class='comma'>,</span> <span class='label'>created_by:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_new_key'>new_key</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Update required key
+</span>      <span class='comment'>#
+</span>      <span class='comment'># @see key_params #key_params for query fields
+</span>      <span class='comment'># @see key_params_update #key_params_update for editing fields
+</span>      <span class='comment'># POST api/v1/keys/update
+</span>      <span class='comment'># @return [KeySerializer]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
+        <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+        <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params_update'>key_params_update</span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Expire required key
+</span>      <span class='comment'>#
+</span>      <span class='comment'># @see key_params #key_params for query fields
+</span>      <span class='comment'># POST api/v1/keys/expire
+</span>      <span class='comment'># @return [JSON]
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_expire'>expire</span>
+        <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_expire'>expire</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ключ испарен!</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># Check if key is valid
+</span>      <span class='comment'>#
+</span>      <span class='comment'># GET api/v1/keys/update
+</span>      <span class='comment'># @return [KeySerializer]
+</span>      <span class='comment'># @todo change to POST for better security
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_authorize'>authorize</span>
+        <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_find_by_key'>find_by_key</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_gmod'>gmod</span> <span class='op'>==</span> <span class='int'>0</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Forbidden</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_private'>private</span>
+      <span class='comment'># @!visibility public
+</span>      <span class='comment'># Strong parameters for creating keys, requires namespace &#39;key&#39;
+</span>      <span class='comment'>#
+</span>      <span class='comment'># @param _opts [Hash] Namespace &#39;key&#39;
+</span>      <span class='comment'># @option _opts [Integer] :user_id User Id
+</span>      <span class='comment'># @option _opts [Boolean] :guest *optional* Guest key?
+</span>      <span class='comment'># @option _opts [String] :streamer - *optional* Streamer name
+</span>      <span class='comment'># @option _opts [String] :game - *optional* Game Title
+</span>      <span class='comment'># @option _opts [Boolean] :movie - *optional* Movie Title
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+
+      <span class='comment'># @!visibility public
+</span>      <span class='comment'># Strong parameters for updating keys, requires namespace &#39;key&#39;
+</span>      <span class='comment'>#
+</span>      <span class='comment'># @param _opts [Hash] Namespace &#39;key&#39;
+</span>      <span class='comment'># @option _opts [String] :streamer - *optional* Streamer name
+</span>      <span class='comment'># @option _opts [String] :game - *optional* Game Title
+</span>      <span class='comment'># @option _opts [Boolean] :movie - *optional* Movie Title
+</span>      <span class='kw'>def</span> <span class='id identifier rubyid_key_params_update'>key_params_update</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_streamers'>streamers</span>
-    <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_keys'>keys</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_guests'>guests</span>
-    <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_is_guest'>is_guest</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_keys'>keys</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_secret'>secret</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>key:</span> <span class='lbrace'>{</span><span class='label'>id:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>secret:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='rbrace'>}</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span> <span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_create_guest'>create_guest</span>
-    <span class='id identifier rubyid_guest'>guest</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>streamer:</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:streamer</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>game:</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:game</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>movie:</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:movie</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>guest:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_guest'>guest</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_guest'>guest</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_guest'>guest</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_guest'>guest</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params_update'>key_params_update</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span> <span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_expire'>expire</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_key'>key</span> <span class='kw'>unless</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_expire'>expire</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Key doesnt exists or already expired</span><span class='tstring_end'>&#39;</span></span><span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_regenerate'>regenerate</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_expire'>expire</span>
-      <span class='id identifier rubyid_new_key'>new_key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='comma'>,</span> <span class='label'>guest:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>streamer:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_streamer'>streamer</span><span class='comma'>,</span> <span class='label'>game:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_game'>game</span><span class='comma'>,</span> <span class='label'>movie:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_movie'>movie</span><span class='comma'>,</span> <span class='label'>created_by:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_new_key'>new_key</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Key doesnt exists or already expired</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>def</span> <span class='id identifier rubyid_expire_guest'>expire_guest</span>
-    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>guest:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>expires &gt; ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'>DateTime</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
-    <span class='id identifier rubyid_authorize'>authorize</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_expire'>expire</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_private'>private</span>
-    <span class='kw'>def</span> <span class='id identifier rubyid_key_params'>key_params</span>
-      <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-
-    <span class='kw'>def</span> <span class='id identifier rubyid_key_params_update'>key_params_update</span>
-      <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

@@ -59,28 +59,37 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>class</span> <span class='const'>ChannelPolicy</span> <span class='op'>&lt;</span> <span class='const'>ApplicationPolicy</span>
+      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='comment'># Policy for API Key
+</span><span class='kw'>class</span> <span class='const'>ChannelPolicy</span> <span class='op'>&lt;</span> <span class='const'>ApplicationPolicy</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_create?'>create?</span>
+  <span class='comment'># Show permission for user to create new channel
+</span>  <span class='comment'># @return [Boolean]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_create?'>create?</span>
     <span class='id identifier rubyid_admin?'>admin?</span> <span class='kw'>or</span> <span class='id identifier rubyid_streamer?'>streamer?</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_update?'>update?</span>
+  <span class='comment'># Show permission for user to update new channel
+</span>  <span class='comment'># @return [Boolean]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_update?'>update?</span>
     <span class='id identifier rubyid_admin?'>admin?</span> <span class='kw'>or</span> <span class='id identifier rubyid_streamer?'>streamer?</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_remove?'>remove?</span>
+  <span class='comment'># Show permission for user to remove new channel
+</span>  <span class='comment'># @return [Boolean]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_remove?'>remove?</span>
     <span class='id identifier rubyid_admin?'>admin?</span> <span class='kw'>or</span> <span class='id identifier rubyid_streamer?'>streamer?</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_channel'>channel</span>
+  <span class='comment'># Define channel with record
+</span>  <span class='comment'># @return [Channel]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_channel'>channel</span>
     <span class='ivar'>@record</span>
   <span class='kw'>end</span>
 
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 22 11:16:48 2016 by
+  Generated on Thu Sep 22 12:11:14 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>
