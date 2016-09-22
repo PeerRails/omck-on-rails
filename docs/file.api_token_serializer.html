@@ -70,18 +70,41 @@
 </span><span class='comment'>#  created_at :datetime         not null
 </span><span class='comment'>#  updated_at :datetime         not null
 </span><span class='comment'>#
+</span><span class='comment'># == JSON Scheme
+</span><span class='comment'>#
+</span><span class='comment'>#    {
+</span><span class='comment'>#        &quot;token&quot;:
+</span><span class='comment'>#            {
+</span><span class='comment'>#                &quot;id&quot;:          Integer,
+</span><span class='comment'>#                &quot;secret&quot;:      String,
+</span><span class='comment'>#                &quot;owner&quot;:       String,
+</span><span class='comment'>#                &quot;user_id&quot;:     Integer,
+</span><span class='comment'>#                &quot;expires_at&quot;:  Date,
+</span><span class='comment'>#                &quot;created_at&quot;:  Date
+</span><span class='comment'>#            }
+</span><span class='comment'>#    }
+</span><span class='comment'># Array:
+</span><span class='comment'>#    {
+</span><span class='comment'>#        &quot;tokens&quot;: [
+</span><span class='comment'>#            {
+</span><span class='comment'>#                &lt;Token&gt;
+</span><span class='comment'>#            }
+</span><span class='comment'>#        ]
+</span><span class='comment'>#    }
 </span>
 <span class='kw'>class</span> <span class='const'>ApiTokenSerializer</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>Serializer</span>
   <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:secret</span><span class='comma'>,</span> <span class='symbol'>:owner</span><span class='comma'>,</span> <span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:expires_at</span><span class='comma'>,</span> <span class='symbol'>:created_at</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_owner'>owner</span>
+  <span class='comment'># Returns Name of token&#39;s user
+</span>  <span class='comment'># @return [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_owner'>owner</span>
     <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
   <span class='kw'>end</span>
 
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Wed Sep 21 18:00:56 2016 by
+  Generated on Thu Sep 22 11:16:48 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

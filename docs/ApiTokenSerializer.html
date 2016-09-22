@@ -117,6 +117,31 @@ expires_at :datetime
 created_at :datetime         not null
 updated_at :datetime         not null</code></pre>
 
+<h2 id="label-JSON+Scheme">JSON Scheme</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>token</span><span class='label_end'>&quot;:</span>
+        <span class='lbrace'>{</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='label_end'>&quot;:</span>          <span class='const'>Integer</span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secret</span><span class='label_end'>&quot;:</span>      <span class='const'>String</span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>owner</span><span class='label_end'>&quot;:</span>       <span class='const'>String</span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user_id</span><span class='label_end'>&quot;:</span>     <span class='const'>Integer</span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expires_at</span><span class='label_end'>&quot;:</span>  <span class='const'>Date</span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_at</span><span class='label_end'>&quot;:</span>  <span class='const'>Date</span>
+        <span class='rbrace'>}</span>
+<span class='rbrace'>}</span>
+</code></pre>
+
+<p>Array:</p>
+
+<pre class="code ruby"><code class="ruby">{
+    &quot;tokens&quot;: [
+        {
+            &lt;Token&gt;
+        }
+    ]
+}</code></pre>
+
 
   </div>
 </div>
@@ -141,7 +166,7 @@ updated_at :datetime         not null</code></pre>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#owner-instance_method" title="#owner (instance method)">#<strong>owner</strong>  &#x21d2; Object </a>
+      <a href="#owner-instance_method" title="#owner (instance method)">#<strong>owner</strong>  &#x21d2; String </a>
     
 
     
@@ -155,7 +180,9 @@ updated_at :datetime         not null</code></pre>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns Name of token&#39;s user.</p>
+</div></span>
   
 </li>
 
@@ -173,24 +200,48 @@ updated_at :datetime         not null</code></pre>
       <div class="method_details first">
   <h3 class="signature first" id="owner-instance_method">
   
-    #<strong>owner</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>owner</strong>  &#x21d2; <tt>String</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Name of token&#39;s user</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-16
-17
-18</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/serializers/api_token_serializer.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'app/serializers/api_token_serializer.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_owner'>owner</span>
   <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
@@ -205,7 +256,7 @@ updated_at :datetime         not null</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Wed Sep 21 18:00:57 2016 by
+  Generated on Thu Sep 22 11:16:49 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

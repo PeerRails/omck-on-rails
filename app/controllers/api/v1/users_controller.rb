@@ -33,7 +33,7 @@ module Api
       #
       # GET api/v1/user/:id/videos
       # @return [Array<VideoSerializer>]
-      # raise [{error: true, message: "User or Videos not found"}]
+      # @raise [{error: true, message: "User or Videos not found"}]
       # @todo add pagination
       def videos
         user = User.find(params[:id])

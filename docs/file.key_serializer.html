@@ -75,22 +75,41 @@
 </span><span class='comment'>#  movie      :string(255)      default(&quot;Boku Wa Tomodachi Ga Sekai&quot;)
 </span><span class='comment'>#  created_by :integer
 </span><span class='comment'>#
+</span><span class='comment'># == JSON scheme
+</span><span class='comment'>#    {
+</span><span class='comment'>#        &quot;key&quot;: {
+</span><span class='comment'>#            &quot;id&quot;:                      Integer,
+</span><span class='comment'>#            &quot;streamer&quot;:                String,
+</span><span class='comment'>#            &quot;movie&quot;:                   String,
+</span><span class='comment'>#            &quot;game&quot;:                    String,
+</span><span class='comment'>#            &quot;guest&quot;:                   Boolean,
+</span><span class='comment'>#            &quot;expires&quot;:                 Date,
+</span><span class='comment'>#            &quot;created_by&quot;:              Integer,
+</span><span class='comment'>#            &quot;created_by_name&quot;:         String,
+</span><span class='comment'>#            &quot;created_by_screen_name&quot;:  String,
+</span><span class='comment'>#            &quot;user_id&quot;:                 Integer
+</span><span class='comment'>#        }
+</span><span class='comment'>#    }
 </span>
 <span class='kw'>class</span> <span class='const'>KeySerializer</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>Serializer</span>
   <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:expires</span><span class='comma'>,</span> <span class='symbol'>:created_by</span><span class='comma'>,</span> <span class='symbol'>:created_by_name</span><span class='comma'>,</span> <span class='symbol'>:created_by_screen_name</span><span class='comma'>,</span> <span class='symbol'>:user_id</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_created_by_name'>created_by_name</span>
+  <span class='comment'># Return name of the user who requested key
+</span>  <span class='comment'># @return [String, Nil]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_created_by_name'>created_by_name</span>
     <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>||</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_created_by_screen_name'>created_by_screen_name</span>
+  <span class='comment'># Return screen name (@ twitter nickname) of the user who requested key
+</span>  <span class='comment'># @return [String, Nil]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_created_by_screen_name'>created_by_screen_name</span>
     <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_screen_name'>screen_name</span> <span class='op'>||</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
 
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Wed Sep 21 18:00:56 2016 by
+  Generated on Thu Sep 22 11:16:48 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>
