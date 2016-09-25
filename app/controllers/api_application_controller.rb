@@ -11,7 +11,7 @@ class ApiApplicationController < ActionController::API
       @current_user = User.new
       @current_user = ApiToken.where(secret: token).present.user unless token.nil? || ApiToken.find_by_secret(token).nil?
       @current_ability ||= Ability.new(@current_user)
-   end
+  end
 
   # Clients
   # :nocov:

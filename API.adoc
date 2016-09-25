@@ -571,3 +571,28 @@ Example Response
   }
 }
 ....
+
+===== Streams
+
+|===
+|Endpoint |Description
+
+| GET /api/v1/keys
+| GET /api/v1/keys/all
+| GET /api/v1/keys/guest
+| GET /api/v1/keys/authorize
+| POST /api/v1/keys/create
+| POST /api/v1/keys/regenerate
+| POST /api/v1/keys/update
+| DELETE /api/v1/keys/expire
+
+| Get user's key
+| Get all present keys
+| Get all guest present keys
+| Check if key is valid
+| Create new key
+| Expire old key and create new key
+| Update key
+| Expire key
+|===
+
