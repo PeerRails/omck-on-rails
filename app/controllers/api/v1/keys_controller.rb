@@ -1,3 +1,4 @@
+# coding: utf-8
 module Api
   module V1
     # API Key Controller
@@ -5,7 +6,7 @@ module Api
     class KeysController < ApiApplicationController
       load_and_authorize_resource
 
-      # Returns current user's key with secret
+      # Returns current user's key
       #
       # GET api/v1/keys
       # @return [KeySerializer]
@@ -97,13 +98,13 @@ module Api
 
       # Check if key is valid
       #
-      # GET api/v1/keys/update
+      # GET api/v1/keys/authorize
       # @return [KeySerializer]
       # @todo change to POST for better security
       def authorize
         key = Key.find_by_key(params[:key])
         if key.nil? or current_user.gmod == 0
-          render json: { error: true, message: "Forbidden" }
+            render json: { error: true, message: "Forbidden" }
         else
           render json: key
         end

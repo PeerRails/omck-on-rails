@@ -84,7 +84,7 @@
 </span>      <span class='comment'># GET /api/v1/channels/live
 </span>      <span class='comment'># @return [Array&lt;ChannelSerializer&gt;]
 </span>      <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span>
-        <span class='id identifier rubyid_channels'>channels</span> <span class='op'>=</span> <span class='const'>Channel</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
+        <span class='id identifier rubyid_channels'>channels</span> <span class='op'>=</span> <span class='const'>Channel</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_channels'>channels</span>
       <span class='kw'>end</span>
 
@@ -193,10 +193,10 @@
 
     <span class='kw'>end</span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre></div></div>
+<span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 22 12:11:14 2016 by
+  Generated on Sun Sep 25 06:39:02 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

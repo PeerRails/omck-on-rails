@@ -6,12 +6,12 @@ class ApiApplicationController < ActionController::API
   before_action :check
 
   private
-    def check
+  def check
       token = request.headers["HTTP_API_TOKEN"] || nil
       @current_user = User.new
       @current_user = ApiToken.where(secret: token).present.user unless token.nil? || ApiToken.find_by_secret(token).nil?
       @current_ability ||= Ability.new(@current_user)
-    end
+   end
 
   # Clients
   # :nocov:

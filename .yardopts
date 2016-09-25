@@ -8,4 +8,4 @@ app/policies/*.rb
 db/migrate/*
 db/schema.rb
 README.adoc
-
+API.adoc

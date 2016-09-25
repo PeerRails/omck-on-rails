@@ -424,7 +424,7 @@
       <pre class="code"><span class="info file"># File 'app/controllers/api/v1/channels_controller.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span>
-  <span class='id identifier rubyid_channels'>channels</span> <span class='op'>=</span> <span class='const'>Channel</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
+  <span class='id identifier rubyid_channels'>channels</span> <span class='op'>=</span> <span class='const'>Channel</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_channels'>channels</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1148,7 +1148,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 22 12:11:16 2016 by
+  Generated on Sun Sep 25 06:39:06 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

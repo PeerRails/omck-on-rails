@@ -1,7 +1,7 @@
 == Welcome to OmckTV
 :Author:    Peer Rails
 :Email:     <peer@omck.ws>
-:Date:      2016.09.22
+:Date:      2016.09.25
 :Revision:  1.0
 :Rubyversion: Ruby 2.3+
 :Pg: 9.3+
@@ -9,6 +9,10 @@
 {author} {email}
 
 Last updated at *{date}*
+
+This page also is available at link:http://docs.omck.tv/[http://docs.omck.tv/]
+
+link:file.API.html[Public API Description]
 
 image:https://coveralls.io/repos/github/PeerRails/omck-on-rails/badge.svg["Test Coverage Status",link="https://coveralls.io/github/PeerRails/omck-on-rails]
 image:https://codeship.com/projects/9bf7b890-0877-0134-e0a4-0a16241ce4dd/status?branch=master["CodeShip Build Status"]
@@ -23,7 +27,7 @@ It works as:
 - Chatroom (but for now we use Twitch chat)
 - Control room for own HD channels
 
-== Development
+=== Development
 
 1. If You are new to Rails or advanced Rails developer I still will be happy to accept any help
 2. To install please read install guide to set comfortable enviroment for yourself
@@ -45,7 +49,7 @@ It works as:
 - BITLY_TOKEN: SELF
 - Or check *config/application.yml.example*
 
-== Install Guide
+=== Install Guide
 
 1. I use link:rvm.io[RVM - Ruby Version Manager], it's great tool to manage ruby projects, installing this tool is recommended. Look at content of *.ruby-version* file
 2. Clone, bundle gems, install some seeds
@@ -54,7 +58,7 @@ git clone repo
 rvm .ruby-version
 gem install bundle && bundle install
 3. Set Postgresql databases _omckonrails-dev_, _omckonrails-test_, migrate and seed some data, though seed data is not available at the moment
-[source, bash]
+[ source, bash]
 rake db:setup db:migrate db:seed #optional
 4. Set Environment Variables that were listed earlier with creating and editing keys in config/application.yml file
 [source, bash]
@@ -67,7 +71,7 @@ rspec
 6. You are done!
 `puma`
 
-== Advanced setup
+=== Advanced setup
 
 - Compile Nginx with RTMP module under user nginx with base directory /opt/nginx (this is optional)
 [source, bash]
@@ -209,7 +213,7 @@ mkdir /tmp/stat
 [source, bash]
 /opt/nginx/sbin/nginx
 
-== Contributing
+=== Contributing
 
 *Omck On Rails* is 100% free and open source. I encourage an active support and accept contributions from the public – including you!
 
