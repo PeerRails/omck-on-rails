@@ -59,14 +59,15 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>module</span> <span class='const'>Api</span>
+      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='comment'># coding: utf-8
+</span><span class='kw'>module</span> <span class='const'>Api</span>
   <span class='kw'>module</span> <span class='const'>V1</span>
     <span class='comment'># API Key Controller
 </span>    <span class='comment'># Class for handling key requests
 </span>    <span class='kw'>class</span> <span class='const'>KeysController</span> <span class='op'>&lt;</span> <span class='const'>ApiApplicationController</span>
       <span class='id identifier rubyid_load_and_authorize_resource'>load_and_authorize_resource</span>
 
-      <span class='comment'># Returns current user&#39;s key with secret
+      <span class='comment'># Returns current user&#39;s key
 </span>      <span class='comment'>#
 </span>      <span class='comment'># GET api/v1/keys
 </span>      <span class='comment'># @return [KeySerializer]
@@ -158,13 +159,13 @@
 
       <span class='comment'># Check if key is valid
 </span>      <span class='comment'>#
-</span>      <span class='comment'># GET api/v1/keys/update
+</span>      <span class='comment'># GET api/v1/keys/authorize
 </span>      <span class='comment'># @return [KeySerializer]
 </span>      <span class='comment'># @todo change to POST for better security
 </span>      <span class='kw'>def</span> <span class='id identifier rubyid_authorize'>authorize</span>
         <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_find_by_key'>find_by_key</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='rparen'>)</span>
         <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_gmod'>gmod</span> <span class='op'>==</span> <span class='int'>0</span>
-          <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Forbidden</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+            <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Forbidden</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
         <span class='kw'>else</span>
           <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
         <span class='kw'>end</span>
@@ -196,10 +197,10 @@
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre></div></div>
+<span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 22 12:11:14 2016 by
+  Generated on Sun Sep 25 06:39:02 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

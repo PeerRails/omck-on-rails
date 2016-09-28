@@ -1,5 +1,4 @@
 * add docs
-* rewrite error handling
 * fix bugs
 * remove old video model
 * remodel user logic (providers)

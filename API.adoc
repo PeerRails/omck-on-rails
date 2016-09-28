@@ -1,0 +1,598 @@
+= API
+:Date: 2016.09.25
+:Version: 1.0
+
+Version.Date: *{version}.{date}*
+
+Omck on Rails has simple JSON API with multiple schemas to call API methods.
+
+As for API v1.0 there is no standart, JSONP will be used for 1.1/2 version of API.
+
+== Api access
+
+Clients must send JSON encoded requests with AUTH_TOKEN header. For example, to pull channels that currently is online using curl
+
+[source,bash]
+curl -X GET -H "API_TOKEN: authtoken1314" -H "Content-Type: application/json" http://omck.tv/api/v1/channels/live
+
+Not all methods require AUTH_TOKEN like calling info about channel or tweets.
+
+NOTE: auth_token can be found or set on the user account page
+
+Response with multiple objects will have plural namespace `{"channel": [Array<ChannelSerializer>]}`.
+
+Single object in response almost always will be rendered in singular namespace like `{"channel": [ChannelSerializer]}`.
+
+The response to this API call will always be a JSON structure:
+
+....
+{
+  "channels": [
+    {
+      "id": 127,
+      "channel": "vinesauce",
+      "viewers": 0,
+      "live": true,
+      "game": "Games + Demos",
+      "title": "Vinny || MiWi (Chinese Wii Knockoff) ",
+      "streamer": "VineSauce",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/vinesauce",
+      "player": "http://player.twitch.tv/?channel=vinesauce"
+    },
+    {
+      "id": 126,
+      "channel": "esamarathon",
+      "viewers": 5171,
+      "live": true,
+      "game": "Hitman 2: Silent Assassin",
+      "title": "Raising money for Save the Children - Hitman 2: Silent Assassin by Kotti",
+      "streamer": "esamarathon",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/esamarathon",
+      "player": "http://player.twitch.tv/?channel=esamarathon"
+    }
+  ]
+}
+....
+
+All responses from the API will be `HTTP/1.0 200 OK`. If an error occurs, the reponse will have an `error` and a failure description in `message`.
+
+....
+{
+  "error": true,
+  "message": "Access Denied"
+}
+....
+
+== API Methods
+
+=== Channels
+
+|===
+|Endpoint |Description
+
+| GET /api/v1/channels/live
+| GET /api/v1/channels/all
+| GET /api/v1/channels/:service
+| GET /api/v1/channels/:service/:channel
+| POST /api/v1/channels/create
+| POST /api/v1/channels/:service/:channel/update
+| DELETE /api/v1/channels/:service/:channel/delete
+
+| Get list of live channels
+| Get list of all channels
+| Get list of service's channels
+| Get Channel object
+| Create Channel object
+| Update Channel object
+| DELETE Channel object
+|===
+
+==== live
+
+Returns a list of live channels
+
+Example Request
+[source,bash]
+curl -X GET -H "Content-Type: application/json" http://omck.tv/api/v1/channels/live
+
+Example Response
+....
+{
+  "channels": [
+    {
+      "id": 127,
+      "channel": "vinesauce",
+      "viewers": 0,
+      "live": true,
+      "game": "Games + Demos",
+      "title": "Vinny || MiWi (Chinese Wii Knockoff) ",
+      "streamer": "VineSauce",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/vinesauce",
+      "player": "http://player.twitch.tv/?channel=vinesauce"
+    },
+    {
+      "id": 126,
+      "channel": "esamarathon",
+      "viewers": 5171,
+      "live": true,
+      "game": "Hitman 2: Silent Assassin",
+      "title": "Raising money for Save the Children - Hitman 2: Silent Assassin by Kotti",
+      "streamer": "esamarathon",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/esamarathon",
+      "player": "http://player.twitch.tv/?channel=esamarathon"
+    }
+  ]
+}
+....
+
+==== all
+
+Get a list of all channel objects
+
+Example Request
+[source,bash]
+curl -X GET -H "Content-Type: application/json" http://omck.tv/api/v1/channels/all
+
+Example Response
+....
+{
+  "channels": [
+    {
+      "id": 127,
+      "channel": "vinesauce",
+      "viewers": 0,
+      "live": true,
+      "game": "Games + Demos",
+      "title": "Vinny || MiWi (Chinese Wii Knockoff) ",
+      "streamer": "VineSauce",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/vinesauce",
+      "player": "http://player.twitch.tv/?channel=vinesauce"
+    },
+    {
+      "id": 126,
+      "channel": "esamarathon",
+      "viewers": 5171,
+      "live": true,
+      "game": "Hitman 2: Silent Assassin",
+      "title": "Raising money for Save the Children - Hitman 2: Silent Assassin by Kotti",
+      "streamer": "esamarathon",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/esamarathon",
+      "player": "http://player.twitch.tv/?channel=esamarathon"
+    },
+    ...
+  ]
+}
+....
+
+
+==== show
+
+Get a channel object by service name and channel aname
+
+Example Request
+[source,bash]
+curl -X GET -H "Content-Type: application/json" http://omck.tv/api/v1/channels/twitch/vinesauce
+
+Example Response
+....
+{
+  "channel":
+    {
+      "id": 127,
+      "channel": "vinesauce",
+      "viewers": 0,
+      "live": true,
+      "game": "Games + Demos",
+      "title": "Vinny || MiWi (Chinese Wii Knockoff) ",
+      "streamer": "VineSauce",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/vinesauce",
+      "player": "http://player.twitch.tv/?channel=vinesauce"
+    }
+}
+....
+
+
+==== service
+
+Get a list of channel objects by service name
+
+
+Example Request
+[source,bash]
+curl -X GET -H "Content-Type: application/json" http://omck.tv/api/v1/channels/twitch
+
+
+Example Response
+....
+{
+  "channels": [
+    {
+      "id": 127,
+      "channel": "vinesauce",
+      "viewers": 0,
+      "live": true,
+      "game": "Games + Demos",
+      "title": "Vinny || MiWi (Chinese Wii Knockoff) ",
+      "streamer": "VineSauce",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/vinesauce",
+      "player": "http://player.twitch.tv/?channel=vinesauce"
+    },
+    {
+      "id": 126,
+      "channel": "esamarathon",
+      "viewers": 5171,
+      "live": true,
+      "game": "Hitman 2: Silent Assassin",
+      "title": "Raising money for Save the Children - Hitman 2: Silent Assassin by Kotti",
+      "streamer": "esamarathon",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/esamarathon",
+      "player": "http://player.twitch.tv/?channel=esamarathon"
+    }
+  ]
+}
+....
+
+
+==== create
+
+Create new channel. Need api_token with admin or streamer permission.
+
+
+Example Response
+
+[source,bash]
+curl -X POST -H "AUTH_TOKEN: API_TOKEN" -H "Content-Type: application/json" -d '{"channel": {"service": "twitch", "channel": "kraken"}}' http://omck.tv/api/v1/channels/create
+
+
+Example Response
+....
+{
+  "channel":
+    {
+      "id": 0,
+      "channel": "kraken",
+      "viewers": 0,
+      "live": true,
+      "game": "null",
+      "title": "null",
+      "streamer": "kraken",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/kraken",
+      "player": "http://player.twitch.tv/?channel=kraken"
+    }
+}
+....
+
+==== update
+
+Update channel. Needs auth_token with streamer or admin permission.
+
+
+Example Request
+[source,bash]
+curl -X POST -H "AUTH_TOKEN: auth_token" -H "Content-Type: application/json" -d '{"channel": {"viewers": 0, "title": "Boku no Pico"}}' "http://localhost:3000/api/v1/channels/twitch/kraken/update"
+
+Input parameters:
+
+- viewers <Integer>
+- live <Boolean>
+- game <String>
+- title <String>
+
+Example Response
+....
+{
+  "channel":
+    {
+      "id": 127,
+      "channel": "vinesauce",
+      "viewers": 0,
+      "live": true,
+      "game": "Games + Demos",
+      "title": "Vinny || MiWi (Chinese Wii Knockoff) ",
+      "streamer": "VineSauce",
+      "service": "twitch",
+      "official": false,
+      "url": "http://twitch.tv/vinesauce",
+      "player": "http://player.twitch.tv/?channel=vinesauce"
+    }
+}
+....
+
+==== delete
+
+Get a channel object by service name and channel aname
+
+Example Request
+[source,bash]
+curl -X DELETE -H "Content-Type: application/json" http://omck.tv/api/v1/channels/twitch/vinesauce/delete
+
+Example Response
+....
+{
+  error: true or nil,
+  message: "Deleted!" or [Error]
+}
+....
+
+=== Keys
+
+All calls need auth token.
+
+|===
+|Endpoint |Description
+
+| GET /api/v1/keys
+| GET /api/v1/keys/all
+| GET /api/v1/keys/guest
+| GET /api/v1/keys/authorize
+| POST /api/v1/keys/create
+| POST /api/v1/keys/regenerate
+| POST /api/v1/keys/update
+| DELETE /api/v1/keys/expire
+
+| Get user's key
+| Get all present keys
+| Get all guest present keys
+| Check if key is valid
+| Create new key
+| Expire old key and create new key
+| Update key
+| Expire key
+|===
+
+
+==== retrieve
+
+Get token's user key.
+
+Example Request
+`curl -X GET -H "API_TOKEN: api_token" -H "Content-Type: application/json" http://omck.tv/api/v1/keys`
+
+Example Response
+....
+{
+  "key": {
+    "id": 64,
+    "streamer": "McDwarf",
+    "movie": "Boku Wa Tomodachi Ga Sekai",
+    "game": "Boku no Pico",
+    "guest": false,
+    "expires": "2099-01-01",
+    "created_by": 2,
+    "created_by_name": "Peer",
+    "created_by_screen_name": "omckws",
+    "user_id": 2
+  }
+}
+....
+
+==== all
+
+Get list of all present keys. Requieres admin's rights
+
+Example Request
+`curl -X GET -H "API_TOKEN: api_token" -H "Content-Type: application/json" http://omck.tv/api/v1/keys/all`
+
+Example Response
+
+....
+{
+  "keys": [
+  {
+    "id": 64,
+    "streamer": "McDwarf",
+    "movie": "Boku Wa Tomodachi Ga Sekai",
+    "game": "Boku no Pico",
+    "guest": false,
+    "expires": "2099-01-01",
+    "created_by": 2,
+    "created_by_name": "Peer",
+    "created_by_screen_name": "omckws",
+    "user_id": 2
+  },
+  ...
+  ]
+}
+....
+
+==== guest
+
+Get list of all present guest keys. Requieres admin's rights.
+
+Example Request
+`curl -X GET -H "API_TOKEN: api_token" -H "Content-Type: application/json" http://omck.tv/api/v1/keys/guest`
+
+Example Response
+
+....
+{
+  "keys": [
+    {
+      "id": 38,
+      "streamer": "Guest",
+      "movie": "Boku Wa Tomodachi Ga Sekai",
+      "game": "Pico No Chiko",
+      "guest": true,
+      "expires": "2099-01-01",
+      "created_by": 2,
+      "created_by_name": "Peer",
+      "created_by_screen_name": "omckws",
+      "user_id": null
+    },
+    ...
+  ]
+}
+....
+
+==== create
+
+Create new key. Anyone can call. User_id param is required.
+
+Example Request
+`curl -X POST -H "API_TOKEN: api_token" -H "Content-Type: application/json" -d '{"user": {"user_id": 2}}' http://omck.tv/api/v1/keys/create`
+
+Input:
+- streaner <String>
+- game <String>
+- movie <String>
+- title <String>
+- guest <Boolean>
+
+Example Response
+
+....
+{
+  "key": {
+    "id": 64,
+    "streamer": "McDwarf",
+    "movie": "Boku Wa Tomodachi Ga Sekai",
+    "game": "Boku no Pico",
+    "guest": false,
+    "expires": "2099-01-01",
+    "created_by": 2,
+    "created_by_name": "Peer",
+    "created_by_screen_name": "omckws",
+    "user_id": 2
+  }
+}
+....
+
+==== regenerate
+
+Expire old key and create new key. `User_id` param is required
+
+Example Request
+`curl -X POST -H "API_TOKEN: api_token" -H "Content-Type: application/json" -d '{"user": {"user_id": 2}}' http://omck.tv/api/v1/keys/regenerate`
+
+Example Response
+....
+{
+  "key": {
+    "id": 64,
+    "streamer": "McDwarf",
+    "movie": "Boku Wa Tomodachi Ga Sekai",
+    "game": "Boku no Pico",
+    "guest": false,
+    "expires": "2099-01-01",
+    "created_by": 2,
+    "created_by_name": "Peer",
+    "created_by_screen_name": "omckws",
+    "user_id": 2
+  }
+}
+....
+
+==== update
+
+Update key. `User_id` param is required.
+
+Example Request
+`curl -X POST -H "API_TOKEN: api_token" -H "Content-Type: application/json" -d '{"user": {"user_id": 2, game: "not worth it"}}' http://omck.tv/api/v1/keys/update`
+
+Input:
+- streaner <String>
+- game <String>
+- movie <String>
+- guest <Boolean>
+
+Example Response
+....
+{
+  "key": {
+    "id": 64,
+    "streamer": "McDwarf",
+    "movie": "Boku Wa Tomodachi Ga Sekai",
+    "game": "not worth it",
+    "guest": false,
+    "expires": "2099-01-01",
+    "created_by": 2,
+    "created_by_name": "Peer",
+    "created_by_screen_name": "omckws",
+    "user_id": 2
+  }
+}
+....
+
+==== expire
+
+Expire key. `User_id` param is required.
+
+Example Request
+`curl -X POST -H "API_TOKEN: api_token" -H "Content-Type: application/json" -d '{"user": {"user_id": 2}}' http://omck.tv/api/v1/keys/expire`
+
+Example Response
+....
+{
+  "message": "Ключ испарен!"
+}
+....
+
+==== authorize
+
+Authenticate and get key. `key` param is require
+
+Example Request
+`curl -X GET -H "API_TOKEN: api_token" -H "Content-Type: application/json" http://omck.tv/api/v1/keys/authorize?lekeykeykey`
+
+Example Response
+....
+{
+  "key": {
+    "id": 64,
+    "streamer": "McDwarf",
+    "movie": "Boku Wa Tomodachi Ga Sekai",
+    "game": "not worth it",
+    "guest": false,
+    "expires": "2099-01-01",
+    "created_by": 2,
+    "created_by_name": "Peer",
+    "created_by_screen_name": "omckws",
+    "user_id": 2
+  }
+}
+....
+
+===== Streams
+
+|===
+|Endpoint |Description
+
+| GET /api/v1/keys
+| GET /api/v1/keys/all
+| GET /api/v1/keys/guest
+| GET /api/v1/keys/authorize
+| POST /api/v1/keys/create
+| POST /api/v1/keys/regenerate
+| POST /api/v1/keys/update
+| DELETE /api/v1/keys/expire
+
+| Get user's key
+| Get all present keys
+| Get all guest present keys
+| Check if key is valid
+| Create new key
+| Expire old key and create new key
+| Update key
+| Expire key
+|===
+

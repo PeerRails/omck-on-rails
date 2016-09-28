@@ -23,7 +23,7 @@ module Api
       # GET /api/v1/channels/live
       # @return [Array<ChannelSerializer>]
       def all
-        channels = Channel.all
+        channels = Channel.all.order(:id)
         render json: channels
       end
 

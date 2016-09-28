@@ -341,7 +341,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns current user&#39;s key with secret.</p>
+<p>Returns current user&#39;s key.</p>
 </div></span>
   
 </li>
@@ -430,13 +430,13 @@
       <pre class="lines">
 
 
-26
 27
 28
-29</pre>
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span>
   <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
@@ -469,7 +469,7 @@
 
 <p>Check if key is valid</p>
 
-<p>GET api/v1/keys/update</p>
+<p>GET api/v1/keys/authorize</p>
 
 
   </div>
@@ -496,22 +496,22 @@
       <pre class="lines">
 
 
-103
 104
 105
 106
 107
 108
 109
-110</pre>
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorize'>authorize</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_find_by_key'>find_by_key</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_gmod'>gmod</span> <span class='op'>==</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Forbidden</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Forbidden</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_key'>key</span>
   <span class='kw'>end</span>
@@ -562,17 +562,17 @@
       <pre class="lines">
 
 
-44
 45
 46
 47
 48
 49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='rparen'>)</span>
@@ -635,17 +635,17 @@
       <pre class="lines">
 
 
-89
 90
 91
 92
 93
 94
 95
-96</pre>
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_expire'>expire</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
@@ -701,13 +701,13 @@
       <pre class="lines">
 
 
-35
 36
 37
-38</pre>
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_guest'>guest</span>
   <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_is_guest'>is_guest</span>
@@ -843,12 +843,12 @@
       <pre class="lines">
 
 
-122
 123
-124</pre>
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_key_params'>key_params</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
@@ -957,12 +957,12 @@
       <pre class="lines">
 
 
-133
 134
-135</pre>
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_key_params_update'>key_params_update</span><span class='lparen'>(</span><span class='id identifier rubyid__opts'>_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='rparen'>)</span>
@@ -1020,7 +1020,6 @@
       <pre class="lines">
 
 
-58
 59
 60
 61
@@ -1028,10 +1027,11 @@
 63
 64
 65
-66</pre>
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_regenerate'>regenerate</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
@@ -1059,7 +1059,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns current user&#39;s key with secret</p>
+<p>Returns current user&#39;s key</p>
 
 <p>GET api/v1/keys</p>
 
@@ -1088,7 +1088,6 @@
       <pre class="lines">
 
 
-12
 13
 14
 15
@@ -1096,10 +1095,11 @@
 17
 18
 19
-20</pre>
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_retrieve'>retrieve</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='ivar'>@current_user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
@@ -1165,7 +1165,6 @@
       <pre class="lines">
 
 
-74
 75
 76
 77
@@ -1173,10 +1172,11 @@
 79
 80
 81
-82</pre>
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/api/v1/keys_controller.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_key_params'>key_params</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
@@ -1197,7 +1197,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 22 12:11:15 2016 by
+  Generated on Sun Sep 25 06:39:04 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>
