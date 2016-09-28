@@ -51,13 +51,13 @@ class StreamSerializer < ActiveModel::Serializer
   # Return channel object by channel id
   # @return [Channel]
   def channel_obj
-      Channel.select(:channel, :service).find(object.channel_id) || Channel.new(service: "Not Found", channel: "Not Found")
+      Channel.select(:channel, :service).where(id: object.channel_id).last || Channel.new(service: "Not Found", channel: "Not Found")
   end
 
   # Return user object by user id
   # @return [Channel]
   def user_obj
-      User.select(:name).find(object.user_id) || User.new(name: "Not Found")
+      User.select(:name).where(id: object.user_id).last || User.new(name: "Not Found")
   end
 
 end
