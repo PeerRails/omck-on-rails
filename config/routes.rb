@@ -124,6 +124,9 @@ Rails.application.routes.draw do
       post 'streams/period' => 'streams#by_period'
       post 'streams/new' => 'streams#create'
       delete 'streams/:id/delete' => 'streams#delete'
+
+      # RTMP Stat API
+      get 'stats' => 'hdstat#stats'
     end
   end
 
