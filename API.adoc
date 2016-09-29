@@ -74,21 +74,14 @@ All responses from the API will be `HTTP/1.0 200 OK`. If an error occurs, the re
 |===
 |Endpoint |Description
 
-| GET /api/v1/channels/live
-| GET /api/v1/channels/all
-| GET /api/v1/channels/:service
-| GET /api/v1/channels/:service/:channel
-| POST /api/v1/channels/create
-| POST /api/v1/channels/:service/:channel/update
-| DELETE /api/v1/channels/:service/:channel/delete
+| GET /api/v1/channels/live                         | Get list of live channels
+| GET /api/v1/channels/all                          | Get list of all channels
+| GET /api/v1/channels/:service                     | Get list of service's channels
+| GET /api/v1/channels/:service/:channel            | Get Channel object
+| POST /api/v1/channels/create                      | Create Channel object
+| POST /api/v1/channels/:service/:channel/update    | Update Channel object
+| DELETE /api/v1/channels/:service/:channel/delete  | DELETE Channel object
 
-| Get list of live channels
-| Get list of all channels
-| Get list of service's channels
-| Get Channel object
-| Create Channel object
-| Update Channel object
-| DELETE Channel object
 |===
 
 ==== live
@@ -341,23 +334,15 @@ All calls need auth token.
 |===
 |Endpoint |Description
 
-| GET /api/v1/keys
-| GET /api/v1/keys/all
-| GET /api/v1/keys/guest
-| GET /api/v1/keys/authorize
-| POST /api/v1/keys/create
-| POST /api/v1/keys/regenerate
-| POST /api/v1/keys/update
-| DELETE /api/v1/keys/expire
+| GET /api/v1/keys              | Get user's key
+| GET /api/v1/keys/all          | Get all present keys
+| GET /api/v1/keys/guest        | Get all guest present keys
+| GET /api/v1/keys/authorize    | Check if key is valid
+| POST /api/v1/keys/create      | Create new key
+| POST /api/v1/keys/regenerate  | Expire old key and create new key
+| POST /api/v1/keys/update      | Update key
+| DELETE /api/v1/keys/expire    | Expire key
 
-| Get user's key
-| Get all present keys
-| Get all guest present keys
-| Check if key is valid
-| Create new key
-| Expire old key and create new key
-| Update key
-| Expire key
 |===
 
 

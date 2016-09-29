@@ -173,30 +173,30 @@ auth_token can be found or set on the user account page
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/live</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/all</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/:service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/:service/:channel</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/channels/create</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/channels/:service/:channel/update</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE /api/v1/channels/:service/:channel/delete</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get list of live channels</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/all</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get list of all channels</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/:service</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get list of service&#8217;s channels</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/channels/:service/:channel</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get Channel object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/channels/create</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Create Channel object</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/channels/:service/:channel/update</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Update Channel object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE /api/v1/channels/:service/:channel/delete</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DELETE Channel object</p></td>
 </tr>
 </tbody>
@@ -530,34 +530,34 @@ auth_token can be found or set on the user account page
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/all</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/guest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/authorize</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/create</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/regenerate</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/update</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE /api/v1/keys/expire</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get user&#8217;s key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/all</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get all present keys</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/guest</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get all guest present keys</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/authorize</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Check if key is valid</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/create</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Create new key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/regenerate</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expire old key and create new key</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/update</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Update key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE /api/v1/keys/expire</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Expire key</p></td>
 </tr>
 </tbody>
@@ -819,13 +819,62 @@ auth_token can be found or set on the user account page
 <span class='rbrace'>}</span></code></pre>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_streams">Streams</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Endpoint</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/all</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/guest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET /api/v1/keys/authorize</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/create</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/regenerate</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">POST /api/v1/keys/update</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE /api/v1/keys/expire</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get user&#8217;s key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get all present keys</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get all guest present keys</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Check if key is valid</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create new key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expire old key and create new key</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update key</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expire key</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
 </div></div></div>
 
       <div id="footer">
-  Generated on Sun Sep 25 06:39:02 2016 by
+  Generated on Thu Sep 29 19:06:41 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

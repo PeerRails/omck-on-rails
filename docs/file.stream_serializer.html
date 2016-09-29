@@ -88,12 +88,43 @@
 </span><span class='comment'>#    }
 </span>
 <span class='kw'>class</span> <span class='const'>StreamSerializer</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>Serializer</span>
-  <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:key_id</span><span class='comma'>,</span> <span class='symbol'>:channel_id</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:ended_at</span>
+  <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:key_id</span><span class='comma'>,</span> <span class='symbol'>:channel_id</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:ended_at</span><span class='comma'>,</span> <span class='symbol'>:channel</span><span class='comma'>,</span> <span class='symbol'>:service</span><span class='comma'>,</span> <span class='symbol'>:username</span>
+
+  <span class='comment'># Return Channel name
+</span>  <span class='comment'># @return [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_channel'>channel</span>
+      <span class='id identifier rubyid_channel_obj'>channel_obj</span><span class='period'>.</span><span class='id identifier rubyid_channel'>channel</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Return Channel service
+</span>  <span class='comment'># @return [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_service'>service</span>
+      <span class='id identifier rubyid_channel_obj'>channel_obj</span><span class='period'>.</span><span class='id identifier rubyid_service'>service</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Return User name
+</span>  <span class='comment'># @return [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_username'>username</span>
+      <span class='id identifier rubyid_user_obj'>user_obj</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+  <span class='comment'># Return channel object by channel id
+</span>  <span class='comment'># @return [Channel]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_channel_obj'>channel_obj</span>
+      <span class='const'>Channel</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:channel</span><span class='comma'>,</span> <span class='symbol'>:service</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_channel_id'>channel_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>||</span> <span class='const'>Channel</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>service:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not Found</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>channel:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not Found</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Return user object by user id
+</span>  <span class='comment'># @return [Channel]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_user_obj'>user_obj</span>
+      <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>||</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not Found</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Sun Sep 25 06:39:02 2016 by
+  Generated on Thu Sep 29 19:06:41 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>
