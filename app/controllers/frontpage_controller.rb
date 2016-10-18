@@ -8,4 +8,7 @@ class FrontpageController < ApplicationController
     @channel = params[:channel]
     render layout: false
   end
+
+  def faq
+  end
 end

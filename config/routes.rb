@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   #match 'user/guest/auth' => 'users#guest_in', via: [:get, :post]
   #get 'user/guest/videos' => 'user#guest_video'
 
+  #FAG :-DDDDD
+  get 'faq' => 'frontpage#faq'
   # Key API
   get 'home/your_keys' => 'keys#list'
   get 'home/secret/:id' => 'keys#secret'

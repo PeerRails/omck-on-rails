@@ -14,4 +14,11 @@ RSpec.describe FrontpageController, type: :controller do
       expect(response.status).to eq(200)
     end
   end
+
+  describe "GET #fag" do
+    before do
+      get :faq
+    end
+    it {expect(response.status).to eq(200)}
+  end
 end
