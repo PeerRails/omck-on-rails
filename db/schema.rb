@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20160707122952) do
     t.string   "game"
     t.string   "movie"
     t.string   "streamer"
-    t.date     "ended_at"
+    t.datetime "ended_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
