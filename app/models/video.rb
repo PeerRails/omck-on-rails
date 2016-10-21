@@ -15,6 +15,7 @@
 #  updated_at  :datetime         not null
 #
 
+
 class Video < ActiveRecord::Base
   belongs_to :key
   belongs_to :user

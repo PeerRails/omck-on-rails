@@ -103,50 +103,7 @@
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<h2 id="label-Schema+Information">Schema Information</h2>
 
-<p>Table name: keys</p>
-
-<pre class="code ruby"><code class="ruby">id         :integer          not null, primary key
-user_id    :integer
-key        :string(255)      not null
-game       :string(255)      default(&quot;Boku no Pico&quot;), not null
-expires    :date             default(Thu, 01 Jan 2099), not null
-streamer   :string(255)      default(&quot;McDwarf&quot;)
-created_at :datetime
-updated_at :datetime
-guest      :boolean          default(FALSE)
-movie      :string(255)      default(&quot;Boku Wa Tomodachi Ga Sekai&quot;)
-created_by :integer</code></pre>
-
-<h2 id="label-JSON+scheme">JSON scheme</h2>
-
-<pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='label_end'>&quot;:</span> <span class='lbrace'>{</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='label_end'>&quot;:</span>                      <span class='const'>Integer</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>streamer</span><span class='label_end'>&quot;:</span>                <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>movie</span><span class='label_end'>&quot;:</span>                   <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>game</span><span class='label_end'>&quot;:</span>                    <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>guest</span><span class='label_end'>&quot;:</span>                   <span class='const'>Boolean</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expires</span><span class='label_end'>&quot;:</span>                 <span class='const'>Date</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_by</span><span class='label_end'>&quot;:</span>              <span class='const'>Integer</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_by_name</span><span class='label_end'>&quot;:</span>         <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_by_screen_name</span><span class='label_end'>&quot;:</span>  <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user_id</span><span class='label_end'>&quot;:</span>                 <span class='const'>Integer</span>
-    <span class='rbrace'>}</span>
-<span class='rbrace'>}</span>
-</code></pre>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -209,6 +166,30 @@ created_by :integer</code></pre>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expires-instance_method" title="#expires (instance method)">#<strong>expires</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return formatted date of expire date.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -258,12 +239,12 @@ created_by :integer</code></pre>
       <pre class="lines">
 
 
-38
-39
-40</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/serializers/key_serializer.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'app/serializers/key_serializer.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_created_by_name'>created_by_name</span>
   <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>||</span> <span class='kw'>nil</span>
@@ -312,15 +293,69 @@ created_by :integer</code></pre>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/serializers/key_serializer.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'app/serializers/key_serializer.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_created_by_screen_name'>created_by_screen_name</span>
   <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_screen_name'>screen_name</span> <span class='op'>||</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="expires-instance_method">
+  
+    #<strong>expires</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return formatted date of expire date</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/serializers/key_serializer.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_expires'>expires</span>
+  <span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_expires'>expires</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%Y-%m-%d</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -332,7 +367,7 @@ created_by :integer</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:18 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

@@ -69,38 +69,8 @@
 </span><span class='comment'>#  created_at :datetime
 </span><span class='comment'>#  updated_at :datetime
 </span><span class='comment'>#
-</span><span class='comment'># == JSON scheme
-</span><span class='comment'>#    {
-</span><span class='comment'>#        &quot;tweet&quot;: {
-</span><span class='comment'>#            &quot;id&quot;:          Integer,
-</span><span class='comment'>#            &quot;comment&quot;:     String,
-</span><span class='comment'>#            &quot;created_at&quot;:  Date,
-</span><span class='comment'>#            &quot;user&quot;: {
-</span><span class='comment'>#                &quot;id&quot;:                  Integer,
-</span><span class='comment'>#                &quot;twitter_id&quot;:          String,
-</span><span class='comment'>#                &quot;name&quot;:                String,
-</span><span class='comment'>#                &quot;screen_name&quot;:         String,
-</span><span class='comment'>#                &quot;streamer&quot;:            Boolean,
-</span><span class='comment'>#                &quot;gmod&quot;:                Boolean,
-</span><span class='comment'>#                &quot;profile_image_url&quot;:   String,
-</span><span class='comment'>#                &quot;keys&quot;: [
-</span><span class='comment'>#                    {
-</span><span class='comment'>#                        &quot;id&quot;:                      Integer,
-</span><span class='comment'>#                        &quot;streamer&quot;:                String,
-</span><span class='comment'>#                        &quot;movie&quot;:                   String,
-</span><span class='comment'>#                        &quot;game&quot;:                    String,
-</span><span class='comment'>#                        &quot;guest&quot;:                   Boolean,
-</span><span class='comment'>#                        &quot;expires&quot;:                 Date,
-</span><span class='comment'>#                        &quot;created_by&quot;:              Integer,
-</span><span class='comment'>#                        &quot;created_by_name&quot;:         String,
-</span><span class='comment'>#                        &quot;created_by_screen_name&quot;:  String,
-</span><span class='comment'>#                        &quot;user_id&quot;:                 Integer
-</span><span class='comment'>#                    }
-</span><span class='comment'>#                ]
-</span><span class='comment'>#            }
-</span><span class='comment'>#        }
-</span><span class='comment'>#    }
 </span>
+
 <span class='kw'>class</span> <span class='const'>TweetSerializer</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>Serializer</span>
   <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:comment</span><span class='comma'>,</span> <span class='symbol'>:created_at</span>
 
@@ -108,7 +78,7 @@
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

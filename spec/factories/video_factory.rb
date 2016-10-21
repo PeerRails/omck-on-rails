@@ -15,6 +15,7 @@
 #  updated_at  :datetime         not null
 #
 
+
 FactoryGirl.define do
   factory :video, class: Video do
     game  Faker::Book.title

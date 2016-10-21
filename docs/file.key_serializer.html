@@ -67,7 +67,7 @@
 </span><span class='comment'>#  user_id    :integer
 </span><span class='comment'>#  key        :string(255)      not null
 </span><span class='comment'>#  game       :string(255)      default(&quot;Boku no Pico&quot;), not null
-</span><span class='comment'>#  expires    :date             default(Thu, 01 Jan 2099), not null
+</span><span class='comment'>#  expires    :datetime         default(Thu, 01 Jan 2099 00:00:00 UTC +00:00), not null
 </span><span class='comment'>#  streamer   :string(255)      default(&quot;McDwarf&quot;)
 </span><span class='comment'>#  created_at :datetime
 </span><span class='comment'>#  updated_at :datetime
@@ -75,22 +75,8 @@
 </span><span class='comment'>#  movie      :string(255)      default(&quot;Boku Wa Tomodachi Ga Sekai&quot;)
 </span><span class='comment'>#  created_by :integer
 </span><span class='comment'>#
-</span><span class='comment'># == JSON scheme
-</span><span class='comment'>#    {
-</span><span class='comment'>#        &quot;key&quot;: {
-</span><span class='comment'>#            &quot;id&quot;:                      Integer,
-</span><span class='comment'>#            &quot;streamer&quot;:                String,
-</span><span class='comment'>#            &quot;movie&quot;:                   String,
-</span><span class='comment'>#            &quot;game&quot;:                    String,
-</span><span class='comment'>#            &quot;guest&quot;:                   Boolean,
-</span><span class='comment'>#            &quot;expires&quot;:                 Date,
-</span><span class='comment'>#            &quot;created_by&quot;:              Integer,
-</span><span class='comment'>#            &quot;created_by_name&quot;:         String,
-</span><span class='comment'>#            &quot;created_by_screen_name&quot;:  String,
-</span><span class='comment'>#            &quot;user_id&quot;:                 Integer
-</span><span class='comment'>#        }
-</span><span class='comment'>#    }
 </span>
+
 <span class='kw'>class</span> <span class='const'>KeySerializer</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>Serializer</span>
   <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:streamer</span><span class='comma'>,</span> <span class='symbol'>:movie</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:expires</span><span class='comma'>,</span> <span class='symbol'>:created_by</span><span class='comma'>,</span> <span class='symbol'>:created_by_name</span><span class='comma'>,</span> <span class='symbol'>:created_by_screen_name</span><span class='comma'>,</span> <span class='symbol'>:user_id</span>
 
@@ -106,10 +92,16 @@
     <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_screen_name'>screen_name</span> <span class='op'>||</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
 
+  <span class='comment'># Return formatted date of expire date
+</span>  <span class='comment'># @return [String]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_expires'>expires</span>
+    <span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_expires'>expires</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%Y-%m-%d</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

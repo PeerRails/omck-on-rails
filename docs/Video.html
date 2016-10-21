@@ -103,32 +103,7 @@
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<h2 id="label-Schema+Information">Schema Information</h2>
 
-<p>Table name: videos</p>
-
-<pre class="code ruby"><code class="ruby">id          :integer          not null, primary key
-game        :string           default(&quot;Boku no Pico&quot;), not null
-user_id     :integer
-key_id      :integer
-youtube_id  :string
-description :text             default(&quot;Boku no Pico&quot;)
-token       :string           not null
-path        :string
-deleted     :boolean          default(FALSE)
-created_at  :datetime         not null
-updated_at  :datetime         not null</code></pre>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -190,12 +165,12 @@ updated_at  :datetime         not null</code></pre>
       <pre class="lines">
 
 
-27
 28
-29</pre>
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/video.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'app/models/video.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_token'>create_token</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_token'>token</span> <span class='op'>=</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_urlsafe_base64'>urlsafe_base64</span><span class='lparen'>(</span><span class='int'>6</span><span class='rparen'>)</span>
@@ -210,7 +185,7 @@ updated_at  :datetime         not null</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

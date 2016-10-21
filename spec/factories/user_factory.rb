@@ -25,6 +25,7 @@
 #  last_sign_in_ip     :string
 #
 
+
 FactoryGirl.define do
   factory :user, class: User do
     twitter_id Faker::Number.number(10)

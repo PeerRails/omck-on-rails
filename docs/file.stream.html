@@ -64,17 +64,18 @@
 </span><span class='comment'># Table name: streams
 </span><span class='comment'>#
 </span><span class='comment'>#  id         :integer          not null, primary key
-</span><span class='comment'>#  key_id     :integer
-</span><span class='comment'>#  user_id    :integer
-</span><span class='comment'>#  channel_id :integer
+</span><span class='comment'>#  key_id     :integer          not null
+</span><span class='comment'>#  user_id    :integer          not null
+</span><span class='comment'>#  channel_id :integer          not null
 </span><span class='comment'>#  game       :string
 </span><span class='comment'>#  movie      :string
 </span><span class='comment'>#  streamer   :string
-</span><span class='comment'>#  ended_at   :date
+</span><span class='comment'>#  ended_at   :datetime
 </span><span class='comment'>#  created_at :datetime         not null
 </span><span class='comment'>#  updated_at :datetime         not null
 </span><span class='comment'>#
 </span>
+
 <span class='kw'>class</span> <span class='const'>Stream</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:key</span>
   <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:user</span>
@@ -93,7 +94,7 @@
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

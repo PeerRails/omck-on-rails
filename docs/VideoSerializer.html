@@ -103,49 +103,7 @@
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<h2 id="label-Schema+Information">Schema Information</h2>
 
-<p>Table name: videos</p>
-
-<pre class="code ruby"><code class="ruby">id          :integer          not null, primary key
-game        :string           default(&quot;Boku no Pico&quot;), not null
-user_id     :integer
-key_id      :integer
-youtube_id  :string
-description :text             default(&quot;Boku no Pico&quot;)
-token       :string           not null
-path        :string
-deleted     :boolean          default(FALSE)
-created_at  :datetime         not null
-updated_at  :datetime         not null</code></pre>
-
-<h2 id="label-JSON+Scheme">JSON Scheme</h2>
-
-<pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>video</span><span class='label_end'>&quot;:</span> <span class='lbrace'>{</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user_id</span><span class='label_end'>&quot;:</span> <span class='const'>Integer</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key_id</span><span class='label_end'>&quot;:</span> <span class='const'>Integer</span><span class='comma'>,</span>
-       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>game</span><span class='label_end'>&quot;:</span> <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>description</span><span class='label_end'>&quot;:</span> <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>token</span><span class='label_end'>&quot;:</span> <span class='const'>String</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>deleted</span><span class='label_end'>&quot;:</span> <span class='const'>Boolean</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>created_at</span><span class='label_end'>&quot;:</span> <span class='const'>Date</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>updated_at</span><span class='label_end'>&quot;:</span> <span class='const'>Date</span><span class='comma'>,</span>
-        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>username</span><span class='label_end'>&quot;:</span> <span class='const'>String</span>
-    <span class='rbrace'>}</span>
-<span class='rbrace'>}</span>
-</code></pre>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -233,12 +191,12 @@ updated_at  :datetime         not null</code></pre>
       <pre class="lines">
 
 
-38
-39
-40</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/serializers/video_serializer.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'app/serializers/video_serializer.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_username'>username</span>
   <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_key_id'>key_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_streamer'>streamer</span>
@@ -253,7 +211,7 @@ updated_at  :datetime         not null</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:18 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

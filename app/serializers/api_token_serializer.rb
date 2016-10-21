@@ -9,27 +9,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-# == JSON Scheme
-#
-#    {
-#        "token":
-#            {
-#                "id":          Integer,
-#                "secret":      String,
-#                "owner":       String,
-#                "user_id":     Integer,
-#                "expires_at":  Date,
-#                "created_at":  Date
-#            }
-#    }
-# Array:
-#    {
-#        "tokens": [
-#            {
-#                <Token>
-#            }
-#        ]
-#    }
+
 
 class ApiTokenSerializer < ActiveModel::Serializer
   attributes :id, :secret, :owner, :user_id, :expires_at, :created_at

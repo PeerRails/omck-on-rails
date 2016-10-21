@@ -8,9 +8,10 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  guest      :boolean          default(FALSE)
-#  expires    :date
+#  expires    :datetime
 #  session_id :string
 #
+
 
 class Session < ActiveRecord::Base
   belongs_to :user

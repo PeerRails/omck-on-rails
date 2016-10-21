@@ -103,32 +103,7 @@
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<h2 id="label-Schema+Information">Schema Information</h2>
 
-<p>Table name: keys</p>
-
-<pre class="code ruby"><code class="ruby">id         :integer          not null, primary key
-user_id    :integer
-key        :string(255)      not null
-game       :string(255)      default(&quot;Boku no Pico&quot;), not null
-expires    :date             default(Thu, 01 Jan 2099), not null
-streamer   :string(255)      default(&quot;McDwarf&quot;)
-created_at :datetime
-updated_at :datetime
-guest      :boolean          default(FALSE)
-movie      :string(255)      default(&quot;Boku Wa Tomodachi Ga Sekai&quot;)
-created_by :integer</code></pre>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -256,13 +231,13 @@ created_by :integer</code></pre>
       <pre class="lines">
 
 
-43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_expire'>expire</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_expires'>expires</span> <span class='op'>=</span> <span class='const'>DateTime</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -288,12 +263,12 @@ created_by :integer</code></pre>
       <pre class="lines">
 
 
-35
 36
-37</pre>
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_key'>generate_key</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -318,14 +293,14 @@ created_by :integer</code></pre>
       <pre class="lines">
 
 
-48
 49
 50
 51
-52</pre>
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_key_limit'>key_limit</span>
   <span class='kw'>if</span> <span class='const'>Key</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>user_id:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_present'>present</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_guest'>guest</span>
@@ -352,12 +327,12 @@ created_by :integer</code></pre>
       <pre class="lines">
 
 
-39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'app/models/key.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_make_created_by'>make_created_by</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_user_id'>user_id</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_created_by'>created_by</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -372,7 +347,7 @@ created_by :integer</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

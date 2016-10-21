@@ -15,6 +15,7 @@
 #  official   :boolean          default(FALSE)
 #
 
+
 class Channel < ActiveRecord::Base
   has_many :streams
   validates :channel, presence: true

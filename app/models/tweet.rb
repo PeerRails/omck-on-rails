@@ -9,6 +9,7 @@
 #  updated_at :datetime
 #
 
+
 class Tweet < ActiveRecord::Base
   belongs_to :user
   validates :comment, :presence => {message: "Твит не должен быть пустым!"}, allow_blank: false

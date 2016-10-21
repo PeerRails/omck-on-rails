@@ -24,33 +24,7 @@
 #  current_sign_in_ip  :string
 #  last_sign_in_ip     :string
 #
-# == JSON scheme
-#
-#    {
-#      "user": {
-#        "id":                   Integer,
-#        "twitter_id":           String,
-#        "name":                 String,
-#        "screen_name":          String,
-#        "streamer":             Boolean,
-#        "gmod":                 Boolean,
-#        "profile_image_url":    String,
-#        "keys": [
-#          {
-#            "id":                     Integer,
-#            "streamer":               String,
-#            "movie":                  String,
-#            "game":                   String,
-#            "guest":                  Boolean,
-#            "expires":                Date,
-#            "created_by":             Integer,
-#            "created_by_name":        String,
-#            "created_by_screen_name": String,
-#            "user_id":                Integer
-#          }
-#        ]
-#      }
-#    }
+
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :twitter_id, :name, :screen_name, :streamer, :gmod, :profile_image_url, :keys

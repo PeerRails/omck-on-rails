@@ -15,6 +15,7 @@
 #  official   :boolean          default(FALSE)
 #
 
+
 FactoryGirl.define do
   factory :channel, class: Channel do
     service "hd"

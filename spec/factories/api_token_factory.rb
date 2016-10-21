@@ -10,6 +10,7 @@
 #  updated_at :datetime         not null
 #
 
+
 FactoryGirl.define do
   factory :api_token, class: ApiToken do
     secret Faker::Internet.password

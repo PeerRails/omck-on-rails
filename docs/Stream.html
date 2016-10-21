@@ -103,31 +103,7 @@
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<h2 id="label-Schema+Information">Schema Information</h2>
 
-<p>Table name: streams</p>
-
-<pre class="code ruby"><code class="ruby">id         :integer          not null, primary key
-key_id     :integer
-user_id    :integer
-channel_id :integer
-game       :string
-movie      :string
-streamer   :string
-ended_at   :date
-created_at :datetime         not null
-updated_at :datetime         not null</code></pre>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -189,17 +165,17 @@ updated_at :datetime         not null</code></pre>
       <pre class="lines">
 
 
-24
 25
 26
 27
 28
 29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/stream.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'app/models/stream.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop!'>stop!</span><span class='lparen'>(</span><span class='id identifier rubyid_date'>date</span><span class='op'>=</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
 	<span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ended_at'>ended_at</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -219,7 +195,7 @@ updated_at :datetime         not null</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

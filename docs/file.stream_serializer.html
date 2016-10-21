@@ -64,29 +64,18 @@
 </span><span class='comment'># Table name: streams
 </span><span class='comment'>#
 </span><span class='comment'>#  id         :integer          not null, primary key
-</span><span class='comment'>#  key_id     :integer
-</span><span class='comment'>#  user_id    :integer
-</span><span class='comment'>#  channel_id :integer
+</span><span class='comment'>#  key_id     :integer          not null
+</span><span class='comment'>#  user_id    :integer          not null
+</span><span class='comment'>#  channel_id :integer          not null
 </span><span class='comment'>#  game       :string
 </span><span class='comment'>#  movie      :string
 </span><span class='comment'>#  streamer   :string
-</span><span class='comment'>#  ended_at   :date
+</span><span class='comment'>#  ended_at   :datetime
 </span><span class='comment'>#  created_at :datetime         not null
 </span><span class='comment'>#  updated_at :datetime         not null
 </span><span class='comment'>#
-</span><span class='comment'># == JSON scheme
-</span><span class='comment'>#    {
-</span><span class='comment'>#        &quot;stream&quot;: {
-</span><span class='comment'>#            &quot;id&quot;:               Integer,
-</span><span class='comment'>#            &quot;user_id&quot;:          Integer,
-</span><span class='comment'>#            &quot;key_id&quot;:           Integer,
-</span><span class='comment'>#            &quot;channel_id&quot;:       Integer,
-</span><span class='comment'>#            &quot;game&quot;:             String,
-</span><span class='comment'>#            &quot;created_at&quot;:       Date,
-</span><span class='comment'>#            &quot;ended_at&quot;:         Date
-</span><span class='comment'>#        }
-</span><span class='comment'>#    }
 </span>
+
 <span class='kw'>class</span> <span class='const'>StreamSerializer</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>Serializer</span>
   <span class='id identifier rubyid_attributes'>attributes</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:user_id</span><span class='comma'>,</span> <span class='symbol'>:key_id</span><span class='comma'>,</span> <span class='symbol'>:channel_id</span><span class='comma'>,</span> <span class='symbol'>:game</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:ended_at</span><span class='comma'>,</span> <span class='symbol'>:channel</span><span class='comma'>,</span> <span class='symbol'>:service</span><span class='comma'>,</span> <span class='symbol'>:username</span>
 
@@ -124,7 +113,7 @@
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>

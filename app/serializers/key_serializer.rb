@@ -6,7 +6,7 @@
 #  user_id    :integer
 #  key        :string(255)      not null
 #  game       :string(255)      default("Boku no Pico"), not null
-#  expires    :date             default(Thu, 01 Jan 2099), not null
+#  expires    :datetime         default(Thu, 01 Jan 2099 00:00:00 UTC +00:00), not null
 #  streamer   :string(255)      default("McDwarf")
 #  created_at :datetime
 #  updated_at :datetime
@@ -14,21 +14,7 @@
 #  movie      :string(255)      default("Boku Wa Tomodachi Ga Sekai")
 #  created_by :integer
 #
-# == JSON scheme
-#    {
-#        "key": {
-#            "id":                      Integer,
-#            "streamer":                String,
-#            "movie":                   String,
-#            "game":                    String,
-#            "guest":                   Boolean,
-#            "expires":                 Date,
-#            "created_by":              Integer,
-#            "created_by_name":         String,
-#            "created_by_screen_name":  String,
-#            "user_id":                 Integer
-#        }
-#    }
+
 
 class KeySerializer < ActiveModel::Serializer
   attributes :id, :streamer, :movie, :game, :guest, :expires, :created_by, :created_by_name, :created_by_screen_name, :user_id

@@ -3,16 +3,17 @@
 # Table name: streams
 #
 #  id         :integer          not null, primary key
-#  key_id     :integer
-#  user_id    :integer
-#  channel_id :integer
+#  key_id     :integer          not null
+#  user_id    :integer          not null
+#  channel_id :integer          not null
 #  game       :string
 #  movie      :string
 #  streamer   :string
-#  ended_at   :date
+#  ended_at   :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+
 
 class Stream < ActiveRecord::Base
   belongs_to :key

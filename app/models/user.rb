@@ -25,6 +25,7 @@
 #  last_sign_in_ip     :string
 #
 
+
 class User < ActiveRecord::Base
   has_many :keys
   has_many :tweets

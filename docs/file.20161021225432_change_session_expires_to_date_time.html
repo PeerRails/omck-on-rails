@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  File: 20140723082303_add_guest_to_keys
+  File: 20161021225432_change_session_expires_to_date_time
   
     &mdash; Documentation by YARD 0.9.5
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "20140723082303_add_guest_to_keys";
+  pathId = "20161021225432_change_session_expires_to_date_time";
   relpath = '';
 </script>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="_index.html">Index</a> &raquo; 
-    <span class="title">File: 20140723082303_add_guest_to_keys</span>
+    <span class="title">File: 20161021225432_change_session_expires_to_date_time</span>
   
 </div>
 
@@ -59,9 +59,9 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>class</span> <span class='const'>AddGuestToKeys</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Migration</span>
+      <div id="content"><div id='filecontents'><pre class="code ruby"><span class='kw'>class</span> <span class='const'>ChangeSessionExpiresToDateTime</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Migration</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_change'>change</span>
-    <span class='id identifier rubyid_add_column'>add_column</span> <span class='symbol'>:keys</span><span class='comma'>,</span> <span class='symbol'>:guest</span><span class='comma'>,</span> <span class='symbol'>:boolean</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>false</span>
+    <span class='id identifier rubyid_change_column'>change_column</span> <span class='symbol'>:sessions</span><span class='comma'>,</span> <span class='symbol'>:expires</span><span class='comma'>,</span> <span class='symbol'>:datetime</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre></div></div>
 

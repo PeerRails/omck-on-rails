@@ -8,9 +8,10 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  guest      :boolean          default(FALSE)
-#  expires    :date
+#  expires    :datetime
 #  session_id :string
 #
+
 
 FactoryGirl.define do
   factory :session, class: Session do

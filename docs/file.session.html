@@ -69,10 +69,11 @@
 </span><span class='comment'>#  created_at :datetime
 </span><span class='comment'>#  updated_at :datetime
 </span><span class='comment'>#  guest      :boolean          default(FALSE)
-</span><span class='comment'>#  expires    :date
+</span><span class='comment'>#  expires    :datetime
 </span><span class='comment'>#  session_id :string
 </span><span class='comment'>#
 </span>
+
 <span class='kw'>class</span> <span class='const'>Session</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:user</span>
   <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='label'>presence:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>uniqueness:</span> <span class='kw'>true</span>
@@ -100,7 +101,7 @@
 <span class='kw'>end</span></pre></div></div>
 
       <div id="footer">
-  Generated on Thu Sep 29 19:06:41 2016 by
+  Generated on Sat Oct 22 02:15:17 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.1).
 </div>
