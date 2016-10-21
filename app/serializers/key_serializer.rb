@@ -45,4 +45,10 @@ class KeySerializer < ActiveModel::Serializer
     User.find(object.created_by).screen_name || nil
   end
 
+  # Return formatted date of expire date
+  # @return [String]
+  def expires
+    object.expires.strftime("%Y-%m-%d")
+  end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707122952) do
+ActiveRecord::Schema.define(version: 20161021225432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20160707122952) do
     t.integer  "user_id"
     t.string   "key",        limit: 255,                                        null: false
     t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
-    t.date     "expires",                default: '2099-01-01',                 null: false
+    t.datetime "expires",                default: '2099-01-01 00:00:00',        null: false
     t.string   "streamer",   limit: 255, default: "McDwarf"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20160707122952) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "guest",      default: false
-    t.date     "expires"
+    t.datetime "expires"
     t.string   "session_id"
   end
 
