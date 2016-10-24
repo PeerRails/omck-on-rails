@@ -16,17 +16,11 @@
 #
 
 
-class Video < ActiveRecord::Base
-  belongs_to :key
-  belongs_to :user
-
-  scope :deleted, -> { where(deleted: true) }
-  scope :list, -> { select("token, game, deleted, description, path, user_id, key_id, created_at, updated_at").where(deleted: false) }
-
-  before_create :create_token
-
-  def create_token
-    self.token = SecureRandom.urlsafe_base64(6)
+FactoryGirl.define do
+  factory :video, class: Video do
+    game  {Faker::Book.title}
+    description {Faker::Lorem.characters(42)}
+    path  {Faker::Internet.url}
+    deleted false
   end
-
 end
