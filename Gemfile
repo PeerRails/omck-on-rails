@@ -23,9 +23,9 @@ gem 'cancancan', '1.15.0'
 #gem "font-awesome-sass"
 #gem 'jbuilder'
 
-#gem 'devise'
-#gem 'omniauth'
-#gem 'omniauth-twitter'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
 #gem "pundit"
 
 gem 'twitter'
