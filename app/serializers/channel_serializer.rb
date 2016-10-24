@@ -44,8 +44,8 @@ class ChannelSerializer < ActiveModel::Serializer
       "http://omck.tv/#/channel/hd/#{object.channel}"
     when 'twitch'
       "http://twitch.tv/#{object.channel}"
-    else
-      "Unknown Source"
+    #else
+      #"Unknown Source"
     end
   end
 
@@ -57,8 +57,8 @@ class ChannelSerializer < ActiveModel::Serializer
       "/player?channel=#{object.channel}"
     when 'twitch'
       "http://player.twitch.tv/?channel=#{object.channel}"
-    else
-      "Unknown Source"
+    #else
+      #"Unknown Source"
     end
   end
 
