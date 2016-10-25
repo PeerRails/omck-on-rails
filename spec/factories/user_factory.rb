@@ -25,12 +25,13 @@
 #
 
 
+
 FactoryGirl.define do
   factory :user, class: User do
-    twitter_id Faker::Number.number(10)
-    screen_name Faker::Internet.user_name
-    name  Faker::Name.name
-    profile_image_url Faker::Avatar.image(Faker::Internet.user_name, "50x50", "jpg")
+    twitter_id {Faker::Number.number(10)}
+    screen_name {Faker::Internet.user_name}
+    name  {Faker::Name.name}
+    profile_image_url {Faker::Avatar.image(Faker::Internet.user_name, "50x50", "jpg")}
 
     trait :streamer do
       twitter_id "11112"

@@ -1,15 +1,8 @@
 Rails.application.routes.draw do
   # Root
   root :to => 'frontpage#index'
-  
-  # Pages:
-  get 'home' => 'home#admin'
   get 'player' => 'frontpage#player'
-  #get 'home/login' => 'home#login'
-  #get 'home/' => 'home#cabinet'
-  #get 'home/faq' => 'home#faq'
-  #get 'home/admin' => 'home#admin'
-
+  get 'faq' => 'frontpage#faq'
   #API
   namespace :api, defaults: {format: 'json'} do
     # Version 1.0
@@ -70,64 +63,7 @@ Rails.application.routes.draw do
       post 'streams/new' => 'streams#create'
       delete 'streams/:id/delete' => 'streams#delete'
 
-      # RTMP Stat API
       get 'stats' => 'hdstat#stats'
     end
   end
-
-  # bitdash
-  #get 'bitdash/:channel' => 'channels#bitdash', defaults: { channel: 'records' }
-
-  # avconv -re -i /home/prails/Downloads/stream.flv -f flv rtmp://localhost:1935/live/omckws?key=50adf9fc-8499-4d45-b499-de831586cd9a
-  #     #Auth
-  #     match '/auth/:provider/callback' => 'users#login', via: [:get, :post]
-  #     get 'auth_session' => 'application#session_auth'
-  #     get 'logout' => 'users#logout'
-  #     #post 'home/manage_perm' => 'users#manage_perm'
-  #     #post 'home/remove_streamer' => 'users#remove_streamer'
-  #
-  #     #Old Home
-  #     #get 'home' => 'staff#index'
-  #
-  #     #API
-  #     get 'channel/move_record' => 'nginx#move_record'
-  #     get 'channel/live' => 'streams#get_live'
-  #     get 'channel/all' => 'streams#get_all'
-  #     get 'channel/:service/:channel' => 'streams#get_channel'
-  #
-  #     #bitdash
-  #     get 'bitdash/:channel' => 'channels#bitdash'
-  #     get 'bitdash' => 'channels#bitdash'
-  #
-  #     #NGINX Controller
-  #     get 'auth_stream' => 'nginx#get_key'
-  #     post 'auth_stream' => 'nginx#get_key'
-  #     get 'incr_stream' => 'nginx#increase_viewer_count'
-  #     get 'decr_stream' => 'nginx#decrease_viewer_count'
-  #     get 'end_cinema' => 'nginx#end_cinema'
-  #
-  #     #Keys
-  #     get 'home/remake_key' => 'keys#remake_key'
-  #     post 'home/make_key' => 'keys#make_key'
-  #     post 'home/change_key' => 'keys#change_key'
-  #     post 'home/expire_key' => 'keys#expire_key'
-  #
-  #     #Pages
-  #     get 'faq' => 'home#faq'
-  #     get 'faq-irc' => 'home#faq_irc'
-  #     get 'guest' => 'home#guest'
-  #     post 'guest' => 'home#guest'
-  #
-  #     #Channel CRUD
-  #     post 'home/channel/new' => 'channels#new'
-  #     post 'home/channel/edit' => 'channels#edit'
-  #     post 'home/channel/delete' => 'channels#delete'
-  #
-  #     #Tweet Controller
-  #     post 'home/tweet' => 'tweets#tweet'
-  #
-  #     #Video
-  #     get 'user/vids' => 'videos#list'
-  #     get 'user/vids/check' => 'videos#check_deleted'
-  #     delete 'user/vids/delete' => 'videos#delete'
 end

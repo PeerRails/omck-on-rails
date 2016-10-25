@@ -24,7 +24,6 @@ SimpleCov.formatters = [
 SimpleCov.start 'rails' do
   add_filter "app/controllers/nginx_controller.rb"
   add_group "Serializers", "app/serializers"
-  add_group "Policies", "app/policies"
 end
 CodeClimate::TestReporter.start
 
@@ -106,15 +105,6 @@ omni_twitter = {
   }
 }
 OmniAuth.config.add_mock(:twitter, omni_twitter)
-
-=begin
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
-end
-=end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
