@@ -10,6 +10,7 @@
 #  guest      :boolean          default(FALSE)
 #  expires    :datetime
 #  session_id :string
+#  client_id  :integer
 #
 
 

@@ -7,7 +7,6 @@ require 'simplecov-json'
 require 'simplecov-rcov'
 require 'webmock/rspec'
 require "cancan/matchers"
-require "pundit/rspec"
 require 'coveralls'
 require "codeclimate-test-reporter"
 

@@ -12,6 +12,7 @@
 #  ended_at   :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  client_id  :integer
 #
 
 

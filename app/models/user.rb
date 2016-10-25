@@ -3,17 +3,16 @@
 # Table name: users
 #
 #  id                  :integer          not null, primary key
-#  twitter_id          :string(255)
-#  screen_name         :string(255)      not null
-#  profile_image_url   :string(255)      default("")
-#  name                :string(255)      default("Anon")
+#  twitter_id          :string
+#  screen_name         :string           default("Null"), not null
+#  profile_image_url   :string
+#  name                :string           default("Anon")
+#  gmod                :integer          default(0), not null
+#  streamer            :integer          default(0), not null
 #  login_last          :date
 #  last_ip             :inet
-#  access_token        :string(255)
-#  secret_token        :string(255)
-#  gmod                :integer          default(0), not null
-#  hd_channel          :string(255)      default("0"), not null
-#  streamer            :integer          default(0), not null
+#  access_token        :string
+#  secret_token        :string
 #  created_at          :datetime
 #  updated_at          :datetime
 #  remember_created_at :datetime
@@ -26,7 +25,8 @@
 #
 
 
-class User < ActiveRecord::Base
+
+class User < ApplicationRecord
   has_many :keys
   has_many :tweets
   has_many :sessions
@@ -34,7 +34,6 @@ class User < ActiveRecord::Base
   has_many :api_token
   has_many :streams
   validates :twitter_id, presence: true, uniqueness: true
-  devise :rememberable, :omniauthable, omniauth_providers: [:twitter]
 
   scope :staff, -> { where('streamer = 1 or gmod = 1') }
 

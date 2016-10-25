@@ -2,7 +2,6 @@ class ApiApplicationController < ActionController::API
   include CanCan::ControllerAdditions
   include ActionController::Serialization
 
-  respond_to :json
   before_action :check
 
   private
