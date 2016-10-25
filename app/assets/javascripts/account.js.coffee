@@ -1,2 +1,0 @@
-//= require tweets
-//= require key
