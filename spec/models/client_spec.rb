@@ -28,7 +28,7 @@ RSpec.describe Client, type: :model do
     it { should have_one(:key)}
   end
 
-  describe "Client model" do
+  describe "validations" do
   	before do
   		@client = create(:client, :viewer)
   	end

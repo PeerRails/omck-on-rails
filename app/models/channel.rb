@@ -3,18 +3,17 @@
 # Table name: channels
 #
 #  id         :integer          not null, primary key
-#  channel    :string
+#  channel    :string(255)
 #  live       :boolean          default(FALSE)
 #  viewers    :integer          default(0), not null
-#  game       :string           default("Boku no Pico"), not null
-#  streamer   :string           default("McDwarf")
-#  title      :string           default("Boku wa Tomodachi ga Sekai")
-#  service    :string           default("twitch")
+#  game       :string(255)      default("Boku no Pico")
+#  streamer   :string(255)      default("McDwarf")
+#  title      :string(255)      default("Boku wa Tomodachi ga Sekai")
+#  service    :string(255)      default("twitch")
 #  created_at :datetime
 #  updated_at :datetime
 #  official   :boolean          default(FALSE)
 #
-
 
 class Channel < ApplicationRecord
     has_many :streams

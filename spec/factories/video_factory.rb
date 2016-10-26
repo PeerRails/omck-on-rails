@@ -14,8 +14,8 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  client_id   :integer
+#  stream_id   :integer
 #
-
 
 FactoryGirl.define do
   factory :video, class: Video do
@@ -23,5 +23,8 @@ FactoryGirl.define do
     description {Faker::Lorem.characters(42)}
     path  {Faker::Internet.url}
     deleted false
+    stream
+    key
+    client
   end
 end

@@ -17,16 +17,20 @@
 #  stream_id   :integer
 #
 
-class Video < ApplicationRecord
-  belongs_to :key
-  belongs_to :client
-  belongs_to :stream
+require 'rails_helper'
 
-  before_create :create_token
-
-  # Create unique urlsafe token for video
-  def create_token
-    self.token = SecureRandom.urlsafe_base64(14)
+RSpec.describe Video, type: :model do
+  describe "associations" do
+      it { should belong_to(:client)}
+      it { should belong_to(:stream)}
+      it { should belong_to(:key)}
   end
 
+  describe "actions" do
+      it "should attach token before creation" do
+          video = build(:video, token: nil, client_id: 1, stream_id: 1, key_id: 1)
+          video.save
+          expect(video.token).not_to be nil
+      end
+  end
 end

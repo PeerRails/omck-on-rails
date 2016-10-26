@@ -21,6 +21,8 @@ class Stream < ActiveRecord::Base
   belongs_to :client
   belongs_to :channel
 
+  has_one :video
+
   validates :key_id, :client_id, :channel_id, :presence => true
 
   def stop!(date=Time.now)

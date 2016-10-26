@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #  client_id  :integer
 #
-# Add indexes on secret(UNIQUE) and client_id
+
 
 
 class ApiToken < ApplicationRecord
