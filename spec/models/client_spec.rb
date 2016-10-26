@@ -19,6 +19,15 @@
 require 'rails_helper'
 
 RSpec.describe Client, type: :model do
+
+  describe "associations" do
+    it { should have_many(:tweets)}
+    it { should have_many(:videos)}
+    it { should have_many(:api_tokens)}
+    it { should have_many(:streams)}
+    it { should have_one(:key)}
+  end
+
   describe "Client model" do
   	before do
   		@client = create(:client, :viewer)
@@ -49,9 +58,7 @@ RSpec.describe Client, type: :model do
   	it "should show verified" do
   		expect(@client.verified?).to be true
   	end
-  	it "should remember client" do
-  		
-  	end
+
   	it "should show last login" do
   		expect(@client.last_login).to be < DateTime.now
   	end
@@ -65,6 +72,15 @@ RSpec.describe Client, type: :model do
   		expect(sessions.last.expires).to be > DateTime.now
   	end
 
+    it "should add to client a new stream key" do
+      expect{create(:client)}.to change{Key.count}.by(1)
+    end
+
+    it "should add to client a new api token" do
+      expect{create(:client)}.to change{ApiToken.count}.by(1)
+    end
+
   	it "should show connected providers"
+    it "should remember client"
   end
 end

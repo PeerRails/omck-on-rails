@@ -16,20 +16,19 @@
 #
 
 
-class Channel < ActiveRecord::Base
-  has_many :streams
+class Channel < ApplicationRecord
+    has_many :streams
 
-  validates :channel, presence: true
-  validates_format_of :channel, :with => /\A[a-zA-Z\d -_]*\z/i,
-                                :message => "Только латиница и числа!"
-  validates_uniqueness_of :channel, scope: :service
-  validates :streamer, presence: true
+    validates :channel, presence: true
+    validates :streamer, presence: true
+    validates_format_of :channel, :with => /\A^[a-zA-Z0-9_]{4,25}$\z/i,
+                                  :message => "invalid format"
+    validates_uniqueness_of :channel, scope: :service
 
-  scope :live, -> { where(live: 'true') }
-  scope :offline, -> { where(live: 'false') }
-  scope :official, -> { where(official: true)}
-  scope :twitch, -> { where(service: 'twitch') }
-  scope :hitbox, -> { where(service: 'hitbox') }
-  scope :hd, -> { where(service: 'hd')}
+    scope :live, -> { where(live: 'true') }
+    scope :official, -> { where(official: true)}
+    scope :twitch, -> { where(service: 'twitch') }
+    scope :hitbox, -> { where(service: 'hitbox') }
+    scope :hd, -> { where(service: 'hd')}
 
 end

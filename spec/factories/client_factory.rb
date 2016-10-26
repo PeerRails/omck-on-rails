@@ -34,7 +34,7 @@ FactoryGirl.define do
 			admin true
 		end
 
-		trait :viewer do
+		trait :streamer do
 			streamer true
 		end
 

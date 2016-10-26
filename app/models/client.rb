@@ -17,36 +17,63 @@
 #
 
 class Client < ApplicationRecord
-	validate :validate_create, on: [:create, :update]
 
-	def validate_create
-		errors.add(:email, message: "is already registered") unless Client.find_by_email(self.email).nil?
-		errors.add(:name, message: "is blank") if self.name.nil?
-	end
+  	has_one :key
+  	has_many :tweets
+  	has_many :videos
+  	has_many :api_tokens
+  	has_many :streams
 
-	def admin?
-		self.admin
-	end
-	 
-	def streamer?
-		self.streamer
-	end
+    validate :validate_values, on: [:create, :update]
+    after_create :pair_key_and_token
 
-	def bot?
-		self.bot
-	end
+    # Validate values on create and update actions
+    # @params [Client]
+    def validate_values
+        errors.add(:email, message: "is already registered") unless Client.find_by_email(self.email).nil?
+        errors.add(:name, message: "is blank") if self.name.nil?
+    end
 
-	def viewer?
-		!self.admin? || !self.streamer? || !self.bot?
-	end
+    # Check client's role
+    # @return Boolean
+    def admin?
+        self.admin
+    end
 
-	def verified?
-		self.verified.nil?
-	end
+    # Check client's role
+    # @return Boolean
+    def streamer?
+        self.streamer
+    end
 
-	def sessions
-		Session.where(client_id: self.id)
-				.where("expires > ?", DateTime.now)
-	end
+    # Check client's role
+	# @return Boolean
+    def bot?
+        self.bot
+    end
+
+    # Check clie`nt's role
+	# @return Boolean
+    def viewer?
+        !self.admin? || !self.streamer? || !self.bot?
+    end
+
+    # Check client's verification status
+	# @return Boolean
+    def verified?
+        self.verified.nil?
+    end
+
+    # Return current client's sessions
+    def sessions
+        Session.where(client_id: self.id)
+                .where("expires > ?", DateTime.now)
+    end
+
+    # Add to client new stream key and new api token
+    def pair_key_and_token
+        Key.create(client_id: self.id)
+        ApiToken.create(client_id: self.id)
+    end
 
 end

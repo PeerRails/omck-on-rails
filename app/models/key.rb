@@ -18,41 +18,40 @@
 
 
 
-class Key < ActiveRecord::Base
-  belongs_to :user
+class Key < ApplicationRecord
+  belongs_to :client
   has_many :videos
   has_many :streams
 
   validates :expires, :streamer, :presence => true
-  validates :user_id, :presence => true, on: :create
+  validates :client_id, :presence => true, on: :create
   validates :key, uniqueness: true
-  validates :streamer, length: { minimum: 3, maximum: 40, message: "Имя стримера должно быть более 3 и менее 40 символов " }
-  validates :game, length: { minimum: 3, maximum: 40, message: "Название игры должно быть более 3 и менее 40 символов " }
-  validates :movie, length: { minimum: 3, maximum: 40, message: "Название кинца должно быть более 3 и менее 40 символов " }
-  validate :key_limit, on: :create
+  validates :client_id, uniqueness: true, on: :create
 
-  scope :present, -> { where("expires > ?", DateTime.now).where(guest: false) }
-  scope :expired, -> { where("expires <= ?", DateTime.now) }
-  scope :is_guest, -> { where("expires > ?", DateTime.now).where(guest: true) }
+  validates_length_of :streamer, in: 3..40
+  validates_length_of :game, in: 3..40
+  validates_length_of :movie, in: 3..40
+
+  #scope :present, -> { where("expires > ?", DateTime.now).first }
 
   before_create :generate_key, :make_created_by
 
+  # Generate key secret on key creation
   def generate_key
     self.key = SecureRandom.uuid
   end
 
+  # Set who created key
   def make_created_by
-    self.created_by = self.user_id if self.created_by.nil?
+    self.created_by = self.client_id if self.created_by.nil?
   end
 
-  def expire
+  # Change key secret
+  # Return [Key]
+  def regenerate!
     self.expires = DateTime.now
-    self.save
+    generate_key
+    save!
   end
 
-  def key_limit
-    if Key.where(user_id: self.user_id).present.count > 0 && !self.guest
-      self.errors[:key] << "Рабочий ключ уже существует."
-    end
-  end
 end

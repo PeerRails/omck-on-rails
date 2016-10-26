@@ -18,10 +18,10 @@
 
 class Stream < ActiveRecord::Base
   belongs_to :key
-  belongs_to :user
+  belongs_to :client
   belongs_to :channel
 
-  validates :key_id, :user_id, :channel_id, :presence => true
+  validates :key_id, :client_id, :channel_id, :presence => true
 
   def stop!(date=Time.now)
   	if self.ended_at.nil?
