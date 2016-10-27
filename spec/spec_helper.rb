@@ -22,7 +22,6 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::RcovFormatter,
 ]
 SimpleCov.start 'rails' do
-  add_filter "app/controllers/nginx_controller.rb"
   add_group "Serializers", "app/serializers"
 end
 CodeClimate::TestReporter.start

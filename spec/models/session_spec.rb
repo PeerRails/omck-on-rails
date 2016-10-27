@@ -30,7 +30,7 @@ RSpec.describe Session, type: :model do
         end
 
         it "should give an interface destroy session" do
-            session = create(:session, session_id: session_id, client_id: client.id)
+            create(:session, session_id: session_id, client_id: client.id)
             expect(Session.destroy_session(session_id)).to be true
         end
     end

@@ -27,8 +27,8 @@ class Session < ApplicationRecord
     def self.create_session(client, session_id)
         session = Session.create(:client_id => client.id,
               :session_id => session_id,
-              :expires => client.remember_at,
-              :guest => false )
+              :expires => client.remember_at
+              )
         session.save!
     end
 
