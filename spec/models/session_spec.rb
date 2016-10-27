@@ -33,5 +33,16 @@ RSpec.describe Session, type: :model do
             create(:session, session_id: session_id, client_id: client.id)
             expect(Session.destroy_session(session_id)).to be true
         end
+
+        it "should show session on expired? action" do
+            create(:session, session_id: session_id, client_id: client.id)
+            expect(Session.find_by(session_id: session_id).expired?).not_to be nil
+        end
+
+        it "should show nil on expired? action" do
+            create(:session, session_id: session_id, client_id: client.id)
+            Session.destroy_session(session_id)
+            expect(Session.find_by(session_id: session_id).expired?).to be nil
+        end
     end
 end

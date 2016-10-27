@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'session/login'
+
+  get 'session/logout'
+
+  get 'session/verify'
+
+  get 'session/forgot_password'
+
   # Root
   root :to => 'frontpage#index'
   get 'player' => 'frontpage#player'

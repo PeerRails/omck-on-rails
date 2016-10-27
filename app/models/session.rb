@@ -41,4 +41,11 @@ class Session < ApplicationRecord
               .update(:expires => DateTime.now)
     end
 
+    # Show [Session] of [False] on expiration of session
+    # @return [Session | False]
+    def self.expired?(session_id)
+        session = Session.find_by(:session_id => session_id)
+        session.expires > DateTime.now ? session : false
+    end
+
 end
