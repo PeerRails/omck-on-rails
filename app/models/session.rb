@@ -16,6 +16,7 @@
 
 
 
+
 class Session < ApplicationRecord
     belongs_to :client
     validates :session_id, presence: true, uniqueness: true

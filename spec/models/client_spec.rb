@@ -25,6 +25,7 @@ RSpec.describe Client, type: :model do
     it { should have_many(:videos)}
     it { should have_many(:api_tokens)}
     it { should have_many(:streams)}
+    it { should have_many(:accounts)}
     it { should have_one(:key)}
   end
 
@@ -80,7 +81,5 @@ RSpec.describe Client, type: :model do
       expect{create(:client)}.to change{ApiToken.count}.by(1)
     end
 
-  	it "should show connected providers"
-    it "should remember client"
   end
 end

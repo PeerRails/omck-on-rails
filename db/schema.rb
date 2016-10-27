@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026211656) do
+ActiveRecord::Schema.define(version: 20161027114100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "provider"
+    t.integer  "provider_user_id"
+    t.string   "username"
+    t.string   "fullname"
+    t.string   "link"
+    t.integer  "client_id"
+    t.string   "profile_pic"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["client_id"], name: "index_accounts_on_client_id", using: :btree
+    t.index ["provider"], name: "index_accounts_on_provider", using: :btree
+    t.index ["provider_user_id"], name: "index_accounts_on_provider_user_id", using: :btree
+  end
 
   create_table "api_tokens", force: :cascade do |t|
     t.string   "secret"

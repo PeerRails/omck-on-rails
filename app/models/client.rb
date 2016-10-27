@@ -23,6 +23,7 @@ class Client < ApplicationRecord
   	has_many :videos
   	has_many :api_tokens
   	has_many :streams
+    has_many :accounts
 
     validate :validate_values, on: [:create, :update]
     after_create :pair_key_and_token
