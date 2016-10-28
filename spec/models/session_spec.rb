@@ -24,25 +24,23 @@ RSpec.describe Session, type: :model do
     describe "interfaces" do
         let(:client){create(:client, :viewer)}
         let(:session_id){Faker::Crypto.md5}
+        let(:session){create(:session, session_id: session_id, client_id: client.id)}
 
         it "should give an interface to create session" do
             expect(Session.create_session(client, session_id)).to be true
         end
 
         it "should give an interface destroy session" do
-            create(:session, session_id: session_id, client_id: client.id)
-            expect(Session.destroy_session(session_id)).to be true
+            expect(Session.destroy_session(session.session_id)).to be true
         end
 
         it "should show session on expired? action" do
-            create(:session, session_id: session_id, client_id: client.id)
-            expect(Session.find_by(session_id: session_id).expired?).not_to be nil
+            expect(Session.expired?(session.session_id)).not_to be nil
         end
 
         it "should show nil on expired? action" do
-            create(:session, session_id: session_id, client_id: client.id)
-            Session.destroy_session(session_id)
-            expect(Session.find_by(session_id: session_id).expired?).to be nil
+            Session.destroy_session(session.session_id)
+            expect(Session.expired?(session_id)).to be nil
         end
     end
 end
