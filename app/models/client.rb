@@ -14,7 +14,10 @@
 #  last_login  :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  salt        :string
 #
+
+require 'bcrypt'
 
 class Client < ApplicationRecord
 
@@ -26,7 +29,8 @@ class Client < ApplicationRecord
     has_many :accounts
 
     validate :validate_values, on: [:create, :update]
-    after_create :pair_key_and_token
+    before_create :salt_password
+    after_create :submit_keys
 
     # Validate values on create and update actions
     # @params [Client]
@@ -72,9 +76,21 @@ class Client < ApplicationRecord
     end
 
     # Add to client new stream key and new api token
-    def pair_key_and_token
+    def submit_keys
         Key.create(client_id: self.id)
         ApiToken.create(client_id: self.id)
+    end
+
+    # Encrypt password
+    def salt_password
+        self.salt = BCrypt::Engine.generate_salt
+        password = BCrypt::Engine.hash_secret(self.password, salt)
+        self.password = password
+    end
+
+    # Match passwords
+    def valid_password?(login_password)
+        BCrypt::Engine.hash_secret(login_password, self.salt)
     end
 
 end

@@ -13,7 +13,7 @@ gem 'figaro'
 #gem 'sass-rails', '>= 3.2'
 
 #gem 'haml-rails'
-#gem 'slim'
+gem 'slim'
 gem 'cancancan', '~> 1.15'
 
 #gem 'jquery-rails'
@@ -26,6 +26,7 @@ gem 'cancancan', '~> 1.15'
 gem 'omniauth'
 gem 'omniauth-twitter'
 #gem "pundit"
+gem 'bcrypt'
 
 gem 'twitter'
 #gem 'simple_form'

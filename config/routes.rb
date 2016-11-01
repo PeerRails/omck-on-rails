@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
-  get 'session/login'
-
-  get 'session/logout'
-
-  get 'session/verify'
-
-  get 'session/forgot_password'
 
   # Root
   root :to => 'frontpage#index'
   get 'player' => 'frontpage#player'
   get 'faq' => 'frontpage#faq'
+
+  # Authorization
+  get 'login' => 'session#login'
+  post 'login' => 'session#enter'
+  post 'register' => 'session#register'
+  get 'logout' => 'session#logout'
+
   #API
   namespace :api, defaults: {format: 'json'} do
     # Version 1.0

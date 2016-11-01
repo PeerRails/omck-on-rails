@@ -14,6 +14,7 @@
 #  last_login  :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  salt        :string
 #
 
 require 'rails_helper'
@@ -79,6 +80,12 @@ RSpec.describe Client, type: :model do
 
     it "should add to client a new api token" do
       expect{create(:client)}.to change{ApiToken.count}.by(1)
+    end
+
+    it "should match login and actual passwords" do
+      client = create(:client, :streamer, password: "test123")
+      expect(client.valid_password?("test") == client.password).to be false
+      expect(client.valid_password?("test123") == client.password).to be true
     end
 
   end

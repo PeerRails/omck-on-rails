@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027114100) do
+ActiveRecord::Schema.define(version: 20161101124519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20161027114100) do
     t.datetime "last_login"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.string   "salt"
     t.index ["admin"], name: "index_clients_on_admin", using: :btree
     t.index ["bot"], name: "index_clients_on_bot", using: :btree
     t.index ["email"], name: "index_clients_on_email", using: :btree
