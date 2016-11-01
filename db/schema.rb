@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101124519) do
+ActiveRecord::Schema.define(version: 20161101150227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,15 @@ ActiveRecord::Schema.define(version: 20161101124519) do
     t.index ["email"], name: "index_clients_on_email", using: :btree
     t.index ["password"], name: "index_clients_on_password", using: :btree
     t.index ["streamer"], name: "index_clients_on_streamer", using: :btree
+  end
+
+  create_table "email_confirmation_tokens", force: :cascade do |t|
+    t.integer  "client_id"
+    t.string   "secret"
+    t.boolean  "confirmed",  default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["client_id"], name: "index_email_confirmation_tokens_on_client_id", using: :btree
   end
 
   create_table "keys", force: :cascade do |t|

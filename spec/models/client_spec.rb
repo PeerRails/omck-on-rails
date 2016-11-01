@@ -84,8 +84,8 @@ RSpec.describe Client, type: :model do
 
     it "should match login and actual passwords" do
       client = create(:client, :streamer, password: "test123")
-      expect(client.valid_password?("test") == client.password).to be false
-      expect(client.valid_password?("test123") == client.password).to be true
+      expect(client.valid_password?("test")).to be false
+      expect(client.valid_password?("test123")).to be true
     end
 
   end

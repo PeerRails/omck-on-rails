@@ -90,7 +90,7 @@ class Client < ApplicationRecord
 
     # Match passwords
     def valid_password?(login_password)
-        BCrypt::Engine.hash_secret(login_password, self.salt)
+        BCrypt::Engine.hash_secret(login_password, self.salt) == self.password
     end
 
 end

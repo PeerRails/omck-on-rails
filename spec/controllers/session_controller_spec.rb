@@ -27,7 +27,7 @@ RSpec.describe SessionController, type: :controller do
             expect(response.status).to eq(302)
         end
 
-        it "should register and remember new client" do
+        it "should register new client" do
             post :register, params: { email: "newclient@omck.tv", name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
             client = Client.find_by_email("newclient@omck.tv")
             expect(client).not_to be nil
@@ -35,7 +35,11 @@ RSpec.describe SessionController, type: :controller do
         end
 
         it "should verify client by email" do
-
+            post :register, params: { email: "newclient@omck.tv", name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
+            token = EmailConfirmationToken.find_by_client_id(Client.last.id)
+            expect(token.confirmation).to be false
+            get :verify_mail, params: {client_id: token.secret}
+            expect(token.client.verified?).to be true
         end
 
         it "should change password for client"

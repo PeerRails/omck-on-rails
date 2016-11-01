@@ -20,6 +20,7 @@ class SessionController < ApplicationController
     def register
         client = Client.new(name: login_params[:name], email: login_params[:email])
         if client.save
+            EmailConfirmationToken.create(client_id: client.id)
             redirect_to login_path
         else
             redirect_to login_path
