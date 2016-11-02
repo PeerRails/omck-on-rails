@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'register' => 'session#register'
   get 'logout' => 'session#logout'
 
+  get 'verify-email' => 'session#verify'
+
   #API
   namespace :api, defaults: {format: 'json'} do
     # Version 1.0

@@ -35,10 +35,10 @@ RSpec.describe SessionController, type: :controller do
         end
 
         it "should verify client by email" do
-            post :register, params: { email: "newclient@omck.tv", name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
+            post :register, params: { email: Faker::Internet.email, name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
             token = EmailConfirmationToken.find_by_client_id(Client.last.id)
-            expect(token.confirmation).to be false
-            get :verify_mail, params: {client_id: token.secret}
+            expect(token.confirmed).to be false
+            get :verify, params: {client_id: token.secret}
             expect(token.client.verified?).to be true
         end
 
