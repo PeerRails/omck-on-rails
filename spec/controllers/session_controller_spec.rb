@@ -37,9 +37,12 @@ RSpec.describe SessionController, type: :controller do
         it "should verify client by email" do
             post :register, params: { email: Faker::Internet.email, name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
             token = EmailConfirmationToken.find_by_client_id(Client.last.id)
+            expect(token.client.verified?).to be false
             expect(token.confirmed).to be false
-            get :verify, params: {client_id: token.secret}
-            expect(token.client.verified?).to be true
+            get :verify, params: {token: token.secret}
+            new_token = EmailConfirmationToken.find(token.id)
+            expect(new_token.confirmed).to be true
+            expect(new_token.client.verified?).to be true
         end
 
         it "should change password for client"

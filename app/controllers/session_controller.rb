@@ -33,6 +33,14 @@ class SessionController < ApplicationController
     end
 
     def verify
+        token = EmailConfirmationToken.where(secret: params[:token]).first
+        if token && !token.confirmed
+            token.update_client
+            @message = "ты пидор"
+        else
+            raise !token.confirmed.inspect
+            @message = "ты ошибка"
+        end
     end
 
     def forgot_password

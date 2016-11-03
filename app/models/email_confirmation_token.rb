@@ -13,4 +13,15 @@
 class EmailConfirmationToken < ApplicationRecord
     belongs_to :client
     validates_uniqueness_of :secret
+
+    before_create :create_secret
+
+    def update_client
+        Client.update(self.client_id, verified: DateTime.now).save!
+        self.update(confirmed: true)
+    end
+
+    def create_secret
+        self.secret = ApplicationRecord.generate_unique_secure_token
+    end
 end

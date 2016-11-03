@@ -58,6 +58,8 @@ RSpec.describe Client, type: :model do
   		expect(@client.viewer?).to be true
   	end
   	it "should show verified" do
+  		expect(@client.verified?).to be false
+  		@client.update(verified: DateTime.now)
   		expect(@client.verified?).to be true
   	end
 

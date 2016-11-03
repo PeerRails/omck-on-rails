@@ -17,8 +17,6 @@
 #  salt        :string
 #
 
-require 'bcrypt'
-
 class Client < ApplicationRecord
 
   	has_one :key
@@ -28,7 +26,7 @@ class Client < ApplicationRecord
   	has_many :streams
     has_many :accounts
 
-    validate :validate_values, on: [:create, :update]
+    validate :validate_values, on: [:create]
     before_create :salt_password
     after_create :submit_keys
 
@@ -66,7 +64,7 @@ class Client < ApplicationRecord
     # Check client's verification status
 	# @return Boolean
     def verified?
-        self.verified.nil?
+        !self.verified.nil?
     end
 
     # Return current client's sessions
