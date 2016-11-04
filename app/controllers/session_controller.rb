@@ -37,13 +37,20 @@ class SessionController < ApplicationController
         if token && !token.confirmed
             token.update_client
             @message = "ты пидор"
-        else
-            raise !token.confirmed.inspect
-            @message = "ты ошибка"
         end
     end
 
+    # Get forgot_password, page for this
     def forgot_password
+    end
+
+    # Restore password for client
+    def restore_password
+        client = Client.find_by_email(login_params[:email])
+        client.salt_password
+        client.save
+        flash[:notice] = "Password changed"
+        redirect_to login_path
     end
 
     def login_params

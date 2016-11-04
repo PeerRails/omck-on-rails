@@ -45,6 +45,17 @@ RSpec.describe SessionController, type: :controller do
             expect(new_token.client.verified?).to be true
         end
 
+        it "should show page Forgot Password" do
+            get :forgot_password
+            expect(response.status).to eq(200)
+        end
+
+        it "should restore password for client" do
+            client = create(:client, :streamer)
+            post :restore_password, params: { email: client.email }
+            new_client = Client.find(client.id)
+            expect(new_client.password).not_to eq(client.password)
+        end
         it "should change password for client"
         it "should change emails"
 
