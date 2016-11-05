@@ -53,6 +53,14 @@ class SessionController < ApplicationController
         redirect_to login_path
     end
 
+    # Change password for user, post action
+    # @param cliend_id [Integer]
+    # @param token [String]
+    # return [Boolean]
+    def change_password
+
+    end
+
     def login_params
         params.permit(:email, :password, :name)
     end

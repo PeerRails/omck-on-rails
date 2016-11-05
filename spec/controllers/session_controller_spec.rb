@@ -56,7 +56,11 @@ RSpec.describe SessionController, type: :controller do
             new_client = Client.find(client.id)
             expect(new_client.password).not_to eq(client.password)
         end
-        it "should change password for client"
+        it "should change password for client" do
+            client = create(:client, :streamer)
+            post :change_password, params: { email: client.email, token: Faker::Internet.password  }
+            expect(response.status).to eq(204) #200
+        end
         it "should change emails"
 
         end

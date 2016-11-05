@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'verify_email' => 'session#verify'
   get 'forgot_password' => 'session#forgot_password'
   post 'restore_password' => 'session#restore_password'
+  post 'change_password' => 'session#change_password'
 
   #API
   namespace :api, defaults: {format: 'json'} do
