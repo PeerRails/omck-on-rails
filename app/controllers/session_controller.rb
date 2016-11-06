@@ -58,7 +58,7 @@ class SessionController < ApplicationController
     # @param token [String]
     # return [Boolean]
     def change_password
-
+        redirect_to login_path
     end
 
     def login_params

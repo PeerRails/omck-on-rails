@@ -59,7 +59,7 @@ RSpec.describe SessionController, type: :controller do
         it "should change password for client" do
             client = create(:client, :streamer)
             post :change_password, params: { email: client.email, token: Faker::Internet.password  }
-            expect(response.status).to eq(204) #200
+            expect(response.status).to eq(302)
         end
         it "should change emails"
 
