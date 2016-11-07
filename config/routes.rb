@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   # Root
   root :to => 'frontpage#index'
+  get 'home' => 'frontpage#index'
   get 'player' => 'frontpage#player'
   get 'faq' => 'frontpage#faq'
 
@@ -17,6 +18,8 @@ Rails.application.routes.draw do
   post 'change_password' => 'session#change_password'
   post 'change_email' => 'session#change_email'
   post 'verify_email_change' => 'session#verify_email_change'
+
+  get '/users/auth/:provider' => 'omniauth_callbacks#passthru'
 
   #API
   namespace :api, defaults: {format: 'json'} do
