@@ -3,13 +3,13 @@
 # Table name: channels
 #
 #  id         :integer          not null, primary key
-#  channel    :string(255)
+#  channel    :string
 #  live       :boolean          default(FALSE)
 #  viewers    :integer          default(0), not null
-#  game       :string(255)      default("Boku no Pico")
-#  streamer   :string(255)      default("McDwarf")
-#  title      :string(255)      default("Boku wa Tomodachi ga Sekai")
-#  service    :string(255)      default("twitch")
+#  game       :string           default("Boku no Pico"), not null
+#  streamer   :string           default("McDwarf")
+#  title      :string           default("Boku wa Tomodachi ga Sekai")
+#  service    :string           default("twitch")
 #  created_at :datetime
 #  updated_at :datetime
 #  official   :boolean          default(FALSE)

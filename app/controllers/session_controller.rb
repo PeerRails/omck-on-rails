@@ -21,6 +21,8 @@ class SessionController < ApplicationController
         client = Client.new(name: login_params[:name], email: login_params[:email])
         if client.save
             EmailConfirmationToken.create(client_id: client.id)
+            # Should send new password
+            # send_mail_with_first_password
             redirect_to login_path
         else
             redirect_to login_path
@@ -32,7 +34,7 @@ class SessionController < ApplicationController
         redirect_to login_path
     end
 
-    def verify
+    def verify_email
         token = EmailConfirmationToken.where(secret: params[:token]).first
         if token && !token.confirmed
             token.update_client
@@ -49,17 +51,45 @@ class SessionController < ApplicationController
         client = Client.find_by_email(login_params[:email])
         client.salt_password
         client.save
+        # Should send new password
+        # send_mail_with_new_password
         flash[:notice] = "Password changed"
         redirect_to login_path
     end
 
     # Change password for user, post action
-    # @param cliend_id [Integer]
-    # @param token [String]
-    # return [Boolean]
+    # @param email [String]
     def change_password
+        client = Client.find_by_email(login_params[:email])
+        client.salt_password
+        client.save
+        # Should send new password
+        # send_mail_with_new_password
+        flash[:notice] = "Password changed, check email"
         redirect_to login_path
     end
+
+    # Change email for user, post action
+    # @param email [String]
+    # @param new_email [String]
+    def change_email
+        client = Client.find_by_email(params[:email])
+        token = EmailChangeToken.create(client_id: client.id, old_email: params[:email], new_email: params[:new_email])
+        puts token.new_email
+        # Should send new token
+        # send_mail_with_new_password
+        flash[:notice] = "Check email for confimation"
+        redirect_to login_path
+    end
+
+    def verify_email_change
+        token = EmailChangeToken.where(secret: params[:token]).first
+        if token && !token.confirmed
+            token.update_email
+            @message = "ты пидор"
+        end
+    end
+
 
     def login_params
         params.permit(:email, :password, :name)

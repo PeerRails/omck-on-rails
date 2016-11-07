@@ -39,7 +39,7 @@ RSpec.describe SessionController, type: :controller do
             token = EmailConfirmationToken.find_by_client_id(Client.last.id)
             expect(token.client.verified?).to be false
             expect(token.confirmed).to be false
-            get :verify, params: {token: token.secret}
+            get :verify_email, params: {token: token.secret}
             new_token = EmailConfirmationToken.find(token.id)
             expect(new_token.confirmed).to be true
             expect(new_token.client.verified?).to be true
@@ -56,12 +56,25 @@ RSpec.describe SessionController, type: :controller do
             new_client = Client.find(client.id)
             expect(new_client.password).not_to eq(client.password)
         end
+
         it "should change password for client" do
             client = create(:client, :streamer)
-            post :change_password, params: { email: client.email, token: Faker::Internet.password  }
+            post :change_password, params: { email: client.email }
             expect(response.status).to eq(302)
         end
-        it "should change emails"
+
+        it "should change email" do
+            client = create(:client, :streamer)
+            email = Faker::Internet.email
+            post :change_email, params: { email: client.email, new_email: email }
+            token = EmailChangeToken.where(new_email: email).first
+            post :verify_email_change, params: {token: token.secret}
+            new_token = EmailChangeToken.find(token.id)
+            new_client = Client.find(client.id)
+            expect(new_client.email).to eq(email)
+            expect(new_token.confirmed).to be true
+            expect(response.status).to eq(200)
+        end
 
         end
 

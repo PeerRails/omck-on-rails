@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101150227) do
+ActiveRecord::Schema.define(version: 20161107202654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,16 +43,16 @@ ActiveRecord::Schema.define(version: 20161101150227) do
   end
 
   create_table "channels", force: :cascade do |t|
-    t.string   "channel",    limit: 255
-    t.boolean  "live",                   default: false
-    t.integer  "viewers",                default: 0,                            null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico"
-    t.string   "streamer",   limit: 255, default: "McDwarf"
-    t.string   "title",      limit: 255, default: "Boku wa Tomodachi ga Sekai"
-    t.string   "service",    limit: 255, default: "twitch"
+    t.string   "channel"
+    t.boolean  "live",       default: false
+    t.integer  "viewers",    default: 0,                            null: false
+    t.string   "game",       default: "Boku no Pico",               null: false
+    t.string   "streamer",   default: "McDwarf"
+    t.string   "title",      default: "Boku wa Tomodachi ga Sekai"
+    t.string   "service",    default: "twitch"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "official",               default: false
+    t.boolean  "official",   default: false
     t.index ["channel"], name: "index_channels_on_channel", using: :btree
   end
 
@@ -76,6 +76,17 @@ ActiveRecord::Schema.define(version: 20161101150227) do
     t.index ["streamer"], name: "index_clients_on_streamer", using: :btree
   end
 
+  create_table "email_change_tokens", force: :cascade do |t|
+    t.integer  "client_id"
+    t.string   "secret"
+    t.boolean  "confirmed",  default: false
+    t.string   "old_email"
+    t.string   "new_email"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["client_id"], name: "index_email_change_tokens_on_client_id", using: :btree
+  end
+
   create_table "email_confirmation_tokens", force: :cascade do |t|
     t.integer  "client_id"
     t.string   "secret"
@@ -87,14 +98,14 @@ ActiveRecord::Schema.define(version: 20161101150227) do
 
   create_table "keys", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "key",        limit: 255,                                        null: false
-    t.string   "game",       limit: 255, default: "Boku no Pico",               null: false
-    t.datetime "expires",                default: '2099-01-01 00:00:00',        null: false
-    t.string   "streamer",   limit: 255, default: "McDwarf"
+    t.string   "key",                                               null: false
+    t.string   "game",       default: "Boku no Pico",               null: false
+    t.datetime "expires",    default: '2099-01-01 00:00:00',        null: false
+    t.string   "streamer",   default: "McDwarf"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "guest",                  default: false
-    t.string   "movie",      limit: 255, default: "Boku Wa Tomodachi Ga Sekai"
+    t.boolean  "guest",      default: false
+    t.string   "movie",      default: "Boku Wa Tomodachi Ga Sekai"
     t.integer  "created_by"
     t.integer  "client_id"
     t.index ["client_id"], name: "index_keys_on_client_id", using: :btree
@@ -154,27 +165,25 @@ ActiveRecord::Schema.define(version: 20161101150227) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "twitter_id",          limit: 255
-    t.string   "screen_name",         limit: 255,                  null: false
-    t.string   "profile_image_url",   limit: 255, default: ""
-    t.string   "name",                limit: 255, default: "Anon"
+    t.string   "twitter_id"
+    t.string   "screen_name",         default: "Null", null: false
+    t.string   "profile_image_url"
+    t.string   "name",                default: "Anon"
+    t.integer  "gmod",                default: 0,      null: false
+    t.integer  "streamer",            default: 0,      null: false
     t.date     "login_last"
     t.inet     "last_ip"
-    t.string   "access_token",        limit: 255
-    t.string   "secret_token",        limit: 255
-    t.integer  "gmod",                            default: 0,      null: false
-    t.string   "hd_channel",          limit: 255, default: "0",    null: false
-    t.integer  "streamer",                        default: 0,      null: false
+    t.string   "access_token"
+    t.string   "secret_token"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "remember_created_at"
     t.string   "remember_token"
-    t.integer  "sign_in_count",                   default: 0
+    t.integer  "sign_in_count",       default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.index ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
   end
 
   create_table "videos", force: :cascade do |t|
