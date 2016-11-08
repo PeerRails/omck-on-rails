@@ -10,7 +10,7 @@ class SessionController < ApplicationController
     # Authorize client and save his session
     def enter
         client = Client.find_by_email(login_params[:email])
-        if client && client.valid_password?(login_params[:password])
+        if client && client.valid_password?(login_params[:password]) && client.verified?
             Session.create_session(client, session[:session_id])
         end
         redirect_to login_path
@@ -31,6 +31,7 @@ class SessionController < ApplicationController
 
     def logout
         Session.destroy_session(session[:session_id])
+        reset_session
         redirect_to login_path
     end
 
@@ -74,8 +75,8 @@ class SessionController < ApplicationController
     # @param new_email [String]
     def change_email
         client = Client.find_by_email(params[:email])
-        token = EmailChangeToken.create(client_id: client.id, old_email: params[:email], new_email: params[:new_email])
-        puts token.new_email
+        #token =
+        EmailChangeToken.create(client_id: client.id, old_email: params[:email], new_email: params[:new_email])
         # Should send new token
         # send_mail_with_new_password
         flash[:notice] = "Check email for confimation"

@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   post 'change_email' => 'session#change_email'
   post 'verify_email_change' => 'session#verify_email_change'
 
-  get '/users/auth/:provider' => 'omniauth_callbacks#passthru'
+  get '/auth/twitter/callback' => 'omniauth_callbacks#twitter'
+  get '/auth/:provider' => 'omniauth_callbacks#passthru'
 
   #API
   namespace :api, defaults: {format: 'json'} do

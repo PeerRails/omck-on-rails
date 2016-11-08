@@ -18,7 +18,7 @@ RSpec.describe SessionController, type: :controller do
 
     describe "login through email" do
         before do
-            @client = create(:client, :streamer, email: "client@omck.tv", name: "Client", password: "secret")
+            @client = create(:client, :streamer, email: "client@omck.tv", name: "Client", password: "secret", verified: DateTime.now)
         end
 
         it "should remember client in session" do

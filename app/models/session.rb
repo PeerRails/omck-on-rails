@@ -38,8 +38,12 @@ class Session < ApplicationRecord
     # @params session_id [String] String with encrypted unique session identificator
     # @return [Boolean] true if saved or false on reject
     def self.destroy_session(session_id)
-        Session.find_by(:session_id => session_id)
-              .update(:expires => DateTime.now)
+        session = Session.where(:session_id => session_id).first
+        unless session.nil? || session.expires < DateTime.now
+            session.update(:expires => DateTime.now)
+        else
+            true
+        end
     end
 
     # Show [Session] of [nil] on expiration of session
