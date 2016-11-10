@@ -34,6 +34,10 @@ RSpec.describe Session, type: :model do
             expect(Session.destroy_session(session.session_id)).to be true
         end
 
+        it "should destroy session even if there is now session record" do
+            expect(Session.destroy_session(Faker::Internet.password)).to be true
+        end
+
         it "should show session on expired? action" do
             expect(Session.expired?(session.session_id)).not_to be nil
         end

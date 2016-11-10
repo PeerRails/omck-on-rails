@@ -34,6 +34,13 @@ RSpec.describe SessionController, type: :controller do
             expect(client.password).not_to be nil
         end
 
+        it "should not register with errors" do
+            expect{
+                post :register, params: { email: "client@omck.tv", name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
+            }.to change{Client.count}.by(0)
+
+        end
+
         it "should verify client by email" do
             post :register, params: { email: Faker::Internet.email, name: "Dwarf" }, session: {session_id: Faker::Number.number(20)}
             token = EmailConfirmationToken.find_by_client_id(Client.last.id)
