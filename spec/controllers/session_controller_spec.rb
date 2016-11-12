@@ -85,13 +85,4 @@ RSpec.describe SessionController, type: :controller do
 
         end
 
-    describe "login through external services" do
-        it "should remember client who logged in through exserv" do
-
-        end
-        it "should register and remember client who logged in through exserv"
-        it "should attach account from external service to client"
-        it "should do some insane batshit"
-    end
-
 end
