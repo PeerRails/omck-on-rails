@@ -29,18 +29,22 @@ FactoryGirl.define do
 			admin false
 			streamer false
 			bot false
+			verified {DateTime.now}
 		end
 
 		trait :admin do
 			admin true
+			verified {DateTime.now}
 		end
 
 		trait :streamer do
 			streamer true
+			verified {DateTime.now}
 		end
 
 		trait :bot do
 			bot true
+			verified {DateTime.now}
 		end
 
 	end

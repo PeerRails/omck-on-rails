@@ -32,7 +32,7 @@ RSpec.describe Client, type: :model do
 
   describe "validations" do
   	before do
-  		@client = create(:client, :viewer)
+  		@client = create(:client)
   	end
 
   	it "should validate uniqueness of email" do

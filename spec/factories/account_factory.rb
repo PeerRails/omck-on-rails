@@ -21,7 +21,7 @@ FactoryGirl.define do
 		fullname {Faker::Name.name}
 		link {Faker::Internet.url}
 		profile_pic {Faker::Placeholdit.image("50x50", 'png')}
-		provider_user_id {Faker::Number.number}
+		provider_user_id {Faker::Number.number(6)}
 		client
 
 	end
