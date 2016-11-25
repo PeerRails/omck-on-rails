@@ -26,16 +26,9 @@ class Client < ApplicationRecord
   	has_many :streams
     has_many :accounts
 
-    validate :validate_values, on: [:create]
     before_create :salt_password
-    after_create :submit_keys
-
-    # Validate values on create and update actions
-    # @params [Client]
-    def validate_values
-        errors.add(:email, message: "is already registered") unless Client.find_by_email(self.email).nil?
-        errors.add(:name, message: "is blank") if self.name.nil?
-    end
+    validates_uniqueness_of :email
+    #validates_uniqueness_of :nickname
 
     # Check client's role
     # @return Boolean

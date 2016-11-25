@@ -6,6 +6,7 @@ Client:
     mv salt_password
     mv valid_password
     make email not necessary
+    add nickname
 Sessions
     make simplier logic and mv everything to service!
         login: username@password -> session/new : home/login

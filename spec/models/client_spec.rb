@@ -40,10 +40,10 @@ RSpec.describe Client, type: :model do
   		expect{client.save}.to change{Client.count}.by(0)
   	end
 
-  	it "should validate presence of name" do
-  		client = build(:client, name: nil)
-  		expect{client.save}.to change{Client.count}.by(0)
-  	end
+  	#it "should validate presence of nickname" do
+  	#	client = build(:client, name: nil)
+  	#	expect{client.save}.to change{Client.count}.by(0)
+  	#end
 
   	it "should show admin" do
   		expect(@client.admin?).to be false
@@ -63,10 +63,6 @@ RSpec.describe Client, type: :model do
   		expect(@client.verified?).to be true
   	end
 
-  	it "should show last login" do
-  		expect(@client.last_login).to be < DateTime.now
-  	end
-
   	it "should show current sessions" do
   		# Refactor this user_id
   		create(:session, client_id: @client.id, user_id: @client.id)
@@ -75,14 +71,6 @@ RSpec.describe Client, type: :model do
   		expect(sessions.last.client_id).to eq(@client.id)
   		expect(sessions.last.expires).to be > DateTime.now
   	end
-
-    it "should add to client a new stream key" do
-      expect{create(:client)}.to change{Key.count}.by(1)
-    end
-
-    it "should add to client a new api token" do
-      expect{create(:client)}.to change{ApiToken.count}.by(1)
-    end
 
     it "should match login and actual passwords" do
       client = create(:client, :streamer, password: "test123")

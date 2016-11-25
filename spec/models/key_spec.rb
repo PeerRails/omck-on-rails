@@ -37,18 +37,6 @@ RSpec.describe Key, type: :model do
         it { should validate_length_of(:game).is_at_least(3).is_at_most(40) }
         it { should validate_length_of(:movie).is_at_least(3).is_at_most(40) }
 
-        it "should create new key for every new client" do
-            expect{create(:client, :streamer)}.to change{Key.count}.by(1)
-        end
     end
 
-    describe "actions" do
-        it "should regenerate on request" do
-            key = create(:client).key
-            key.regenerate!
-            new_key = Key.find(key.id)
-            expect( key.id ).to eq(new_key.id)
-            expect( key.expires ).not_to eq(new_key.expires)
-        end
-    end
 end
