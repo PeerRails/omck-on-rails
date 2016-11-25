@@ -1,3 +1,28 @@
+== Refactor all models
+Account:
+    just store the data and validate it!
+    mv login_with_twitter to omniauth_callbacks
+Client:
+    mv salt_password
+    mv valid_password
+    make email not necessary
+Sessions
+    make simplier logic and mv everything to service!
+        login: username@password -> session/new : home/login
+        register: username@password@confirm_password -> session/new : home/register
+        omniauth_login: omni_hash[:twitter, :twitch] -> session/new : home/login
+        logout -> session/destroy : home/login
+Email Change or Confirmation:
+    DROP IT
+    should rework this
+Keys:
+    mv generate_key
+    mv make_created_by
+    mv regenerate
+Stream
+    mv stop to service
+
+
 * remodel user logic (providers)
 * add email
 * add twitch integration
