@@ -1,5 +1,3 @@
-
-
 class PasswordHandler
     def initialize(client)
         @client = client
