@@ -9,4 +9,8 @@ class PasswordHandler
         @client
     end
 
+    def valid_password?(password)
+        BCrypt::Engine.hash_secret(password, @client.salt) == @client.password
+    end
+
 end

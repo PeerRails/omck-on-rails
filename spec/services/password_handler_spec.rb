@@ -11,5 +11,10 @@ RSpec.describe PasswordHandler do
             expect(client.salt).not_to be nil
             expect(BCrypt::Engine.hash_secret(unsalted, client.salt)).to eq(client.password)
         end
+
+        it "should check password" do
+            client = password.salt_password
+            expect(password.valid_password?(unsalted)).to be true
+        end
     end
 end

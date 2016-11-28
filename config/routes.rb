@@ -8,16 +8,9 @@ Rails.application.routes.draw do
 
   # Authorization
   get 'login' => 'session#login'
-  post 'login' => 'session#enter'
-  post 'register' => 'session#register'
-  get 'logout' => 'session#logout'
-
-  get 'verify_email' => 'session#verify_email'
-  get 'forgot_password' => 'session#forgot_password'
-  post 'restore_password' => 'session#restore_password'
-  post 'change_password' => 'session#change_password'
-  post 'change_email' => 'session#change_email'
-  post 'verify_email_change' => 'session#verify_email_change'
+  post 'session/create' => 'session#create'
+  # post 'register' => 'session#register'
+  # get 'logout' => 'session#logout'
 
   get '/auth/twitter/callback' => 'omniauth_callbacks#twitter'
   get '/auth/:provider' => 'omniauth_callbacks#passthru'

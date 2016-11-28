@@ -20,6 +20,8 @@
 FactoryGirl.define do
 	factory :client, class: Client do
 		name {Faker::Name.name}
+		nickname {Faker::Internet.user_name}
+		nicknumber {Faker::Number.number(4)}
 		email {Faker::Internet.email}
 		password {Faker::Internet.password}
 		remember_at {Faker::Date.forward(14)}
