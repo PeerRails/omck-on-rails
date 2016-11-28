@@ -49,8 +49,8 @@ class Session < ApplicationRecord
     # Show [Session] of [nil] on expiration of session
     # @return [Session | nil]
     def self.expired?(session_id)
-        session = Session.find_by(:session_id => session_id)
-        session.expires > DateTime.now ? session : nil
+        session = Session.where(:session_id => session_id).first
+        (session.nil? or session.expires > DateTime.now) ? session : nil
     end
 
 end

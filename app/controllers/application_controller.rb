@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   # @params session [Hash]
   # @return [Session | nil]
   def current_session
-      Session.expired?(session[:session_id])
+      return false if session['session_id'].nil?
+      Session.expired?(session['session_id'])
   end
 
 end

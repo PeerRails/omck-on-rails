@@ -15,7 +15,7 @@ class SessionController < ApplicationController
     # Authorize client by nickname and save his session
     # POST session/create
     def create
-        client = Client.find_by_email(login_params[:email])
+        client = Client.where(nickname: login_params(:nickname)).first
         password = PasswordHandler.new(client)
         if password.valid_password?(login_params[:password])
             Session.create_session(session_id: session[:session_id], client_id: client.id)
@@ -23,26 +23,15 @@ class SessionController < ApplicationController
         redirect_to login_path
     end
 
-    # Register new client or redirect to login
-    def register
-        client = Client.new(name: login_params[:name], nickname: login_params[:email])
-        if client.save
-            EmailConfirmationToken.create(client_id: client.id)
-            # Should send new password
-            # send_mail_with_first_password
-            redirect_to login_path
-        else
-            redirect_to login_path
-        end
-    end
-
-    def logout
+    # Destroy session
+    # POST session/destroy
+    def destroy
         Session.destroy_session(session[:session_id])
         reset_session
         redirect_to login_path
     end
 
     def login_params
-        params.permit(:password, :nickname)
+	params.require(:client).permit(:password, :nickname)
     end
 end

@@ -13,9 +13,6 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
             request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
             expect{ post :twitter, session: {session_id: Faker::Internet.password } }.to change{Client.count}.by(1)
         end
-        it "should link account to existing client" do
-
-        end
     end
 
 end
