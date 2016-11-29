@@ -27,7 +27,13 @@ class Client < ApplicationRecord
     has_many :accounts
 
     #validates_uniqueness_of :email
-    validates_uniqueness_of :nickname
+    validates_uniqueness_of :nickname, case_sensitive: false
+    validates_uniqueness_of :email, case_sensitive: false, allow_blank: true 
+    validates_presence_of :password, :nickname
+    validates :nickname, length: { in: 3..20 }#, format: { with: /\A[-_a-zA-Z0-9]\A/ }
+    validates :password, length: { in: 6..64 }
+    before_create :encrypt_password
+    after_create :submit_data
 
     # Check client's role
     # @return Boolean
@@ -65,10 +71,15 @@ class Client < ApplicationRecord
                 .where("expires > ?", DateTime.now)
     end
 
-    # Add to client new stream key and new api token
-    def submit_keys
-        Key.create(client_id: self.id)
-        ApiToken.create(client_id: self.id)
+    # Encrypt aka salt password before creation
+    def encrypt_password
+        password = PasswordHandler.new(self)
+        password.salt_password
     end
 
+    # Submit records to client after creation of new account
+    def submit_data
+        keys = ClientSubmitKeys.new(self)
+        keys.save
+    end
 end

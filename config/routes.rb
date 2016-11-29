@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   post 'session' => 'session#create'
   delete 'session' => 'session#destroy'
 
+  # Registration
+  get 'sign_up' => 'clients#new'
+  post 'sign_up' => 'clients#create'
+
   get '/auth/twitter/callback' => 'omniauth_callbacks#twitter'
   get '/auth/:provider' => 'omniauth_callbacks#passthru'
 

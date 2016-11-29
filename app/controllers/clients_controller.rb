@@ -1,12 +1,17 @@
 class ClientsController < ApplicationController
 
-     # Register new client or redirect to login
-     # POST client/create
+    # View Registration
+    # GET sign_up
+    def new
+    end
+
+    # Register new client or redirect to login
+    # POST client/create
     def create
-        client = PasswordHandler.new( Client.new(nickname: reg_params[:nickname], password: reg_params[:password]) )
-        client.salt_password
+        client = Client.new(nickname: reg_params[:nickname], password: reg_params[:password])
         if client.save
-            redirect_to login_path
+            client_service = SessionService.new(client).attach_to_client(session[:session_id])
+            redirect_to home_path
         else
             redirect_to login_path
         end
@@ -14,6 +19,6 @@ class ClientsController < ApplicationController
 
     private
         def reg_params
-            params.require(:client).permit(:name, :password)
+            params.require(:client).permit(:nickname, :password)
         end
 end
