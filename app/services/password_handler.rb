@@ -10,7 +10,13 @@ class PasswordHandler
     end
 
     def save
-        @clien.save
+        @client.save
+    end
+
+    def encrypt
+	salt_password
+	save
+	@client
     end
 
     def valid_password?(password)

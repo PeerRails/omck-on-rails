@@ -16,5 +16,17 @@ RSpec.describe PasswordHandler do
             client = password.salt_password
             expect(password.valid_password?(unsalted)).to be true
         end
+
+	it "should save new client with hashed password" do
+	    client = password.salt_password
+	    expect{client.save}.to change{Client.count}.by(1)
+	    expect(Client.last.password).not_to eq(unsalted)
+	end
+
+	it "should encrypt and save new client" do
+	    client = password.encrypt
+	    expect(client.password).not_to eq(unsalted)
+	    expect(client.id).not_to be nil
+	end
     end
 end
