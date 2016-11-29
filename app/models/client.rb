@@ -19,16 +19,15 @@
 
 class Client < ApplicationRecord
 
-  	has_one :key
-  	has_many :tweets
-  	has_many :videos
-  	has_many :api_tokens
-  	has_many :streams
+    has_one :key
+    has_many :tweets
+    has_many :videos
+    has_many :api_tokens
+    has_many :streams
     has_many :accounts
 
-    before_create :salt_password
-    validates_uniqueness_of :email
-    #validates_uniqueness_of :nickname
+    #validates_uniqueness_of :email
+    validates_uniqueness_of :nickname
 
     # Check client's role
     # @return Boolean

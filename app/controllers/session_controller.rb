@@ -2,6 +2,7 @@ class SessionController < ApplicationController
 
     # Show login page
     # GET login
+    # GET session
     def login
         if current_client
             redirect_to home_path
@@ -13,25 +14,28 @@ class SessionController < ApplicationController
     end
 
     # Authorize client by nickname and save his session
-    # POST session/create
+    # POST session
     def create
-        client = Client.where(nickname: login_params(:nickname)).first
+        client = Client.where(nickname: login_params[:nickname]).first
         password = PasswordHandler.new(client)
-        if password.valid_password?(login_params[:password])
-            Session.create_session(session_id: session[:session_id], client_id: client.id)
+	client_session = SessionService.new(client)
+        if client && password.valid_password?(login_params[:password])
+	    client_session.attach_to_client(session[:session_id])
         end
         redirect_to login_path
     end
 
     # Destroy session
-    # POST session/destroy
+    # DELETE session
     def destroy
-        Session.destroy_session(session[:session_id])
+        client_session = SessionService.new(current_client)
+        client_session.destroy(session[:session_id])
         reset_session
         redirect_to login_path
     end
 
-    def login_params
-	params.require(:client).permit(:password, :nickname)
-    end
+    private
+        def login_params
+            params.require(:client).permit(:password, :nickname)
+        end
 end
