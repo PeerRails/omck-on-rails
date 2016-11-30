@@ -26,14 +26,22 @@ class Client < ApplicationRecord
     has_many :streams
     has_many :accounts
 
+    # Use FormValidator
     #validates_uniqueness_of :email
-    validates_uniqueness_of :nickname, case_sensitive: false
-    validates_uniqueness_of :email, case_sensitive: false, allow_blank: true 
-    validates_presence_of :password, :nickname
-    validates :nickname, length: { in: 3..20 }#, format: { with: /\A[-_a-zA-Z0-9]\A/ }
-    validates :password, length: { in: 6..64 }
+    #validates_uniqueness_of :nickname, case_sensitive: false
+    #validates_uniqueness_of :email, case_sensitive: false, allow_blank: true 
+    #validates_presence_of :password, :nickname
+    #validates :nickname, length: { in: 3..20 }#, format: { with: /\A[-_a-zA-Z0-9]\A/ }
+    #validates :password, length: { in: 6..64 }
+
     before_create :encrypt_password
     after_create :submit_data
+
+    # Validate password
+    # @ return Boolean
+    def password_nil?
+      self.password.nil?
+    end
 
     # Check client's role
     # @return Boolean
@@ -81,5 +89,9 @@ class Client < ApplicationRecord
     def submit_data
         keys = ClientSubmitKeys.new(self)
         keys.save
+    end
+
+    def self.create_from_oauth(omni)
+        create!(nickname: omni[:info][:nickname], name: omni[:info][:fullname])
     end
 end

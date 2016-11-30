@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get 'sign_up' => 'clients#new'
   post 'sign_up' => 'clients#create'
 
-  get '/auth/twitter/callback' => 'omniauth_callbacks#twitter'
+  get '/auth/:provider/callback' => 'omniauth_callbacks#login'
   get '/auth/:provider' => 'omniauth_callbacks#passthru'
 
   #API

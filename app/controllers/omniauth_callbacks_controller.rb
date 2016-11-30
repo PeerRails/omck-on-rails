@@ -1,7 +1,7 @@
 class OmniauthCallbacksController < ApplicationController
     before_action :omniauth
 
-    def twitter
+    def login
 	   @account = @omniauth.login_with_twitter
 	   if @account.nil?
 		   redirect_to login_path, flash: {danger: "Error"}

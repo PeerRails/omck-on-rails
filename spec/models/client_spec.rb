@@ -36,7 +36,7 @@ RSpec.describe Client, type: :model do
   	end
 
   	it "should validate presence of nickname" do
-  		client = build(:client, name: nil)
+  		client = build(:client, nickname: nil)
   		expect{client.save}.to change{Client.count}.by(0)
   	end
 
@@ -67,5 +67,9 @@ RSpec.describe Client, type: :model do
   		expect(sessions.last.expires).to be > DateTime.now
   	end
 
+    it "should create client from omniauth" do
+      omni = OmniAuth.config.mock_auth[:twitter]
+      expect{Client.create_from_oauth(omni)}.to change{Client.count}.by(1)
+    end
   end
 end
