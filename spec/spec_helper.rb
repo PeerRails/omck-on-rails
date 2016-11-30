@@ -23,6 +23,8 @@ SimpleCov.formatters = [
 ]
 SimpleCov.start 'rails' do
   add_group "Serializers", "app/serializers"
+  add_group "Services", "app/services"
+  add_group "Decorators", "app/decorators"
 end
 CodeClimate::TestReporter.start
 

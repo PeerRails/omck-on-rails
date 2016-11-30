@@ -1,7 +1,7 @@
 class UserOmniAuth
   attr_accessor :provider
-	def initialize(provider)
-	  @provider = provider	
+	def initialize(provider=self)
+	  @provider = provider
 	end
 
   # Authorize [Client] with [Account]
