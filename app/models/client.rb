@@ -39,9 +39,9 @@ class Client < ApplicationRecord
 
     # Validate password
     # @ return Boolean
-    def password_nil?
-      self.password.nil?
-    end
+    #def password_nil?
+      #self.password.nil?
+    #end
 
     # Check client's role
     # @return Boolean
