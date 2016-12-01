@@ -37,6 +37,7 @@ gem 'twitter-text'
 #gem 'oj'
 #gem 'oj_mimic_json'
 gem 'active_model_serializers'
+gem 'dry-validation'
 
 group :development do
   gem 'rubocop'
