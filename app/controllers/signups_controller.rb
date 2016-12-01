@@ -1,6 +1,7 @@
 class SignupsController < ApplicationController
 
     # Signup Form
+    # GET /signup
     def new
     end
 
