@@ -70,7 +70,13 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.5.3)
+    declarative (0.0.8)
+      uber (>= 0.0.15)
     diff-lcs (1.2.5)
+    disposable (0.3.2)
+      declarative (>= 0.0.8, < 1.0.0)
+      representable (>= 2.4.0, <= 3.1.0)
+      uber
     docile (1.1.5)
     domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
@@ -207,6 +213,13 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
     rake (11.3.0)
+    reform (2.2.2)
+      disposable (>= 0.3.0, < 0.4.0)
+      representable (>= 2.4.0, < 3.1.0)
+      uber (>= 0.0.15, < 0.2.0)
+    representable (3.0.1)
+      declarative (~> 0.0.5)
+      uber (>= 0.0.15, < 0.2.0)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -281,6 +294,7 @@ GEM
       unf (~> 0.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uber (0.1.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
@@ -315,6 +329,7 @@ DEPENDENCIES
   pg (= 0.19)
   puma
   rails (= 5.0.0.1)
+  reform
   rspec-rails (~> 3.0)
   rubocop
   ruby-lint
