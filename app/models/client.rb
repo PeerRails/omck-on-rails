@@ -35,7 +35,7 @@ class Client < ApplicationRecord
     #validates :password, length: { in: 6..64 }
 
     before_create :encrypt_password
-    after_create :submit_data
+    #after_create :submit_data
 
     # Validate password
     # @ return Boolean
@@ -83,12 +83,6 @@ class Client < ApplicationRecord
     def encrypt_password
         password = PasswordHandler.new(self)
         password.salt_password
-    end
-
-    # Submit records to client after creation of new account
-    def submit_data
-        keys = ClientSubmitKeys.new(self)
-        keys.save
     end
 
     def self.create_from_oauth(omni)

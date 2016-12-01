@@ -18,11 +18,13 @@ class SessionController < ApplicationController
     def create
         client = Client.where(nickname: login_params[:nickname]).first
         password = PasswordHandler.new(client)
-	client_session = SessionService.new(client)
+        client_session = SessionService.new(client)
         if client && password.valid_password?(login_params[:password])
-	    client_session.attach_to_client(session[:session_id])
+           client_session.attach_to_client(session[:session_id])
+           redirect_to home_path
+        else
+          redirect_to login_path
         end
-        redirect_to login_path
     end
 
     # Destroy session

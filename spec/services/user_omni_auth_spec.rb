@@ -11,7 +11,7 @@ RSpec.describe UserOmniAuth do
     end
     it "should login with twitter" do
       omniauth = UserOmniAuth.new(TwitterOmniAuth.new)
-      expect(omniauth.authorize(twitter).persisted?).to be true 
+      expect(omniauth.authorize(twitter).persisted?).to be true
     end
 
 

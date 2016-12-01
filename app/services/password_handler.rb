@@ -14,9 +14,9 @@ class PasswordHandler
     end
 
     def encrypt
-	salt_password
-	save
-	@client
+        salt_password
+        save
+        @client
     end
 
     def valid_password?(password)

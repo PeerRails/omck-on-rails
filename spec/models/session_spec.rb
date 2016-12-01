@@ -26,25 +26,8 @@ RSpec.describe Session, type: :model do
         let(:session_id){Faker::Crypto.md5}
         let(:session){create(:session, session_id: session_id, client_id: client.id)}
 
-        it "should give an interface to create session" do
-            expect(Session.create_session(client, session_id)).to be true
-        end
-
-        it "should give an interface destroy session" do
-            expect(Session.destroy_session(session.session_id)).to be true
-        end
-
-        it "should destroy session even if there is now session record" do
-            expect(Session.destroy_session(Faker::Internet.password)).to be true
-        end
-
         it "should show session on expired? action" do
             expect(Session.expired?(session.session_id)).not_to be nil
         end
-
-        it "should show nil on expired? action" do
-            Session.destroy_session(session.session_id)
-            expect(Session.expired?(session_id)).to be nil
-        end
-    end
+   end
 end

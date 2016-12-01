@@ -35,11 +35,6 @@ RSpec.describe Client, type: :model do
   	    @client = create(:client)
   	end
 
-  	it "should validate presence of nickname" do
-  		client = build(:client, nickname: nil)
-  		expect{client.save}.to change{Client.count}.by(0)
-  	end
-
   	it "should show admin" do
   		expect(@client.admin?).to be false
   	end
