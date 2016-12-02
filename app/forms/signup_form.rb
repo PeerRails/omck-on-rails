@@ -11,22 +11,29 @@ class SignupForm
   validates :nickname, presence: true
   validates :nickname, format: { with: /[-_a-zA-Z0-9]/ }
   validates :nickname,  length: { in: 5..32 }
-  #validates_uniqueness_of :nickname
   validates :email, presence: false
-  #validates_uniqueness_of :email
   validates :password, presence: true
   validates :password, length: {in: 6..64}
   validates :confirm_password, presence: true
 
-  validate :password_ok
+  validate :password_ok, :unique_nickname, :unique_email
 
   def password_ok
     errors.add(:confirm_password, "Doesn't match") unless password === confirm_password
   end
 
+  def unique_nickname
+    errors.add(:nickname, "already taken") unless Client.where(nickname: nickname).count == 0
+  end
+
+  def unique_email
+    errors.add(:email, "already taken") unless Client.where(email: email).count == 0
+  end
+
+
   def signup
     if valid?
-     create_client
+      create_client
     end
   end
 
