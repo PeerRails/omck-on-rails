@@ -38,11 +38,6 @@ gem 'twitter-text'
 #gem 'oj_mimic_json'
 gem 'active_model_serializers'
 
-# Trailblazer
-gem "trailblazer"
-gem "trailblazer-rails"
-gem 'dry-validation'
-
 group :development do
   gem 'rubocop'
   gem 'ruby-lint'

@@ -29,10 +29,12 @@ class Client < ApplicationRecord
     # Use FormValidator
     #validates_uniqueness_of :email
     #validates_uniqueness_of :nickname, case_sensitive: false
-    #validates_uniqueness_of :email, case_sensitive: false, allow_blank: true 
+    #validates_uniqueness_of :email, case_sensitive: false, allow_blank: true
     #validates_presence_of :password, :nickname
     #validates :nickname, length: { in: 3..20 }#, format: { with: /\A[-_a-zA-Z0-9]\A/ }
     #validates :password, length: { in: 6..64 }
+
+    attr_accessor :confirm_password
 
     before_create :encrypt_password
     #after_create :submit_data
