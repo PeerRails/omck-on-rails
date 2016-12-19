@@ -2,7 +2,7 @@ class TwitterOmniAuth
   attr_accessor :omniauth
 
   # Update [Account]
-  # @params [OmniAuth]
+  # @param [OmniAuth]
   # @return [Account]
   def update(account)
     account.update(username: @omniauth[:info][:nickname],
@@ -10,4 +10,11 @@ class TwitterOmniAuth
                   profile_pic: @omniauth[:info][:image],
                   link: @omniauth[:info][:urls][:Twitter])
   end
+
+  # Set omniauth variable
+  # @param [OmniAuth]
+  # @return [OmniAuth]
+  #def set_omniauth(omniauth=nil)
+    #@omniauth = omniauth
+  #end
 end

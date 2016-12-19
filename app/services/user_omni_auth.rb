@@ -1,5 +1,5 @@
 class UserOmniAuth
-  attr_accessor :provider
+  attr_accessor :provider, :omniauth
 	def initialize(provider=self)
 	  @provider = provider
 	end
@@ -16,8 +16,8 @@ class UserOmniAuth
       u.fullname = omniauth[:info][:fullname]
       u.client_id = Client.create_from_oauth(omniauth).id if u.client_id.nil?
     end
-    provider.omniauth = omniauth
-    provider.update(account)
+    @provider.omniauth = omniauth
+    @provider.update(account)
     account.client
   end
 
@@ -25,8 +25,8 @@ class UserOmniAuth
   # @param [Account]
   # @return [Boolean]
   # @raise NotImplementedError
-  def update(account)
-    raise NotImplementedError 
+  def update(account=nil)
+    raise NotImplementedError
   end
 
 end
