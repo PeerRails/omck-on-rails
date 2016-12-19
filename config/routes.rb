@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   delete 'sessions' => 'session#destroy'
 
   # Registration
-  get 'sign_up' => 'clients#new'
-  post 'sign_up' => 'clients#create'
+  get 'signup/new' => 'signups#new'
+  post 'signup/create' => 'signups#create'
 
   get '/auth/:provider/callback' => 'omniauth_callbacks#login'
   get '/auth/:provider' => 'omniauth_callbacks#passthru'

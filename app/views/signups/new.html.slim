@@ -1,0 +1,10 @@
+= form_tag "signup/create", method: "post" do
+  =label_tag(:nickname, "Nickname")
+  =text_field_tag(:nickname)
+  =label_tag(:password, "password")
+  =text_field_tag(:password)
+  =label_tag(:confirm_password, "Confirm password")
+  =text_field_tag(:confirm_password)
+  =label_tag(:email, "Optional email")
+  =text_field_tag(:email)
+  = submit_tag("submit")
