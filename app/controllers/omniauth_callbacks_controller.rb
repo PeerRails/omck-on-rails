@@ -25,7 +25,14 @@ class OmniauthCallbacksController < ApplicationController
   def set_provider
     return false if request.env['omniauth.auth'].nil?
     @omniauth = request.env['omniauth.auth']
-    @provider = UserOmniAuth.new(TwitterOmniAuth.new) if @omniauth['provider'] == 'twitter'
+    case @omniauth['provider']
+    when 'twitter'
+      @provider = UserOmniAuth.new(TwitterOmniAuth.new)
+    when 'twitch'
+      @provider = UserOmniAuth.new(TwitchOmniAuth.new)
+    else
+      return false
+    end
   end
 
 end

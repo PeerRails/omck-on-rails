@@ -105,7 +105,38 @@ omni_twitter = {
     }
   }
 }
+omni_twitch = {
+  provider: 'twitch',
+  uid: 12345678,
+  info: {
+    name: 'JohnDoe',
+    email: 'johndoe@gmail.com',
+    nickname: 'johndoe',
+    description: 'My channel.',
+    image: 'http://static-cdn.jtvnw.net/jtv-static/404_preview-300x300.png',
+  },
+  credentials: {
+    token: 'vvvv',
+    expires: false
+  },
+  extra: {
+    raw_info: {
+      display_name: 'JohnDoe',
+      _id: 12345678,
+      name: 'johndoe',
+      type: 'user',
+      bio:"My channel.",
+      created_at:"2011-07-01T19:46:21Z",
+      updated_at:"2014-05-06T05:59:37Z",
+      logo:nil,
+      _links: { self: 'https://api.twitch.tv/kraken/users/johndoe'},
+      email:'johdoe@gmail.com',
+      partnered:false
+    }
+  }
+}
 OmniAuth.config.add_mock(:twitter, omni_twitter)
+OmniAuth.config.add_mock(:twitch, omni_twitch)
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

@@ -1,4 +1,4 @@
-class TwitterOmniAuth
+class TwitchOmniAuth
   attr_accessor :omniauth
 
   # Update [Account]
@@ -8,6 +8,6 @@ class TwitterOmniAuth
     account.update(username: @omniauth[:info][:nickname],
                   fullname: @omniauth[:info][:name],
                   profile_pic: @omniauth[:info][:image],
-                  link: @omniauth[:info][:urls][:Twitter])
+                  link: "https://twitch.tv/#{@omniauth[:info][:nickname]}")
   end
 end

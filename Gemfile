@@ -25,6 +25,7 @@ gem 'cancancan', '~> 1.15'
 #gem 'devise'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'omniauth-twitch'
 #gem "pundit"
 gem 'bcrypt'
 
