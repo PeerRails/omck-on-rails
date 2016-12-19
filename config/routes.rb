@@ -6,10 +6,11 @@ Rails.application.routes.draw do
   get 'player' => 'frontpage#player'
   get 'faq' => 'frontpage#faq'
 
-  # Authorization
-  get 'login' => 'session#login'
-  post 'session' => 'session#create'
-  delete 'session' => 'session#destroy'
+  # Sessions
+  get 'sessions/login' => 'session#login'
+  get 'login' => 'session#login' # Legacy?
+  post 'sessions' => 'session#create'
+  delete 'sessions' => 'session#destroy'
 
   # Registration
   get 'sign_up' => 'clients#new'

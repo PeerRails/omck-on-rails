@@ -34,7 +34,7 @@ class Client < ApplicationRecord
     #validates :nickname, length: { in: 3..20 }#, format: { with: /\A[-_a-zA-Z0-9]\A/ }
     #validates :password, length: { in: 6..64 }
 
-    attr_accessor :confirm_password
+    attr_accessor :confirm_password, :last_ip
 
     before_create :encrypt_password
     #after_create :submit_data

@@ -26,6 +26,7 @@ FactoryGirl.define do
 		password {Faker::Internet.password}
 		remember_at {Faker::Date.forward(14)}
 		last_login {DateTime.now}
+    last_ip {Faker::Internet.ip_v4_address}
 
 		trait :viewer do
 			admin false

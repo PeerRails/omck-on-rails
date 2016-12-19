@@ -1,4 +1,5 @@
 class SessionService
+
     # Initialize service object
     # @param [Client]
     def initialize(client)
@@ -11,7 +12,8 @@ class SessionService
     def attach_to_client(session_id)
         Session.create(:client_id => @client.id,
               :session_id => session_id,
-              :expires => @client.remember_at
+              :expires => @client.remember_at,
+              :ip => @client.last_ip
               )
     end
 

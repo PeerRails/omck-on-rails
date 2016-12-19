@@ -2,7 +2,7 @@ class SessionController < ApplicationController
 
     # Show login page
     # GET login
-    # GET session
+    # GET sessions/login
     def login
         if current_client
             redirect_to home_path
@@ -14,12 +14,13 @@ class SessionController < ApplicationController
     end
 
     # Authorize client by nickname and save his session
-    # POST session
+    # POST sessions
     def create
         client = Client.where(nickname: login_params[:nickname]).first
         password = PasswordHandler.new(client)
         client_session = SessionService.new(client)
         if client && password.valid_password?(login_params[:password])
+           client.last_ip = request.ip
            client_session.attach_to_client(session[:session_id])
            redirect_to home_path
         else
@@ -28,7 +29,7 @@ class SessionController < ApplicationController
     end
 
     # Destroy session
-    # DELETE session
+    # DELETE sessions
     def destroy
         client_session = SessionService.new(current_client)
         client_session.destroy(session[:session_id])
