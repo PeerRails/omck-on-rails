@@ -42,7 +42,9 @@ class ChannelsController < ApplicationController
   # @return [Response]
   def create
     channel = ChannelOperator.create(channel_params)
-    render json: { error: channel.error?, response: channel.data }
+    status = channel.success? ? 200 : channel.data.status
+    render json: channel.data, status: status
+    #render json: { error: channel.error?, response: channel.data }
   end
 
   # Put new changes in required channel
@@ -58,7 +60,8 @@ class ChannelsController < ApplicationController
   # @return [Response]
   def update
     channel = ChannelOperator.update({channel: params[:channel], service: params[:service], data: data_params})
-    render json: { error: channel.error?, response: channel.data }
+    status = channel.success? ? 200 : channel.data.status
+    render json: channel.data, status: status
   end
 
   # Delete required channel

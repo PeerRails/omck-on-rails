@@ -44,13 +44,14 @@ RSpec.describe ChannelsController, type: :controller do
     it "should create new channel" do
       post :create, params: { channel: { channel: 'second', service: 'twitch', streamer: 'vanya' } }
       expect( json['error'] ).to be nil
-      expect( json['response']['channel'] ).to eq('second')
+      expect( json['channel']['channel'] ).to eq('second')
     end
 
     it "should show error if data incorrect" do
       create(:channel, channel: 'errorchannel', streamer: 'streamer')
       post :create, params: { channel: { channel: 'errorchannel', service: 'hd', streamer: 'streamer' } }
-      expect( json['response']['channel'][0] ).to eql('has already been taken')
+      expect( json['error'] ).to be true
+      expect( json['data']['channel'][0] ).to eql('has already been taken')
     end
   end
 
@@ -65,7 +66,7 @@ RSpec.describe ChannelsController, type: :controller do
       }
       put :update, params: {channel: @channel.channel, service: @channel.service, data: params}
       expect( json['error'] ).to be nil
-      expect( json['response']['viewers'] ).to eq(14)
+      expect( json['channel']['viewers'] ).to eq(14)
     end
 
     it "should show error" do
@@ -74,7 +75,7 @@ RSpec.describe ChannelsController, type: :controller do
       }
       put :update, params: { channel: @channel.channel, service: "no", data: params }
       expect( json['error'] ).to be true
-      expect( json['response'][0] ).to eql("not found")
+      expect( json['data'].empty? ).to be true
     end
   end
 

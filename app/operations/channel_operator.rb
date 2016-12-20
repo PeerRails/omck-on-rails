@@ -3,7 +3,7 @@ class ChannelOperator
   def self.get_channel(options={service: nil, channel: nil})
     channel = Channel.where(service: options[:service], channel: options[:channel]).first
     if channel.nil?
-      ErrorResponse.new(Channel.new, "Channel not found")
+      ErrorResponse.new(channel_not_found, channel_not_found.message)
     else
       SuccessResponse.new(channel, "Channel found")
     end
@@ -18,29 +18,43 @@ class ChannelOperator
     if channel.save
       SuccessResponse.new(channel, "Success")
     else
-      ErrorResponse.new(channel.errors.messages, "Channel data is invalid")
+      error = Error.new({ message: "Channel data is invalid", data: channel.errors.messages, status: 400 })
+      ErrorResponse.new(error, error.message)
     end
   end
 
   # Update Channel object
   # @param options [Hash]
-  # @return [Channel]
+  # @return [Response]
   def self.update(options)
     channel = get_channel({service: options[:service], channel: options[:channel]})
-    return ErrorResponse.new(Channel.new.errors.add(:channel, :not_found), "Channel not found") if channel.error?
+    return ErrorResponse.new(channel_not_found, channel_not_found.message) if channel.error?
     if channel.data.update_attributes(options[:data])
       SuccessResponse.new(channel.data, "Success")
     else
-      ErrorResponse.new(channel.errors.messages, "Channel data is invalid")
+      error = Error.new({ message: "Channel data is invalid", data: channel.errors.messages, status: 400 })
+      ErrorResponse.new(error, error.message)
     end
   end
 
+  # Switch live status of channel
+  # @params options [Hash]
+  # @return [Response]
   def self.switch(options)
     res = get_channel({ service: options[:service], channel: options[:channel]})
-    return ErrorResponse.new(Channel.new.errors.add(:channel, :not_found), "Channel not found") if res.error?
+    return ErrorResponse.new(channel_not_found, channel_not_found.message) if res.error?
     channel = res.data
     channel.toggle(:live)
     channel.save
     SuccessResponse.new(channel, "Success")
   end
+
+  # Return Error for not_found
+  # @return [Error]
+  def self.channel_not_found
+    Error.new({ status: 400,
+                  data: Channel.none,
+                  message: "Channel not found"})
+  end
+
 end
