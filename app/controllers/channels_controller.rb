@@ -39,14 +39,10 @@ class ChannelsController < ApplicationController
   # @option channel_params [String] :streamer Streamer name
   # @option channel_params [Boolean] :live Status of channel
   # @option channel_params [Integer] :viewers Viewer count
-  # @return [Channel]
+  # @return [Response]
   def create
-    channel = Channel.new(channel_params)
-    if channel.save
-      render json: channel
-    else
-      render json: { errors: channel.errors }
-    end
+    channel = ChannelOperator.create(channel_params)
+    render json: { error: channel.error?, response: channel.data }
   end
 
   # Put new changes in required channel
@@ -59,14 +55,10 @@ class ChannelsController < ApplicationController
   # @option channel_params [String] :streamer Streamer name
   # @option channel_params [Integer] :viewers Viewer count
   # @option channel_params [Boolean] :live Status of channel
-  # @return [Channel]
+  # @return [Response]
   def update
-    channel = Channel.where(service: params[:service], channel: params[:channel]).first
-    if !channel.nil? && channel.update_attributes(data_params)
-      render json: channel
-    else
-      render json: { errors: { channel: ["can't update due to errors"] } }
-    end
+    channel = ChannelOperator.update({channel: params[:channel], service: params[:service], data: data_params})
+    render json: { error: channel.error?, response: channel.data }
   end
 
   # Delete required channel

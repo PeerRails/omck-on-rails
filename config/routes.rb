@@ -19,13 +19,16 @@ Rails.application.routes.draw do
   get '/auth/:provider' => 'omniauth_callbacks#passthru'
 
   # Channels
-  get 'channels/live' => 'channels#live'
-  get 'channels/all' => 'channels#all'
-  get 'channels/:service/:channel/show' => 'channels#show'
-  get 'channels/:service/show' => 'channels#show'
-  post 'channels/create' => 'channels#create'
-  post 'channels/:service/:channel/update' => 'channels#update'
-  delete 'channels/:service/:channel/destroy' => 'channels#destroy'
-  get 'channel/:service/:channel/switch' => 'channels#switch'
+  scope '/channels' do
+    get 'live' => 'channels#live'
+    get 'all' => 'channels#all'
+    get ':service/:channel/show' => 'channels#show'
+    get ':service/show' => 'channels#show'
+    post 'create' => 'channels#create'
+    put ':service/:channel/update' => 'channels#update'
+    delete ':service/:channel/destroy' => 'channels#destroy'
+    get ':service/:channel/switch' => 'channels#switch'
+  end
+
 
 end

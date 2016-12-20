@@ -43,14 +43,14 @@ RSpec.describe ChannelsController, type: :controller do
     let(:json){JSON.parse(response.body)}
     it "should create new channel" do
       post :create, params: { channel: { channel: 'second', service: 'twitch', streamer: 'vanya' } }
-      expect( json['errors'] ).to be nil
-      expect( json['channel']['channel'] ).to eq('second')
+      expect( json['error'] ).to be nil
+      expect( json['response']['channel'] ).to eq('second')
     end
 
     it "should show error if data incorrect" do
       create(:channel, channel: 'errorchannel', streamer: 'streamer')
       post :create, params: { channel: { channel: 'errorchannel', service: 'hd', streamer: 'streamer' } }
-      expect( json['errors']['channel'][0] ).to eql('has already been taken')
+      expect( json['response']['channel'][0] ).to eql('has already been taken')
     end
   end
 
@@ -63,17 +63,18 @@ RSpec.describe ChannelsController, type: :controller do
       params = {
         viewers: 14
       }
-      post :update, params: {channel: @channel.channel, service: @channel.service, data: params}
-      expect( json['errors'] ).to be nil
-      expect( json['channel']['viewers'] ).to eq(14)
+      put :update, params: {channel: @channel.channel, service: @channel.service, data: params}
+      expect( json['error'] ).to be nil
+      expect( json['response']['viewers'] ).to eq(14)
     end
 
     it "should show error" do
       params = {
         channel: "123"
       }
-      post :update, params: { channel: @channel.channel, service: "no", data: params }
-      expect( json['errors']['channel'][0] ).to eql("can't update due to errors")
+      put :update, params: { channel: @channel.channel, service: "no", data: params }
+      expect( json['error'] ).to be true
+      expect( json['response'][0] ).to eql("not found")
     end
   end
 
