@@ -47,12 +47,13 @@ class Key < ApplicationRecord
     self.created_by = self.client_id if self.created_by.nil?
   end
 
+  # Should be done by service
   # Change key secret
   # Return [Key]
-  def regenerate!
-    self.expires = DateTime.now
-    generate_key
-    save!
-  end
+  #def regenerate!
+    #self.expires = DateTime.now
+    #generate_key
+    #save!
+  #end
 
 end

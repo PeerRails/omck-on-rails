@@ -34,6 +34,8 @@
 #    }
 #
 # For single channel response API returns with namespace *channel*
+
+
 class ChannelSerializer < ActiveModel::Serializer
   attributes :id, :channel, :viewers, :live, :game, :title, :streamer, :service, :official, :url, :player
 
