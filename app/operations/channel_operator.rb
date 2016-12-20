@@ -34,4 +34,13 @@ class ChannelOperator
       ErrorResponse.new(channel.errors.messages, "Channel data is invalid")
     end
   end
+
+  def self.switch(options)
+    res = get_channel({ service: options[:service], channel: options[:channel]})
+    return ErrorResponse.new(Channel.new.errors.add(:channel, :not_found), "Channel not found") if res.error?
+    channel = res.data
+    channel.toggle(:live)
+    channel.save
+    SuccessResponse.new(channel, "Success")
+  end
 end
