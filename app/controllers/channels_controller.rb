@@ -22,13 +22,9 @@ class ChannelsController < ApplicationController
   # @param channel [String]
   # @return [Channel]
   def show
-    if params[:channel].nil?
-      channel = Channel.where(service: params[:service])
-    else
-      channel = Channel.where(service: params[:service],
-                              channel: params[:channel]).first
-    end
-    render json: channel
+    channel = ChannelOperator.show(show_channel_params)
+    status = channel.success? ? 200 : channel.data.status
+    render json: channel.data, status: status
   end
 
   # Post new channel
@@ -70,12 +66,9 @@ class ChannelsController < ApplicationController
   # @param service [String]
   # @return [Hash]
   def destroy
-    channel = Channel.where(service: params[:service], channel: params[:channel]).first
-    if !channel.nil? && channel.destroy
-      render json: { errors: nil, message: "Channel deleted" }
-    else
-      render json: { errors: { channel: ["can't delete due to errors"] } }
-    end
+    channel = ChannelOperator.destroy({channel: params[:channel], service: params[:service]})
+    status = channel.success? ? 200 : channel.data.status
+    render json: { message: channel.message, error: channel.error? }, status: status
   end
 
   # Switch channel's live status
@@ -84,14 +77,9 @@ class ChannelsController < ApplicationController
   # @param service [String]
   # @return [Channel]
   def switch
-    channel = Channel.where(service: params[:service], channel: params[:channel]).first
-    if !channel.nil?
-      channel.toggle(:live)
-      channel.save
-      render json: channel
-    else
-      render json: { errors: { channel: ["can't update due to errors"] } }
-    end
+    channel = ChannelOperator.switch({ service: params[:service], channel: params[:channel] })
+    status = channel.success? ? 200 : channel.data.status
+    render json: channel.data, status: status
   end
 
   private
@@ -101,5 +89,9 @@ class ChannelsController < ApplicationController
 
     def data_params
       params.require(:data).permit(:live, :viewers)
+    end
+
+    def show_channel_params
+      params.permit(:channel, :service)
     end
 end

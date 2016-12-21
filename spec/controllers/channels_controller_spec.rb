@@ -87,28 +87,30 @@ RSpec.describe ChannelsController, type: :controller do
     let(:json){JSON.parse(response.body)}
     it "should destroy channel" do
       delete :destroy, params: { service: @channel.service, channel: @channel.channel }
-      expect( json['errors'] ).to be nil
-      expect( json['message'] ).to eq('Channel deleted')
+      expect( json['error'] ).to be nil
+      expect( json['message'] ).to eq('Success')
     end
 
     it "should show error" do
       delete :destroy, params: { service: 'vidya', channel: 'vudya' }
-      expect( json['errors']['channel'][0] ).to eql("can't delete due to errors")
+      expect( json['error'] ).to be true
+      expect( json['message'] ).to eql("Channel not found")
     end
   end
 
   describe "#switch" do
     let(:json){JSON.parse(response.body)}
     it "should switch status to live" do
-      channel = create(:channel)
+      channel = create(:channel, live: false)
       get :switch, params: { service: channel.service, channel: channel.channel }
-      expect( json['errors'] ).to be nil
+      expect( json['error'] ).to be nil
       expect( json['channel']['live']).to be true
     end
 
     it "should show error" do
       get :switch, params: { service: 'se', channel: 'che' }
-      expect( json['errors']['channel'][0] ).to eql("can't update due to errors")
+      expect( json['error'] ). to be true
+      expect( json['message'] ).to eql("Channel not found")
     end
   end
 end

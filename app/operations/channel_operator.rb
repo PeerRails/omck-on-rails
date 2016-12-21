@@ -1,11 +1,39 @@
 class ChannelOperator
 
+  # Return response with channel
+  #
+  # @param options [Hash]
+  # @return [Response]
   def self.get_channel(options={service: nil, channel: nil})
-    channel = Channel.where(service: options[:service], channel: options[:channel]).first
+    channel = Channel.where(service: options[:service], channel: options[:channel]).first unless options[:channel].nil?
+    channel = Channel.where(service: options[:service]) if options[:channel].nil?
     if channel.nil?
       ErrorResponse.new(channel_not_found, channel_not_found.message)
     else
       SuccessResponse.new(channel, "Channel found")
+    end
+  end
+
+  # Return response with collections of channels
+  #
+  # @param service [String]
+  # @return [Response]
+  def self.get_service(service)
+    channels = Channel.where(service: service)
+    SuccessResponse.new(channels, "Got channels")
+  end
+
+  # Routes show method to get_channel and get_service
+  #
+  # @param options [Hash]
+  # @option options [String] :service
+  # @option options [String] :channel
+  def self.show(options)
+    response = []
+    if options[:channel].nil?
+      get_service(options[:service])
+    else
+      get_channel(options)
     end
   end
 
@@ -47,6 +75,13 @@ class ChannelOperator
     channel.toggle(:live)
     channel.save
     SuccessResponse.new(channel, "Success")
+  end
+
+  def self.destroy(options)
+    channel = get_channel({ service: options[:service], channel: options[:channel] })
+    return ErrorResponse.new(channel_not_found, channel_not_found.message) if channel.error?
+    channel.data.destroy
+    SuccessResponse.new(channel.data, "Success")
   end
 
   # Return Error for not_found

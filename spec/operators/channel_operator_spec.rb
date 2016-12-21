@@ -8,11 +8,33 @@ RSpec.describe ChannelOperator do
         expect(response.success?).to be true
         expect(response.data.class).to be Channel
       end
+
+      it "should get channels by service name" do
+        channel = create(:channel)
+        response = ChannelOperator.get_service( channel.service )
+        expect( response.success? ).to be true
+        expect( response.data.count ).to eq(1)
+      end
+
       it "should return error" do
         response = ChannelOperator.get_channel({ service: "", channel: "" })
         expect(response.success?).to be false
         expect(response.error?).to be true
       end
+  end
+
+  describe "#show" do
+    it "should route to get_channel" do
+      channel = create(:channel)
+      response = ChannelOperator.show({ service: channel.service, channel: channel.channel })
+      expect( response.data.class).to be Channel
+    end
+
+    it "should route to get_service" do
+      channel = create(:channel)
+      response = ChannelOperator.show({ service: channel.service })
+      expect( response.data.count ).to eq(1)
+    end
   end
 
   describe "#create" do
@@ -61,4 +83,21 @@ RSpec.describe ChannelOperator do
       expect(response.error?).to be true
     end
   end
+
+  describe "#destroy" do
+    it "should delete channel" do
+      channel = create(:channel)
+      response = ChannelOperator.destroy({ service: channel.service, channel: channel.channel })
+      expect(response.success?).to be true
+      expect(Channel.where(id: response.data.id).count).to eq(0)
+    end
+
+    it "should show error" do
+      response = ChannelOperator.destroy({ service: "", channel: "" })
+      expect( response.success? ).to be false
+      expect( response.error? ).to be true
+      expect( response.data.status ).to be 400
+    end
+  end
+
 end
