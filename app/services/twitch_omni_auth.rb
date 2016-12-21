@@ -2,7 +2,8 @@ class TwitchOmniAuth
   attr_accessor :omniauth
 
   # Update [Account]
-  # @param [OmniAuth]
+  #
+  # @param account [OmniAuth]
   # @return [Account]
   def update(account)
     account.update(username: @omniauth[:info][:nickname],

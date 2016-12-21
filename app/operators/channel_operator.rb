@@ -66,7 +66,8 @@ class ChannelOperator
   end
 
   # Switch live status of channel
-  # @params options [Hash]
+  #
+  # @param options [Hash]
   # @return [Response]
   def self.switch(options)
     res = get_channel({ service: options[:service], channel: options[:channel]})

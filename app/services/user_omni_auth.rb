@@ -5,7 +5,7 @@ class UserOmniAuth
 	end
 
   # Authorize [Client] with [Account]
-  # @params [OmniAuth]
+  # @param omniauth [OmniAuth]
   # @return [Client || Boolean]
   def authorize(omniauth=nil)
     return false if omniauth.nil?
@@ -22,7 +22,8 @@ class UserOmniAuth
   end
 
   # Update [Account]
-  # @param [Account]
+  #
+  # @param account [Account]
   # @return [Boolean]
   # @raise NotImplementedError
   def update(account=nil)
