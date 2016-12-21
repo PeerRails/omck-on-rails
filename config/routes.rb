@@ -18,6 +18,14 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback' => 'omniauth_callbacks#login'
   get '/auth/:provider' => 'omniauth_callbacks#passthru'
 
+  # Home
+  scope '/home' do
+    get 'get_me' => 'home#get_me'
+    get 'get_secret' => 'home#get_secret'
+    post 'update_key' => 'home#update_key'
+    get 'regenerate_key' => 'home#regenerate_key'
+  end
+
   # Channels
   scope '/channels' do
     get 'live' => 'channels#live'

@@ -18,19 +18,7 @@
 
 
 class KeySerializer < ActiveModel::Serializer
-  attributes :id, :streamer, :movie, :game, :guest, :expires, :created_by, :created_by_name, :created_by_screen_name, :user_id
-
-  # Return name of the user who requested key
-  # @return [String, Nil]
-  def created_by_name
-    User.find(object.created_by).name || nil
-  end
-
-  # Return screen name (@ twitter nickname) of the user who requested key
-  # @return [String, Nil]
-  def created_by_screen_name
-    User.find(object.created_by).screen_name || nil
-  end
+  attributes :streamer, :movie, :game, :expires, :client_id
 
   # Return formatted date of expire date
   # @return [String]
