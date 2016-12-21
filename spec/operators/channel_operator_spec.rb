@@ -66,6 +66,12 @@ RSpec.describe ChannelOperator do
       response = ChannelOperator.update({ service: "", channel: "", data: { live: true } })
       expect(response.success?).to be false
       expect(response.error?).to be true
+
+      channel = create(:channel)
+      response2 = ChannelOperator.update({ service: channel.service, channel: channel.channel, data: {channel: "123456789012345678901234567890"} })
+      expect( response2.success? ).to be false
+      expect( response2.error? ).to be true
+      puts response2.inspect
     end
   end
 

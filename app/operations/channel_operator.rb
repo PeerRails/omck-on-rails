@@ -60,7 +60,7 @@ class ChannelOperator
     if channel.data.update_attributes(options[:data])
       SuccessResponse.new(channel.data, "Success")
     else
-      error = Error.new({ message: "Channel data is invalid", data: channel.errors.messages, status: 400 })
+      error = Error.new({ message: "Channel data is invalid", data: channel.data.errors.messages, status: 400 })
       ErrorResponse.new(error, error.message)
     end
   end

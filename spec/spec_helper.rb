@@ -24,7 +24,7 @@ SimpleCov.formatters = [
 SimpleCov.start 'rails' do
   add_group "Serializers", "app/serializers"
   add_group "Services", "app/services"
-  add_group "Decorators", "app/decorators"
+  add_group "Operators", "app/operations"
 end
 CodeClimate::TestReporter.start
 
@@ -35,6 +35,7 @@ ENV["TICKET_4"] = "t4"
 ENV["LOGIN_AUTH"] = "la"
 ENV["LOGIN_SECRET"] = "ls"
 ENV["TWITCH_ID"] = "tid"
+ENV["TWITCH_SECERT"] = "ts"
 ENV["BITLY_USER"] = "bu"
 ENV["BITLY_TOKEN"] = "bt"
 
