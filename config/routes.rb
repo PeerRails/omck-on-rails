@@ -20,11 +20,11 @@ Rails.application.routes.draw do
 
   # Home
   scope '/home' do
-    get 'get_me' => 'home#get_me'
-    get 'get_key' => 'home#get_key'
-    get 'get_secret' => 'home#get_secret'
-    post 'update_key' => 'home#update_key'
-    get 'regenerate_key' => 'home#regenerate_key'
+    get 'get_me' => 'home_key#get_me'
+    get 'get_key' => 'home_key#get_key'
+    get 'get_secret' => 'home_key#get_secret'
+    post 'update_key' => 'home_key#update_key'
+    get 'regenerate_key' => 'home_key#regenerate_key'
   end
 
   # Channels
