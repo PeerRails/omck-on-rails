@@ -11,11 +11,28 @@ RSpec.describe HomeController, type: :controller do
 
   describe "GET #get_me" do
     let(:json){JSON.parse(response.body)}
-    it "returns http success" do
+    it "should return client info" do
       get :get_me, session: { session_id: @session_id }
       expect(json['error']).to be nil
       expect(json['client']['name']).to eq(@client.name)
     end
+  end
+
+  describe "GET #get_key" do
+    let(:json){JSON.parse(response.body)}
+    it "return client key" do
+      get :get_key, session: { session_id: @session_id }
+      expect(json['error']).to be nil
+      expect(json['key']['streamer']).to eql(@key.streamer)
+    end
+
+    it "should return error" do
+      KeyOperator.expire(@client.id)
+      get :get_key, session: { session_id: @session_id }
+      expect( json['error'] ).to be true
+      expect( json['message'] ).to eql("Key not found")
+    end
+
   end
 
   describe "GET #get_secret" do
@@ -24,6 +41,12 @@ RSpec.describe HomeController, type: :controller do
       get :get_secret, session: { session_id: @session_id }
       expect( json['error'] ).to be nil
       expect( json['key'] ).to eql(@key.key)
+    end
+
+    it "should show error if no key" do
+      KeyOperator.expire(@client.id)
+      get :get_secret, session: { session_id: @session_id }
+      expect( json['key'] ).to be nil
     end
   end
 

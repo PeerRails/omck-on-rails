@@ -5,30 +5,38 @@ class HomeController < ApplicationController
     render json: current_client
   end
 
+  # Return key
+  def get_key
+    key = KeyOperator.get_key(current_client.id)
+    render json: key.data, status: status(key)
+  end
+
   # Return key secret
   def get_secret
-    key = Key.select(:key).where(client_id: current_client.id).where('expires > ?', DateTime.now).first || Key.none
-    render json: { key: key.key }
+    key = KeyOperator.get_key(current_client.id)
+    secret = key.success? ? key.data.key : nil
+    render json: { key: secret  }
   end
 
   # Update Client's Key object
   def update_key
-    key = Key.where(client_id: current_client.id).where('expires > ?', DateTime.now).first || Key.none
-    key.update_attributes(key_params)
-    render json: key
+    options = { client_id: current_client.id, data: key_params }
+    key = KeyOperator.update(options)
+    render json: key.data, status: status(key)
   end
 
   # Expire current key and create new
   def regenerate_key
-    key = Key.where(client_id: current_client.id).where('expires > ?', DateTime.now).first || Key.none
-    key.update_attributes({expires: DateTime.now})
-    new_key = Key.create( client_id: key.client_id, game: key.game, movie: key.movie, streamer: key.streamer)
-    render json: new_key
-
+    key = KeyOperator.regenerate(current_client.id)
+    render json: key.data, status: status(key)
   end
 
   private
     def key_params
       params.require(:key).permit(:game, :movie, :streamer)
+    end
+
+    def status(res)
+      res.success? ? 200 : res.data.status
     end
 end

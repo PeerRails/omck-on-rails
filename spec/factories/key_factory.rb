@@ -19,10 +19,10 @@
 FactoryGirl.define do
   factory :key, class: Key do
     key {Faker::Internet.password}
-    game  {Faker::Company.name}
-    movie {Faker::Book.title}
+    game  {Faker::Space.star}
+    movie {Faker::Pokemon.location}
     expires {Faker::Date.forward(23)}
-    streamer {Faker::Name.name}
+    streamer {Faker::Pokemon.name}
     guest false
   end
 end

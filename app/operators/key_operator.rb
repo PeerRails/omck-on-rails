@@ -77,9 +77,9 @@ class KeyOperator
 
   private
     def self.key_not_found
-      ErrorResponse.new({ status: 404,
+      Error.new({ status: 404,
                           data: Key.none,
-                          message: "Key not found" }, "Key not found")
+                          message: "Key not found" })
     end
 
 end
