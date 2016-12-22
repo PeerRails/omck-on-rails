@@ -5,7 +5,7 @@ class KeyOperator
   # @param client_id [Integer]
   # @return [Response]
   def self.get_key(client_id=nil)
-    key = Key.where(client_id: client_id).where('expires at ?', DateTime.now).first
+    key = Key.where(client_id: client_id).where('expires > ?', DateTime.now).first
     if key.nil?
       ErrorResponse.new(key_not_found, key_not_found.message)
     else
@@ -40,11 +40,12 @@ class KeyOperator
   # @return [Response]
   def self.create(options)
     existing_key = get_key(options[:client_id])
+    # Should add client verification
     key = Key.new(options)
     if existing_key.error? && key.save
       SuccessResponse.new(key, "Key created!")
     else
-      error = Error.new({ message: "Key data is invalid", data: key.data.errors.messages, status: 400 })
+      error = Error.new({ message: "Key data is invalid", data: key.errors.messages, status: 400 })
       ErrorResponse.new( error, error.message )
     end
   end
@@ -56,12 +57,8 @@ class KeyOperator
   def self.expire(client_id)
     key = get_key(client_id)
     return ErrorResponse.new(key_not_found, key_not_found.message) if key.error?
-    if key.data.update(expires: DateTime.now)
-      SuccessResponse.new(key.data, "Key expired!")
-    else
-      error = Error.new({ message: "Key data is invalid", data: key.data.errors.messages, status: 400 })
-      ErrorResponse.new(error, error.status)
-    end
+    key.data.update(expires: DateTime.now)
+    SuccessResponse.new(key.data, "Key expired!")
   end
 
   # Expire old key and create new for client
@@ -69,9 +66,8 @@ class KeyOperator
   # @param client_id [Integer] Client id
   # @return [Response]
   def self.regenerate(client_id)
-    key = get_key(client_id)
+    key = expire(client_id)
     return ErrorResponse.new(key_not_found, key_not_found.message) if key.error?
-    expire(client_id)
     new_key = create({ client_id: client_id,
                        game: key.data.game,
                        movie: key.data.movie,
@@ -80,10 +76,10 @@ class KeyOperator
   end
 
   private
-    def key_not_found
+    def self.key_not_found
       ErrorResponse.new({ status: 404,
                           data: Key.none,
-                          message: "Key not found" })
+                          message: "Key not found" }, "Key not found")
     end
 
 end

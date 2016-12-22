@@ -27,7 +27,6 @@ class Key < ApplicationRecord
   validates :expires, :streamer, :presence => true
   validates :client_id, :presence => true, on: :create
   validates :key, uniqueness: true
-  validates :client_id, uniqueness: true, on: :create
 
   validates_length_of :streamer, in: 3..40
   validates_length_of :game, in: 3..40
